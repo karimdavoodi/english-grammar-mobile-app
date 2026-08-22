@@ -26,3 +26,14 @@ Defined the content schema and its fail-fast validator per `docs/schema/english-
 - `src/content/__tests__/validate.test.ts` — 24 tests covering the valid corpus, the recurring-rule acceptance case, duplicate-definition rejection, and every individual violation.
 
 Verification: `npm test -- validate` 24/24 pass · `npm test` 44/44 pass (existing `levelMachine` suite intact) · `npx tsc --noEmit` clean · `npm run lint` clean.
+
+## Task 3: State types + AsyncStorage persistence — DONE
+
+Implemented the runtime state layer and its persistence per `docs/schema/english-grammar-game.md` §2 (State):
+
+- `src/state/types.ts` — `Settings`, `StartingPoint`, `PersistedLevelSession` (excludes the machine-only `status`), `WeaknessEntry`, `WrongAnswerEntry`, `Progress`, and `AppState`, plus `DEFAULT_SETTINGS`. Explicit adapters `persistSession()` / `hydrateSession()` map to/from the existing `levelMachine.LevelSession` without dropping counters or asked ids (a saved session always rehydrates as `in_progress`).
+- `src/state/storage.ts` — load/save under `egg:settings` / `egg:progress`; a `progress.version` migration gate (`CURRENT_PROGRESS_VERSION = 1`, `migrateProgress()` walks a registered migration chain, 0 → 1 stamps the initial shape, throws on malformed or newer-than-supported data); `resetProgress()` clears only `egg:progress` so settings survive. Every function takes an injectable `StorageLike` store (defaulting to the real AsyncStorage) for testability.
+- `package.json` — added `@react-native-async-storage/async-storage` (^3.1.1).
+- `src/state/__tests__/storage.test.ts` — 16 tests covering the adapters, settings defaults/round-trip/malformed data, progress round-trip, version migration on load, newer-version rejection, missing-migration rejection, and reset preserving settings.
+
+Verification: `npm test -- storage` 16/16 pass · `npm test` 60/60 pass (existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.
