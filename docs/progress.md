@@ -37,3 +37,14 @@ Implemented the runtime state layer and its persistence per `docs/schema/english
 - `src/state/__tests__/storage.test.ts` — 16 tests covering the adapters, settings defaults/round-trip/malformed data, progress round-trip, version migration on load, newer-version rejection, missing-migration rejection, and reset preserving settings.
 
 Verification: `npm test -- storage` 16/16 pass · `npm test` 60/60 pass (existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.
+
+## Task 4: Content loader + one fully-authored reference level — DONE
+
+Built the content loader and authored the Past Perfect reference level, proving the content pipeline end-to-end:
+
+- `src/content/tracks/basic.ts` — the `basicTrack` (order 1, `eligibleStartingPoint: true`) holding one fully-authored reference level `b01` "Past Perfect" (level 1): a 12-question bank split across its two `TopicRule`s (`past_perfect_form`, `past_perfect_vs_past_simple`), modeled on the schema doc's example fragment. Every question has exactly 4 choices, a varied `correctIndex` (0–3), and 4 non-empty, positionally-aligned `choiceExplanations` ([correctIndex] = why it's right, the rest = why each is wrong).
+- `src/content/index.ts` — the loader assembles all bundled tracks and runs `validateContent()` at import (fail-fast): a malformed track throws before it can reach the app. Exports the validated `tracks: Track[]` and re-exports `validateContent` / `ContentValidationError` / `DEFAULT_MERCY_CAP` and the content types.
+
+Note: the single authored level is `number: 1` (id `b01`) so the validator's sequential-numbering and eligible-starting-point rules pass with a one-level track; Task 5 renumbers as remaining levels land.
+
+Verification: `npx tsc --noEmit` clean · `npm run lint` clean · `npm test` 60/60 pass (existing suites intact) · throwaway load test confirmed `content/index.ts` imports without error and the reference level has ≥12 questions, 4 choices each, non-empty explanations (then deleted).
