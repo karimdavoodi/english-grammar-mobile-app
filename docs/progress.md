@@ -71,3 +71,15 @@ Implemented `src/game/serving.ts`, the caller-side adaptive-serving layer that w
 - `src/game/__tests__/serving.test.ts` — 25 tests covering classification, the threshold boundaries, first/normal serving, remediation, Review (incl. not forcing a queued rule into a bank that lacks it), re-teach, finished/exhausted null cases, injectable randomness, and the stable pre-answer snapshot.
 
 Verification: `npm test -- serving` 25/25 pass · `npm test` 85/85 pass (existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.
+
+## Task 7A: Question and teaching components — DONE
+
+Built the four presentational UI components per `docs/mvp-plan.md` Task 7A and `docs/use-cases` "Level Play" / "Teach on Failure", independent of navigation, storage, and reducers so they test with fixture data:
+
+- `src/components/ChoiceButton.tsx` — one answer choice: A/B/C/D letter + choice text, `accessibilityRole="button"` with a state-aware label, and `accessibilityState.disabled` once `revealed`. The `onPress` is guarded, so a revealed (locked) button never answers. Shows the positionally-aligned per-choice "why" once revealed. Visual states: idle / selected / correct / wrong / dimmed.
+- `src/components/QuestionCard.tsx` — prompt (header role) + exactly 4 `ChoiceButton`s. Controlled via `selectedIndex` + `revealed`. On reveal the correct choice is highlighted, a wrong chosen answer is marked wrong, the rest are dimmed, all four explanations are shown, and every choice is disabled until feedback is dismissed.
+- `src/components/LessonCard.tsx` — the teach-on-failure card: topic title + summary plus the matching `TopicRule` (title / explanation / example). The `review` flag labels the rule as an earlier-topic review per the schema (§1), so a Review serve is not confused with the current topic. Dismissed via a continue button (label default "Continue", overridable); lists all topic rules when no specific rule matches.
+- `src/components/ProgressHeader.tsx` — the session status strip: streak / correct count / answered count over the mercy cap, with a summary role and a combined accessible label.
+- `src/components/__tests__/components.test.tsx` — 16 tests covering four choices, correct/wrong feedback, disable-after-submission, lesson-card content, and accessible labels/roles.
+
+Verification: `npm test -- components` 16/16 pass · `npm test` 101/101 pass (existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.
