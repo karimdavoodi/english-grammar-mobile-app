@@ -101,3 +101,18 @@ Built `LevelPlayScreen` around the pure machine and the Task 7A components, wiri
 Note: the on-device question → answer → feedback loop (`npm run android`) is not runnable yet — the screen needs the Task 9 navigator / Task 13 provider to be reachable. The loop is verified by the screen/reducer tests above; the manual Android pass lands at the Task 9 early native verification and Task 14 regression.
 
 Verification: `npm test -- reducers` 15/15 pass · `npm test -- LevelPlayScreen` 9/9 pass · `npm test` 125/125 pass (existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.
+
+## Task 8: Pass / mercy-end flow + result screen + frontier advance — DONE
+
+Implemented the end-of-level transition per `docs/mvp-plan.md` Task 8, `docs/use-cases` "Level Play" (pass screen / mercy), and `docs/schema` §2 (frontier advance + unlock-is-derived):
+
+- `src/state/reducers.ts` — the end-of-level transition, content-free and pure:
+  - `flattenedLevelIds(tracks)` — the single ordering the frontier advances along: tracks by ascending `track.order`, then levels by ascending `level.number` (the schema's "unlock is derived" flattening).
+  - `nextLevelId(levelOrder, levelId)` — the level after a given one, or `null` for the last level (completion state) / unknown ids.
+  - `completeLevel(progress, { levelId, passed, levelOrder })` — a **pass** adds the level to `completedLevelIds` (deduped); a **mercy-end** never does (unlocked-but-not-passed). Both clear `activeSession`. The frontier advances to the next level in the flattened sequence **only when the ended level is the current frontier or later** — replaying an earlier, already-unlocked level never pulls the frontier backward. Completing the last level keeps the frontier in place so the caller can show the completion state.
+- `src/screens/ResultScreen.tsx` — the pass / mercy-end result screen, presentational (fixture-testable, no navigation/storage/reducer imports, matching the Task 7A component pattern): "Streak!" (pass by streak), "Mastery reached" (pass by volume), and a mercy message that names the answer cap and states the level stays unlocked. Includes a compact score summary and a "Continue" affordance — `Continue to <next level title>` when a next level exists, `Go to map` in the completion state — wired through `onContinue`.
+- `src/navigation/types.ts` — added `ResultScreenParams` and a `RootStackParamList` (`LevelPlay` + `Result`) so screens/callers compile against a stable route contract before the Task 9 navigator lands.
+
+Note: on-device end-to-end routing (`npm run android`) still needs the Task 9 navigator / Task 13 provider; the pass/mercy/continue behavior is verified by the reducer and screen tests below, with the manual Android pass landing at the Task 9 early native verification and Task 14 regression.
+
+Verification: `npm test -- reducers` 26/26 pass (15 existing + 11 new for flattened/next/complete) · `npm test -- ResultScreen` 6/6 pass · `npm test` 142/142 pass (existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.

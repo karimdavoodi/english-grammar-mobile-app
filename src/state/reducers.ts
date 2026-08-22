@@ -1,7 +1,8 @@
 /**
  * Pure state transitions for the level-play loop: starting/resuming a level
  * session, applying one answer to the whole progress slice (session counters,
- * Weakness Queue, wrong-answer history), and deliberate abandonment.
+ * Weakness Queue, wrong-answer history), deliberate abandonment, and the
+ * end-of-level pass/mercy transition (frontier advance + completion marks).
  *
  * Design: docs/use-cases/english-grammar-game.md (Level Play, Teach on Failure,
  * Weakness Queue) and docs/schema/english-grammar-game.md §2 (State).
@@ -15,6 +16,7 @@
  * Pure by construction: every function returns a new Progress, never mutates.
  */
 
+import type { Track } from '../content/types';
 import {
   answerQuestion,
   createSession,
@@ -171,4 +173,77 @@ export function abandonSession(progress: Progress): Progress {
     return progress;
   }
   return { ...progress, activeSession: null };
+}
+
+// ── End-of-level transition (pass / mercy-end) ─────────────────────
+// The flattened sequence (tracks by order, levels by number) is the single
+// ordering the frontier advances along. These helpers are pure and content-free
+// at the call site: the caller passes the content-derived ordered id list, so
+// the reducer never imports the bundle itself.
+
+/**
+ * The ordered level ids across all tracks: tracks by ascending `track.order`,
+ * then levels by ascending `level.number` — the flattening defined in
+ * docs/schema §2 ("Unlock is derived, never stored").
+ */
+export function flattenedLevelIds(tracks: readonly Track[]): string[] {
+  return [...tracks]
+    .sort((a, b) => a.order - b.order)
+    .flatMap(track =>
+      [...track.levels].sort((a, b) => a.number - b.number).map(level => level.id),
+    );
+}
+
+/**
+ * The level after `levelId` in the ordered sequence, or `null` when it is the
+ * last level (the caller shows the completion state). Unknown ids resolve to
+ * `null` — a defensive completion, matching the persistence repair rule.
+ */
+export function nextLevelId(levelOrder: readonly string[], levelId: string): string | null {
+  const index = levelOrder.indexOf(levelId);
+  if (index < 0 || index >= levelOrder.length - 1) {
+    return null;
+  }
+  return levelOrder[index + 1];
+}
+
+export interface CompleteLevelInput {
+  /** The level that just ended (pass or mercy). */
+  levelId: string;
+  /** true when the level passed (marks completed); false for a mercy-end (unlocked, not passed). */
+  passed: boolean;
+  /** Ordered level ids across all tracks — the frontier advances along this sequence. */
+  levelOrder: readonly string[];
+}
+
+/**
+ * End-of-level transition: clear the active session, mark a passed level
+ * completed, and advance the frontier.
+ *
+ * - A pass adds `levelId` to `completedLevelIds`; a mercy-end never does
+ *   (a mercy-ended level is unlocked-but-not-passed, per docs/use-cases).
+ * - Both clear the active session so a finished level is never resumable.
+ * - The frontier advances to the next level in the flattened sequence only when
+ *   the ended level is the current frontier (or later) — replaying an earlier,
+ *   already-unlocked level must never pull the frontier backward.
+ * - When the ended level is the last one, the frontier stays put: the caller
+ *   shows the completion state ("Continue" leads back to the map).
+ */
+export function completeLevel(progress: Progress, input: CompleteLevelInput): Progress {
+  const { levelId, passed, levelOrder } = input;
+
+  const completedLevelIds =
+    passed && !progress.completedLevelIds.includes(levelId)
+      ? [...progress.completedLevelIds, levelId]
+      : progress.completedLevelIds;
+
+  const endedIndex = levelOrder.indexOf(levelId);
+  const currentIndex = levelOrder.indexOf(progress.currentLevelId);
+  const advances = endedIndex >= 0 && endedIndex >= currentIndex;
+  const currentLevelId =
+    advances && endedIndex < levelOrder.length - 1
+      ? levelOrder[endedIndex + 1]
+      : progress.currentLevelId;
+
+  return { ...progress, completedLevelIds, currentLevelId, activeSession: null };
 }

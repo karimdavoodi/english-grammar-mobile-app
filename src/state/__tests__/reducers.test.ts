@@ -26,13 +26,16 @@ jest.mock('@react-native-async-storage/async-storage', () => {
   };
 });
 
-import type { Question } from '../../content/types';
+import type { Level, Question, Track } from '../../content/types';
 import { DEFAULT_PASS_CONFIG } from '../../game/levelMachine';
 import { CURRENT_PROGRESS_VERSION } from '../storage';
 import type { Progress } from '../types';
 import {
   abandonSession,
   applyAnswer,
+  completeLevel,
+  flattenedLevelIds,
+  nextLevelId,
   queuedRuleSet,
   REVIEW_CLEAR_STREAK,
   startLevelSession,
@@ -351,5 +354,156 @@ describe('queuedRuleSet', () => {
     });
     expect(queuedRuleSet(progress)).toEqual(new Set([RULE_A, RULE_B]));
     expect(queuedRuleSet(makeProgress())).toEqual(new Set());
+  });
+});
+
+// ── Task 8: end-of-level transition ────────────────────────────────
+
+function makeLevel(id: string, number: number, trackId: string): Level {
+  return {
+    id,
+    trackId,
+    number,
+    title: `Level ${id}`,
+    topic: { title: 'Topic', summary: 'Summary', rules: [] },
+    questions: [],
+  };
+}
+
+/** Two tracks — Basic levels b01/b02/b10 and an Intermediate level i01. */
+const TRACKS: Track[] = [
+  {
+    id: 'basic',
+    order: 1,
+    name: 'Basic',
+    label: 'Beginner',
+    eligibleStartingPoint: true,
+    levels: [
+      makeLevel('b01', 1, 'basic'),
+      makeLevel('b02', 2, 'basic'),
+      makeLevel('b10', 10, 'basic'),
+    ],
+  },
+  {
+    id: 'intermediate',
+    order: 2,
+    name: 'Intermediate',
+    label: 'Intermediate',
+    eligibleStartingPoint: false,
+    levels: [makeLevel('i01', 1, 'intermediate')],
+  },
+];
+
+const LEVEL_ORDER = flattenedLevelIds(TRACKS);
+
+describe('flattenedLevelIds', () => {
+  it('flattens tracks by order and levels by number into one sequence', () => {
+    expect(LEVEL_ORDER).toEqual(['b01', 'b02', 'b10', 'i01']);
+  });
+
+  it('returns an empty sequence for no tracks', () => {
+    expect(flattenedLevelIds([])).toEqual([]);
+  });
+});
+
+describe('nextLevelId', () => {
+  it('returns the following level id in the sequence', () => {
+    expect(nextLevelId(LEVEL_ORDER, 'b02')).toBe('b10');
+    expect(nextLevelId(LEVEL_ORDER, 'b10')).toBe('i01');
+  });
+
+  it('returns null for the last level (completion state)', () => {
+    expect(nextLevelId(LEVEL_ORDER, 'i01')).toBeNull();
+  });
+
+  it('returns null for an unknown level id', () => {
+    expect(nextLevelId(LEVEL_ORDER, 'b99')).toBeNull();
+  });
+});
+
+describe('completeLevel', () => {
+  it('a pass marks the level completed, clears the session, and advances the frontier', () => {
+    const next = completeLevel(
+      makeProgress({
+        currentLevelId: 'b01',
+        activeSession: progressWithSession().activeSession,
+      }),
+      { levelId: 'b01', passed: true, levelOrder: LEVEL_ORDER },
+    );
+
+    expect(next.completedLevelIds).toEqual(['b01']);
+    expect(next.currentLevelId).toBe('b02');
+    expect(next.activeSession).toBeNull();
+  });
+
+  it('a mercy-end advances the frontier but never marks the level completed', () => {
+    const next = completeLevel(makeProgress({ currentLevelId: 'b01' }), {
+      levelId: 'b01',
+      passed: false,
+      levelOrder: LEVEL_ORDER,
+    });
+
+    expect(next.completedLevelIds).toEqual([]);
+    expect(next.currentLevelId).toBe('b02');
+    expect(next.activeSession).toBeNull();
+  });
+
+  it('does not duplicate an already-completed level on a replay pass', () => {
+    const next = completeLevel(
+      makeProgress({ completedLevelIds: ['b01'], currentLevelId: 'b02' }),
+      { levelId: 'b01', passed: true, levelOrder: LEVEL_ORDER },
+    );
+
+    expect(next.completedLevelIds).toEqual(['b01']);
+    // replaying an earlier level must not pull the frontier backward
+    expect(next.currentLevelId).toBe('b02');
+    expect(next.activeSession).toBeNull();
+  });
+
+  it('completing the last level keeps the frontier (completion state)', () => {
+    const next = completeLevel(makeProgress({ currentLevelId: 'i01' }), {
+      levelId: 'i01',
+      passed: true,
+      levelOrder: LEVEL_ORDER,
+    });
+
+    expect(next.completedLevelIds).toEqual(['i01']);
+    expect(next.currentLevelId).toBe('i01');
+    expect(next.activeSession).toBeNull();
+  });
+
+  it('advances across tracks along the flattened sequence', () => {
+    const next = completeLevel(makeProgress({ currentLevelId: 'b10' }), {
+      levelId: 'b10',
+      passed: true,
+      levelOrder: LEVEL_ORDER,
+    });
+
+    expect(next.completedLevelIds).toEqual(['b10']);
+    expect(next.currentLevelId).toBe('i01');
+  });
+
+  it('is safe with no active session (defensive; works on a plain progress slice)', () => {
+    const next = completeLevel(makeProgress({ currentLevelId: 'b01' }), {
+      levelId: 'b01',
+      passed: true,
+      levelOrder: LEVEL_ORDER,
+    });
+    expect(next.completedLevelIds).toEqual(['b01']);
+    expect(next.currentLevelId).toBe('b02');
+  });
+
+  it('clears the active session even when the ended level is not the frontier', () => {
+    const next = completeLevel(
+      makeProgress({
+        currentLevelId: 'b10',
+        activeSession: progressWithSession({}, { levelId: 'b01' }).activeSession,
+      }),
+      { levelId: 'b01', passed: true, levelOrder: LEVEL_ORDER },
+    );
+
+    expect(next.activeSession).toBeNull();
+    expect(next.completedLevelIds).toEqual(['b01']);
+    expect(next.currentLevelId).toBe('b10');
   });
 });
