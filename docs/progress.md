@@ -162,3 +162,28 @@ Tests (40 new): `src/state/__tests__/selectors.test.ts` (30 — flattening, unlo
 Note: opening Review on-device from Settings lands in Task 12 (which adds the Settings screen + Review link); grouping and clearing behavior are verified by the tests above, with the manual Android pass at the Task 14 regression.
 
 Verification: `npm test -- selectors reducers` 57/57 pass (selectors 30/30 · reducers 27/27) · `npm test` 195/195 pass (40 new; existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.
+
+## Task 10: Level map screen — DONE
+
+Built the `LevelMapScreen` as the progress overview and free-play hub per `docs/mvp-plan.md` Task 10, `docs/use-cases` "Level Map", and `docs/schema` §2 ("Unlock is derived, never stored"):
+
+- `src/screens/LevelMapScreen.tsx` — the presentational map (no navigation/storage/reducer imports, fixture-testable like the Task 7A/8/11 screens). Renders the flattened track → level sequence (tracks by `order`, levels by `number`) through the Task 11 `levelStatuses` selector, grouped into track sections. Per level it shows the number badge, title + topic, and the derived indicators:
+  - **current** level highlighted (blue border/background + "Current" badge);
+  - **passed** levels with a "✓ Passed" badge;
+  - **locked** future levels dimmed with "🔒 Locked" and `disabled` (non-tappable);
+  - **mercy-ended / skipped-earlier** levels unlocked but without a pass mark (no persisted distinction, per schema);
+  - a **"Review" badge** when any question in the level's bank is tagged with a rule currently in the Weakness Queue.
+  Tapping an unlocked level fires `onSelectLevel(levelId)`; replaying never re-locks — unlock stays derived (the selectors keep passed levels and anything at-or-before the frontier playable). Accessible: header roles on heading/track titles, `accessibilityRole="button"` + descriptive labels on unlocked rows, `accessibilityState.disabled` on locked ones, and a back affordance.
+- `src/state/selectors.ts` — no change needed: Task 11 already shipped `levelStatuses` exactly for this view (flattening, unlock/frontier/completed flags, and per-level `needsReview`).
+- `src/navigation/types.ts` — `RootStackParamList` gains `LevelMap: undefined`.
+- `src/navigation/AppNavigator.tsx` — the wiring:
+  - `LevelMapRoute` renders the screen from the AppContext (defensive "Nothing to explore yet." when progress is null) and `onSelectLevel` **pushes** a fresh `LevelPlay` (so a replayed level always mounts cleanly — the play screen resolves its session once on mount and reusing an existing screen would carry stale level params).
+  - `LevelPlayRoute`'s abandon/`onExit` now `popTo('LevelMap')` (the map is the home), replacing the previous `goBack()` that was a no-op when the player had booted straight into LevelPlay.
+  - `ResultRoute`'s completion-state "Continue" (no next level) now `popTo('LevelMap')` — the Task 8-deferred "Go to map" — instead of replaying the just-finished level. `popTo` pops to an existing map or replaces the current screen with it, so both the boot-straight-to-completion and map-entered completion stacks resolve to a single map.
+  - Registered the `LevelMap` screen in the stack.
+
+Tests (12 new): `src/screens/__tests__/LevelMapScreen.test.tsx` — track sections + all level titles, current/passed/locked/unlocked indicators, needs-review badge, unlocked tap → `onSelectLevel` (incl. replaying a passed level), locked levels disabled (non-tappable, no re-lock path), back affordance, and accessibility labels/roles/states.
+
+Note: on-device verification (`npm run android`) still needs an emulator/device and lands in the Task 14 regression; the map's lock/pass/current indicators and replay behavior are verified by the selector tests (Task 11) and these screen tests.
+
+Verification: `npm test -- LevelMapScreen` 12/12 pass · `npm test` 207/207 pass (12 new; existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.

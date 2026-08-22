@@ -6,13 +6,16 @@
  *     track, the AppProvider auto-starts and this navigator boots at LevelPlay);
  *   - saved progress (returning player) → LevelPlay at the current level;
  *   - a level ending routes to Result, whose Continue advances to the next level
- *     or — in the completion state, until the LevelMap lands in Task 10 —
- *     replays the current level.
+ *     or — in the completion state — pops to the LevelMap (Task 10).
+ *
+ * Task 10 adds the LevelMap as the progress overview and free-play hub: quitting
+ * a level and the completion-state "Go to map" both `popTo` it, and tapping an
+ * unlocked level `push`es a fresh LevelPlay so replayed levels always mount
+ * cleanly (the play screen resolves its session once on mount).
  *
  * Content and state come from the AppContext (`useApp`): the navigator stays
  * thin, resolving content ids to Level/Track objects and handing presentational
- * screens their props. Review lands in Task 11; LevelMap / Settings routes land
- * in Tasks 10 and 12.
+ * screens their props. Review lands in Task 11; Settings lands in Task 12.
  */
 
 import React, { useCallback, useMemo } from 'react';
@@ -25,6 +28,7 @@ import {
 import { useApp } from '../app/AppContext';
 import { findLevelById } from '../content';
 import type { RootStackParamList } from './types';
+import { LevelMapScreen } from '../screens/LevelMapScreen';
 import { ResultScreen } from '../screens/ResultScreen';
 import { ReviewScreen } from '../screens/ReviewScreen';
 import { StartPointScreen } from '../screens/StartPointScreen';
@@ -88,7 +92,9 @@ function LevelPlayRoute({
   );
 
   const handleExit = useCallback(() => {
-    navigation.goBack();
+    // Quitting a level returns to the map — popTo the existing LevelMap, or
+    // (when quitting from the boot LevelPlay) replace this screen with it.
+    navigation.popTo('LevelMap');
   }, [navigation]);
 
   if (!level || !progress) {
@@ -107,6 +113,30 @@ function LevelPlayRoute({
       initialProgress={progress}
       onLevelEnd={handleLevelEnd}
       onExit={handleExit}
+    />
+  );
+}
+
+/** The level map — progress overview + free-play hub (Task 10). */
+function LevelMapRoute({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList, 'LevelMap'>) {
+  const { tracks, progress } = useApp();
+  if (!progress) {
+    // No progress yet means nothing to map — the boot flow routes to the
+    // starting point instead, so this is defensive only.
+    return (
+      <View style={styles.missing}>
+        <Text style={styles.missingText}>Nothing to explore yet.</Text>
+      </View>
+    );
+  }
+  return (
+    <LevelMapScreen
+      tracks={tracks}
+      progress={progress}
+      onSelectLevel={levelId => navigation.push('LevelPlay', { levelId })}
+      onBack={() => navigation.goBack()}
     />
   );
 }
@@ -151,11 +181,12 @@ function ResultRoute({
     if (nextLevel) {
       navigation.replace('LevelPlay', { levelId: nextLevel.id });
     } else {
-      // Completion state: no next level. The LevelMap (Task 10) becomes the
-      // destination; until then, return to the just-finished level to replay.
-      navigation.replace('LevelPlay', { levelId });
+      // Completion state: no next level — the LevelMap is the destination.
+      // popTo the existing map, or (when the track was finished straight from
+      // the boot LevelPlay) replace this Result with it.
+      navigation.popTo('LevelMap');
     }
-  }, [nextLevel, levelId, navigation]);
+  }, [nextLevel, navigation]);
 
   if (!level) {
     return (
@@ -190,6 +221,7 @@ export function AppNavigator() {
           initialParams={{ levelId: progress?.currentLevelId ?? '' }}
         />
         <Stack.Screen name="Result" component={ResultRoute} />
+        <Stack.Screen name="LevelMap" component={LevelMapRoute} />
         <Stack.Screen name="Review" component={ReviewRoute} />
       </Stack.Navigator>
     </NavigationContainer>

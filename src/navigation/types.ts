@@ -20,14 +20,16 @@ export interface ResultScreenParams {
 
 /**
  * Root stack routes. Task 9 wires StartPoint (first-launch choice), LevelPlay,
- * and Result; Task 11 adds Review; LevelMap / Settings routes land in Tasks 10
- * and 12.
+ * and Result; Task 10 adds the LevelMap; Task 11 adds Review; Settings lands in
+ * Task 12.
  */
 export type RootStackParamList = {
   /** First-launch "Where do you want to start?" — shown only with no progress. */
   StartPoint: undefined;
   LevelPlay: { levelId: string };
   Result: ResultScreenParams;
+  /** The level map — progress overview and free-play hub (Task 10). */
+  LevelMap: undefined;
   /** Wrong-answer study history grouped by rule (reachable from Settings in Task 12). */
   Review: undefined;
 };
