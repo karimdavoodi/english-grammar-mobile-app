@@ -47,6 +47,12 @@ import { hydrateSession, type Progress } from '../state/types';
 export interface LevelEndResult {
   session: LevelSession;
   outcome: AnswerOutcome;
+  /**
+   * The final progress slice after the ending answer — its active session is
+   * already cleared, and its Weakness Queue / wrong-answer history are current.
+   * The caller advances the frontier with it (`completeLevel`).
+   */
+  progress: Progress;
 }
 
 export interface LevelPlayScreenProps {
@@ -198,7 +204,7 @@ export function LevelPlayScreen({
     const ended = outcome.passed || outcome.endedByMercy;
     if (ended) {
       setPlay({ ...play, phase: 'ended', feedback: null });
-      onLevelEnd?.({ session: play.session, outcome });
+      onLevelEnd?.({ session: play.session, outcome, progress: play.progress });
       return;
     }
     const nextServe = serveNextQuestion(

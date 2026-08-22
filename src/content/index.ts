@@ -10,7 +10,7 @@
 
 import { validateContent } from './validate';
 import { basicTrack } from './tracks/basic';
-import type { Track, TopicRule } from './types';
+import type { Level, Track, TopicRule } from './types';
 
 /** All bundled tracks, ordered by `track.order` on the map. */
 export const tracks: Track[] = [basicTrack];
@@ -33,6 +33,20 @@ const RULE_REGISTRY: ReadonlyMap<string, TopicRule> = new Map(
 /** Resolve a question's `rule` tag to its canonical `TopicRule`, if defined. */
 export function findRule(ruleTag: string): TopicRule | undefined {
   return RULE_REGISTRY.get(ruleTag);
+}
+
+/** Find a level across all tracks by its globally unique id. */
+export function findLevelById(
+  allTracks: readonly Track[],
+  levelId: string,
+): Level | undefined {
+  for (const track of allTracks) {
+    const level = track.levels.find(l => l.id === levelId);
+    if (level) {
+      return level;
+    }
+  }
+  return undefined;
 }
 
 export { validateContent } from './validate';

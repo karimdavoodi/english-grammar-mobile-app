@@ -1,28 +1,30 @@
 // Navigation route param types.
 //
-// Task 9 builds the actual navigator; these types pin the data each known route
-// carries so screens and callers compile against a stable contract before the
-// navigator lands.
+// Task 9 builds the navigator; these types pin the data each known route
+// carries so screens and callers compile against a stable contract.
+
+import type { AnswerOutcome } from '../game/levelMachine';
 
 /** Params for the end-of-level result route (Task 8). */
 export interface ResultScreenParams {
   /** The level that just ended (pass or mercy). */
   levelId: string;
-  /** true when the level passed (adds to `completedLevelIds`); false on a mercy-end. */
-  passed: boolean;
-  /** Why the level passed — 'streak' | 'volume' | null. */
-  passReason: 'streak' | 'volume' | null;
-  /** true when the level ended at the answer cap without passing. */
-  endedByMercy: boolean;
+  /**
+   * The full machine outcome that ended it — the ResultScreen derives its
+   * message ("Streak!" / "Mastery reached" / mercy) and score summary from it.
+   */
+  outcome: AnswerOutcome;
   /** Next level id in the flattened sequence, or null when the track is complete. */
   nextLevelId: string | null;
 }
 
 /**
- * Root stack routes known so far. Task 9 adds StartPoint, LevelMap, Review, and
- * Settings.
+ * Root stack routes. Task 9 wires StartPoint (first-launch choice), LevelPlay,
+ * and Result; LevelMap / Review / Settings routes land in Tasks 10–12.
  */
 export type RootStackParamList = {
+  /** First-launch "Where do you want to start?" — shown only with no progress. */
+  StartPoint: undefined;
   LevelPlay: { levelId: string };
   Result: ResultScreenParams;
 };

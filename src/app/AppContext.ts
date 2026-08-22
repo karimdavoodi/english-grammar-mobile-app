@@ -1,0 +1,33 @@
+// App-wide context: content + state + progress actions, provided by AppProvider.
+//
+// Split from AppProvider so the navigator (which consumes the context) can
+// import it without a provider↔navigator circular import.
+
+import { createContext, useContext } from 'react';
+import type { Track } from '../content/types';
+import type { Progress, Settings } from '../state/types';
+
+export interface AppContextValue {
+  /** The validated bundled tracks (content). */
+  tracks: Track[];
+  /** Loaded settings (theme, …). */
+  settings: Settings;
+  /** The progress slice, or null until a starting point is chosen. */
+  progress: Progress | null;
+  /** true once settings + progress have loaded — the boot decision is final. */
+  ready: boolean;
+  /** Persist a fresh progress slice from a first-launch starting-point choice. */
+  chooseStartingPoint: (trackId: string, levelNumber: number) => Promise<void>;
+  /** Replace + persist the progress slice (frontier advance, level end, …). */
+  applyProgress: (next: Progress) => Promise<void>;
+}
+
+export const AppContext = createContext<AppContextValue | null>(null);
+
+export function useApp(): AppContextValue {
+  const value = useContext(AppContext);
+  if (!value) {
+    throw new Error('useApp must be used within an AppProvider.');
+  }
+  return value;
+}

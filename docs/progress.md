@@ -116,3 +116,28 @@ Implemented the end-of-level transition per `docs/mvp-plan.md` Task 8, `docs/use
 Note: on-device end-to-end routing (`npm run android`) still needs the Task 9 navigator / Task 13 provider; the pass/mercy/continue behavior is verified by the reducer and screen tests below, with the manual Android pass landing at the Task 9 early native verification and Task 14 regression.
 
 Verification: `npm test -- reducers` 26/26 pass (15 existing + 11 new for flattened/next/complete) · `npm test -- ResultScreen` 6/6 pass · `npm test` 142/142 pass (existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.
+
+## Task 9: Root navigator + starting-point screen — DONE
+
+Set up React Navigation and the first-launch boot flow per `docs/mvp-plan.md` Task 9 and `docs/use-cases` "First Launch":
+
+- **Dependencies** — added `@react-navigation/native` (^7.3.17), `@react-navigation/native-stack` (^7.18.9), `react-native-screens` (^4.27.0); `react-native-safe-area-context` was already present.
+- `src/app/AppContext.ts` — the app-wide context (`tracks`, `settings`, `progress`, `ready`, `chooseStartingPoint`, `applyProgress`) + `useApp()`, split from AppProvider so the navigator imports it without a provider↔navigator cycle.
+- `src/app/AppProvider.tsx` — the composition root that loads settings + saved progress on boot and decides the route:
+  - no saved progress + **one** eligible starting track (Basic-only in v1) → auto-initializes an empty Progress at that track's level 1 and persists it (no choice screen);
+  - no saved progress + **multiple** eligible tracks → leaves progress null so the StartPoint choice shows;
+  - saved progress → resumes straight at `currentLevelId` (returning players are never re-asked).
+  - `chooseStartingPoint(trackId, levelNumber)` persists a fresh progress slice; `applyProgress(next)` replaces + persists.
+- `src/screens/StartPointScreen.tsx` — the presentational "Where do you want to start?" screen: a heading + one button per eligible track (each starts at its level 1), accessible labels/roles, no navigation/storage/reducer imports (fixture-testable, matching the Task 7A/8 pattern).
+- `src/navigation/types.ts` — `RootStackParamList` grows `StartPoint`; `ResultScreenParams` now carries the full `AnswerOutcome` (the ResultScreen derives its message + score summary from it).
+- `src/navigation/AppNavigator.tsx` — native-stack navigator: boots at StartPoint (no progress) or LevelPlay (current level); StartPointRoute persists the choice and replaces to LevelPlay; LevelPlayRoute resolves the level, renders the LevelPlayScreen (resume/fresh), and on level end applies `completeLevel` + replaces to Result; ResultRoute renders the ResultScreen and Continue advances to the next level (or, in the completion state until the Task 10 map lands, replays the current level).
+- `src/state/reducers.ts` — new pure boot helpers: `startingLevelId` (resolve a starting point to its level id), `createInitialProgress` (empty Progress at the chosen starting level — frontier = starting level, unlock stays derived), `resolveBootProgress` (auto-start vs. start choice vs. returning-player resume).
+- `src/content/index.ts` — `findLevelById()` helper for the navigator's id→Level resolution.
+- `src/screens/LevelPlayScreen.tsx` — `LevelEndResult` now also reports the final `progress` slice so the navigator can advance the frontier from the exact post-answer state (the existing `outcome` assertions are unaffected).
+- `App.tsx` — renders the real composition root (`SafeAreaProvider → AppProvider → AppNavigator`), replacing the `NewAppScreen` scaffold.
+
+Tests (13 new): `StartPointScreen` (heading, one choice per eligible track, onChoose reports track+1), `state/startup` (`startingLevelId`, `createInitialProgress`, `resolveBootProgress`: resume / auto-start / multi-track choice), and `app/AppProvider` (auto-start persists, multi-track leaves progress null → start choice, returning player resumes). `__tests__/App.test.tsx` updated to boot the real tree with storage + navigation modules mocked.
+
+Verification: `npm test` 155/155 pass (13 new; existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.
+
+Note: the `npm run android` smoke test (installing native-stack pulls `react-native-screens`, a native module, so a rebuild is required) needs an emulator/device and is deferred to the Task 9 "early native verification" / Task 14 regression.

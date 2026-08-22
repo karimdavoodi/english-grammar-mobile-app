@@ -27,7 +27,13 @@ import {
   type Question,
 } from '../game/levelMachine';
 import type { ServingMode } from '../game/serving';
-import { hydrateSession, persistSession, type Progress } from './types';
+import { CURRENT_PROGRESS_VERSION } from './storage';
+import {
+  hydrateSession,
+  persistSession,
+  type Progress,
+  type StartingPoint,
+} from './types';
 
 /** Consecutive correct Review answers that clear a rule from the Weakness Queue. */
 export const REVIEW_CLEAR_STREAK = 2;
@@ -246,4 +252,64 @@ export function completeLevel(progress: Progress, input: CompleteLevelInput): Pr
       : progress.currentLevelId;
 
   return { ...progress, completedLevelIds, currentLevelId, activeSession: null };
+}
+
+// ── First-launch starting-point helpers ────────────────────────────
+// docs/use-cases "First Launch": the player picks where to begin (or the app
+// auto-starts when only one track is eligible). These are pure and content-free
+// at the call site: the caller passes the bundled tracks, so the reducer never
+// imports the bundle itself.
+
+/** The id of the level a starting point resolves to, or null if unknown. */
+export function startingLevelId(
+  tracks: readonly Track[],
+  startingPoint: StartingPoint,
+): string | null {
+  const track = tracks.find(t => t.id === startingPoint.trackId);
+  if (!track) {
+    return null;
+  }
+  const level = track.levels.find(l => l.number === startingPoint.levelNumber);
+  return level ? level.id : null;
+}
+
+/**
+ * A fresh, empty Progress slice beginning at a chosen starting point. The
+ * frontier (`currentLevelId`) is the starting level; earlier levels are
+ * unlocked by derivation (Task 11 selectors), never stored.
+ */
+export function createInitialProgress(
+  tracks: readonly Track[],
+  startingPoint: StartingPoint,
+): Progress {
+  const currentLevelId = startingLevelId(tracks, startingPoint) ?? flattenedLevelIds(tracks)[0] ?? '';
+  return {
+    version: CURRENT_PROGRESS_VERSION,
+    startingPoint,
+    completedLevelIds: [],
+    currentLevelId,
+    activeSession: null,
+    weaknessQueue: {},
+    wrongAnswers: {},
+  };
+}
+
+/**
+ * The boot decision on launch: a saved progress resumes as-is (returning
+ * players are never re-asked); with no saved progress, a single eligible
+ * starting track auto-starts at its level 1, and multiple eligible tracks leave
+ * progress null so the StartPoint choice screen shows.
+ */
+export function resolveBootProgress(
+  tracks: readonly Track[],
+  saved: Progress | null,
+): Progress | null {
+  if (saved) {
+    return saved;
+  }
+  const eligible = tracks.filter(t => t.eligibleStartingPoint);
+  if (eligible.length === 1) {
+    return createInitialProgress(tracks, { trackId: eligible[0].id, levelNumber: 1 });
+  }
+  return null;
 }
