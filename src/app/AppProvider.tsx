@@ -20,9 +20,18 @@
  *     (auto-start for Basic-only v1, StartPoint choice for multi-track), and
  *     resolves to the new progress so the caller can route to it.
  *
- * The full provider wiring / load-time validation story (Task 13) builds on
- * this. Content is the validated bundled `tracks` (content/index.ts validates
- * at import); the `tracks` prop is injectable for tests.
+ * Task 13 completes the composition root:
+ *   - load-time validation is the content loader's import-time
+ *     `validateContent()` — a malformed corpus throws before the app can boot
+ *     (content/index.ts validates at import; the `tracks` prop is injectable
+ *     for tests);
+ *   - persisted-ID repair (`repairProgress`) runs on any saved progress at load:
+ *     an unknown current level, completed level id, or active session is
+ *     repaired against the bundled tracks before boot, and the repaired slice
+ *     is persisted so the fix is durable — the navigator never boots into an
+ *     invalid route;
+ *   - the `ready` gate keeps the navigator (children) unmounted until the boot
+ *     decision is final — no invalid-route flash on first launch.
  */
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -30,6 +39,7 @@ import { ActivityIndicator, StatusBar, StyleSheet, useColorScheme, View } from '
 import { tracks as contentTracks } from '../content';
 import type { Track } from '../content/types';
 import { createInitialProgress, resolveBootProgress } from '../state/reducers';
+import { repairProgress } from '../state/selectors';
 import {
   DEFAULT_STORE,
   loadProgress,
@@ -72,7 +82,18 @@ export function AppProvider({
       if (cancelled) {
         return;
       }
-      const initialProgress = resolveBootProgress(tracks, savedProgress);
+      // Persisted-ID repair (Task 13): a saved current level, completed level
+      // id, or active session that no longer resolves in the bundled content
+      // (e.g. content changed between versions) is repaired against the tracks
+      // before boot, so the navigator never routes to an invalid level. The
+      // repaired slice is persisted so the fix is durable across launches
+      // (the write is a no-op when nothing changed).
+      const repaired =
+        savedProgress === null ? null : repairProgress(tracks, savedProgress);
+      const initialProgress = resolveBootProgress(tracks, repaired);
+      if (repaired !== null && repaired !== savedProgress) {
+        await saveProgress(repaired, store);
+      }
       // An auto-start writes its fresh progress once so a relaunch finds it
       // (the write is idempotent and only happens when nothing was saved).
       if (initialProgress !== null && savedProgress === null) {

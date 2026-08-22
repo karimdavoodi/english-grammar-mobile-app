@@ -36,6 +36,7 @@ import ReactTestRenderer from 'react-test-renderer';
 import type { Level, Track } from '../../content/types';
 import {
   CURRENT_PROGRESS_VERSION,
+  PROGRESS_KEY,
   loadProgress,
   loadSettings,
   saveSettings,
@@ -180,6 +181,100 @@ describe('AppProvider — first launch', () => {
   });
 });
 
+// ── Task 13: load-time wiring ───────────────────────────────────────
+
+describe('AppProvider — load-time repair', () => {
+  it('repairs stale saved progress at load and persists the repaired slice', async () => {
+    const store = createMemoryStore();
+    const stale: Progress = {
+      version: CURRENT_PROGRESS_VERSION,
+      startingPoint: { trackId: 'basic', levelNumber: 1 },
+      completedLevelIds: ['b01', 'ghost-level'],
+      currentLevelId: 'ghost-level',
+      activeSession: {
+        levelId: 'ghost-level',
+        askedIds: [],
+        correctCount: 0,
+        streak: 0,
+        totalAnswered: 0,
+        missCounts: {},
+        lastWrongRule: null,
+      },
+      weaknessQueue: {},
+      wrongAnswers: {},
+    };
+    await store.setItem('egg:progress', JSON.stringify(stale));
+
+    const tree = await renderApp([BASIC, ADVANCED], store);
+
+    // The unknown current level is repaired to the first valid level before the
+    // navigator boots — an invalid route is never mounted.
+    expect(textOf(tree, 'boot-current')).toBe('b01');
+    // The repaired slice is persisted so the fix is durable across launches.
+    const persisted = await loadProgress(store);
+    expect(persisted?.currentLevelId).toBe('b01');
+    expect(persisted?.completedLevelIds).toEqual(['b01']);
+    expect(persisted?.activeSession).toBeNull();
+  });
+
+  it('leaves a valid saved progress untouched (no write when nothing changed)', async () => {
+    const store = createMemoryStore();
+    const saved: Progress = {
+      version: CURRENT_PROGRESS_VERSION,
+      startingPoint: { trackId: 'basic', levelNumber: 1 },
+      completedLevelIds: ['b01'],
+      currentLevelId: 'b02',
+      activeSession: null,
+      weaknessQueue: {},
+      wrongAnswers: {},
+    };
+    await store.setItem('egg:progress', JSON.stringify(saved));
+
+    const tree = await renderApp([BASIC, ADVANCED], store);
+
+    expect(textOf(tree, 'boot-current')).toBe('b02');
+    // A fully-valid progress resumes unchanged and is not rewritten.
+    expect(await loadProgress(store)).toEqual(saved);
+  });
+});
+
+describe('AppProvider — boot gate (no invalid-route flash)', () => {
+  it('shows the loading view (children unmounted) until the boot decision is final', async () => {
+    const store = createMemoryStore();
+    // Block the progress load so the boot decision stays unresolved: while it
+    // is pending the loading view is shown and the navigator (children) is not
+    // mounted — the app cannot flash an invalid route mid-boot.
+    let release!: (value: string | null) => void;
+    const gate = new Promise<string | null>(resolve => {
+      release = resolve;
+    });
+    const originalGetItem = store.getItem.bind(store);
+    store.getItem = async key =>
+      key === PROGRESS_KEY ? gate : originalGetItem(key);
+
+    let tree!: ReactTestRenderer.ReactTestRenderer;
+    await ReactTestRenderer.act(() => {
+      tree = ReactTestRenderer.create(
+        <AppProvider store={store} tracks={[BASIC]}>
+          <Probe />
+        </AppProvider>,
+      );
+    });
+
+    expect(tree.root.findByProps({ testID: 'app-loading' })).toBeTruthy();
+    expect(tree.root.findAllByProps({ testID: 'boot-current' })).toHaveLength(0);
+
+    // Release the load; boot completes with the correct Basic-only starting
+    // state and default settings in place.
+    await ReactTestRenderer.act(async () => {
+      release(null);
+      await new Promise<void>(resolve => setTimeout(() => resolve(), 0));
+    });
+    expect(textOf(tree, 'boot-current')).toBe('b01');
+    expect(textOf(tree, 'settings-theme')).toBe('device');
+  });
+});
+
 // ── Task 12: settings + reset ──────────────────────────────────────
 
 describe('AppProvider — applySettings', () => {
@@ -203,8 +298,8 @@ describe('AppProvider — resetGame', () => {
     const saved: Progress = {
       version: CURRENT_PROGRESS_VERSION,
       startingPoint: { trackId: 'basic', levelNumber: 1 },
-      completedLevelIds: ['b01', 'b02', 'b03'],
-      currentLevelId: 'b04',
+      completedLevelIds: ['b01'],
+      currentLevelId: 'b02',
       activeSession: null,
       weaknessQueue: { past_perfect_form: { rule: 'x', missCount: 2, reviewStreak: 0, lastMissedAt: 't' } },
       wrongAnswers: {},
@@ -213,7 +308,7 @@ describe('AppProvider — resetGame', () => {
     await saveSettings({ theme: 'light' }, store);
 
     const tree = await renderApp([BASIC, ADVANCED], store);
-    expect(textOf(tree, 'boot-current')).toBe('b04');
+    expect(textOf(tree, 'boot-current')).toBe('b02');
 
     await press(tree, 'reset-game');
 

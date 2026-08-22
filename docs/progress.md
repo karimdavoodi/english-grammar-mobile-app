@@ -1,5 +1,18 @@
 # Progress
 
+## Task 13: End-to-end provider wiring and load-time validation — DONE
+
+Completed the composition-root wiring per `docs/mvp-plan.md` Task 13 (final behavioral verification is Task 14):
+
+- **Load-time validation** — content validation at app load is the loader's import-time `validateContent()` (content/index.ts already validated at import in Task 4): a malformed corpus throws the moment the loader loads, before it can reach the app. New `src/content/__tests__/loader.test.ts` formalizes the earlier throwaway load check: the valid corpus imports without error, and swapping in a malformed `tracks/basic` via `jest.doMock` + `jest.resetModules` proves the fail-fast throw at load.
+- **Persisted-ID repair at load** — `AppProvider` now runs `repairProgress(tracks, savedProgress)` on any saved progress during boot (the Task 11 note "wired at load in Task 13"): an unknown saved `currentLevelId` advances to the first valid level, unknown `completedLevelIds` are dropped, and an active session for a nonexistent level is cleared — so the navigator never boots into an invalid route. When repair changes the slice it is persisted so the fix is durable across launches; a fully-valid saved progress is returned unchanged and not rewritten.
+- **No invalid-route flash** — the `ready` gate already keeps the navigator (children) unmounted until the boot decision is final; a new boot-gate test proves the LoadingView is shown and children are absent while the boot is unresolved, then the correct Basic-only starting state and default settings land once it resolves. `App.tsx` renders the real composition root (`SafeAreaProvider → AppProvider → AppNavigator`) — no scaffold screen remains.
+
+Tests (5 new): `src/app/__tests__/AppProvider.test.tsx` (+3 — stale-progress repair at load with the repaired slice persisted; a valid saved progress resumes untouched with no rewrite; boot-gate loading view / no children until the decision is final) and `src/content/__tests__/loader.test.ts` (2 — valid corpus imports, malformed corpus throws at load). One pre-existing reset fixture was updated to use valid level ids (its saved `b03`/`b04` no longer existed in the fixture track, so the new load-time repair correctly advanced it — the fixture now represents a genuine returning player).
+
+Verification: `npm test -- provider storage selectors` 61/61 pass · `npm test` 230/230 pass (5 new; existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean. On-device `npm run android` smoke/regression lands in Task 14.
+
+
 ## Task 1: Establish the project folder structure — DONE
 
 Created the `src/` module layout from the plan:
