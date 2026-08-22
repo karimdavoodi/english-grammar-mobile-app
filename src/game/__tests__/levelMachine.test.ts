@@ -50,6 +50,7 @@ describe('createSession', () => {
       streak: 0,
       totalAnswered: 0,
       missCounts: {},
+      lastWrongRule: null,
       status: 'in_progress',
     });
   });
@@ -159,6 +160,18 @@ describe('Teach on Failure (Gherkin: Teach on Failure)', () => {
 
     expect(r.outcome).toMatchObject({ isCorrect: false, streak: 0 });
     expect(r.session.missCounts).toEqual({ [q3.rule]: 1 });
+  });
+
+  it('tracks the last wrong rule for resumable remediation, clearing on correct', () => {
+    let session = createSession('b03');
+    session = answerQuestion(session, q1, q1.correctIndex).session; // correct → null
+    expect(session.lastWrongRule).toBeNull();
+
+    session = answerQuestion(session, q2, wrongIndex(q2)).session; // wrong → q2.rule
+    expect(session.lastWrongRule).toBe(q2.rule);
+
+    session = answerQuestion(session, q3, q3.correctIndex).session; // correct → null
+    expect(session.lastWrongRule).toBeNull();
   });
 
   it('counts each miss per rule, and never counts correct answers', () => {

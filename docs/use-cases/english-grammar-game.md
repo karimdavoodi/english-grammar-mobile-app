@@ -266,5 +266,6 @@ The Review screen uses the most recent wrong choice for each question and retain
 **Scenario: Leaving a level before it ends**
 - Given I am partway through a level
 - When I leave the level or relaunch the app
-- Then the current level session is resumed from its saved question, streak, and total-correct count
-- And the session continues to use the same question order
+- Then the current level session is resumed from its saved counters (streak, correct count, answered count, per-rule misses)
+- And already-asked questions are not repeated
+- And the next question is still chosen adaptively (remediation, then review, then random)

@@ -186,14 +186,17 @@ interface WrongAnswerEntry {
   lastMissedAt: string;   // ISO timestamp
 }
 
+// Persisted snapshot of an in-progress session. The machine-only `status`
+// (in_progress | passed | mercy_ended) is not stored — `activeSession` is
+// cleared the moment a level ends, so a saved session is always in progress.
 interface LevelSession {
   levelId: string;
-  questionIds: string[];        // stable session order; questions are not reused in a session
-  nextQuestionIndex: number;
-  streak: number;
-  totalCorrect: number;
-  answeredCount: number;        // includes incorrect answers; max 12 in v1
-  sameLevelMissesByRule: Record<string, number>;
+  askedIds: string[];                 // questions already served, in order — never re-served
+  correctCount: number;               // total correct (volume pass progress, 8 in v1)
+  streak: number;                     // consecutive correct (streak pass progress, 3 in v1)
+  totalAnswered: number;              // answers submitted, correct or not (mercy cap, 12 in v1)
+  missCounts: Record<string, number>; // rule → times missed this session (drives re-teach)
+  lastWrongRule: string | null;       // rule of the last wrong answer (null if none or last was correct) — resumes remediation
 }
 
 // ── Root ──────────────────────────────────────────────────────────
@@ -211,7 +214,7 @@ interface AppState {
 - Reset = clear `egg:progress` (and re-enter the starting-point choice). Settings survive a reset.
 - **Unlock is derived, never stored:** flatten tracks by ascending `track.order`, then levels by ascending `level.number`. A level is unlocked when it occurs at or before the saved frontier, or its ID is in `completedLevelIds`. Passed levels show a pass mark; mercy-ended and skipped-earlier levels are unlocked but not passed. Mercy-end is not a separate persisted state. Levels whose rules appear in `weaknessQueue` may show a "needs review" indicator.
 - `activeSession` is cleared when a level passes or mercy-ends and is restored after app restart. It is reset when the player deliberately abandons a session.
-- A level passes when `streak >= 3` or `totalCorrect >= 8`; otherwise a session mercy-ends when `answeredCount >= 12`. Review and remediation questions count normally toward all level counters.
+- A level passes when `streak >= 3` or `correctCount >= 8`; otherwise a session mercy-ends when `totalAnswered >= 12`. Review and remediation questions count normally toward all level counters.
 
 ---
 

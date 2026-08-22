@@ -53,6 +53,8 @@ export interface LevelSession {
   totalAnswered: number;
   /** Rule → times missed this session. Keys feed the Weakness Queue; counts drive re-teach. */
   missCounts: Record<string, number>;
+  /** Rule of the last wrong answer (null if none or last was correct) — resumes remediation. */
+  lastWrongRule: string | null;
   status: SessionStatus;
 }
 
@@ -77,6 +79,7 @@ export function createSession(levelId: string): LevelSession {
     streak: 0,
     totalAnswered: 0,
     missCounts: {},
+    lastWrongRule: null,
     status: 'in_progress',
   };
 }
@@ -134,6 +137,7 @@ export function answerQuestion(
           ...session.missCounts,
           [question.rule]: (session.missCounts[question.rule] ?? 0) + 1,
         },
+    lastWrongRule: isCorrect ? null : question.rule,
     status: passed ? 'passed' : endedByMercy ? 'mercy_ended' : 'in_progress',
   };
 
