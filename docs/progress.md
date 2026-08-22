@@ -59,3 +59,15 @@ Completed the Basic track in `src/content/tracks/basic.ts` — 12 levels, sequen
 - **Content-review checklist** — new `docs/content-review.md` records per-level reviewer and review status (AI authoring pass, human review recommended), plus global review checks and flagged editorial decisions (zero-article rendered as `nothing`; BrE time expressions; future-arrangement tagging).
 
 Verification: `npx tsc --noEmit` clean · `npm run lint` clean · `npm test` 60/60 pass (existing suites intact) · throwaway load test confirmed `content/index.ts` imports and validates the full 12-level track (then deleted).
+
+## Task 6: Adaptive serving orchestrator — DONE
+
+Implemented `src/game/serving.ts`, the caller-side adaptive-serving layer that wraps the existing `levelMachine.pickNextQuestion` per `docs/use-cases` "Teach on Failure" / "Weakness Queue" and `docs/schema` §1:
+
+- `serveNextQuestion(session, bank, queuedRules, { random })` → `{ question, mode, showLesson } | null`. Priority delegated to `pickNextQuestion`: an unasked same-rule variant of the rule just missed → an unasked queued-rule question (Review) → a random unasked question. Returns `null` for a finished session or an exhausted bank.
+- `mode` ∈ `remediation | review | normal` is an **immutable pre-answer snapshot** (`classifyMode`): `remediation` only when the question is a same-rule re-test of `lastWrongRule` — which wins even if that rule is also queued (same-level remediation is never a Review answer); `review` only when the rule was in the Weakness Queue before serving; otherwise `normal`. Serving never touches `reviewStreak` — that stays purely with the Task 11 answer reducers.
+- **Re-teach rule** (`shouldReTeach` + `RE_TEACH_MISS_THRESHOLD = 2`): `showLesson` is `true` when the served rule has been missed ≥ 2 times in the current level, so the UI re-shows the lesson card before the question; applies to both remediation and review serves.
+- Injectable randomness threaded through to `pickNextQuestion` for deterministic tests.
+- `src/game/__tests__/serving.test.ts` — 25 tests covering classification, the threshold boundaries, first/normal serving, remediation, Review (incl. not forcing a queued rule into a bank that lacks it), re-teach, finished/exhausted null cases, injectable randomness, and the stable pre-answer snapshot.
+
+Verification: `npm test -- serving` 25/25 pass · `npm test` 85/85 pass (existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.
