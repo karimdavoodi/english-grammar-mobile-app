@@ -5,10 +5,14 @@
  * Pure presentational: receives the session counters and renders them for the
  * LevelPlayScreen. The streak is the 3-in-a-row pass progress, correctCount the
  * 8-total pass progress, and answeredCount/mercyCap the cap progress.
+ *
+ * Task 12: text and border colors come from the theme palette.
  */
 
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useThemedStyles } from '../theme/ThemeProvider';
+import type { ThemeColors } from '../theme/themes';
 
 export interface ProgressHeaderProps {
   /** Current consecutive-correct streak. */
@@ -27,6 +31,7 @@ export function ProgressHeader({
   answeredCount,
   mercyCap,
 }: ProgressHeaderProps) {
+  const styles = useThemedStyles(makeStyles);
   return (
     <View
       testID="progress-header"
@@ -47,18 +52,19 @@ export function ProgressHeader({
   );
 }
 
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#e5e7eb',
-  },
-  stat: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#374151',
-  },
-});
+const makeStyles = (colors: ThemeColors) =>
+  StyleSheet.create({
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingVertical: 8,
+      paddingHorizontal: 4,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: colors.border,
+    },
+    stat: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.textSecondary,
+    },
+  });

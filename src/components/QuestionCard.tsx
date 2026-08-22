@@ -6,11 +6,15 @@
  * revealed the choices are locked and each one shows its positionally-aligned
  * "why" — the correct answer is highlighted, the wrong chosen answer is marked,
  * and the rest are dimmed. No navigation, storage, or reducer imports.
+ *
+ * Task 12: the prompt color comes from the theme palette.
  */
 
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import type { Question } from '../content/types';
+import { useThemedStyles } from '../theme/ThemeProvider';
+import type { ThemeColors } from '../theme/themes';
 import { ChoiceButton, type ChoiceStatus } from './ChoiceButton';
 
 export interface QuestionCardProps {
@@ -48,6 +52,7 @@ export function QuestionCard({
   revealed,
   onAnswer,
 }: QuestionCardProps) {
+  const styles = useThemedStyles(makeStyles);
   return (
     <View style={styles.card} testID="question-card">
       <Text style={styles.prompt} accessibilityRole="header" testID="question-prompt">
@@ -70,18 +75,19 @@ export function QuestionCard({
   );
 }
 
-const styles = StyleSheet.create({
-  card: {
-    padding: 16,
-  },
-  prompt: {
-    fontSize: 18,
-    lineHeight: 26,
-    fontWeight: '600',
-    color: '#111827',
-    marginBottom: 16,
-  },
-  choices: {
-    marginTop: 0,
-  },
-});
+const makeStyles = (colors: ThemeColors) =>
+  StyleSheet.create({
+    card: {
+      padding: 16,
+    },
+    prompt: {
+      fontSize: 18,
+      lineHeight: 26,
+      fontWeight: '600',
+      color: colors.textPrimary,
+      marginBottom: 16,
+    },
+    choices: {
+      marginTop: 0,
+    },
+  });

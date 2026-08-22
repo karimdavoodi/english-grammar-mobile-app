@@ -293,6 +293,35 @@ describe('LevelMapScreen — tapping levels', () => {
   });
 });
 
+describe('LevelMapScreen — settings entry', () => {
+  it('calls onOpenSettings when the settings button is pressed', async () => {
+    const onOpenSettings = jest.fn();
+    const tree = await render(
+      <LevelMapScreen
+        tracks={TRACKS}
+        progress={makeProgress()}
+        onSelectLevel={jest.fn()}
+        onOpenSettings={onOpenSettings}
+      />,
+    );
+
+    const button = tree.root.findByProps({ testID: 'level-map-settings' });
+    expect(button.props.accessibilityRole).toBe('button');
+    expect(button.props.accessibilityLabel).toBe('Settings');
+    await ReactTestRenderer.act(() => {
+      button.props.onPress();
+    });
+    expect(onOpenSettings).toHaveBeenCalledTimes(1);
+  });
+
+  it('omits the settings button when no onOpenSettings is provided', async () => {
+    const tree = await render(
+      <LevelMapScreen tracks={TRACKS} progress={makeProgress()} onSelectLevel={jest.fn()} />,
+    );
+    expect(tree.root.findAllByProps({ testID: 'level-map-settings' })).toHaveLength(0);
+  });
+});
+
 describe('LevelMapScreen — back affordance', () => {
   it('calls onBack when the back button is pressed', async () => {
     const onBack = jest.fn();

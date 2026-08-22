@@ -12,11 +12,12 @@
  * derived, so the selectors keep passed levels and anything at-or-before the
  * frontier playable regardless of how often they are re-entered.
  *
- * Presentational: no navigation, storage, or reducer imports — it takes content
- * + progress as props and resolves the statuses through the pure `levelStatuses`
- * selector, so it tests with fixture data like the other Task 7A/8/11
- * presentational screens. The navigator supplies onSelectLevel (push a fresh
- * LevelPlay) and onBack.
+ * Task 12 adds a Settings entry (the map is the home hub) and consumes the theme
+ * palette — no hardcoded colors. Presentational: no navigation, storage, or
+ * reducer imports — it takes content + progress as props and resolves the
+ * statuses through the pure `levelStatuses` selector, so it tests with fixture
+ * data like the other presentational screens. The navigator supplies
+ * onSelectLevel (push a fresh LevelPlay), onOpenSettings, and onBack.
  */
 
 import React, { useMemo } from 'react';
@@ -24,6 +25,9 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { Track } from '../content/types';
 import { levelStatuses, type LevelStatus } from '../state/selectors';
 import type { Progress } from '../state/types';
+import { useThemedStyles } from '../theme/ThemeProvider';
+import type { ThemeColors } from '../theme/themes';
+import { tokens } from '../theme/tokens';
 
 export interface LevelMapScreenProps {
   /** The bundled tracks — flattened by order → number for the map. */
@@ -32,6 +36,8 @@ export interface LevelMapScreenProps {
   progress: Progress;
   /** Called when an unlocked level is tapped (replay — never re-locks). */
   onSelectLevel: (levelId: string) => void;
+  /** Called when the Settings entry is tapped (Task 12). */
+  onOpenSettings?: () => void;
   /** Called when the player taps Back. */
   onBack?: () => void;
 }
@@ -60,8 +66,10 @@ export function LevelMapScreen({
   tracks,
   progress,
   onSelectLevel,
+  onOpenSettings,
   onBack,
 }: LevelMapScreenProps) {
+  const styles = useThemedStyles(makeStyles);
   const statuses = useMemo(() => levelStatuses(tracks, progress), [tracks, progress]);
 
   // Group the flattened statuses back under their tracks (track order, then
@@ -82,9 +90,22 @@ export function LevelMapScreen({
   return (
     <View style={styles.screen} testID="level-map-screen">
       <View style={styles.header}>
-        <Text style={styles.heading} accessibilityRole="header" testID="level-map-heading">
-          Level Map
-        </Text>
+        <View style={styles.headerRow}>
+          <Text style={styles.heading} accessibilityRole="header" testID="level-map-heading">
+            Level Map
+          </Text>
+          {onOpenSettings ? (
+            <Pressable
+              testID="level-map-settings"
+              accessibilityRole="button"
+              accessibilityLabel="Settings"
+              onPress={onOpenSettings}
+              style={({ pressed }) => [styles.settings, pressed && styles.settingsPressed]}
+            >
+              <Text style={styles.settingsLabel}>Settings</Text>
+            </Pressable>
+          ) : null}
+        </View>
         <Text style={styles.subheading} testID="level-map-subheading">
           Your progress across the tracks. Tap any unlocked level to practice.
         </Text>
@@ -208,171 +229,191 @@ export function LevelMapScreen({
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
-  header: {
-    padding: 16,
-    backgroundColor: '#eff6ff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#bfdbfe',
-  },
-  heading: {
-    fontSize: 26,
-    fontWeight: '700',
-    color: '#1e3a8a',
-    marginBottom: 4,
-  },
-  subheading: {
-    fontSize: 14,
-    lineHeight: 20,
-    color: '#1e40af',
-  },
-  list: {
-    flex: 1,
-  },
-  listContent: {
-    padding: 16,
-  },
-  trackSection: {
-    marginBottom: 24,
-  },
-  trackHeader: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    marginBottom: 8,
-    paddingHorizontal: 2,
-  },
-  trackName: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#111827',
-    marginRight: 8,
-  },
-  trackLabel: {
-    fontSize: 13,
-    color: '#6b7280',
-  },
-  levelRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    padding: 12,
-    marginBottom: 8,
-  },
-  levelRowCurrent: {
-    borderColor: '#2563eb',
-    backgroundColor: '#eff6ff',
-    borderWidth: 2,
-  },
-  levelRowLocked: {
-    backgroundColor: '#f9fafb',
-  },
-  levelRowPressed: {
-    backgroundColor: '#f3f4f6',
-  },
-  numberBadge: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    backgroundColor: '#e5e7eb',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  numberBadgeCurrent: {
-    backgroundColor: '#2563eb',
-  },
-  number: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#4b5563',
-  },
-  numberCurrent: {
-    color: '#ffffff',
-  },
-  levelInfo: {
-    flex: 1,
-    marginRight: 8,
-  },
-  levelTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#111827',
-  },
-  levelTitleLocked: {
-    color: '#9ca3af',
-  },
-  levelTopic: {
-    fontSize: 13,
-    color: '#6b7280',
-    marginTop: 1,
-  },
-  levelTopicLocked: {
-    color: '#9ca3af',
-  },
-  badges: {
-    alignItems: 'flex-end',
-  },
-  reviewBadge: {
-    backgroundColor: '#fef3c7',
-    borderRadius: 6,
-    paddingVertical: 3,
-    paddingHorizontal: 8,
-    marginBottom: 4,
-  },
-  reviewBadgeLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#92400e',
-  },
-  passedBadge: {
-    backgroundColor: '#dcfce7',
-    borderRadius: 6,
-    paddingVertical: 3,
-    paddingHorizontal: 8,
-    marginBottom: 4,
-  },
-  passedBadgeLabel: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#15803d',
-  },
-  currentBadge: {
-    backgroundColor: '#2563eb',
-    borderRadius: 6,
-    paddingVertical: 3,
-    paddingHorizontal: 8,
-  },
-  currentBadgeLabel: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#ffffff',
-  },
-  lockedLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#9ca3af',
-  },
-  back: {
-    margin: 16,
-    alignSelf: 'stretch',
-    backgroundColor: '#2563eb',
-    borderRadius: 8,
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
-  backPressed: {
-    backgroundColor: '#1d4ed8',
-  },
-  backLabel: {
-    color: '#ffffff',
-    fontWeight: '600',
-    fontSize: 15,
-  },
-});
+const makeStyles = (colors: ThemeColors) =>
+  StyleSheet.create({
+    screen: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    header: {
+      padding: tokens.spacing.lg,
+      backgroundColor: colors.primaryContainer,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.primaryBorder,
+    },
+    headerRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 4,
+    },
+    heading: {
+      fontSize: tokens.typography.heading,
+      fontWeight: '700',
+      color: colors.primaryOnContainer,
+    },
+    settings: {
+      backgroundColor: colors.primary,
+      borderRadius: tokens.radii.md,
+      paddingVertical: tokens.spacing.xs + 2,
+      paddingHorizontal: tokens.spacing.md,
+    },
+    settingsPressed: {
+      backgroundColor: colors.primaryPressed,
+    },
+    settingsLabel: {
+      color: colors.textOnAccent,
+      fontWeight: '600',
+      fontSize: tokens.typography.body,
+    },
+    subheading: {
+      fontSize: tokens.typography.body,
+      lineHeight: 20,
+      color: colors.primaryOnContainerMuted,
+    },
+    list: {
+      flex: 1,
+    },
+    listContent: {
+      padding: tokens.spacing.lg,
+    },
+    trackSection: {
+      marginBottom: tokens.spacing.xl,
+    },
+    trackHeader: {
+      flexDirection: 'row',
+      alignItems: 'baseline',
+      marginBottom: tokens.spacing.sm,
+      paddingHorizontal: 2,
+    },
+    trackName: {
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.textPrimary,
+      marginRight: tokens.spacing.sm,
+    },
+    trackLabel: {
+      fontSize: tokens.typography.small,
+      color: colors.textMuted,
+    },
+    levelRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.surface,
+      borderRadius: tokens.radii.xl,
+      borderWidth: 1,
+      borderColor: colors.border,
+      padding: tokens.spacing.md,
+      marginBottom: tokens.spacing.sm,
+    },
+    levelRowCurrent: {
+      borderColor: colors.primary,
+      backgroundColor: colors.primaryContainer,
+      borderWidth: 2,
+    },
+    levelRowLocked: {
+      backgroundColor: colors.surfaceMuted,
+    },
+    levelRowPressed: {
+      backgroundColor: colors.surfacePressed,
+    },
+    numberBadge: {
+      width: 34,
+      height: 34,
+      borderRadius: tokens.radii.pill,
+      backgroundColor: colors.badgeSurface,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: tokens.spacing.md,
+    },
+    numberBadgeCurrent: {
+      backgroundColor: colors.primary,
+    },
+    number: {
+      fontSize: 15,
+      fontWeight: '700',
+      color: colors.badgeText,
+    },
+    numberCurrent: {
+      color: colors.textOnAccent,
+    },
+    levelInfo: {
+      flex: 1,
+      marginRight: tokens.spacing.sm,
+    },
+    levelTitle: {
+      fontSize: tokens.typography.bodyLarge,
+      fontWeight: '600',
+      color: colors.textPrimary,
+    },
+    levelTitleLocked: {
+      color: colors.textDisabled,
+    },
+    levelTopic: {
+      fontSize: tokens.typography.small,
+      color: colors.textMuted,
+      marginTop: 1,
+    },
+    levelTopicLocked: {
+      color: colors.textDisabled,
+    },
+    badges: {
+      alignItems: 'flex-end',
+    },
+    reviewBadge: {
+      backgroundColor: colors.warningBadge,
+      borderRadius: tokens.radii.sm,
+      paddingVertical: 3,
+      paddingHorizontal: tokens.spacing.sm,
+      marginBottom: 4,
+    },
+    reviewBadgeLabel: {
+      fontSize: tokens.typography.caption,
+      fontWeight: '600',
+      color: colors.warningBadgeText,
+    },
+    passedBadge: {
+      backgroundColor: colors.successBadge,
+      borderRadius: tokens.radii.sm,
+      paddingVertical: 3,
+      paddingHorizontal: tokens.spacing.sm,
+      marginBottom: 4,
+    },
+    passedBadgeLabel: {
+      fontSize: tokens.typography.caption,
+      fontWeight: '700',
+      color: colors.success,
+    },
+    currentBadge: {
+      backgroundColor: colors.primary,
+      borderRadius: tokens.radii.sm,
+      paddingVertical: 3,
+      paddingHorizontal: tokens.spacing.sm,
+    },
+    currentBadgeLabel: {
+      fontSize: tokens.typography.caption,
+      fontWeight: '700',
+      color: colors.textOnAccent,
+    },
+    lockedLabel: {
+      fontSize: tokens.typography.caption,
+      fontWeight: '600',
+      color: colors.textDisabled,
+    },
+    back: {
+      margin: tokens.spacing.lg,
+      alignSelf: 'stretch',
+      backgroundColor: colors.primary,
+      borderRadius: tokens.radii.md,
+      paddingVertical: tokens.spacing.md,
+      alignItems: 'center',
+    },
+    backPressed: {
+      backgroundColor: colors.primaryPressed,
+    },
+    backLabel: {
+      color: colors.textOnAccent,
+      fontWeight: '600',
+      fontSize: 15,
+    },
+  });

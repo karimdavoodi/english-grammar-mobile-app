@@ -12,12 +12,16 @@
  * "Continue" to the next level — or to the completion/map state when the track
  * has no next level. Presentational: no navigation, storage, or reducer imports,
  * so it tests with fixture data like the Task 7A components.
+ *
+ * Task 12: all colors come from the theme palette (the success family).
  */
 
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import type { Level } from '../content/types';
 import type { AnswerOutcome } from '../game/levelMachine';
+import { useThemedStyles } from '../theme/ThemeProvider';
+import type { ThemeColors } from '../theme/themes';
 
 export interface ResultScreenProps {
   /** The level that just ended (pass or mercy). */
@@ -31,6 +35,7 @@ export interface ResultScreenProps {
 }
 
 export function ResultScreen({ level, outcome, nextLevel, onContinue }: ResultScreenProps) {
+  const styles = useThemedStyles(makeStyles);
   const { passed, passReason, endedByMercy, correctCount, streak, totalAnswered } = outcome;
 
   let heading: string;
@@ -85,57 +90,58 @@ export function ResultScreen({ level, outcome, nextLevel, onContinue }: ResultSc
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    padding: 16,
-    justifyContent: 'center',
-  },
-  card: {
-    backgroundColor: '#f0fdf4',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#bbf7d0',
-    padding: 24,
-    marginBottom: 24,
-  },
-  heading: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: '#14532d',
-    marginBottom: 4,
-  },
-  levelTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#166534',
-    marginBottom: 12,
-  },
-  explanation: {
-    fontSize: 15,
-    lineHeight: 22,
-    color: '#14532d',
-    marginBottom: 12,
-  },
-  summary: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#16a34a',
-  },
-  continue: {
-    alignSelf: 'stretch',
-    backgroundColor: '#16a34a',
-    borderRadius: 8,
-    paddingVertical: 14,
-    alignItems: 'center',
-  },
-  continuePressed: {
-    backgroundColor: '#15803d',
-  },
-  continueLabel: {
-    color: '#ffffff',
-    fontWeight: '600',
-    fontSize: 16,
-  },
-});
+const makeStyles = (colors: ThemeColors) =>
+  StyleSheet.create({
+    screen: {
+      flex: 1,
+      backgroundColor: colors.background,
+      padding: 16,
+      justifyContent: 'center',
+    },
+    card: {
+      backgroundColor: colors.successContainer,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: colors.successBorder,
+      padding: 24,
+      marginBottom: 24,
+    },
+    heading: {
+      fontSize: 28,
+      fontWeight: '700',
+      color: colors.successOnContainerStrong,
+      marginBottom: 4,
+    },
+    levelTitle: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.successOnContainer,
+      marginBottom: 12,
+    },
+    explanation: {
+      fontSize: 15,
+      lineHeight: 22,
+      color: colors.successOnContainerStrong,
+      marginBottom: 12,
+    },
+    summary: {
+      fontSize: 13,
+      fontWeight: '600',
+      color: colors.success,
+    },
+    continue: {
+      alignSelf: 'stretch',
+      backgroundColor: colors.success,
+      borderRadius: 8,
+      paddingVertical: 14,
+      alignItems: 'center',
+    },
+    continuePressed: {
+      backgroundColor: colors.successPressed,
+    },
+    continueLabel: {
+      color: colors.textOnAccent,
+      fontWeight: '600',
+      fontSize: 16,
+    },
+  });

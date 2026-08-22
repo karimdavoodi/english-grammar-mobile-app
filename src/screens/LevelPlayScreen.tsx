@@ -42,6 +42,8 @@ import {
 } from '../state/reducers';
 import { DEFAULT_STORE, saveProgress, type StorageLike } from '../state/storage';
 import { hydrateSession, type Progress } from '../state/types';
+import { useThemedStyles } from '../theme/ThemeProvider';
+import type { ThemeColors } from '../theme/themes';
 
 /** What the caller (Task 8 result flow) needs to route when a level ends. */
 export interface LevelEndResult {
@@ -118,6 +120,8 @@ export function LevelPlayScreen({
   onLevelEnd,
   onExit,
 }: LevelPlayScreenProps) {
+  const styles = useThemedStyles(makeStyles);
+
   // Resolved once per mount: props are stable for the lifetime of a mounted
   // level (the navigator keys the screen by level), so this is safe.
   const init = useMemo(
@@ -323,59 +327,60 @@ export function LevelPlayScreen({
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
-  saveWarning: {
-    color: '#b45309',
-    fontSize: 13,
-    paddingHorizontal: 16,
-    paddingTop: 8,
-  },
-  body: {
-    flex: 1,
-    padding: 16,
-  },
-  next: {
-    marginTop: 8,
-    alignSelf: 'flex-start',
-    backgroundColor: '#2563eb',
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-  },
-  nextPressed: {
-    backgroundColor: '#1d4ed8',
-  },
-  nextLabel: {
-    color: '#ffffff',
-    fontWeight: '600',
-    fontSize: 15,
-  },
-  ended: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#374151',
-    textAlign: 'center',
-    marginTop: 32,
-  },
-  quit: {
-    margin: 16,
-    alignSelf: 'flex-end',
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-  },
-  quitPressed: {
-    backgroundColor: '#f3f4f6',
-  },
-  quitLabel: {
-    color: '#4b5563',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-});
+const makeStyles = (colors: ThemeColors) =>
+  StyleSheet.create({
+    screen: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    saveWarning: {
+      color: colors.warningText,
+      fontSize: 13,
+      paddingHorizontal: 16,
+      paddingTop: 8,
+    },
+    body: {
+      flex: 1,
+      padding: 16,
+    },
+    next: {
+      marginTop: 8,
+      alignSelf: 'flex-start',
+      backgroundColor: colors.primary,
+      borderRadius: 8,
+      paddingVertical: 10,
+      paddingHorizontal: 18,
+    },
+    nextPressed: {
+      backgroundColor: colors.primaryPressed,
+    },
+    nextLabel: {
+      color: colors.textOnAccent,
+      fontWeight: '600',
+      fontSize: 15,
+    },
+    ended: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.textSecondary,
+      textAlign: 'center',
+      marginTop: 32,
+    },
+    quit: {
+      margin: 16,
+      alignSelf: 'flex-end',
+      paddingVertical: 8,
+      paddingHorizontal: 14,
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: colors.borderStrong,
+    },
+    quitPressed: {
+      backgroundColor: colors.surfacePressed,
+    },
+    quitLabel: {
+      color: colors.textTertiary,
+      fontSize: 14,
+      fontWeight: '600',
+    },
+  });

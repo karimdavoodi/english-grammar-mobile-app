@@ -9,11 +9,15 @@
  *
  * The card is dismissed with the action button — the question appears only after
  * the player continues.
+ *
+ * Task 12: all colors come from the theme palette (the amber warning family).
  */
 
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import type { Topic, TopicRule } from '../content/types';
+import { useThemedStyles } from '../theme/ThemeProvider';
+import type { ThemeColors } from '../theme/themes';
 
 export interface LessonCardProps {
   /** The current level's single topic. */
@@ -38,6 +42,7 @@ export function LessonCard({
   actionLabel = 'Continue',
   onContinue,
 }: LessonCardProps) {
+  const styles = useThemedStyles(makeStyles);
   const rules = rule ? [rule] : topic.rules;
 
   return (
@@ -78,70 +83,71 @@ export function LessonCard({
   );
 }
 
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#fff7ed',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#fed7aa',
-    padding: 16,
-    marginBottom: 16,
-  },
-  kicker: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#9a3412',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginBottom: 6,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#431407',
-    marginBottom: 4,
-  },
-  summary: {
-    fontSize: 15,
-    lineHeight: 22,
-    color: '#7c2d12',
-    marginBottom: 12,
-  },
-  ruleBlock: {
-    marginBottom: 12,
-  },
-  ruleTitle: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#431407',
-    marginBottom: 2,
-  },
-  ruleExplanation: {
-    fontSize: 14,
-    lineHeight: 20,
-    color: '#7c2d12',
-  },
-  ruleExample: {
-    fontSize: 14,
-    fontStyle: 'italic',
-    lineHeight: 20,
-    color: '#9a3412',
-    marginTop: 4,
-  },
-  continue: {
-    marginTop: 8,
-    alignSelf: 'flex-start',
-    backgroundColor: '#ea580c',
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-  },
-  continuePressed: {
-    backgroundColor: '#c2410c',
-  },
-  continueLabel: {
-    color: '#ffffff',
-    fontWeight: '600',
-    fontSize: 15,
-  },
-});
+const makeStyles = (colors: ThemeColors) =>
+  StyleSheet.create({
+    card: {
+      backgroundColor: colors.warningContainer,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: colors.warningBorder,
+      padding: 16,
+      marginBottom: 16,
+    },
+    kicker: {
+      fontSize: 12,
+      fontWeight: '700',
+      color: colors.warningKicker,
+      textTransform: 'uppercase',
+      letterSpacing: 1,
+      marginBottom: 6,
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: '700',
+      color: colors.warningOnContainerStrong,
+      marginBottom: 4,
+    },
+    summary: {
+      fontSize: 15,
+      lineHeight: 22,
+      color: colors.warningOnContainer,
+      marginBottom: 12,
+    },
+    ruleBlock: {
+      marginBottom: 12,
+    },
+    ruleTitle: {
+      fontSize: 15,
+      fontWeight: '600',
+      color: colors.warningOnContainerStrong,
+      marginBottom: 2,
+    },
+    ruleExplanation: {
+      fontSize: 14,
+      lineHeight: 20,
+      color: colors.warningOnContainer,
+    },
+    ruleExample: {
+      fontSize: 14,
+      fontStyle: 'italic',
+      lineHeight: 20,
+      color: colors.warningKicker,
+      marginTop: 4,
+    },
+    continue: {
+      marginTop: 8,
+      alignSelf: 'flex-start',
+      backgroundColor: colors.warning,
+      borderRadius: 8,
+      paddingVertical: 10,
+      paddingHorizontal: 18,
+    },
+    continuePressed: {
+      backgroundColor: colors.warningPressed,
+    },
+    continueLabel: {
+      color: colors.textOnAccent,
+      fontWeight: '600',
+      fontSize: 15,
+    },
+  });

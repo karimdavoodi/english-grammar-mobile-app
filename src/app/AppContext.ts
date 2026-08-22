@@ -20,6 +20,16 @@ export interface AppContextValue {
   chooseStartingPoint: (trackId: string, levelNumber: number) => Promise<void>;
   /** Replace + persist the progress slice (frontier advance, level end, …). */
   applyProgress: (next: Progress) => Promise<void>;
+  /** Replace + persist the settings (theme, …) — settings survive a reset. */
+  applySettings: (next: Settings) => Promise<void>;
+  /**
+   * Reset the game (Task 12): clears persisted progress, then re-runs the
+   * first-launch boot decision — with a single eligible track it auto-starts a
+   * fresh progress at level 1, with several it leaves progress null so the
+   * StartPoint choice shows. Settings survive. Resolves to the new progress
+   * (or null for the start choice) so the caller can route to it.
+   */
+  resetGame: () => Promise<Progress | null>;
 }
 
 export const AppContext = createContext<AppContextValue | null>(null);

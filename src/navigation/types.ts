@@ -32,4 +32,6 @@ export type RootStackParamList = {
   LevelMap: undefined;
   /** Wrong-answer study history grouped by rule (reachable from Settings in Task 12). */
   Review: undefined;
+  /** Appearance (theme) and reset — the Settings screen (Task 12). */
+  Settings: undefined;
 };

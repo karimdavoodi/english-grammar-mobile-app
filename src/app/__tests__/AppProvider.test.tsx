@@ -31,10 +31,16 @@ jest.mock('@react-native-async-storage/async-storage', () => {
 });
 
 import React from 'react';
-import { Text } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
 import type { Level, Track } from '../../content/types';
-import { CURRENT_PROGRESS_VERSION, loadProgress, type StorageLike } from '../../state/storage';
+import {
+  CURRENT_PROGRESS_VERSION,
+  loadProgress,
+  loadSettings,
+  saveSettings,
+  type StorageLike,
+} from '../../state/storage';
 import type { Progress } from '../../state/types';
 import { useApp } from '../AppContext';
 import { AppProvider } from '../AppProvider';
@@ -73,10 +79,34 @@ function createMemoryStore(): StorageLike {
   };
 }
 
-/** Reports the boot decision: the resolved current level id, or 'null' for the start choice. */
+/**
+ * Reports the boot decision and exposes the Task 12 settings/reset actions so
+ * the provider wiring is observable: the resolved current level id (or 'null'
+ * for the start choice), the active theme preference, and the resolved reset
+ * outcome (the auto-started level id, or 'null' for the start choice).
+ */
 function Probe() {
-  const { progress } = useApp();
-  return <Text testID="boot-current">{progress ? progress.currentLevelId : 'null'}</Text>;
+  const { progress, settings, applySettings, resetGame } = useApp();
+  const [resetResult, setResetResult] = React.useState<string>('none');
+  return (
+    <View>
+      <Text testID="boot-current">{progress ? progress.currentLevelId : 'null'}</Text>
+      <Text testID="settings-theme">{settings.theme}</Text>
+      <Text testID="reset-result">{resetResult}</Text>
+      <Pressable
+        testID="set-theme-dark"
+        onPress={() => {
+          applySettings({ theme: 'dark' }).catch(() => {});
+        }}
+      />
+      <Pressable
+        testID="reset-game"
+        onPress={() => {
+          resetGame().then(next => setResetResult(next ? next.currentLevelId : 'null'));
+        }}
+      />
+    </View>
+  );
 }
 
 async function renderApp(tracks: Track[], store: StorageLike) {
@@ -93,6 +123,14 @@ async function renderApp(tracks: Track[], store: StorageLike) {
     await new Promise<void>(resolve => setTimeout(() => resolve(), 0));
   });
   return tree;
+}
+
+/** Press a Probe button and let its async effect settle. */
+async function press(tree: ReactTestRenderer.ReactTestRenderer, testID: string) {
+  await ReactTestRenderer.act(async () => {
+    tree.root.findByProps({ testID }).props.onPress();
+    await new Promise<void>(resolve => setTimeout(() => resolve(), 0));
+  });
 }
 
 function textOf(tree: ReactTestRenderer.ReactTestRenderer, testID: string): string {
@@ -139,5 +177,78 @@ describe('AppProvider — first launch', () => {
     const tree = await renderApp([BASIC, INTERMEDIATE], store);
 
     expect(textOf(tree, 'boot-current')).toBe('b02');
+  });
+});
+
+// ── Task 12: settings + reset ──────────────────────────────────────
+
+describe('AppProvider — applySettings', () => {
+  it('updates the context theme and persists it', async () => {
+    const store = createMemoryStore();
+    const tree = await renderApp([BASIC], store);
+
+    expect(textOf(tree, 'settings-theme')).toBe('device');
+
+    await press(tree, 'set-theme-dark');
+
+    expect(textOf(tree, 'settings-theme')).toBe('dark');
+    expect(await loadSettings(store)).toEqual({ theme: 'dark' });
+  });
+});
+
+describe('AppProvider — resetGame', () => {
+  it('clears progress and re-auto-starts at the single eligible track (settings survive)', async () => {
+    const store = createMemoryStore();
+    // A returning player with real progress and a saved light-theme setting.
+    const saved: Progress = {
+      version: CURRENT_PROGRESS_VERSION,
+      startingPoint: { trackId: 'basic', levelNumber: 1 },
+      completedLevelIds: ['b01', 'b02', 'b03'],
+      currentLevelId: 'b04',
+      activeSession: null,
+      weaknessQueue: { past_perfect_form: { rule: 'x', missCount: 2, reviewStreak: 0, lastMissedAt: 't' } },
+      wrongAnswers: {},
+    };
+    await store.setItem('egg:progress', JSON.stringify(saved));
+    await saveSettings({ theme: 'light' }, store);
+
+    const tree = await renderApp([BASIC, ADVANCED], store);
+    expect(textOf(tree, 'boot-current')).toBe('b04');
+
+    await press(tree, 'reset-game');
+
+    // Progress is erased and re-initialized at Basic level 1 (auto-start).
+    expect(textOf(tree, 'boot-current')).toBe('b01');
+    expect(textOf(tree, 'reset-result')).toBe('b01');
+    const persisted = await loadProgress(store);
+    expect(persisted?.currentLevelId).toBe('b01');
+    expect(persisted?.startingPoint).toEqual({ trackId: 'basic', levelNumber: 1 });
+    expect(persisted?.completedLevelIds).toEqual([]);
+    // Settings survive a reset.
+    expect(await loadSettings(store)).toEqual({ theme: 'light' });
+  });
+
+  it('leaves progress null (start choice) when multiple tracks are eligible', async () => {
+    const store = createMemoryStore();
+    // Simulate a started game by booting with saved progress, then reset.
+    const saved: Progress = {
+      version: CURRENT_PROGRESS_VERSION,
+      startingPoint: { trackId: 'basic', levelNumber: 1 },
+      completedLevelIds: ['b01'],
+      currentLevelId: 'b02',
+      activeSession: null,
+      weaknessQueue: {},
+      wrongAnswers: {},
+    };
+    await store.setItem('egg:progress', JSON.stringify(saved));
+    const tree2 = await renderApp([BASIC, INTERMEDIATE], store);
+    expect(textOf(tree2, 'boot-current')).toBe('b02');
+
+    await press(tree2, 'reset-game');
+
+    // With two eligible tracks the reset re-enters the StartPoint choice.
+    expect(textOf(tree2, 'boot-current')).toBe('null');
+    expect(textOf(tree2, 'reset-result')).toBe('null');
+    expect(await loadProgress(store)).toBeNull();
   });
 });

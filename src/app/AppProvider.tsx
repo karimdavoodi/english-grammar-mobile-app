@@ -12,13 +12,21 @@
  *   - exposes `chooseStartingPoint` / `applyProgress` so screens can persist
  *     progress transitions.
  *
+ * Task 12 adds the theme system and settings/reset:
+ *   - the resolved theme (device | light | dark) is provided to the navigator
+ *     through ThemeProvider, with a themed StatusBar;
+ *   - `applySettings` replaces + persists settings (survive a reset);
+ *   - `resetGame` clears `egg:progress`, re-runs the first-launch boot decision
+ *     (auto-start for Basic-only v1, StartPoint choice for multi-track), and
+ *     resolves to the new progress so the caller can route to it.
+ *
  * The full provider wiring / load-time validation story (Task 13) builds on
  * this. Content is the validated bundled `tracks` (content/index.ts validates
  * at import); the `tracks` prop is injectable for tests.
  */
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 import { tracks as contentTracks } from '../content';
 import type { Track } from '../content/types';
 import { createInitialProgress, resolveBootProgress } from '../state/reducers';
@@ -26,10 +34,14 @@ import {
   DEFAULT_STORE,
   loadProgress,
   loadSettings,
+  resetProgress,
   saveProgress,
+  saveSettings,
   type StorageLike,
 } from '../state/storage';
 import { DEFAULT_SETTINGS, type Progress, type Settings } from '../state/types';
+import { darkColors, lightColors } from '../theme/themes';
+import { ThemeProvider, useTheme } from '../theme/ThemeProvider';
 import { AppContext, type AppContextValue } from './AppContext';
 
 export interface AppProviderProps {
@@ -95,6 +107,29 @@ export function AppProvider({
     [store],
   );
 
+  const applySettings = useCallback(
+    async (next: Settings) => {
+      setSettings(next);
+      await saveSettings(next, store);
+    },
+    [store],
+  );
+
+  const resetGame = useCallback(async (): Promise<Progress | null> => {
+    await resetProgress(store);
+    // Re-run the first-launch boot decision against no saved progress: Basic-only
+    // v1 auto-starts a fresh progress at level 1 (and persists it so a relaunch
+    // finds it); multiple eligible tracks leave progress null → StartPoint choice.
+    const next = resolveBootProgress(tracks, null);
+    if (next !== null) {
+      setProgress(next);
+      await saveProgress(next, store);
+    } else {
+      setProgress(null);
+    }
+    return next;
+  }, [tracks, store]);
+
   const value = useMemo<AppContextValue>(
     () => ({
       tracks,
@@ -103,21 +138,39 @@ export function AppProvider({
       ready,
       chooseStartingPoint,
       applyProgress,
+      applySettings,
+      resetGame,
     }),
-    [tracks, settings, progress, ready, chooseStartingPoint, applyProgress],
+    [tracks, settings, progress, ready, chooseStartingPoint, applyProgress, applySettings, resetGame],
   );
 
   return (
     <AppContext.Provider value={value}>
-      {ready ? children : <LoadingView />}
+      {ready ? (
+        <ThemeProvider preference={settings?.theme ?? 'device'}>
+          <ThemedStatusBar />
+          {children}
+        </ThemeProvider>
+      ) : (
+        <LoadingView />
+      )}
     </AppContext.Provider>
   );
 }
 
+/** Status bar matching the resolved theme (light icons on dark, dark on light). */
+function ThemedStatusBar() {
+  const { scheme } = useTheme();
+  return <StatusBar barStyle={scheme === 'dark' ? 'light-content' : 'dark-content'} />;
+}
+
 function LoadingView() {
+  const dark = useColorScheme() === 'dark';
+  const colors = dark ? darkColors : lightColors;
   return (
-    <View style={styles.loading}>
-      <ActivityIndicator testID="app-loading" size="large" />
+    <View style={[styles.loading, { backgroundColor: colors.background }]}>
+      <StatusBar barStyle={dark ? 'light-content' : 'dark-content'} />
+      <ActivityIndicator testID="app-loading" size="large" color={colors.textMuted} />
     </View>
   );
 }
@@ -127,6 +180,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ffffff',
   },
 });

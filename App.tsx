@@ -3,24 +3,20 @@
  *
  * Task 9 replaces the NewAppScreen scaffold with the real composition root:
  * SafeAreaProvider → AppProvider (loads content + state, decides the boot
- * route) → AppNavigator (native-stack). The full provider/startup polish lands
- * in Task 13.
+ * route) → AppNavigator (native-stack). Task 12 moves the StatusBar into
+ * AppProvider so it follows the resolved theme (device | light | dark).
  *
  * @format
  */
 
 import React from 'react';
-import { StatusBar, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AppProvider } from './src/app/AppProvider';
 import { AppNavigator } from './src/navigation/AppNavigator';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <AppProvider>
         <AppNavigator />
       </AppProvider>

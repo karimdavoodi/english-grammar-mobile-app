@@ -187,3 +187,22 @@ Tests (12 new): `src/screens/__tests__/LevelMapScreen.test.tsx` — track sectio
 Note: on-device verification (`npm run android`) still needs an emulator/device and lands in the Task 14 regression; the map's lock/pass/current indicators and replay behavior are verified by the selector tests (Task 11) and these screen tests.
 
 Verification: `npm test -- LevelMapScreen` 12/12 pass · `npm test` 207/207 pass (12 new; existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.
+
+## Task 12: Settings (reset, theme) + theme system — DONE
+
+Built the theme system and the Settings screen per `docs/mvp-plan.md` Task 12, `docs/use-cases` "Settings — Theme" / "Settings — Reset Progress", and `docs/schema` §2 (settings survive a reset):
+
+- `src/theme/tokens.ts` — design tokens (spacing, typography, radii), the scheme-independent structure half of the theme system.
+- `src/theme/themes.ts` — a single semantic `ThemeColors` palette (surfaces, text, borders, primary/success/danger/warning families, badge chips) with `lightColors` (the exact colors the app shipped with) and `darkColors` (a slate scheme with brighter accents tuned for dark surfaces).
+- `src/theme/ThemeProvider.tsx` — the `device | light | dark` context: resolves the preference against the device scheme (`useColorScheme`), exposes `useTheme()` (with a light-theme fallback when no provider is present, so presentational fixtures keep rendering) and `useThemedStyles(factory)` (palette-driven styles, memoized per scheme).
+- **No hardcoded colors anywhere in the UI** — every screen, component, the navigator's defensive views, and the provider loading view consume the palette (verified by a grep sweep). The `StatusBar` now follows the resolved theme via a `ThemedStatusBar` inside the provider.
+- `src/app/AppContext.ts` + `src/app/AppProvider.tsx` — `applySettings(next)` replaces + persists settings (survive a reset); `resetGame()` clears `egg:progress`, re-runs the first-launch boot decision (Basic-only v1 auto-starts a fresh progress at level 1 and persists it; multiple eligible tracks leave progress null → StartPoint choice), and resolves to the new progress so the caller can route to it.
+- `src/screens/SettingsScreen.tsx` — presentational (no navigation/storage/reducer imports): the appearance choice (Device / Light / Dark, current one marked with a ✓ and `accessibilityState.selected`), a "Review mistakes" link (docs/use-cases "Review Screen" is opened from Settings), a confirmed "Reset game" action (native Alert dialog appears before anything is erased — the Cancel path has no callback; only Confirm calls `onReset`), and a back affordance. Built on the theme tokens.
+- `src/navigation/types.ts` + `src/navigation/AppNavigator.tsx` — registered the `Settings` route; `LevelMapRoute` gains a Settings entry (the map is the home hub); `SettingsRoute` wires `onChangeTheme → applySettings`, `onOpenReview → navigate('Review')`, and `onReset` to `resetGame` + `navigation.reset` — replacing the whole stack with the re-initialized boot route (auto-started current level for Basic-only v1, or the StartPoint choice for multi-track), so the player cannot go back into pre-reset screens.
+- `App.tsx` — the root is now just `SafeAreaProvider → AppProvider → AppNavigator`; the StatusBar moved into the provider so it follows the pinned theme.
+
+Tests (18 new): `src/theme/__tests__/ThemeProvider.test.tsx` (6 — pinned light/dark ignore the device, device follows the mocked `useColorScheme`, no-provider fallback, `useThemedStyles` palette styles), `src/screens/__tests__/SettingsScreen.test.tsx` (7 — theme options + selected mark, `onChangeTheme` payloads, Review link, confirmed reset via the Alert mock, back affordance, accessibility), `src/app/__tests__/AppProvider.test.tsx` (+3 — `applySettings` updates + persists the theme; `resetGame` clears progress and re-auto-starts with settings surviving; multi-track reset leaves progress null → start choice), and `src/screens/__tests__/LevelMapScreen.test.tsx` (+2 — Settings entry tap → `onOpenSettings`, omitted without the prop).
+
+Note: on-device theme cycling and reset (`npm run android`) still needs an emulator/device and lands in the Task 14 regression; the device/light/dark resolution, the confirmed reset flow, and settings-survive-reset are verified by the tests above.
+
+Verification: `npm test -- ThemeProvider SettingsScreen` 13/13 pass · `npm test` 225/225 pass (18 new; existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.

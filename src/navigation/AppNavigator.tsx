@@ -13,9 +13,15 @@
  * unlocked level `push`es a fresh LevelPlay so replayed levels always mount
  * cleanly (the play screen resolves its session once on mount).
  *
+ * Task 12 adds Settings (theme + reset): the map gains a Settings entry, and the
+ * Settings route offers the appearance choice, a Review link, and a confirmed
+ * reset that replaces the whole stack with the re-initialized boot route
+ * (auto-started current level for Basic-only v1, or the StartPoint choice).
+ * All defensive "missing" views consume the theme palette like every screen.
+ *
  * Content and state come from the AppContext (`useApp`): the navigator stays
  * thin, resolving content ids to Level/Track objects and handing presentational
- * screens their props. Review lands in Task 11; Settings lands in Task 12.
+ * screens their props.
  */
 
 import React, { useCallback, useMemo } from 'react';
@@ -27,10 +33,13 @@ import {
 } from '@react-navigation/native-stack';
 import { useApp } from '../app/AppContext';
 import { findLevelById } from '../content';
+import { useThemedStyles } from '../theme/ThemeProvider';
+import type { ThemeColors } from '../theme/themes';
 import type { RootStackParamList } from './types';
 import { LevelMapScreen } from '../screens/LevelMapScreen';
 import { ResultScreen } from '../screens/ResultScreen';
 import { ReviewScreen } from '../screens/ReviewScreen';
+import { SettingsScreen } from '../screens/SettingsScreen';
 import { StartPointScreen } from '../screens/StartPointScreen';
 import { LevelPlayScreen, type LevelEndResult } from '../screens/LevelPlayScreen';
 import {
@@ -41,6 +50,16 @@ import {
 } from '../state/reducers';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+/** Defensive placeholder for a route with no progress / unknown content. */
+function MissingView({ message }: { message: string }) {
+  const styles = useThemedStyles(makeStyles);
+  return (
+    <View style={styles.missing}>
+      <Text style={styles.missingText}>{message}</Text>
+    </View>
+  );
+}
 
 /** First-launch start choice — offers each eligible track at its level 1. */
 function StartPointRoute({
@@ -100,11 +119,7 @@ function LevelPlayRoute({
   if (!level || !progress) {
     // Defensive: an unknown level or missing progress should not reach here.
     // (Unknown-current-level repair is a Task 11 selector concern.)
-    return (
-      <View style={styles.missing}>
-        <Text style={styles.missingText}>This level is not available.</Text>
-      </View>
-    );
+    return <MissingView message="This level is not available." />;
   }
 
   return (
@@ -125,40 +140,63 @@ function LevelMapRoute({
   if (!progress) {
     // No progress yet means nothing to map — the boot flow routes to the
     // starting point instead, so this is defensive only.
-    return (
-      <View style={styles.missing}>
-        <Text style={styles.missingText}>Nothing to explore yet.</Text>
-      </View>
-    );
+    return <MissingView message="Nothing to explore yet." />;
   }
   return (
     <LevelMapScreen
       tracks={tracks}
       progress={progress}
       onSelectLevel={levelId => navigation.push('LevelPlay', { levelId })}
+      onOpenSettings={() => navigation.navigate('Settings')}
       onBack={() => navigation.goBack()}
     />
   );
 }
 
-/** Wrong-answer study history — the Task 11 Review screen (Settings links here in Task 12). */
+/** Wrong-answer study history — the Task 11 Review screen (Settings links here). */
 function ReviewRoute({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'Review'>) {
   const { tracks, progress } = useApp();
   if (!progress) {
     // No progress yet means no mistakes — nothing to review.
-    return (
-      <View style={styles.missing}>
-        <Text style={styles.missingText}>Nothing to review yet.</Text>
-      </View>
-    );
+    return <MissingView message="Nothing to review yet." />;
   }
   return (
     <ReviewScreen
       tracks={tracks}
       wrongAnswers={progress.wrongAnswers}
       weaknessQueue={progress.weaknessQueue}
+      onBack={() => navigation.goBack()}
+    />
+  );
+}
+
+/** Settings — theme choice, Review link, and confirmed reset (Task 12). */
+function SettingsRoute({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList, 'Settings'>) {
+  const { settings, applySettings, resetGame } = useApp();
+
+  const handleReset = useCallback(async () => {
+    const next = await resetGame();
+    // A reset replaces the whole stack with the re-initialized boot route:
+    // Basic-only v1 auto-starts at the fresh current level; multiple eligible
+    // tracks leave progress null and show the StartPoint choice.
+    navigation.reset({
+      index: 0,
+      routes: next
+        ? [{ name: 'LevelPlay', params: { levelId: next.currentLevelId } }]
+        : [{ name: 'StartPoint' }],
+    });
+  }, [resetGame, navigation]);
+
+  return (
+    <SettingsScreen
+      themePreference={settings.theme}
+      onChangeTheme={theme => applySettings({ theme })}
+      onReset={handleReset}
+      onOpenReview={() => navigation.navigate('Review')}
       onBack={() => navigation.goBack()}
     />
   );
@@ -189,11 +227,7 @@ function ResultRoute({
   }, [nextLevel, navigation]);
 
   if (!level) {
-    return (
-      <View style={styles.missing}>
-        <Text style={styles.missingText}>This level is not available.</Text>
-      </View>
-    );
+    return <MissingView message="This level is not available." />;
   }
 
   return (
@@ -223,20 +257,22 @@ export function AppNavigator() {
         <Stack.Screen name="Result" component={ResultRoute} />
         <Stack.Screen name="LevelMap" component={LevelMapRoute} />
         <Stack.Screen name="Review" component={ReviewRoute} />
+        <Stack.Screen name="Settings" component={SettingsRoute} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  missing: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ffffff',
-  },
-  missingText: {
-    color: '#6b7280',
-    fontSize: 16,
-  },
-});
+const makeStyles = (colors: ThemeColors) =>
+  StyleSheet.create({
+    missing: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: colors.background,
+    },
+    missingText: {
+      color: colors.textMuted,
+      fontSize: 16,
+    },
+  });

@@ -16,6 +16,8 @@
  * selector, so it tests with fixture data like the Task 7A/8 presentational
  * screens. The back affordance is an `onBack` callback (the navigator provides
  * `goBack`).
+ *
+ * Task 12: all colors come from the theme palette.
  */
 
 import React, { useMemo } from 'react';
@@ -23,6 +25,9 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { Track } from '../content/types';
 import { reviewGroups } from '../state/selectors';
 import type { WeaknessEntry, WrongAnswerEntry } from '../state/types';
+import { useThemedStyles } from '../theme/ThemeProvider';
+import type { ThemeColors } from '../theme/themes';
+import { tokens } from '../theme/tokens';
 
 export interface ReviewScreenProps {
   /** The bundled tracks — wrong-answer ids resolve back into this content. */
@@ -41,6 +46,7 @@ export function ReviewScreen({
   weaknessQueue,
   onBack,
 }: ReviewScreenProps) {
+  const styles = useThemedStyles(makeStyles);
   const queuedRules = useMemo(
     () => new Set(Object.keys(weaknessQueue)),
     [weaknessQueue],
@@ -176,153 +182,154 @@ export function ReviewScreen({
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
-  header: {
-    padding: 16,
-    backgroundColor: '#eff6ff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#bfdbfe',
-  },
-  heading: {
-    fontSize: 26,
-    fontWeight: '700',
-    color: '#1e3a8a',
-    marginBottom: 4,
-  },
-  subheading: {
-    fontSize: 14,
-    lineHeight: 20,
-    color: '#1e40af',
-  },
-  list: {
-    flex: 1,
-  },
-  listContent: {
-    padding: 16,
-  },
-  empty: {
-    alignItems: 'center',
-    paddingVertical: 48,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    backgroundColor: '#f9fafb',
-  },
-  emptyTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#374151',
-    marginBottom: 8,
-  },
-  emptyBody: {
-    fontSize: 14,
-    lineHeight: 20,
-    color: '#6b7280',
-    textAlign: 'center',
-  },
-  group: {
-    marginBottom: 20,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    backgroundColor: '#ffffff',
-    padding: 16,
-  },
-  groupHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 4,
-  },
-  ruleTitle: {
-    flex: 1,
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#111827',
-    marginRight: 8,
-  },
-  weakBadge: {
-    backgroundColor: '#fef3c7',
-    borderRadius: 6,
-    paddingVertical: 3,
-    paddingHorizontal: 8,
-  },
-  weakBadgeLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#92400e',
-  },
-  ruleTeaching: {
-    fontSize: 14,
-    lineHeight: 20,
-    color: '#374151',
-    marginBottom: 2,
-  },
-  ruleExample: {
-    fontSize: 13,
-    fontStyle: 'italic',
-    lineHeight: 19,
-    color: '#6b7280',
-    marginBottom: 12,
-  },
-  entry: {
-    borderTopWidth: 1,
-    borderTopColor: '#f3f4f6',
-    paddingTop: 12,
-    marginTop: 12,
-  },
-  prompt: {
-    fontSize: 15,
-    fontWeight: '600',
-    lineHeight: 21,
-    color: '#111827',
-    marginBottom: 6,
-  },
-  answerRow: {
-    fontSize: 14,
-    lineHeight: 20,
-    color: '#4b5563',
-  },
-  missCount: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#b45309',
-    marginTop: 4,
-    marginBottom: 6,
-  },
-  why: {
-    marginTop: 6,
-  },
-  whyWrong: {
-    fontSize: 13,
-    lineHeight: 19,
-    color: '#b91c1c',
-    marginBottom: 4,
-  },
-  whyRight: {
-    fontSize: 13,
-    lineHeight: 19,
-    color: '#15803d',
-  },
-  back: {
-    margin: 16,
-    alignSelf: 'stretch',
-    backgroundColor: '#2563eb',
-    borderRadius: 8,
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
-  backPressed: {
-    backgroundColor: '#1d4ed8',
-  },
-  backLabel: {
-    color: '#ffffff',
-    fontWeight: '600',
-    fontSize: 15,
-  },
-});
+const makeStyles = (colors: ThemeColors) =>
+  StyleSheet.create({
+    screen: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    header: {
+      padding: tokens.spacing.lg,
+      backgroundColor: colors.primaryContainer,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.primaryBorder,
+    },
+    heading: {
+      fontSize: tokens.typography.heading,
+      fontWeight: '700',
+      color: colors.primaryOnContainer,
+      marginBottom: 4,
+    },
+    subheading: {
+      fontSize: tokens.typography.body,
+      lineHeight: 20,
+      color: colors.primaryOnContainerMuted,
+    },
+    list: {
+      flex: 1,
+    },
+    listContent: {
+      padding: tokens.spacing.lg,
+    },
+    empty: {
+      alignItems: 'center',
+      paddingVertical: 48,
+      paddingHorizontal: 24,
+      borderRadius: tokens.radii.xl,
+      borderWidth: 1,
+      borderColor: colors.border,
+      backgroundColor: colors.surfaceMuted,
+    },
+    emptyTitle: {
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.textSecondary,
+      marginBottom: 8,
+    },
+    emptyBody: {
+      fontSize: tokens.typography.body,
+      lineHeight: 20,
+      color: colors.textMuted,
+      textAlign: 'center',
+    },
+    group: {
+      marginBottom: 20,
+      borderRadius: tokens.radii.xl,
+      borderWidth: 1,
+      borderColor: colors.border,
+      backgroundColor: colors.surface,
+      padding: tokens.spacing.lg,
+    },
+    groupHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 4,
+    },
+    ruleTitle: {
+      flex: 1,
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.textPrimary,
+      marginRight: tokens.spacing.sm,
+    },
+    weakBadge: {
+      backgroundColor: colors.warningBadge,
+      borderRadius: tokens.radii.sm,
+      paddingVertical: 3,
+      paddingHorizontal: tokens.spacing.sm,
+    },
+    weakBadgeLabel: {
+      fontSize: tokens.typography.caption,
+      fontWeight: '600',
+      color: colors.warningBadgeText,
+    },
+    ruleTeaching: {
+      fontSize: tokens.typography.body,
+      lineHeight: 20,
+      color: colors.textSecondary,
+      marginBottom: 2,
+    },
+    ruleExample: {
+      fontSize: tokens.typography.small,
+      fontStyle: 'italic',
+      lineHeight: 19,
+      color: colors.textMuted,
+      marginBottom: tokens.spacing.md,
+    },
+    entry: {
+      borderTopWidth: 1,
+      borderTopColor: colors.borderSubtle,
+      paddingTop: tokens.spacing.md,
+      marginTop: tokens.spacing.md,
+    },
+    prompt: {
+      fontSize: 15,
+      fontWeight: '600',
+      lineHeight: 21,
+      color: colors.textPrimary,
+      marginBottom: 6,
+    },
+    answerRow: {
+      fontSize: tokens.typography.body,
+      lineHeight: 20,
+      color: colors.textTertiary,
+    },
+    missCount: {
+      fontSize: tokens.typography.small,
+      fontWeight: '600',
+      color: colors.warningText,
+      marginTop: 4,
+      marginBottom: 6,
+    },
+    why: {
+      marginTop: 6,
+    },
+    whyWrong: {
+      fontSize: tokens.typography.small,
+      lineHeight: 19,
+      color: colors.dangerText,
+      marginBottom: 4,
+    },
+    whyRight: {
+      fontSize: tokens.typography.small,
+      lineHeight: 19,
+      color: colors.successPressed,
+    },
+    back: {
+      margin: tokens.spacing.lg,
+      alignSelf: 'stretch',
+      backgroundColor: colors.primary,
+      borderRadius: tokens.radii.md,
+      paddingVertical: tokens.spacing.md,
+      alignItems: 'center',
+    },
+    backPressed: {
+      backgroundColor: colors.primaryPressed,
+    },
+    backLabel: {
+      color: colors.textOnAccent,
+      fontWeight: '600',
+      fontSize: 15,
+    },
+  });

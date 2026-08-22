@@ -5,12 +5,16 @@
  * eligible starting point, the player picks one and starts at its level 1. With
  * only one eligible track the AppProvider auto-starts and this screen is never
  * shown. Presentational: no navigation, storage, or reducer imports, so it tests
- * with fixture data like the Task 7A/8 presentational screens.
+ * with fixture data like the other presentational screens.
+ *
+ * Task 12: all colors come from the theme palette.
  */
 
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import type { Track } from '../content/types';
+import { useThemedStyles } from '../theme/ThemeProvider';
+import type { ThemeColors } from '../theme/themes';
 
 export interface StartPointScreenProps {
   /** Eligible starting tracks — only these are offered as choices. */
@@ -20,6 +24,7 @@ export interface StartPointScreenProps {
 }
 
 export function StartPointScreen({ tracks, onChoose }: StartPointScreenProps) {
+  const styles = useThemedStyles(makeStyles);
   return (
     <View style={styles.screen} testID="start-point-screen">
       <View style={styles.card} accessibilityRole="summary">
@@ -53,52 +58,53 @@ export function StartPointScreen({ tracks, onChoose }: StartPointScreenProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    padding: 16,
-    justifyContent: 'center',
-  },
-  card: {
-    backgroundColor: '#eff6ff',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#bfdbfe',
-    padding: 24,
-    marginBottom: 24,
-  },
-  heading: {
-    fontSize: 26,
-    fontWeight: '700',
-    color: '#1e3a8a',
-    marginBottom: 8,
-  },
-  subheading: {
-    fontSize: 15,
-    lineHeight: 22,
-    color: '#1e40af',
-  },
-  choice: {
-    alignSelf: 'stretch',
-    backgroundColor: '#2563eb',
-    borderRadius: 8,
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    marginBottom: 12,
-    alignItems: 'flex-start',
-  },
-  choicePressed: {
-    backgroundColor: '#1d4ed8',
-  },
-  choiceName: {
-    color: '#ffffff',
-    fontWeight: '700',
-    fontSize: 18,
-  },
-  choiceLabel: {
-    color: '#dbeafe',
-    fontSize: 14,
-    marginTop: 2,
-  },
-});
+const makeStyles = (colors: ThemeColors) =>
+  StyleSheet.create({
+    screen: {
+      flex: 1,
+      backgroundColor: colors.background,
+      padding: 16,
+      justifyContent: 'center',
+    },
+    card: {
+      backgroundColor: colors.primaryContainer,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: colors.primaryBorder,
+      padding: 24,
+      marginBottom: 24,
+    },
+    heading: {
+      fontSize: 26,
+      fontWeight: '700',
+      color: colors.primaryOnContainer,
+      marginBottom: 8,
+    },
+    subheading: {
+      fontSize: 15,
+      lineHeight: 22,
+      color: colors.primaryOnContainerMuted,
+    },
+    choice: {
+      alignSelf: 'stretch',
+      backgroundColor: colors.primary,
+      borderRadius: 8,
+      paddingVertical: 16,
+      paddingHorizontal: 20,
+      marginBottom: 12,
+      alignItems: 'flex-start',
+    },
+    choicePressed: {
+      backgroundColor: colors.primaryPressed,
+    },
+    choiceName: {
+      color: colors.textOnAccent,
+      fontWeight: '700',
+      fontSize: 18,
+    },
+    choiceLabel: {
+      color: colors.textOnAccentMuted,
+      fontSize: 14,
+      marginTop: 2,
+    },
+  });
