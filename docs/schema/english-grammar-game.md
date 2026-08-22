@@ -13,7 +13,7 @@ Two distinct worlds:
 
 ```typescript
 // ── Tracks (chapters) ──────────────────────────────────────────────
-type TrackId = 'basic' | 'intermediate' | 'advanced';
+type TrackId = string; // content-defined stable ID; e.g. 'basic'
 
 interface Track {
   id: TrackId;
@@ -21,6 +21,7 @@ interface Track {
   name: string;         // 'Basic'
   label: string;        // user-facing: 'Beginner'
   levels: Level[];      // ordered by level.number
+  eligibleStartingPoint: boolean; // controls onboarding choices; Basic is true in the MVP
 }
 
 // ── Levels ────────────────────────────────────────────────────────
@@ -30,7 +31,7 @@ interface Level {
   number: number;       // 1-based, sequential within the track
   title: string;        // e.g. 'Past Perfect'
   topic: Topic;         // the single grammar topic this level teaches
-  questions: Question[]; // the bank (~12) — must be ≥ mercy cap (12)
+  questions: Question[]; // the bank (≥ mercy cap; recommended target ~12)
 }
 
 // ── Topic / Lesson (the teaching card) ────────────────────────────
@@ -63,9 +64,9 @@ interface Question {
 
 ### How the `rule` tag powers the mechanics
 
-- **Adaptive serving (within a level):** pick the next unasked question by priority — (1) a variant of the rule just missed, (2) any rule in the Weakness Queue (served marked *"Review"*), (3) otherwise random from the bank.
+- **Adaptive serving (within a level):** pick the next unasked question by priority — (1) a same-level remediation variant of the rule just missed, (2) any rule already in the Weakness Queue (served marked *"Review"*), (3) otherwise random from the bank.
 - **Weakness Queue (across levels):** keyed by `rule`. Every wrong answer upserts its rule immediately (`missCount++`, `reviewStreak` reset to 0) — whether the level is later passed or mercy-ended. A question resurfaces marked *"Review"* when its `rule` is in the queue — even if that rule's *home* is an earlier level.
-- **Lesson card content:** a wrong answer shows the level's `topic.summary` plus the `TopicRule` whose `rule` matches the question — a global lookup, so a review question pulls the explanation from its *home* topic, not the current level's.
+- **Lesson card content:** a wrong answer shows the current level's `topic.summary` plus the `TopicRule` whose `rule` matches the question. For a Review question, the UI labels the rule explanation as a review of an earlier topic so the two contexts are not confused.
 - **Review screen:** wrong-answer records group by the question's `rule`.
 
 ### Content validation (run at load/dev-time, fail fast)
@@ -73,16 +74,22 @@ interface Question {
 `validateContent()` must throw on any of these — a safety net for AI-generated content:
 
 - [ ] `choices.length === 4` and `correctIndex` in `0..3`
-- [ ] No duplicate `question.id`, `level.id`, `rule` tags
+- [ ] No duplicate `question.id`, `level.id`, or `TopicRule.rule` definitions
+- [ ] No duplicate `track.id` values or `track.order` values
+- [ ] Every `Level.trackId` matches its containing track
+- [ ] Every `Question.levelId` matches its containing level
 - [ ] Every `Question.rule` resolves to a `TopicRule` somewhere in the corpus
 - [ ] `level.number` is sequential (1, 2, 3, …) within each track
-- [ ] Each level's bank size ≥ 12 (never recycle mid-level before the mercy cap)
+- [ ] At least one track is marked `eligibleStartingPoint`, and each eligible track has level 1
+- [ ] Each level's bank size ≥ the configured mercy cap (12 in v1; never recycle mid-level before the cap)
 - [ ] Rules that recur across levels exist in **both** their home topic and the recurring level's bank
 - [ ] `choiceExplanations.length === 4`, positionally aligned with `choices`
 - [ ] All 4 choice explanations are non-empty — a question with no "why" ships broken teaching
 - [ ] `choiceExplanations[correctIndex]` states why that choice is right (reviewer check — can't be fully automated)
 
-### Example — one level
+### Example — abbreviated level fragment
+
+This fragment intentionally shows two questions for readability. A shippable level must contain at least 12 questions in v1.
 
 ```json
 {
@@ -154,12 +161,13 @@ interface Settings {
 // ── Progress ──────────────────────────────────────────────────────
 interface Progress {
   version: number;              // schema version — gate for migrations
-  startingPoint: {              // from the start-higher choice
+  startingPoint: {              // from the content-defined start choice
     trackId: TrackId;
     levelNumber: number;        // 1-based, within the chosen track (e.g. 1 for Beginner, 1 for Advanced)
   };
   completedLevelIds: string[];  // passed levels — drives the map indicators
-  currentLevelId: string;       // where the player is next (advances past passed AND mercy-ended levels)
+  currentLevelId: string;       // frontier/next level; advances past passed AND mercy-ended levels
+  activeSession: LevelSession | null; // resumable in-progress level, if any
   weaknessQueue: Record<string, WeaknessEntry>;  // keyed by rule tag
   wrongAnswers: Record<string, WrongAnswerEntry>; // keyed by question id
 }
@@ -178,6 +186,16 @@ interface WrongAnswerEntry {
   lastMissedAt: string;   // ISO timestamp
 }
 
+interface LevelSession {
+  levelId: string;
+  questionIds: string[];        // stable session order; questions are not reused in a session
+  nextQuestionIndex: number;
+  streak: number;
+  totalCorrect: number;
+  answeredCount: number;        // includes incorrect answers; max 12 in v1
+  sameLevelMissesByRule: Record<string, number>;
+}
+
 // ── Root ──────────────────────────────────────────────────────────
 interface AppState {
   settings: Settings;
@@ -189,9 +207,11 @@ interface AppState {
 
 - Single AsyncStorage key per concern: `egg:settings`, `egg:progress` — small, atomic, cheap.
 - `progress.version` lets future versions migrate saved games when the shape changes.
-- Content lookups always go **by id** into the bundled content — state never duplicates question text, only references ids. This is what makes adding levels in a release safe (old saved ids still resolve; unknown ids are ignored gracefully).
+- Content lookups always go **by id** into the bundled content — state never duplicates question text, only references ids. Adding levels in a release is safe because old saved IDs still resolve. Unknown historical question IDs may be omitted from Review, but an unknown current level must be repaired to the first valid level at or after the saved frontier; if none exists, show completion.
 - Reset = clear `egg:progress` (and re-enter the starting-point choice). Settings survive a reset.
-- **Unlock is derived, never stored:** a level is unlocked when its map position is ≤ `currentLevelId` (or it's in `completedLevelIds`). Passed, mercy-ended, and skipped-earlier levels all land in the same "unlocked but not passed" bucket — replayable, no pass mark. Mercy-end is not a separate persisted state. Levels whose rules appear in `weaknessQueue` may show a "needs review" indicator.
+- **Unlock is derived, never stored:** flatten tracks by ascending `track.order`, then levels by ascending `level.number`. A level is unlocked when it occurs at or before the saved frontier, or its ID is in `completedLevelIds`. Passed levels show a pass mark; mercy-ended and skipped-earlier levels are unlocked but not passed. Mercy-end is not a separate persisted state. Levels whose rules appear in `weaknessQueue` may show a "needs review" indicator.
+- `activeSession` is cleared when a level passes or mercy-ends and is restored after app restart. It is reset when the player deliberately abandons a session.
+- A level passes when `streak >= 3` or `totalCorrect >= 8`; otherwise a session mercy-ends when `answeredCount >= 12`. Review and remediation questions count normally toward all level counters.
 
 ---
 
@@ -200,9 +220,7 @@ interface AppState {
 ```
 src/
   content/
-    tracks/basic.ts          # or basic.json — one file per track
-    tracks/intermediate.ts
-    tracks/advanced.ts
+    tracks/*.ts              # or JSON — content-defined tracks
     index.ts                 # assembles all tracks + runs validateContent()
   state/
     storage.ts               # AsyncStorage load/save, versioning
@@ -210,4 +228,4 @@ src/
   ...
 ```
 
-New levels ship as edits to these content files only — no screen, no logic, no schema changes.
+New levels and tracks ship as edits/additions to these content files only — no screen, progression logic, or schema changes. The loader derives the map sequence and onboarding choices from the content metadata.

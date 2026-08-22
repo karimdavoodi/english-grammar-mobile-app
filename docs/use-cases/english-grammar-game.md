@@ -9,6 +9,10 @@ Behavioral spec derived from `docs/ideas/english-grammar-game.md`.
 - Weakness Queue: a rule leaves the queue after **2 correct review answers**.
 - Re-teach: the lesson card re-shows before a question when its rule has been missed **2 times** in the current level.
 
+**Progression contract:** tracks and levels form one ordered sequence using `track.order`, then `level.number`. A player may start at any bundled track marked as an eligible starting point. All levels before that point are unlocked for practice; only later levels are locked. Passing or mercy-ending a level advances the frontier to the next level in this sequence. If no next level is bundled, the player sees the completion state and may replay any unlocked level.
+
+**MVP contract:** v1 bundles Basic content only. Therefore v1 starts at Basic level 1 and does not offer unavailable Intermediate or Advanced choices. The higher-start scenarios apply once those tracks are bundled.
+
 ---
 
 ## Feature: First Launch — Choosing a Starting Point
@@ -24,7 +28,7 @@ Behavioral spec derived from `docs/ideas/english-grammar-game.md`.
 - And the full level map is visible
 - And levels after level 1 are locked
 
-**Scenario: An experienced learner skips the Basic track**
+**Scenario: An experienced learner skips earlier tracks when available**
 - Given I am launching the app for the first time
 - When I choose "Advanced"
 - Then I start at Advanced level 1
@@ -42,6 +46,12 @@ Behavioral spec derived from `docs/ideas/english-grammar-game.md`.
 - When I relaunch the app
 - Then I am taken straight to my current level
 - And the start-higher screen is not shown
+
+**Scenario: Only one track is bundled**
+- Given the bundled content contains only Basic
+- When I launch the app for the first time
+- Then I start at Basic level 1
+- And no unavailable track is offered as a starting choice
 
 ---
 
@@ -84,6 +94,8 @@ Behavioral spec derived from `docs/ideas/english-grammar-game.md`.
 - Then the level ends
 - And the next level unlocks (nobody is locked forever)
 
+**Note:** Every answered question, including the twelfth question that triggers mercy completion, counts toward the cap. A mercy-ended level is unlocked but not passed and remains replayable.
+
 **Scenario: The pass screen explains why I passed**
 - Given I have just passed a level
 - When the pass screen appears
@@ -124,6 +136,8 @@ Behavioral spec derived from `docs/ideas/english-grammar-game.md`.
 - Then the topic lesson card is shown again before the question
 - And the question appears only after I dismiss the card
 
+**Rule:** Same-level remediation questions are not Review questions and do not increment `reviewStreak`. A question is marked Review only when it is selected because its rule was already in the Weakness Queue before the question was served. Two correct Review answers clear the weakness; any wrong answer resets its review streak to 0.
+
 ---
 
 ## Feature: Weakness Queue (cross-level)
@@ -156,6 +170,13 @@ Behavioral spec derived from `docs/ideas/english-grammar-game.md`.
 - Then the topic lesson card is shown
 - And the rule stays in the Weakness Queue
 
+**Scenario: A queued rule has no question in the current level**
+- Given a rule is in my Weakness Queue
+- And the current level's bank contains no question for that rule
+- When I play the level
+- Then the rule is not forced into this level
+- And it remains available for Review in a later level whose bank contains it
+
 ---
 
 ## Feature: Review Screen
@@ -171,6 +192,8 @@ Behavioral spec derived from `docs/ideas/english-grammar-game.md`.
 - And each entry shows the question, my last wrong choice, and the correct answer
 - And each entry shows how many times I missed it
 - And each entry explains why my choice was wrong and why the correct one is right
+
+The Review screen uses the most recent wrong choice for each question and retains the cumulative miss count. It is study history, not the active Weakness Queue; clearing a weakness does not delete wrong-answer history.
 
 **Scenario: Review screen with no mistakes**
 - Given I have never answered a question incorrectly
@@ -239,3 +262,9 @@ Behavioral spec derived from `docs/ideas/english-grammar-game.md`.
 - When I tap it on the map
 - Then I can replay it for review
 - And replaying does not re-lock the level
+
+**Scenario: Leaving a level before it ends**
+- Given I am partway through a level
+- When I leave the level or relaunch the app
+- Then the current level session is resumed from its saved question, streak, and total-correct count
+- And the session continues to use the same question order
