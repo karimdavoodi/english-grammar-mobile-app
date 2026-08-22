@@ -10,13 +10,30 @@
 
 import { validateContent } from './validate';
 import { basicTrack } from './tracks/basic';
-import type { Track } from './types';
+import type { Track, TopicRule } from './types';
 
 /** All bundled tracks, ordered by `track.order` on the map. */
 export const tracks: Track[] = [basicTrack];
 
 // Fail-fast at load: malformed AI-generated content must never reach the app.
 validateContent(tracks);
+
+/**
+ * Canonical rule registry — every `TopicRule.rule` tag in the corpus, mapped to
+ * its single definition. The validator guarantees rule definitions are globally
+ * unique, so this map is safe. Used to resolve a served/reviewed question's rule
+ * tag to its teaching content even when the tag's home is an earlier level.
+ */
+const RULE_REGISTRY: ReadonlyMap<string, TopicRule> = new Map(
+  tracks.flatMap(track =>
+    track.levels.flatMap(level => level.topic.rules.map(rule => [rule.rule, rule] as const)),
+  ),
+);
+
+/** Resolve a question's `rule` tag to its canonical `TopicRule`, if defined. */
+export function findRule(ruleTag: string): TopicRule | undefined {
+  return RULE_REGISTRY.get(ruleTag);
+}
 
 export { validateContent } from './validate';
 export { ContentValidationError, DEFAULT_MERCY_CAP } from './validate';

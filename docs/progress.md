@@ -83,3 +83,21 @@ Built the four presentational UI components per `docs/mvp-plan.md` Task 7A and `
 - `src/components/__tests__/components.test.tsx` — 16 tests covering four choices, correct/wrong feedback, disable-after-submission, lesson-card content, and accessible labels/roles.
 
 Verification: `npm test -- components` 16/16 pass · `npm test` 101/101 pass (existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.
+
+## Task 7B: Level play screen, persistence, and adaptive loop — DONE
+
+Built `LevelPlayScreen` around the pure machine and the Task 7A components, wiring the full question → answer → feedback → next loop with reducer-driven Weakness Queue / wrong-answer updates and persistence after every answer:
+
+- `src/state/reducers.ts` — the pure transitions the loop runs on:
+  - `startLevelSession(progress, levelId)` — resumes a saved session for the same level, or starts a fresh one (overwriting a different-level session).
+  - `applyAnswer({ progress, question, chosenIndex, mode, config, now })` — wraps `levelMachine.answerQuestion`; advances the session, upserts the Weakness Queue on any miss (`missCount++`, `reviewStreak → 0`), records the wrong-answer history, and advances `reviewStreak` **only** for a correct answer whose `mode` snapshot is `review` (remediation/normal never touch it). Reaching `REVIEW_CLEAR_STREAK` (2) clears the rule from the queue. Clears `activeSession` the moment the level ends so a finished level is never persisted as resumable.
+  - `abandonSession(progress)` — clears only `activeSession`; completed levels, weakness data, and wrong-answer history survive.
+  - `queuedRuleSet(progress)` — the serving `queuedRules` set.
+- `src/content/index.ts` — added `findRule(ruleTag)` (global rule registry from validated content) so the lesson card can resolve a served/reviewed question's rule even when its home is an earlier level.
+- `src/screens/LevelPlayScreen.tsx` — the screen: resolves the session synchronously on mount (resume or start), serves adaptively via `serving.serveNextQuestion` (remediation → review → random), honors the pre-answer `mode` snapshot (same-level remediation is never recorded as Review), shows the re-teach lesson before a question when `showLesson`, teaches-on-failure after a wrong answer, persists each transition through a serialized last-write-wins save (injectable store), and reports the level end via `onLevelEnd({ session, outcome })` after the final feedback is dismissed. `passConfig` and `random` are injectable for deterministic tests.
+- `src/state/__tests__/reducers.test.ts` — 15 tests: start/resume/overwrite, correct/wrong answer transitions, weakness upsert + reviewStreak reset, review-clear-at-2, remediation-never-review, mercy/pass clearing the session, abandon keeping history, and queued-rule serving input.
+- `src/screens/__tests__/LevelPlayScreen.test.tsx` — 9 tests: fresh serving + header, correct-feedback advance, wrong-answer lesson + immediate weakness persistence, remediation serving after a miss, resume (counters + no repeat of asked ids), confirmed abandon clearing only the active session, pass-by-streak and mercy-end `onLevelEnd` handoffs, and Review answers advancing `reviewStreak` while counting toward the level.
+
+Note: the on-device question → answer → feedback loop (`npm run android`) is not runnable yet — the screen needs the Task 9 navigator / Task 13 provider to be reachable. The loop is verified by the screen/reducer tests above; the manual Android pass lands at the Task 9 early native verification and Task 14 regression.
+
+Verification: `npm test -- reducers` 15/15 pass · `npm test -- LevelPlayScreen` 9/9 pass · `npm test` 125/125 pass (existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.

@@ -1,1 +1,375 @@
-// Level play screen: the question/answer/teach loop. (Stub — implemented in Task 7B.)
+/**
+ * LevelPlayScreen — the question → answer → feedback → next loop.
+ *
+ * Drives the pure machine (`levelMachine`) and adaptive serving (`serving`)
+ * with the Task 7A components, dispatching Weakness Queue / wrong-answer /
+ * review-streak updates through the pure reducers and persisting after every
+ * answer. The serving mode is snapshotted BEFORE the answer (serving.ts) and
+ * honored by `applyAnswer`, so a same-level remediation answer is never
+ * recorded as a Review answer.
+ *
+ * The screen owns the progress slice it is given: it resumes a saved session
+ * for this level, or starts a fresh one, and persists each transition through
+ * an injectable AsyncStorage-compatible store (a memory store in tests).
+ *
+ * Lifecycle:
+ *   serve → [re-teach lesson] → question → answer → feedback
+ *   feedback for a wrong answer shows the lesson card + the revealed question;
+ *   feedback for a correct answer shows the revealed question + "Next question".
+ *   Dismissing the final answer's feedback calls `onLevelEnd`; the caller
+ *   (Task 8 result flow) is responsible for routing to the result screen.
+ */
+
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { findRule } from '../content';
+import type { Level } from '../content/types';
+import { LessonCard } from '../components/LessonCard';
+import { ProgressHeader } from '../components/ProgressHeader';
+import { QuestionCard } from '../components/QuestionCard';
+import {
+  DEFAULT_PASS_CONFIG,
+  type AnswerOutcome,
+  type LevelSession,
+  type PassConfig,
+} from '../game/levelMachine';
+import { serveNextQuestion, type ServeResult } from '../game/serving';
+import {
+  abandonSession,
+  applyAnswer,
+  queuedRuleSet,
+  startLevelSession,
+} from '../state/reducers';
+import { DEFAULT_STORE, saveProgress, type StorageLike } from '../state/storage';
+import { hydrateSession, type Progress } from '../state/types';
+
+/** What the caller (Task 8 result flow) needs to route when a level ends. */
+export interface LevelEndResult {
+  session: LevelSession;
+  outcome: AnswerOutcome;
+}
+
+export interface LevelPlayScreenProps {
+  /** The level being played. */
+  level: Level;
+  /** The progress slice to play within — the screen owns and persists updates to it. */
+  initialProgress: Progress;
+  /** AsyncStorage-compatible store; inject a memory store in tests. */
+  store?: StorageLike;
+  /** Injectable randomness for adaptive serving (deterministic tests). */
+  random?: () => number;
+  /** Pass/mercy tuning (defaults to the game defaults). */
+  passConfig?: PassConfig;
+  /** Called once the level ends (pass or mercy) and the final feedback is dismissed. */
+  onLevelEnd?: (result: LevelEndResult) => void;
+  /** Called after a confirmed abandon has cleared the active session. */
+  onExit?: () => void;
+}
+
+type Phase = 'lesson' | 'question' | 'feedback' | 'ended';
+
+interface Feedback {
+  chosenIndex: number;
+  outcome: AnswerOutcome;
+  /** Wrong answer → the lesson card is shown alongside the revealed question. */
+  showLesson: boolean;
+}
+
+interface PlayState {
+  progress: Progress;
+  /** The hydrated machine session — post-answer once feedback is showing. */
+  session: LevelSession;
+  /** The current serve (question + immutable mode + re-teach flag). */
+  serve: ServeResult | null;
+  phase: Phase;
+  feedback: Feedback | null;
+}
+
+/** Resume the saved session for `level`, or start a fresh one, then serve. */
+function resolveInitial(
+  initialProgress: Progress,
+  level: Level,
+  random?: () => number,
+): { state: PlayState; createdSession: boolean } {
+  let progress = initialProgress;
+  let createdSession = false;
+  if (!(progress.activeSession && progress.activeSession.levelId === level.id)) {
+    progress = startLevelSession(progress, level.id);
+    createdSession = true;
+  }
+  const session = hydrateSession(progress.activeSession!);
+  const serve = serveNextQuestion(session, level.questions, queuedRuleSet(progress), { random });
+  const phase: Phase = serve ? (serve.showLesson ? 'lesson' : 'question') : 'ended';
+  return { state: { progress, session, serve, phase, feedback: null }, createdSession };
+}
+
+export function LevelPlayScreen({
+  level,
+  initialProgress,
+  store = DEFAULT_STORE,
+  random,
+  passConfig = DEFAULT_PASS_CONFIG,
+  onLevelEnd,
+  onExit,
+}: LevelPlayScreenProps) {
+  // Resolved once per mount: props are stable for the lifetime of a mounted
+  // level (the navigator keys the screen by level), so this is safe.
+  const init = useMemo(
+    () => resolveInitial(initialProgress, level, random),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+  const [play, setPlay] = useState<PlayState>(init.state);
+  const [saveFailed, setSaveFailed] = useState(false);
+
+  // Persistence is serialized so a rapid follow-up answer never lets an earlier
+  // stale write land after a newer one: only one save is in flight at a time,
+  // and it always drains the latest pending progress first.
+  const pendingSaveRef = useRef<Progress | null>(null);
+  const savingRef = useRef(false);
+  const persist = useCallback(
+    (progress: Progress) => {
+      pendingSaveRef.current = progress;
+      if (savingRef.current) {
+        return;
+      }
+      savingRef.current = true;
+      const drain = async () => {
+        while (pendingSaveRef.current) {
+          const toSave = pendingSaveRef.current;
+          pendingSaveRef.current = null;
+          try {
+            await saveProgress(toSave, store);
+          } catch {
+            setSaveFailed(true);
+          }
+        }
+        savingRef.current = false;
+      };
+      drain();
+    },
+    [store],
+  );
+
+  // A freshly created session must survive a relaunch before the first answer.
+  useEffect(() => {
+    if (init.createdSession) {
+      persist(init.state.progress);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleAnswer = useCallback(
+    (chosenIndex: number) => {
+      if (play.phase !== 'question' || !play.serve) {
+        return;
+      }
+      const { progress, session, outcome } = applyAnswer({
+        progress: play.progress,
+        question: play.serve.question,
+        chosenIndex,
+        mode: play.serve.mode,
+        config: passConfig,
+      });
+      persist(progress);
+      setPlay({
+        ...play,
+        progress,
+        session,
+        phase: 'feedback',
+        feedback: { chosenIndex, outcome, showLesson: !outcome.isCorrect },
+      });
+    },
+    [play, passConfig, persist],
+  );
+
+  const handleContinueFromLesson = useCallback(() => {
+    if (play.phase !== 'lesson' || !play.serve) {
+      return;
+    }
+    setPlay({ ...play, phase: 'question' });
+  }, [play]);
+
+  const handleDismissFeedback = useCallback(() => {
+    if (play.phase !== 'feedback' || !play.feedback) {
+      return;
+    }
+    const { outcome } = play.feedback;
+    const ended = outcome.passed || outcome.endedByMercy;
+    if (ended) {
+      setPlay({ ...play, phase: 'ended', feedback: null });
+      onLevelEnd?.({ session: play.session, outcome });
+      return;
+    }
+    const nextServe = serveNextQuestion(
+      play.session,
+      level.questions,
+      queuedRuleSet(play.progress),
+      { random },
+    );
+    if (!nextServe) {
+      // Validated content keeps each bank ≥ the mercy cap, so an in-progress
+      // level never runs dry; a dry bank here is defensive only.
+      setPlay({ ...play, phase: 'ended', feedback: null });
+      return;
+    }
+    setPlay({
+      ...play,
+      serve: nextServe,
+      phase: nextServe.showLesson ? 'lesson' : 'question',
+      feedback: null,
+    });
+  }, [play, level, random, onLevelEnd]);
+
+  const handleAbandon = useCallback(() => {
+    Alert.alert(
+      'Quit this level?',
+      'Your in-progress answers on this level will be cleared. Completed levels and your Weakness Queue are kept.',
+      [
+        { text: 'Keep playing', style: 'cancel' },
+        {
+          text: 'Quit',
+          style: 'destructive',
+          onPress: () => {
+            const nextProgress = abandonSession(play.progress);
+            persist(nextProgress);
+            setPlay({ ...play, progress: nextProgress, phase: 'ended', feedback: null });
+            onExit?.();
+          },
+        },
+      ],
+    );
+  }, [play, persist, onExit]);
+
+  const { session, serve, phase, feedback } = play;
+  const rule = serve ? (findRule(serve.question.rule) ?? null) : null;
+  const review = serve ? serve.mode === 'review' : false;
+
+  return (
+    <View style={styles.screen} testID="level-play-screen">
+      <ProgressHeader
+        streak={session.streak}
+        correctCount={session.correctCount}
+        answeredCount={session.totalAnswered}
+        mercyCap={passConfig.mercyCap}
+      />
+      {saveFailed ? (
+        <Text style={styles.saveWarning} testID="save-warning">
+          Changes may not be saved.
+        </Text>
+      ) : null}
+
+      <View style={styles.body}>
+        {phase === 'lesson' && serve ? (
+          <LessonCard
+            topic={level.topic}
+            rule={rule}
+            review={review}
+            onContinue={handleContinueFromLesson}
+          />
+        ) : null}
+
+        {(phase === 'question' || phase === 'feedback') && serve ? (
+          <QuestionCard
+            question={serve.question}
+            selectedIndex={feedback?.chosenIndex ?? null}
+            revealed={phase === 'feedback'}
+            onAnswer={handleAnswer}
+          />
+        ) : null}
+
+        {phase === 'feedback' && feedback?.showLesson ? (
+          <LessonCard
+            topic={level.topic}
+            rule={rule}
+            review={review}
+            onContinue={handleDismissFeedback}
+          />
+        ) : null}
+
+        {phase === 'feedback' && !feedback?.showLesson ? (
+          <Pressable
+            testID="next-question"
+            accessibilityRole="button"
+            onPress={handleDismissFeedback}
+            style={({ pressed }) => [styles.next, pressed && styles.nextPressed]}
+          >
+            <Text style={styles.nextLabel}>Next question</Text>
+          </Pressable>
+        ) : null}
+
+        {phase === 'ended' ? (
+          <Text style={styles.ended} testID="level-ended">
+            Level complete
+          </Text>
+        ) : null}
+      </View>
+
+      <Pressable
+        testID="abandon-level"
+        accessibilityRole="button"
+        onPress={handleAbandon}
+        style={({ pressed }) => [styles.quit, pressed && styles.quitPressed]}
+      >
+        <Text style={styles.quitLabel}>Quit level</Text>
+      </Pressable>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+  },
+  saveWarning: {
+    color: '#b45309',
+    fontSize: 13,
+    paddingHorizontal: 16,
+    paddingTop: 8,
+  },
+  body: {
+    flex: 1,
+    padding: 16,
+  },
+  next: {
+    marginTop: 8,
+    alignSelf: 'flex-start',
+    backgroundColor: '#2563eb',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+  },
+  nextPressed: {
+    backgroundColor: '#1d4ed8',
+  },
+  nextLabel: {
+    color: '#ffffff',
+    fontWeight: '600',
+    fontSize: 15,
+  },
+  ended: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#374151',
+    textAlign: 'center',
+    marginTop: 32,
+  },
+  quit: {
+    margin: 16,
+    alignSelf: 'flex-end',
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#d1d5db',
+  },
+  quitPressed: {
+    backgroundColor: '#f3f4f6',
+  },
+  quitLabel: {
+    color: '#4b5563',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+});
