@@ -47,6 +47,24 @@ Jest suite in `src/game/__tests__/levelMachine.test.ts`. The plan below builds o
   palette, honoring the `device | light | dark` setting. No extra library.
 - **Android-first.** Verify on `npm run android`; iOS follows once the loop is proven.
 
+### Implementation contracts
+
+- **Canonical rule definitions.** Each `TopicRule.rule` is defined exactly once in
+  the level/topic where that rule is introduced. Later levels may include questions
+  tagged with that rule, but do not duplicate the `TopicRule` definition; the
+  validator resolves those questions against the global rule registry. A recurring
+  rule therefore must exist in its home topic and have at least one question in the
+  recurring level's bank. This preserves global rule identity without conflicting
+  duplicate lesson text.
+- **Machine versus persisted sessions.** `src/game/levelMachine.ts` keeps its
+  machine-only `status` field. `src/state/types.ts` defines a separate
+  `PersistedLevelSession` without `status`, and storage/adapters explicitly map
+  between the two. The persisted `activeSession` is always in progress.
+- **Review mode is a serving snapshot.** `serving.ts` receives the Weakness Queue
+  before the question is selected and returns the resulting mode. Reducers, not the
+  serving function, update `reviewStreak` after an answer. Same-level remediation
+  never counts as a Review answer.
+
 ### Dependencies to add
 
 | Package | Purpose |
@@ -62,7 +80,7 @@ Jest suite in `src/game/__tests__/levelMachine.test.ts`. The plan below builds o
 ## Target folder structure
 
 The tree below is what **Task 1** creates. `src/game/` and its test already exist and
-are moved/preserved as-is.
+are preserved as-is.
 
 ```
 src/
@@ -121,7 +139,7 @@ src/
 
 ### Checkpoint: Foundation
 - [ ] `npx tsc --noEmit` passes
-- [ ] `npm test` passes (existing `levelMachine` suite intact after the move)
+- [ ] `npm test` passes (existing `levelMachine` suite remains intact)
 - [ ] `npm run lint` clean
 
 ### Phase 1 — Content & serving
@@ -136,25 +154,29 @@ src/
 
 ### Phase 2 — Core loop (vertical slice)
 
-- [ ] Task 7: Level play screen + question UI + lesson card
+- [ ] Task 7A: Question and teaching components
+- [ ] Task 7B: Level play screen + persistence + adaptive loop
 - [ ] Task 8: Pass / mercy-end flow + result screen + frontier advance
 
 ### Checkpoint: Core loop
 - [ ] Question → answer → teach/feedback → next loop works end-to-end on device
 - [ ] Pass by streak, pass by volume, and mercy-end all behave per Gherkin
 
-### Phase 3 — Navigation, map, onboarding
+### Phase 3 — Navigation and onboarding
 
 - [ ] Task 9: Root navigator + starting-point screen
-- [ ] Task 10: Level map screen
 
-### Checkpoint: Navigation & map
+### Phase 4 — Derived progress, map, and review
+
+- [ ] Task 11: Progress selectors + Weakness Queue + Review screen
+- [ ] Task 10: Level map screen (after Task 11 selectors)
+
+### Checkpoint: Navigation, map, and review
 - [ ] First launch shows the correct start path; returning players skip it
 - [ ] Map reflects derived lock/pass/current state
 
-### Phase 4 — Review, settings, theme
+### Phase 5 — Settings and theme
 
-- [ ] Task 11: Progress selectors + Weakness Queue + Review screen
 - [ ] Task 12: Settings (reset, theme) + theme system
 
 ### Checkpoint: Review, settings, theme
@@ -162,9 +184,10 @@ src/
 - [ ] Reset clears progress and returns to the starting-point choice
 - [ ] Theme follows/pins device/light/dark correctly
 
-### Phase 5 — Integration & polish
+### Phase 6 — Integration & verification
 
-- [ ] Task 13: End-to-end wiring, load-time content validation, Android build pass
+- [ ] Task 13: End-to-end provider wiring and load-time validation
+- [ ] Task 14: Full Gherkin verification and Android smoke/regression pass
 
 ### Checkpoint: Complete
 - [ ] All Gherkin scenarios in `use-cases` satisfied
@@ -178,15 +201,16 @@ src/
 ### Task 1: Establish the project folder structure
 
 **Description:** Create the `src/` layout documented above — directories, empty
-module stubs, and per-module `README` placeholders — and move the existing
-`src/game/` into place without breaking it. This is the foundation every later task
-imports from, so it must land first and keep the app compiling.
+module stubs, and per-module `README` placeholders. The existing `src/game/`
+module is already in the correct location and is preserved without modification.
+This is the foundation every later task imports from, so it must land first and
+keep the app compiling.
 
 **Acceptance criteria:**
 - [ ] `src/game/`, `src/content/`, `src/content/tracks/`, `src/state/`, `src/theme/`,
       `src/navigation/`, `src/screens/`, `src/components/`, `src/app/` all exist.
 - [ ] Each module has a one-line `README.md` or header comment describing its contract.
-- [ ] Existing `src/game/levelMachine.ts` and its test are in place and untouched.
+- [ ] Existing `src/game/levelMachine.ts` and its test remain untouched.
 - [ ] `App.tsx` still boots (`NewAppScreen`) — no functional change yet.
 
 **Verification:**
@@ -210,11 +234,16 @@ imports from, so it must land first and keep the app compiling.
 `Question`) and implement `validateContent()` covering every fail-fast rule in the
 schema doc (4 choices + aligned explanations, unique ids, `trackId`/`levelId`
 consistency, `rule` resolves to a `TopicRule`, sequential `level.number`, ≥1
-`eligibleStartingPoint`, bank ≥ mercy cap, etc.).
+`eligibleStartingPoint`, bank ≥ mercy cap, etc.). Treat `TopicRule.rule` as a
+global registry: definitions are unique, while recurring levels reference the
+existing definition through tagged questions.
 
 **Acceptance criteria:**
 - [ ] Types mirror the schema doc field-for-field.
 - [ ] `validateContent(tracks, { mercyCap })` throws on each documented violation.
+- [ ] Recurring rules are accepted when their canonical definition exists once and
+      the recurring level contains tagged questions for that rule; duplicate rule
+      definitions are rejected.
 - [ ] Valid content passes; a valid `correctIndex` / explanation alignment is accepted.
 - [ ] Covered by Jest (`src/content/__tests__/validate.test.ts`).
 
@@ -236,13 +265,17 @@ consistency, `rule` resolves to a `TopicRule`, sequential `level.number`, ≥1
 ### Task 3: State types + AsyncStorage persistence
 
 **Description:** Define the runtime state types (`AppState`, `Settings`, `Progress`,
-`LevelSession`, `WeaknessEntry`, `WrongAnswerEntry`) and implement `storage.ts` —
+`PersistedLevelSession`, `WeaknessEntry`, `WrongAnswerEntry`) and implement
+`storage.ts` —
 load/save under `egg:settings` / `egg:progress`, a `progress.version` migration gate,
 and `resetProgress()` that clears `egg:progress` while settings survive. Add
 `@react-native-async-storage/async-storage`.
 
 **Acceptance criteria:**
-- [ ] Types mirror the schema doc's "State" section.
+- [ ] Persisted types mirror the schema doc's "State" section and exclude the
+      machine-only `status` field.
+- [ ] Explicit adapters map between the persisted session and the existing
+      `levelMachine.LevelSession` without dropping counters or asked IDs.
 - [ ] Save/load round-trips state; unknown-version state triggers the migration path.
 - [ ] Reset clears progress and preserves settings.
 - [ ] Storage functions are injectable (async-store injected) for testability; covered by Jest.
@@ -293,14 +326,17 @@ the model. This proves the content pipeline end-to-end before mass authoring.
 
 **Description:** Author the remaining Basic-track levels (~10–15 total) as pure
 content data — questions, choices, and explanations, hand-reviewed against the schema
-rules. No code changes; this can be done incrementally and in parallel with later UI
-tasks once the loader contract (Task 4) is fixed.
+rules. Record the reviewer and review status per level in a content-review checklist;
+validation alone does not establish grammatical correctness. No code changes; this
+can be done incrementally and in parallel with later UI tasks once the loader contract
+(Task 4) is fixed.
 
 **Acceptance criteria:**
 - [ ] Basic track contains the MVP level count with sequential `level.number`.
 - [ ] Every level passes `validateContent()`.
 - [ ] Every question's `rule` resolves to a `TopicRule` in the corpus.
 - [ ] `eligibleStartingPoint` is `true` on Basic (and only Basic in v1).
+- [ ] Every authored level has a completed content-review checklist entry.
 
 **Verification:**
 - [ ] `npm test -- validate` (whole track)
@@ -324,8 +360,10 @@ Distinguish same-level remediation from Review (queued-rule) serving per the sch
 
 **Acceptance criteria:**
 - [ ] Returns `{ question, mode }` where mode ∈ `remediation | review | normal`.
-- [ ] A question is `review` only when its rule was queued before serving; it does not
-      increment `reviewStreak` when it is same-level remediation.
+- [ ] A question is `review` only when its rule was queued before serving; the
+      returned mode is an immutable pre-answer snapshot.
+- [ ] Serving never mutates `reviewStreak`; answer reducers increment it only for a
+      `review` result and clear the rule at two consecutive correct review answers.
 - [ ] Re-teach triggers when a rule's in-level miss count reaches 2.
 - [ ] Injectable randomness; covered by Jest.
 
@@ -342,31 +380,66 @@ Distinguish same-level remediation from Review (queued-rule) serving per the sch
 
 ---
 
-### Task 7: Level play screen + question UI + lesson card
+### Task 7A: Question and teaching components
 
-**Description:** Build `LevelPlayScreen` and the `QuestionCard` / `ChoiceButton` /
-`LessonCard` / `ProgressHeader` components. Wire the pure machine: show a question,
-submit an answer, show feedback (highlight correct, per-choice "why"), show the lesson
-card on wrong answers, and serve the next question adaptively.
+**Description:** Build the presentational `QuestionCard`, `ChoiceButton`,
+`LessonCard`, and `ProgressHeader` components. Keep them independent of navigation,
+storage, and reducers so they can be tested with fixture data.
 
 **Acceptance criteria:**
 - [ ] Question renders prompt + exactly 4 choices.
 - [ ] Correct answer → confirm rationale; wrong answer → lesson card + per-choice "why".
 - [ ] Lesson card shows topic summary + the matching `TopicRule`.
 - [ ] Header shows streak / correct count / answered count.
-- [ ] Progress persists to `LevelSession` after each answer.
+- [ ] Components expose accessible labels/roles and disable answer choices after
+      submission until feedback is dismissed.
 
 **Verification:**
+- [ ] Component tests cover four choices, correct/wrong feedback, and lesson-card
+      content.
 - [ ] `npx tsc --noEmit`
-- [ ] Manual: full question → answer → feedback → next loop on device
 
-**Dependencies:** Task 6, Task 4
+**Dependencies:** Task 4, Task 6
+
+**Files likely touched:**
+- `src/components/QuestionCard.tsx`, `ChoiceButton.tsx`, `LessonCard.tsx`, `ProgressHeader.tsx`
+
+**Estimated scope:** Medium
+
+---
+
+### Task 7B: Level play screen, persistence, and adaptive loop
+
+**Description:** Build `LevelPlayScreen` around the pure machine and components.
+Wire answer submission, feedback dismissal, adaptive serving, Weakness Queue and
+wrong-answer reducer updates, and persistence after every answer. Preserve the
+serving mode snapshot so same-level remediation is never recorded as Review.
+
+**Acceptance criteria:**
+- [ ] Correct and wrong answers follow the Gherkin feedback sequence and dispatch
+      the appropriate progress, weakness, and wrong-answer updates immediately.
+- [ ] Leaving the screen and relaunching resumes the saved session counters,
+      `missCounts`, `lastWrongRule`, and `askedIds`; already-served questions are
+      not repeated.
+- [ ] Deliberate abandonment clears only `activeSession` after confirmation and
+      does not erase completed levels, weakness data, or wrong-answer history.
+- [ ] Review questions count toward level scoring, while only pre-queued Review
+      answers affect `reviewStreak`.
+
+**Verification:**
+- [ ] Screen/reducer tests cover resume, abandon, wrong-answer persistence, and
+      remediation-versus-review mode.
+- [ ] `npx tsc --noEmit`
+- [ ] Manual: question → answer → feedback → next question on Android.
+
+**Dependencies:** Task 7A, Task 6, Task 4, Task 3
 
 **Files likely touched:**
 - `src/screens/LevelPlayScreen.tsx`
-- `src/components/QuestionCard.tsx`, `ChoiceButton.tsx`, `LessonCard.tsx`, `ProgressHeader.tsx`
+- `src/state/reducers.ts`
+- `src/state/storage.ts`
 
-**Estimated scope:** Large
+**Estimated scope:** Medium
 
 ---
 
@@ -388,7 +461,7 @@ next level in the flattened sequence (or completion state). A passed level marks
 - [ ] `npm test` (reducer tests)
 - [ ] Manual: complete a level by streak, by volume, and by mercy-end
 
-**Dependencies:** Task 7, Task 3 (reducers)
+**Dependencies:** Task 7B, Task 3 (reducers)
 
 **Files likely touched:**
 - `src/screens/ResultScreen.tsx`
@@ -409,13 +482,18 @@ at Basic level 1. Persist `progress.startingPoint`; returning players skip the s
 **Acceptance criteria:**
 - [ ] First launch with multiple eligible tracks shows the choice; with one, it does not.
 - [ ] Chosen point persists and is not re-asked on relaunch.
+- [ ] With only Basic bundled, progress is initialized automatically at Basic level 1
+      and no start-choice screen is shown.
 - [ ] Higher start leaves earlier levels unlocked (derived, not stored).
 
 **Verification:**
 - [ ] `npx tsc --noEmit`
 - [ ] Manual: fresh install → start choice (or auto-start); relaunch → straight to current level
 
-**Dependencies:** Task 8 (routing), Task 3 (persist `startingPoint`)
+**Dependencies:** Task 8, Task 3 (persist `startingPoint`)
+
+**Early native verification:** After installing AsyncStorage and React Navigation,
+run `npm run android` here as a smoke test before building the remaining screens.
 
 **Files likely touched:**
 - `src/navigation/AppNavigator.tsx`, `src/navigation/types.ts`
@@ -442,7 +520,7 @@ levels unlocked-but-not-passed. Tapping an unlocked level replays it without re-
 - [ ] `npm test -- selectors`
 - [ ] Manual: verify indicators across a fresh, mid, and completed run
 
-**Dependencies:** Task 9, Task 11's selectors (implement selectors here or in Task 11 first)
+**Dependencies:** Task 9, Task 11 (selectors and reducers must land first)
 
 **Files likely touched:**
 - `src/screens/LevelMapScreen.tsx`
@@ -465,6 +543,11 @@ count, and both "why" explanations. Clearing a weakness keeps wrong-answer histo
 - [ ] Two correct review answers clear a rule; any miss resets its `reviewStreak`.
 - [ ] Review lists all missed questions grouped by rule with counts and explanations.
 - [ ] Empty state shows a friendly message when no mistakes exist.
+- [ ] The Review route is reachable from Settings and clearing a weakness does not
+      delete its wrong-answer history.
+- [ ] Selectors repair or surface unknown saved level/question IDs according to the
+      persistence rules: unknown historical questions are omitted, while an unknown
+      current level advances to the first valid level or completion state.
 
 **Verification:**
 - [ ] `npm test -- selectors reducers`
@@ -491,6 +574,7 @@ starting-point choice; settings survive.
 - [ ] Theme follows device and can be pinned light/dark.
 - [ ] All screens consume theme tokens (no hardcoded colors).
 - [ ] Reset requires confirmation, erases progress, keeps settings, returns to start choice.
+- [ ] Settings exposes navigation to the Review screen.
 
 **Verification:**
 - [ ] `npx tsc --noEmit`
@@ -506,24 +590,24 @@ starting-point choice; settings survive.
 
 ---
 
-### Task 13: End-to-end wiring, load-time validation, Android build pass
+### Task 13: End-to-end provider wiring and load-time validation
 
-**Description:** Wire `AppProvider` to load content (with `validateContent()` at load),
-load state, and provide both to the navigator. Remove the `NewAppScreen` scaffold.
-Run the full Android build and do a complete manual pass against every Gherkin scenario.
+**Description:** Wire `AppProvider` to load content (with `validateContent()` at
+load), load state, perform persisted-ID repair, and provide both to the navigator.
+Remove the `NewAppScreen` scaffold. Keep this task focused on app composition and
+startup behavior; final behavioral verification is Task 14.
 
 **Acceptance criteria:**
 - [ ] `validateContent()` runs at app load and surfaces a broken build early.
 - [ ] `App.tsx` renders the real app (no scaffold screen).
-- [ ] All `use-cases` scenarios pass on device.
-- [ ] `npm run android` builds and runs clean.
+- [ ] Loading with no progress initializes settings and the correct Basic-only
+      starting state without flashing an invalid route.
 
 **Verification:**
-- [ ] `npm run android`
-- [ ] `npm test`, `npm run lint`, `npx tsc --noEmit` all green
-- [ ] Manual: full scripted playthrough (fresh → start → play → pass/mercy → review → reset)
+- [ ] `npm test -- provider storage selectors`
+- [ ] `npm run lint`, `npx tsc --noEmit` all green
 
-**Dependencies:** All prior tasks
+**Dependencies:** Tasks 9, 10, 11, and 12
 
 **Files likely touched:**
 - `src/app/AppProvider.tsx`
@@ -533,20 +617,46 @@ Run the full Android build and do a complete manual pass against every Gherkin s
 
 ---
 
+### Task 14: Full Gherkin verification and Android smoke/regression pass
+
+**Description:** Verify the integrated app against every Gherkin scenario, including
+fresh launch, higher starting points with fixture tracks, resume/abandon, pass by
+streak and volume, mercy-end, cross-level review, wrong-answer history, reset, and
+all theme modes. Run the Android build and record any known device limitations.
+
+**Acceptance criteria:**
+- [ ] All scenarios in `docs/use-cases/english-grammar-game.md` pass on Android or
+      have an automated test equivalent.
+- [ ] Fresh install → start → play → pass/mercy → review → reset completes without
+      data loss or invalid navigation.
+- [ ] Android build and runtime complete without errors.
+
+**Verification:**
+- [ ] `npm run android`
+- [ ] `npm test`, `npm run lint`, `npx tsc --noEmit` all green
+- [ ] Manual scripted playthrough and regression checklist recorded in the task PR.
+
+**Dependencies:** Task 13
+
+**Estimated scope:** Medium
+
+---
+
 ## Risks and Mitigations
 
 | Risk | Impact | Mitigation |
 |------|--------|------------|
-| AI-generated content is incorrect/uneven | High | `validateContent()` fail-fast + hand-review gate + in-app "report an error" (post-MVP) |
+| AI-generated content is incorrect/uneven | High | `validateContent()` fail-fast + per-level content-review checklist + in-app "report an error" (post-MVP) |
 | The "3-in-a-row OR 8-total" rule feels off | Med | Tunable constants in `PassConfig`; adjust from real play |
-| Navigation adds native config friction on Android | Med | Native-stack is the standard; verify `npm run android` early (Task 9) |
+| Navigation adds native config friction on Android | Med | Native-stack is the standard; install dependencies and verify `npm run android` early in Task 9 |
 | Content authoring (Task 5) is a large data lift | Med | Split by level; contract fixed in Task 4 so it can parallelize with UI |
 | Mercy cap lets a player pass 12/12 without a bank running dry | Low | `validateContent()` enforces bank ≥ mercy cap |
 
 ## Open Questions
 
-- **Navigation dependency:** confirm React Navigation is acceptable (vs. a hand-rolled
-  navigator with zero new native deps). Plan assumes React Navigation.
+- **Navigation dependency:** React Navigation native-stack is the accepted MVP
+  decision; revisit only if the early Android smoke test fails or native setup is
+  materially incompatible with the project.
 - **App name / icon / store copy** — out of scope for this plan but needed before release.
 - **Post-basic completion state** — endless review vs. a graduation screen (ideas doc
   leaves this open; Task 8 defaults to a completion/map state).
