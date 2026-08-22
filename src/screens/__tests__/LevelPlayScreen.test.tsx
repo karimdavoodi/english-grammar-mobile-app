@@ -87,6 +87,17 @@ const LEVEL: Level = {
   questions: QUESTIONS,
 };
 
+/**
+ * A 12-question fixture bank — the real mercy cap needs a bank ≥ 12 so the
+ * screen never runs dry before the cap (validateContent enforces this for the
+ * real corpus; here it lets a screen-level test drive the real 12-answer cap).
+ */
+const TWELVE_QUESTIONS: Question[] = Array.from({ length: 12 }, (_, i) =>
+  makeQ(`b10q${String(i + 1).padStart(2, '0')}`, i < 6 ? RULE_A : RULE_B, i % 4),
+);
+
+const TWELVE_LEVEL: Level = { ...LEVEL, questions: TWELVE_QUESTIONS };
+
 function makeProgress(overrides: Partial<Progress> = {}): Progress {
   return {
     version: CURRENT_PROGRESS_VERSION,
@@ -124,6 +135,7 @@ async function flushAsync() {
 
 interface RenderOptions {
   initialProgress: Progress;
+  level?: Level;
   onLevelEnd?: jest.Mock;
   onExit?: jest.Mock;
   passConfig?: { passStreak: number; passVolume: number; mercyCap: number };
@@ -133,6 +145,7 @@ interface RenderOptions {
 
 async function renderScreen({
   initialProgress,
+  level = LEVEL,
   onLevelEnd = jest.fn(),
   onExit = jest.fn(),
   passConfig,
@@ -143,7 +156,7 @@ async function renderScreen({
   await ReactTestRenderer.act(() => {
     tree = ReactTestRenderer.create(
       <LevelPlayScreen
-        level={LEVEL}
+        level={level}
         initialProgress={initialProgress}
         store={store}
         random={random}
@@ -155,6 +168,21 @@ async function renderScreen({
   });
   await flushAsync();
   return { tree, store, onLevelEnd, onExit };
+}
+
+/** Map the currently rendered question prompt back to its fixture question. */
+function servedQuestion(tree: ReactTestRenderer.ReactTestRenderer, bank: Question[]): Question {
+  const prompt = textOf(tree, 'question-prompt');
+  const question = bank.find(q => q.prompt === prompt);
+  if (!question) {
+    throw new Error(`No fixture question for prompt "${prompt}".`);
+  }
+  return question;
+}
+
+/** A deterministic wrong choice for a question (any non-correct index). */
+function wrongIndexOf(question: Question): number {
+  return (question.correctIndex + 1) % question.choices.length;
 }
 
 async function press(tree: ReactTestRenderer.ReactTestRenderer, testID: string) {
@@ -274,6 +302,33 @@ describe('LevelPlayScreen — resume', () => {
     expect(textOf(tree, 'progress-correct')).toBe('Correct: 1');
     expect(textOf(tree, 'progress-answered')).toBe('Answered: 2/12');
   });
+
+  it('resumes missCounts + lastWrongRule: re-teaches then re-serves the missed rule (remediation)', async () => {
+    const initialProgress = makeProgress({
+      weaknessQueue: {
+        [RULE_B]: { rule: RULE_B, missCount: 1, reviewStreak: 0, lastMissedAt: 'x' },
+      },
+      activeSession: {
+        levelId: 'b10',
+        askedIds: ['b10q01'],
+        correctCount: 0,
+        streak: 0,
+        totalAnswered: 1,
+        missCounts: { [RULE_A]: 2 }, // re-teach threshold reached in the saved session
+        lastWrongRule: RULE_A,
+      },
+    });
+    const { tree } = await renderScreen({ initialProgress });
+
+    // Re-teach lesson shows before the next question (rule missed twice in-session).
+    expect(countHostByTestID(tree, 'lesson-card')).toBe(1);
+    await press(tree, 'lesson-continue');
+
+    // The same-rule unasked variant is served (remediation resumes) — not the
+    // queued Review question (b10q04+), because remediation wins the priority.
+    expect(textOf(tree, 'question-prompt')).toBe('Prompt b10q02');
+    expect(countHostByTestID(tree, 'lesson-card')).toBe(0);
+  });
 });
 
 describe('LevelPlayScreen — abandon', () => {
@@ -357,6 +412,34 @@ describe('LevelPlayScreen — level end', () => {
     const result = onLevelEnd.mock.calls[0][0];
     expect(result.outcome.endedByMercy).toBe(true);
     expect(result.outcome.passed).toBe(false);
+  });
+
+  it('mercy-ends at the real 12-question cap with the default pass config', async () => {
+    const onLevelEnd = jest.fn();
+    const { tree } = await renderScreen({
+      initialProgress: makeProgress(),
+      onLevelEnd,
+      level: TWELVE_LEVEL,
+    });
+
+    // Answer every question wrong. A re-teach lesson shows before a question whose
+    // rule has been missed twice in-session — dismiss it before each answer.
+    for (let answered = 0; answered < 12; answered++) {
+      if (countHostByTestID(tree, 'lesson-card') > 0) {
+        await press(tree, 'lesson-continue');
+      }
+      const question = servedQuestion(tree, TWELVE_QUESTIONS);
+      await press(tree, `choice-button-${wrongIndexOf(question)}`);
+      await press(tree, 'lesson-continue'); // wrong-answer feedback lesson
+    }
+
+    expect(onLevelEnd).toHaveBeenCalledTimes(1);
+    const result = onLevelEnd.mock.calls[0][0];
+    expect(result.outcome.endedByMercy).toBe(true);
+    expect(result.outcome.passed).toBe(false);
+    expect(result.session.totalAnswered).toBe(12); // the real mercy cap
+    expect(result.session.correctCount).toBe(0); // never passed on volume
+    expect(result.session.streak).toBe(0); // never passed on streak
   });
 });
 
