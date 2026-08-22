@@ -48,3 +48,14 @@ Built the content loader and authored the Past Perfect reference level, proving 
 Note: the single authored level is `number: 1` (id `b01`) so the validator's sequential-numbering and eligible-starting-point rules pass with a one-level track; Task 5 renumbers as remaining levels land.
 
 Verification: `npx tsc --noEmit` clean · `npm run lint` clean · `npm test` 60/60 pass (existing suites intact) · throwaway load test confirmed `content/index.ts` imports without error and the reference level has ≥12 questions, 4 choices each, non-empty explanations (then deleted).
+
+## Task 5: Author remaining Basic levels (content only) — DONE
+
+Completed the Basic track in `src/content/tracks/basic.ts` — 12 levels, sequential `level.number` 1..12, all pure content data (the app is a player, the content is a database):
+
+- **Pedagogically ordered corpus** — Present Simple → Present Continuous → Past Simple → Past Continuous → Present Perfect → Future (will/going to) → Modals → Articles → Comparatives/Superlatives → **Past Perfect** (the Task 4 reference level renumbered b01→b10 / level 10) → Prepositions of time → Zero & First Conditionals.
+- **12-question banks per level** (≥ mercy cap 12): each question has exactly 4 choices, a varied `correctIndex` across 0–3, and 4 non-empty, positionally-aligned `choiceExplanations` ([correctIndex] = why right, the rest = why each is wrong).
+- **Rule identity contract honored** — each `TopicRule.rule` is defined exactly once in its home level; levels b02–b12 additionally carry 2 recurring-tagged questions each (e.g. `present_simple_form` resurfaces in b02/b03/b07/b08/b11/b12; `past_simple_form` in b04/b05/b11) so the Weakness Queue has cross-level material to resurface. Validator's global rule registry accepts the whole corpus with zero duplicate definitions.
+- **Content-review checklist** — new `docs/content-review.md` records per-level reviewer and review status (AI authoring pass, human review recommended), plus global review checks and flagged editorial decisions (zero-article rendered as `nothing`; BrE time expressions; future-arrangement tagging).
+
+Verification: `npx tsc --noEmit` clean · `npm run lint` clean · `npm test` 60/60 pass (existing suites intact) · throwaway load test confirmed `content/index.ts` imports and validates the full 12-level track (then deleted).
