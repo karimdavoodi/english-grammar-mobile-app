@@ -141,3 +141,24 @@ Tests (13 new): `StartPointScreen` (heading, one choice per eligible track, onCh
 Verification: `npm test` 155/155 pass (13 new; existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.
 
 Note: the `npm run android` smoke test (installing native-stack pulls `react-native-screens`, a native module, so a rebuild is required) needs an emulator/device and is deferred to the Task 9 "early native verification" / Task 14 regression.
+
+## Task 11: Progress selectors + Weakness Queue + Review screen — DONE
+
+Implemented the derived-state selectors and the Review screen per `docs/mvp-plan.md` Task 11, `docs/use-cases` "Review Screen" / "Weakness Queue", and `docs/schema` §2 ("unlock is derived, never stored"; content lookups always by id):
+
+- `src/state/selectors.ts` — the pure derived views (no React/RN imports):
+  - `orderedLevels(tracks)` — the flattened sequence (tracks by `order`, levels by `number`) the frontier, map, and review all follow.
+  - `unlockedLevelIds` / `isLevelUnlocked` — the schema's derived-unlock rule: a level is unlocked when it occurs at-or-before the saved frontier or its id is in `completedLevelIds` (a passed level stays unlocked when the frontier moves on — replay never re-locks; a higher start leaves all earlier levels unlocked).
+  - `levelStatuses(tracks, progress)` — the map view: `unlocked` / `completed` (pass mark) / `isCurrent` (frontier) / `needsReview`, plus `levelNeedsReview` (any question in the level's bank is tagged with a queued rule).
+  - `repairProgress(tracks, progress)` — the persisted-ID repair: unknown `completedLevelIds` are dropped, an unknown `currentLevelId` advances to the first valid level (or stays in the completion state when no levels remain), and an active session whose level no longer exists is cleared; returns the same reference when nothing needs repairing (wired at load in Task 13).
+  - `weaknessEntries(progress)` — the Weakness Queue ("due reviews") as an array.
+  - `reviewGroups(tracks, wrongAnswers, queuedRules?)` — the review grouping: every missed question resolved back into content by id (unknown historical question ids omitted), grouped by rule tag with the canonical `TopicRule` teaching, cumulative miss count, last wrong choice + correct answer, and both positionally-aligned "why" explanations; groups order by the most recent miss.
+- `src/screens/ReviewScreen.tsx` — the wrong-answer study history, grouped by rule. Presentational (fixture-testable, no navigation/storage/reducer imports): each group shows the rule title + teaching + example, an "In your Weakness Queue" badge when the rule is still queued, and per question the prompt, "Your answer", "Correct answer", miss count, why the choice was wrong, and why the correct one is right. Clearing a weakness never deletes this history — the badge is the only thing that disappears. Empty state ("No mistakes yet") when there are no wrong answers; an `onBack` affordance for the navigator.
+- `src/navigation/types.ts` + `src/navigation/AppNavigator.tsx` — registered the `Review` route (reads `tracks` + `progress` from the AppContext; defensive "Nothing to review yet." when progress is null). The Settings entry point lands in Task 12; the route is registered and ready to be navigated to.
+- Weakness Queue upsert/clear (miss → `missCount++`, `reviewStreak → 0`; two correct Review answers → clear) already landed in Task 7B `applyAnswer` and remains covered by `reducers.test.ts` — no reducer change was needed for Task 11.
+
+Tests (40 new): `src/state/__tests__/selectors.test.ts` (30 — flattening, unlock/frontier/completed, map status incl. needs-review, first valid level, repair on unknown current level / dropped completed ids / cleared unknown active session, weakness entries, and review grouping incl. unknown-id omission, ordering, still-queued flag, and explanation resolution) and `src/screens/__tests__/ReviewScreen.test.tsx` (10 — empty state, grouping, per-entry details, miss-count pluralization, rule teaching, still-queued badge, history-kept-after-clear, back affordance, accessibility roles).
+
+Note: opening Review on-device from Settings lands in Task 12 (which adds the Settings screen + Review link); grouping and clearing behavior are verified by the tests above, with the manual Android pass at the Task 14 regression.
+
+Verification: `npm test -- selectors reducers` 57/57 pass (selectors 30/30 · reducers 27/27) · `npm test` 195/195 pass (40 new; existing suites intact) · `npx tsc --noEmit` clean · `npm run lint` clean.

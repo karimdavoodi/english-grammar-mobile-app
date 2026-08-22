@@ -11,7 +11,8 @@
  *
  * Content and state come from the AppContext (`useApp`): the navigator stays
  * thin, resolving content ids to Level/Track objects and handing presentational
- * screens their props. LevelMap / Review / Settings routes land in Tasks 10–12.
+ * screens their props. Review lands in Task 11; LevelMap / Settings routes land
+ * in Tasks 10 and 12.
  */
 
 import React, { useCallback, useMemo } from 'react';
@@ -25,6 +26,7 @@ import { useApp } from '../app/AppContext';
 import { findLevelById } from '../content';
 import type { RootStackParamList } from './types';
 import { ResultScreen } from '../screens/ResultScreen';
+import { ReviewScreen } from '../screens/ReviewScreen';
 import { StartPointScreen } from '../screens/StartPointScreen';
 import { LevelPlayScreen, type LevelEndResult } from '../screens/LevelPlayScreen';
 import {
@@ -109,6 +111,29 @@ function LevelPlayRoute({
   );
 }
 
+/** Wrong-answer study history — the Task 11 Review screen (Settings links here in Task 12). */
+function ReviewRoute({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList, 'Review'>) {
+  const { tracks, progress } = useApp();
+  if (!progress) {
+    // No progress yet means no mistakes — nothing to review.
+    return (
+      <View style={styles.missing}>
+        <Text style={styles.missingText}>Nothing to review yet.</Text>
+      </View>
+    );
+  }
+  return (
+    <ReviewScreen
+      tracks={tracks}
+      wrongAnswers={progress.wrongAnswers}
+      weaknessQueue={progress.weaknessQueue}
+      onBack={() => navigation.goBack()}
+    />
+  );
+}
+
 /** Pass / mercy-end result — Continue advances to the next level or completion. */
 function ResultRoute({
   route,
@@ -165,6 +190,7 @@ export function AppNavigator() {
           initialParams={{ levelId: progress?.currentLevelId ?? '' }}
         />
         <Stack.Screen name="Result" component={ResultRoute} />
+        <Stack.Screen name="Review" component={ReviewRoute} />
       </Stack.Navigator>
     </NavigationContainer>
   );
