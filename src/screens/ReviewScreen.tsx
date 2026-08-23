@@ -29,6 +29,7 @@ import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
 import { tokens } from '../theme/tokens';
 import { ReportButton } from '../components/ReportButton';
+import { ScreenShell } from '../components/ScreenShell';
 
 export interface ReviewScreenProps {
   /** The bundled tracks — wrong-answer ids resolve back into this content. */
@@ -60,7 +61,7 @@ export function ReviewScreen({
   );
 
   return (
-    <View style={styles.screen} testID="review-screen">
+    <ScreenShell testID="review-screen">
       <View style={styles.header}>
         <Text style={styles.heading} accessibilityRole="header" testID="review-heading">
           Review
@@ -182,16 +183,12 @@ export function ReviewScreen({
           <Text style={styles.backLabel}>Back</Text>
         </Pressable>
       ) : null}
-    </View>
+    </ScreenShell>
   );
 }
 
 const makeStyles = (colors: ThemeColors) =>
   StyleSheet.create({
-    screen: {
-      flex: 1,
-      backgroundColor: colors.background,
-    },
     header: {
       padding: tokens.spacing.lg,
       backgroundColor: colors.primaryContainer,

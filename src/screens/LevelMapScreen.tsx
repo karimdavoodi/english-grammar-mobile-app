@@ -25,6 +25,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { Track } from '../content/types';
 import { levelStatuses, type LevelStatus } from '../state/selectors';
 import type { Progress } from '../state/types';
+import { ScreenShell } from '../components/ScreenShell';
 import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
 import { tokens } from '../theme/tokens';
@@ -90,7 +91,7 @@ export function LevelMapScreen({
   }, [tracks, statuses]);
 
   return (
-    <View style={styles.screen} testID="level-map-screen">
+    <ScreenShell testID="level-map-screen">
       <View style={styles.header}>
         <View style={styles.headerRow}>
           <Text style={styles.heading} accessibilityRole="header" testID="level-map-heading">
@@ -241,16 +242,12 @@ export function LevelMapScreen({
           <Text style={styles.backLabel}>Back</Text>
         </Pressable>
       ) : null}
-    </View>
+    </ScreenShell>
   );
 }
 
 const makeStyles = (colors: ThemeColors) =>
   StyleSheet.create({
-    screen: {
-      flex: 1,
-      backgroundColor: colors.background,
-    },
     header: {
       padding: tokens.spacing.lg,
       backgroundColor: colors.primaryContainer,

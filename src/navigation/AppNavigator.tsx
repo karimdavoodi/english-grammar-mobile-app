@@ -25,7 +25,7 @@
  */
 
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   createNativeStackNavigator,
@@ -33,6 +33,7 @@ import {
 } from '@react-navigation/native-stack';
 import { useApp } from '../app/AppContext';
 import { findLevelById } from '../content';
+import { ScreenShell } from '../components/ScreenShell';
 import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
 import type { RootStackParamList } from './types';
@@ -61,9 +62,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function MissingView({ message }: { message: string }) {
   const styles = useThemedStyles(makeStyles);
   return (
-    <View style={styles.missing}>
+    <ScreenShell style={styles.missingContent}>
       <Text style={styles.missingText}>{message}</Text>
-    </View>
+    </ScreenShell>
   );
 }
 
@@ -362,11 +363,9 @@ export function AppNavigator() {
 
 const makeStyles = (colors: ThemeColors) =>
   StyleSheet.create({
-    missing: {
-      flex: 1,
+    missingContent: {
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: colors.background,
     },
     missingText: {
       color: colors.textMuted,

@@ -10,14 +10,11 @@
 import React from 'react';
 import { Alert } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
+import { renderScreen } from '../../test-utils';
 import { SettingsScreen } from '../SettingsScreen';
 
 async function render(ui: React.ReactElement) {
-  let tree!: ReactTestRenderer.ReactTestRenderer;
-  await ReactTestRenderer.act(() => {
-    tree = ReactTestRenderer.create(ui);
-  });
-  return tree;
+  return renderScreen(ui);
 }
 
 async function press(tree: ReactTestRenderer.ReactTestRenderer, testID: string) {

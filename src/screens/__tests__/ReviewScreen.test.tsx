@@ -12,6 +12,7 @@ import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
 import type { Level, Question, Track } from '../../content/types';
 import type { WeaknessEntry, WrongAnswerEntry } from '../../state/types';
+import { renderScreen } from '../../test-utils';
 import { ReviewScreen } from '../ReviewScreen';
 
 const RULE_PRESENT = 'present_simple_form';
@@ -106,11 +107,7 @@ function queuedEntry(rule: string, overrides: Partial<WeaknessEntry> = {}): Weak
 async function render(
   ui: React.ReactElement,
 ): Promise<ReactTestRenderer.ReactTestRenderer> {
-  let tree!: ReactTestRenderer.ReactTestRenderer;
-  await ReactTestRenderer.act(() => {
-    tree = ReactTestRenderer.create(ui);
-  });
-  return tree;
+  return renderScreen(ui);
 }
 
 function textOf(tree: ReactTestRenderer.ReactTestRenderer, testID: string): string {

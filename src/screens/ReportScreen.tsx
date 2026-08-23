@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScreenShell } from '../components/ScreenShell';
 import type { ContentReport } from '../state/reports';
 import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
@@ -26,7 +27,7 @@ export function ReportScreen({ reports, onUpdate, onExport, onBack }: ReportScre
   );
 
   return (
-    <View style={styles.screen} testID="report-screen">
+    <ScreenShell testID="report-screen">
       <View style={styles.header}>
         <Text style={styles.heading} accessibilityRole="header">Report a problem</Text>
         <Text style={styles.subheading}>Help us improve questions that look incorrect or unclear.</Text>
@@ -61,13 +62,12 @@ export function ReportScreen({ reports, onUpdate, onExport, onBack }: ReportScre
       <Pressable testID="report-back" accessibilityRole="button" onPress={onBack} style={styles.back}>
         <Text style={styles.backLabel}>Back</Text>
       </Pressable>
-    </View>
+    </ScreenShell>
   );
 }
 
 const colorsPlaceholder = '#68727d';
 const makeStyles = (colors: ThemeColors) => StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.background },
   header: { padding: 20, backgroundColor: colors.primaryContainer },
   heading: { color: colors.primaryOnContainer, fontSize: 24, fontWeight: '700' },
   subheading: { color: colors.primaryOnContainerMuted, marginTop: 6, lineHeight: 20 },

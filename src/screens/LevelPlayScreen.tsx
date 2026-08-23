@@ -28,6 +28,7 @@ import type { Level } from '../content/types';
 import { LessonCard } from '../components/LessonCard';
 import { ProgressHeader } from '../components/ProgressHeader';
 import { QuestionCard } from '../components/QuestionCard';
+import { ScreenShell } from '../components/ScreenShell';
 import type { AnswerResponse } from '../game/levelMachine';
 import {
   DEFAULT_PASS_CONFIG,
@@ -306,7 +307,7 @@ export function LevelPlayScreen({
   const review = serve ? serve.mode === 'review' : false;
 
   return (
-    <View style={styles.screen} testID="level-play-screen">
+    <ScreenShell testID="level-play-screen">
       <ProgressHeader
         streak={session.streak}
         correctCount={session.correctCount}
@@ -376,16 +377,12 @@ export function LevelPlayScreen({
       >
         <Text style={styles.quitLabel}>{session.kind === 'mastery' ? 'Exit Mastery Review' : 'Quit level'}</Text>
       </Pressable>
-    </View>
+    </ScreenShell>
   );
 }
 
 const makeStyles = (colors: ThemeColors) =>
   StyleSheet.create({
-    screen: {
-      flex: 1,
-      backgroundColor: colors.background,
-    },
     saveWarning: {
       color: colors.warningText,
       fontSize: 13,

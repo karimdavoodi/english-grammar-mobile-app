@@ -1,19 +1,22 @@
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
+import { wrapInSafeArea } from '../../test-utils';
 import { GraduationScreen } from '../GraduationScreen';
 
 async function render() {
   let tree!: ReactTestRenderer.ReactTestRenderer;
   await ReactTestRenderer.act(() => {
     tree = ReactTestRenderer.create(
-      <GraduationScreen
-        completedLevels={90}
-        totalLevels={90}
-        dailyStreak={6}
-        accuracy={0.875}
-        onKeepPracticing={jest.fn()}
-        onOpenMap={jest.fn()}
-      />,
+      wrapInSafeArea(
+        <GraduationScreen
+          completedLevels={90}
+          totalLevels={90}
+          dailyStreak={6}
+          accuracy={0.875}
+          onKeepPracticing={jest.fn()}
+          onOpenMap={jest.fn()}
+        />,
+      ),
     );
   });
   return tree;
@@ -41,7 +44,7 @@ describe('GraduationScreen', () => {
     let tree!: ReactTestRenderer.ReactTestRenderer;
     await ReactTestRenderer.act(() => {
       tree = ReactTestRenderer.create(
-        <GraduationScreen completedLevels={1} totalLevels={2} dailyStreak={0} accuracy={0} onKeepPracticing={onKeepPracticing} onOpenMap={onOpenMap} />,
+        wrapInSafeArea(<GraduationScreen completedLevels={1} totalLevels={2} dailyStreak={0} accuracy={0} onKeepPracticing={onKeepPracticing} onOpenMap={onOpenMap} />),
       );
     });
     await ReactTestRenderer.act(() => tree.root.findByProps({ testID: 'graduation-practice' }).props.onPress());

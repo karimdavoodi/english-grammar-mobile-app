@@ -8,6 +8,7 @@
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
 import type { Track } from '../../content/types';
+import { renderScreen } from '../../test-utils';
 import { StartPointScreen } from '../StartPointScreen';
 
 const BASIC: Track = {
@@ -30,11 +31,7 @@ const INTERMEDIATE: Track = {
 async function render(
   ui: React.ReactElement,
 ): Promise<ReactTestRenderer.ReactTestRenderer> {
-  let tree!: ReactTestRenderer.ReactTestRenderer;
-  await ReactTestRenderer.act(() => {
-    tree = ReactTestRenderer.create(ui);
-  });
-  return tree;
+  return renderScreen(ui);
 }
 
 function textOf(tree: ReactTestRenderer.ReactTestRenderer, testID: string): string {

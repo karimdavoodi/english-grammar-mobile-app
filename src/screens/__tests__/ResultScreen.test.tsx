@@ -10,6 +10,7 @@ import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
 import type { Level } from '../../content/types';
 import type { AnswerOutcome } from '../../game/levelMachine';
+import { renderScreen } from '../../test-utils';
 import { ResultScreen } from '../ResultScreen';
 
 const LEVEL: Level = {
@@ -49,11 +50,7 @@ function makeOutcome(overrides: Partial<AnswerOutcome> = {}): AnswerOutcome {
 async function render(
   ui: React.ReactElement,
 ): Promise<ReactTestRenderer.ReactTestRenderer> {
-  let tree!: ReactTestRenderer.ReactTestRenderer;
-  await ReactTestRenderer.act(() => {
-    tree = ReactTestRenderer.create(ui);
-  });
-  return tree;
+  return renderScreen(ui);
 }
 
 function textOf(tree: ReactTestRenderer.ReactTestRenderer, testID: string): string {

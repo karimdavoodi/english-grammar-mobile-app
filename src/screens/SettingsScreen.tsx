@@ -16,6 +16,7 @@
 
 import React from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { ScreenShell } from '../components/ScreenShell';
 import type { NotificationSettings, ThemePreference } from '../state/types';
 import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
@@ -76,7 +77,7 @@ export function SettingsScreen({
   };
 
   return (
-    <View style={styles.screen} testID="settings-screen">
+    <ScreenShell testID="settings-screen">
       <View style={styles.header}>
         <Text style={styles.heading} accessibilityRole="header" testID="settings-heading">
           Settings
@@ -236,16 +237,12 @@ export function SettingsScreen({
           <Text style={styles.backLabel}>Back</Text>
         </Pressable>
       ) : null}
-    </View>
+    </ScreenShell>
   );
 }
 
 const makeStyles = (colors: ThemeColors) =>
   StyleSheet.create({
-    screen: {
-      flex: 1,
-      backgroundColor: colors.background,
-    },
     header: {
       padding: tokens.spacing.lg,
       backgroundColor: colors.primaryContainer,

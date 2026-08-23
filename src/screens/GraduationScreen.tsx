@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { ScreenShell } from '../components/ScreenShell';
 import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
 
@@ -25,48 +26,49 @@ export function GraduationScreen({
   const styles = useThemedStyles(makeStyles);
 
   return (
-    <View style={styles.screen} testID="graduation-screen">
-      <View style={styles.card}>
-        <Text style={styles.eyebrow}>Congratulations</Text>
-        <Text style={styles.heading} accessibilityRole="header" testID="graduation-heading">
-          You&apos;ve mastered all {totalLevels} levels
-        </Text>
-        <Text style={styles.message}>
-          You completed {completedLevels} levels and finished the full English grammar journey.
-        </Text>
-        <View style={styles.summary}>
-          <Text style={styles.metric} testID="graduation-streak">Daily streak: {dailyStreak}</Text>
-          <Text style={styles.metric} testID="graduation-accuracy">
-            Accuracy: {Math.round(accuracy * 100)}%
+    <ScreenShell testID="graduation-screen">
+      <View style={styles.content}>
+        <View style={styles.card}>
+          <Text style={styles.eyebrow}>Congratulations</Text>
+          <Text style={styles.heading} accessibilityRole="header" testID="graduation-heading">
+            You&apos;ve mastered all {totalLevels} levels
           </Text>
+          <Text style={styles.message}>
+            You completed {completedLevels} levels and finished the full English grammar journey.
+          </Text>
+          <View style={styles.summary}>
+            <Text style={styles.metric} testID="graduation-streak">Daily streak: {dailyStreak}</Text>
+            <Text style={styles.metric} testID="graduation-accuracy">
+              Accuracy: {Math.round(accuracy * 100)}%
+            </Text>
+          </View>
         </View>
-      </View>
 
-      <Pressable
-        testID="graduation-practice"
-        accessibilityRole="button"
-        onPress={onKeepPracticing}
-        style={styles.primaryButton}
-      >
-        <Text style={styles.primaryLabel}>Keep practicing</Text>
-      </Pressable>
-      <Pressable
-        testID="graduation-map"
-        accessibilityRole="button"
-        onPress={onOpenMap}
-        style={styles.secondaryButton}
-      >
-        <Text style={styles.secondaryLabel}>Go to level map</Text>
-      </Pressable>
-    </View>
+        <Pressable
+          testID="graduation-practice"
+          accessibilityRole="button"
+          onPress={onKeepPracticing}
+          style={styles.primaryButton}
+        >
+          <Text style={styles.primaryLabel}>Keep practicing</Text>
+        </Pressable>
+        <Pressable
+          testID="graduation-map"
+          accessibilityRole="button"
+          onPress={onOpenMap}
+          style={styles.secondaryButton}
+        >
+          <Text style={styles.secondaryLabel}>Go to level map</Text>
+        </Pressable>
+      </View>
+    </ScreenShell>
   );
 }
 
 const makeStyles = (colors: ThemeColors) =>
   StyleSheet.create({
-    screen: {
+    content: {
       flex: 1,
-      backgroundColor: colors.background,
       padding: 16,
       justifyContent: 'center',
     },

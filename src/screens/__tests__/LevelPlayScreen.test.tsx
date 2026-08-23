@@ -35,6 +35,7 @@ import {
   type StorageLike,
 } from '../../state/storage';
 import type { Progress } from '../../state/types';
+import { wrapInSafeArea } from '../../test-utils';
 import { LevelPlayScreen } from '../LevelPlayScreen';
 
 const RULE_A = 'past_perfect_form';
@@ -155,15 +156,17 @@ async function renderScreen({
   let tree!: ReactTestRenderer.ReactTestRenderer;
   await ReactTestRenderer.act(() => {
     tree = ReactTestRenderer.create(
-      <LevelPlayScreen
-        level={level}
-        initialProgress={initialProgress}
-        store={store}
-        random={random}
-        passConfig={passConfig}
-        onLevelEnd={onLevelEnd}
-        onExit={onExit}
-      />,
+      wrapInSafeArea(
+        <LevelPlayScreen
+          level={level}
+          initialProgress={initialProgress}
+          store={store}
+          random={random}
+          passConfig={passConfig}
+          onLevelEnd={onLevelEnd}
+          onExit={onExit}
+        />,
+      ),
     );
   });
   await flushAsync();

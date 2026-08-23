@@ -12,6 +12,7 @@
 
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { ScreenShell } from '../components/ScreenShell';
 import type { Track } from '../content/types';
 import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
@@ -26,43 +27,44 @@ export interface StartPointScreenProps {
 export function StartPointScreen({ tracks, onChoose }: StartPointScreenProps) {
   const styles = useThemedStyles(makeStyles);
   return (
-    <View style={styles.screen} testID="start-point-screen">
-      <View style={styles.card} accessibilityRole="summary">
-        <Text style={styles.heading} accessibilityRole="header" testID="start-point-heading">
-          Where do you want to start?
-        </Text>
-        <Text style={styles.subheading} testID="start-point-subheading">
-          Pick the level that best matches your experience. You can always go
-          back and practice earlier levels.
-        </Text>
-      </View>
+    <ScreenShell testID="start-point-screen">
+      <View style={styles.content}>
+        <View style={styles.card} accessibilityRole="summary">
+          <Text style={styles.heading} accessibilityRole="header" testID="start-point-heading">
+            Where do you want to start?
+          </Text>
+          <Text style={styles.subheading} testID="start-point-subheading">
+            Pick the level that best matches your experience. You can always go
+            back and practice earlier levels.
+          </Text>
+        </View>
 
-      {tracks.map(track => (
-        <Pressable
-          key={track.id}
-          testID={`start-choice-${track.id}`}
-          accessibilityRole="button"
-          accessibilityLabel={`Start at ${track.label} level 1`}
-          onPress={() => onChoose(track.id, 1)}
-          style={({ pressed }) => [styles.choice, pressed && styles.choicePressed]}
-        >
-          <Text style={styles.choiceName} testID={`start-choice-name-${track.id}`}>
-            {track.name}
-          </Text>
-          <Text style={styles.choiceLabel} testID={`start-choice-label-${track.id}`}>
-            {track.label} — start at level 1
-          </Text>
-        </Pressable>
-      ))}
-    </View>
+        {tracks.map(track => (
+          <Pressable
+            key={track.id}
+            testID={`start-choice-${track.id}`}
+            accessibilityRole="button"
+            accessibilityLabel={`Start at ${track.label} level 1`}
+            onPress={() => onChoose(track.id, 1)}
+            style={({ pressed }) => [styles.choice, pressed && styles.choicePressed]}
+          >
+            <Text style={styles.choiceName} testID={`start-choice-name-${track.id}`}>
+              {track.name}
+            </Text>
+            <Text style={styles.choiceLabel} testID={`start-choice-label-${track.id}`}>
+              {track.label} — start at level 1
+            </Text>
+          </Pressable>
+        ))}
+      </View>
+    </ScreenShell>
   );
 }
 
 const makeStyles = (colors: ThemeColors) =>
   StyleSheet.create({
-    screen: {
+    content: {
       flex: 1,
-      backgroundColor: colors.background,
       padding: 16,
       justifyContent: 'center',
     },

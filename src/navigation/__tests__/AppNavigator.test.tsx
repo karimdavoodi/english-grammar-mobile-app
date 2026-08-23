@@ -32,6 +32,7 @@ import { findLevelById, tracks } from '../../content';
 import type { QuestionUnion } from '../../content/types';
 import { createInitialProgress } from '../../state/reducers';
 import { loadProgress, saveProgress, type StorageLike } from '../../state/storage';
+import { wrapInSafeArea } from '../../test-utils';
 import { AppNavigator } from '../AppNavigator';
 
 function createStore(): StorageLike {
@@ -53,9 +54,11 @@ async function renderApp(store: StorageLike) {
   let tree!: ReactTestRenderer.ReactTestRenderer;
   await ReactTestRenderer.act(() => {
     tree = ReactTestRenderer.create(
-      <AppProvider store={store}>
-        <AppNavigator />
-      </AppProvider>,
+      wrapInSafeArea(
+        <AppProvider store={store}>
+          <AppNavigator />
+        </AppProvider>,
+      ),
     );
   });
   // Let the async boot (load + auto-start persist) and the fresh session

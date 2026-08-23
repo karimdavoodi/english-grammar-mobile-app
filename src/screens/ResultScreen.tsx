@@ -19,6 +19,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import type { Level } from '../content/types';
+import { ScreenShell } from '../components/ScreenShell';
 import type { AnswerOutcome } from '../game/levelMachine';
 import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
@@ -61,40 +62,41 @@ export function ResultScreen({ level, outcome, nextLevel, onContinue }: ResultSc
   const continueLabel = nextLevel ? `Continue to ${nextLevel.title}` : 'Go to map';
 
   return (
-    <View style={styles.screen} testID="result-screen">
-      <View style={styles.card} accessibilityRole="summary">
-        <Text style={styles.heading} accessibilityRole="header" testID="result-heading">
-          {heading}
-        </Text>
-        <Text style={styles.levelTitle} testID="result-level-title">
-          {level.title}
-        </Text>
-        <Text style={styles.explanation} testID="result-explanation">
-          {explanation}
-        </Text>
-        <Text style={styles.summary} testID="result-summary">
-          Correct: {correctCount} · Streak: {streak} · Answered: {totalAnswered}
-        </Text>
-      </View>
+    <ScreenShell testID="result-screen">
+      <View style={styles.content}>
+        <View style={styles.card} accessibilityRole="summary">
+          <Text style={styles.heading} accessibilityRole="header" testID="result-heading">
+            {heading}
+          </Text>
+          <Text style={styles.levelTitle} testID="result-level-title">
+            {level.title}
+          </Text>
+          <Text style={styles.explanation} testID="result-explanation">
+            {explanation}
+          </Text>
+          <Text style={styles.summary} testID="result-summary">
+            Correct: {correctCount} · Streak: {streak} · Answered: {totalAnswered}
+          </Text>
+        </View>
 
-      <Pressable
-        testID="result-continue"
-        accessibilityRole="button"
-        accessibilityLabel={continueLabel}
-        onPress={onContinue}
-        style={({ pressed }) => [styles.continue, pressed && styles.continuePressed]}
-      >
-        <Text style={styles.continueLabel}>{continueLabel}</Text>
-      </Pressable>
-    </View>
+        <Pressable
+          testID="result-continue"
+          accessibilityRole="button"
+          accessibilityLabel={continueLabel}
+          onPress={onContinue}
+          style={({ pressed }) => [styles.continue, pressed && styles.continuePressed]}
+        >
+          <Text style={styles.continueLabel}>{continueLabel}</Text>
+        </Pressable>
+      </View>
+    </ScreenShell>
   );
 }
 
 const makeStyles = (colors: ThemeColors) =>
   StyleSheet.create({
-    screen: {
+    content: {
       flex: 1,
-      backgroundColor: colors.background,
       padding: 16,
       justifyContent: 'center',
     },
