@@ -88,10 +88,23 @@ export async function loadSettings(store: StorageLike = DEFAULT_STORE): Promise<
   }
   try {
     const parsed: unknown = JSON.parse(raw);
-    const theme = (parsed as { theme?: unknown }).theme;
-    if (theme === 'light' || theme === 'dark') {
-      return { theme };
-    }
+    if (parsed === null || typeof parsed !== 'object') return { ...DEFAULT_SETTINGS };
+    const candidate = parsed as { theme?: unknown; notifications?: unknown };
+    const theme = candidate.theme === 'light' || candidate.theme === 'dark' || candidate.theme === 'device'
+      ? candidate.theme : DEFAULT_SETTINGS.theme;
+    const saved = candidate.notifications;
+    const notification = saved !== null && typeof saved === 'object'
+      ? saved as Partial<Settings['notifications']> : {};
+    return {
+      theme,
+      notifications: {
+        enabled: typeof notification.enabled === 'boolean' ? notification.enabled : DEFAULT_SETTINGS.notifications.enabled,
+        hour: typeof notification.hour === 'number' && Number.isInteger(notification.hour) && notification.hour >= 0 && notification.hour <= 23
+          ? notification.hour : DEFAULT_SETTINGS.notifications.hour,
+        minute: typeof notification.minute === 'number' && Number.isInteger(notification.minute) && notification.minute >= 0 && notification.minute <= 59
+          ? notification.minute : DEFAULT_SETTINGS.notifications.minute,
+      },
+    };
   } catch {
     // malformed JSON — fall through to the default
   }
@@ -99,7 +112,7 @@ export async function loadSettings(store: StorageLike = DEFAULT_STORE): Promise<
 }
 
 export async function saveSettings(
-  settings: Settings,
+  settings: Settings | Partial<Settings>,
   store: StorageLike = DEFAULT_STORE,
 ): Promise<void> {
   await store.setItem(SETTINGS_KEY, JSON.stringify(settings));

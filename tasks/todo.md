@@ -44,7 +44,7 @@ Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases
 
 - [x] Task 14: Daily streak tracking + streak UI (version 3 → 4)
 - [x] Task 15: Local event log + Stats screen (bounded local events, aggregate selectors, Stats route)
-- [ ] Task 17: Settings growth + tolerant settings read (do before Task 16)
+- [x] Task 17: Settings growth + tolerant settings read (do before Task 16)
 - [ ] Task 16: Local notifications (`@notifee`) + notification settings
 
 ### Checkpoint: Growth layer

@@ -168,25 +168,30 @@ describe('persistSession / hydrateSession', () => {
 describe('settings persistence', () => {
   it('returns the device-theme default when nothing is stored', async () => {
     const store = createMemoryStore();
-    expect(await loadSettings(store)).toEqual({ theme: 'device' });
+    expect(await loadSettings(store)).toEqual({ theme: 'device', notifications: { enabled: false, hour: 9, minute: 0 } });
   });
 
   it('round-trips saved settings', async () => {
     const store = createMemoryStore();
-    await saveSettings({ theme: 'dark' }, store);
+    await saveSettings({ theme: 'dark', notifications: { enabled: true, hour: 18, minute: 30 } }, store);
 
-    expect(await loadSettings(store)).toEqual({ theme: 'dark' });
-    expect(JSON.parse((await store.getItem(SETTINGS_KEY)) ?? '')).toEqual({ theme: 'dark' });
+    expect(await loadSettings(store)).toEqual({ theme: 'dark', notifications: { enabled: true, hour: 18, minute: 30 } });
+    expect(JSON.parse((await store.getItem(SETTINGS_KEY)) ?? '')).toEqual({ theme: 'dark', notifications: { enabled: true, hour: 18, minute: 30 } });
   });
 
   it('falls back to the default on malformed JSON', async () => {
     const store = createMemoryStore({ [SETTINGS_KEY]: 'not-json{' });
-    expect(await loadSettings(store)).toEqual({ theme: 'device' });
+    expect(await loadSettings(store)).toEqual({ theme: 'device', notifications: { enabled: false, hour: 9, minute: 0 } });
   });
 
   it('falls back to the default on an unknown theme value', async () => {
     const store = createMemoryStore({ [SETTINGS_KEY]: '{"theme":"neon"}' });
-    expect(await loadSettings(store)).toEqual({ theme: 'device' });
+    expect(await loadSettings(store)).toEqual({ theme: 'device', notifications: { enabled: false, hour: 9, minute: 0 } });
+  });
+
+  it('merges valid fields with defaults and ignores invalid nested values', async () => {
+    const store = createMemoryStore({ [SETTINGS_KEY]: '{"theme":"dark","notifications":{"enabled":true,"hour":22,"minute":75}}' });
+    expect(await loadSettings(store)).toEqual({ theme: 'dark', notifications: { enabled: true, hour: 22, minute: 0 } });
   });
 });
 
@@ -333,6 +338,6 @@ describe('resetProgress', () => {
     await resetProgress(store);
 
     expect(await store.getItem(PROGRESS_KEY)).toBeNull();
-    expect(await loadSettings(store)).toEqual({ theme: 'light' });
+    expect(await loadSettings(store)).toEqual({ theme: 'light', notifications: { enabled: false, hour: 9, minute: 0 } });
   });
 });

@@ -15,8 +15,8 @@
  */
 
 import React from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import type { ThemePreference } from '../state/types';
+import { Alert, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import type { NotificationSettings, ThemePreference } from '../state/types';
 import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
 import { tokens } from '../theme/tokens';
@@ -31,6 +31,10 @@ const THEME_OPTIONS: ReadonlyArray<{ value: ThemePreference; label: string; hint
 export interface SettingsScreenProps {
   /** The current theme preference — the matching option is marked selected. */
   themePreference: ThemePreference;
+  notifications?: NotificationSettings;
+  onChangeNotifications?: (settings: NotificationSettings) => void;
+  dailyStreak?: number;
+  bestStreak?: number;
   /** Called with the new preference when the player picks a theme. */
   onChangeTheme: (preference: ThemePreference) => void;
   /** Called when the player confirms the reset in the confirmation dialog. */
@@ -46,6 +50,10 @@ export interface SettingsScreenProps {
 export function SettingsScreen({
   themePreference,
   onChangeTheme,
+  notifications = { enabled: false, hour: 9, minute: 0 },
+  onChangeNotifications,
+  dailyStreak = 0,
+  bestStreak = 0,
   onReset,
   onOpenReview,
   onOpenStats,
@@ -76,6 +84,9 @@ export function SettingsScreen({
         <Text style={styles.subheading} testID="settings-subheading">
           Choose the app’s appearance. Resetting erases your progress but keeps
           your appearance choice.
+        </Text>
+        <Text style={styles.streak} testID="settings-streak">
+          Daily streak: {dailyStreak} · Best: {bestStreak}
         </Text>
       </View>
 
@@ -115,6 +126,37 @@ export function SettingsScreen({
             </Pressable>
           );
         })}
+
+        <Text style={styles.sectionLabel} accessibilityRole="header" testID="settings-growth-label">
+          Growth
+        </Text>
+        <View style={styles.option} testID="settings-notifications">
+          <View style={styles.optionText}>
+            <Text style={styles.optionLabel}>Daily reminder</Text>
+            <Text style={styles.optionHint}>Choose when to be reminded to practice</Text>
+          </View>
+          <Switch
+            testID="settings-notifications-toggle"
+            accessibilityLabel="Daily reminder"
+            accessibilityState={{ checked: notifications.enabled }}
+            value={notifications.enabled}
+            onValueChange={enabled => onChangeNotifications?.({ ...notifications, enabled })}
+          />
+        </View>
+        <View style={styles.timeRow} testID="settings-notification-time">
+          <Text style={styles.optionLabel}>Reminder time</Text>
+          <View style={styles.timeControls}>
+            <Pressable testID="settings-notification-hour-decrease" accessibilityLabel="Earlier reminder hour" onPress={() => onChangeNotifications?.({ ...notifications, hour: (notifications.hour + 23) % 24 })} style={styles.timeButton}>
+              <Text style={styles.timeButtonLabel}>−</Text>
+            </Pressable>
+            <Text testID="settings-notification-time-value" style={styles.timeValue}>
+              {String(notifications.hour).padStart(2, '0')}:{String(notifications.minute).padStart(2, '0')}
+            </Text>
+            <Pressable testID="settings-notification-hour-increase" accessibilityLabel="Later reminder hour" onPress={() => onChangeNotifications?.({ ...notifications, hour: (notifications.hour + 1) % 24 })} style={styles.timeButton}>
+              <Text style={styles.timeButtonLabel}>+</Text>
+            </Pressable>
+          </View>
+        </View>
 
         <Text style={styles.sectionLabel} accessibilityRole="header" testID="settings-support-label">
           Support
@@ -221,6 +263,11 @@ const makeStyles = (colors: ThemeColors) =>
       lineHeight: 20,
       color: colors.primaryOnContainerMuted,
     },
+    streak: {
+      marginTop: tokens.spacing.sm,
+      color: colors.primaryOnContainer,
+      fontWeight: '700',
+    },
     list: {
       flex: 1,
     },
@@ -254,6 +301,22 @@ const makeStyles = (colors: ThemeColors) =>
     optionPressed: {
       backgroundColor: colors.surfacePressed,
     },
+    timeRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingVertical: tokens.spacing.md,
+    },
+    timeControls: { flexDirection: 'row', alignItems: 'center' },
+    timeButton: {
+      padding: tokens.spacing.sm,
+      minWidth: 40,
+      alignItems: 'center',
+      backgroundColor: colors.surface,
+      borderRadius: tokens.radii.sm,
+    },
+    timeButtonLabel: { color: colors.textPrimary, fontSize: 20, fontWeight: '700' },
+    timeValue: { color: colors.textPrimary, minWidth: 60, textAlign: 'center' },
     optionText: {
       flex: 1,
       marginRight: tokens.spacing.sm,

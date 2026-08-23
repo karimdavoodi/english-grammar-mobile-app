@@ -287,7 +287,7 @@ describe('AppProvider — applySettings', () => {
     await press(tree, 'set-theme-dark');
 
     expect(textOf(tree, 'settings-theme')).toBe('dark');
-    expect(await loadSettings(store)).toEqual({ theme: 'dark' });
+    expect(await loadSettings(store)).toEqual({ theme: 'dark', notifications: { enabled: false, hour: 9, minute: 0 } });
   });
 });
 
@@ -320,7 +320,7 @@ describe('AppProvider — resetGame', () => {
     expect(persisted?.startingPoint).toEqual({ trackId: 'basic', levelNumber: 1 });
     expect(persisted?.completedLevelIds).toEqual([]);
     // Settings survive a reset.
-    expect(await loadSettings(store)).toEqual({ theme: 'light' });
+    expect(await loadSettings(store)).toEqual({ theme: 'light', notifications: { enabled: false, hour: 9, minute: 0 } });
   });
 
   it('leaves progress null (start choice) when multiple tracks are eligible', async () => {

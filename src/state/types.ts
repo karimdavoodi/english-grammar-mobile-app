@@ -11,13 +11,22 @@ import type { TrackId } from '../content/types';
 
 /** Theme preference honored by the ThemeProvider (Task 12). */
 export type ThemePreference = 'device' | 'light' | 'dark';
+export interface NotificationSettings {
+  enabled: boolean;
+  hour: number;
+  minute: number;
+}
 
 /** User settings — the only slice that survives a progress reset. */
 export interface Settings {
   theme: ThemePreference;
+  notifications: NotificationSettings;
 }
 
-export const DEFAULT_SETTINGS: Settings = { theme: 'device' };
+export const DEFAULT_SETTINGS: Settings = {
+  theme: 'device',
+  notifications: { enabled: false, hour: 9, minute: 0 },
+};
 
 /** The player's chosen starting point (from the onboarding choice). */
 export interface StartingPoint {

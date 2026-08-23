@@ -278,10 +278,10 @@ describe('full journey — fresh install → play → pass/mercy → review → 
 
     // ── Reset clears progress while settings survive → relaunch re-auto-starts ──
     await saveSettings({ theme: 'dark' }, store);
-    expect(await loadSettings(store)).toEqual({ theme: 'dark' });
+    expect(await loadSettings(store)).toEqual({ theme: 'dark', notifications: { enabled: false, hour: 9, minute: 0 } });
     await resetProgress(store);
     expect(await loadProgress(store)).toBeNull();
-    expect(await loadSettings(store)).toEqual({ theme: 'dark' }); // settings survive
+    expect(await loadSettings(store)).toEqual({ theme: 'dark', notifications: { enabled: false, hour: 9, minute: 0 } }); // settings survive
     const fresh = resolveBootProgress(tracks, null);
     expect(fresh).not.toBeNull();
     expect(fresh!.currentLevelId).toBe('b01');

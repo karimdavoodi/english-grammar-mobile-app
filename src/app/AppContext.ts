@@ -25,7 +25,7 @@ export interface AppContextValue {
   /** Replace + persist the progress slice (frontier advance, level end, …). */
   applyProgress: (next: Progress) => Promise<void>;
   /** Replace + persist the settings (theme, …) — settings survive a reset. */
-  applySettings: (next: Settings) => Promise<void>;
+  applySettings: (next: Partial<Settings>) => Promise<void>;
   /**
    * Reset the game (Task 12): clears persisted progress, then re-runs the
    * first-launch boot decision — with a single eligible track it auto-starts a

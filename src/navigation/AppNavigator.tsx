@@ -196,11 +196,11 @@ function ReviewRoute({
   );
 }
 
-/** Settings — theme choice, Review link, and confirmed reset (Task 12). */
+/** Settings — appearance, growth preferences, study links, and reset. */
 function SettingsRoute({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'Settings'>) {
-  const { settings, applySettings, resetGame } = useApp();
+  const { settings, progress, applySettings, resetGame } = useApp();
 
   const handleReset = useCallback(async () => {
     const next = await resetGame();
@@ -219,6 +219,10 @@ function SettingsRoute({
     <SettingsScreen
       themePreference={settings.theme}
       onChangeTheme={theme => applySettings({ theme })}
+      notifications={settings.notifications}
+      onChangeNotifications={notifications => applySettings({ ...settings, notifications })}
+      dailyStreak={progress?.dailyStreak ?? 0}
+      bestStreak={progress?.bestStreak ?? 0}
       onReset={handleReset}
       onOpenReview={() => navigation.navigate('Review')}
       onOpenStats={() => navigation.navigate('Stats')}

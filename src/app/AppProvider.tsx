@@ -134,11 +134,19 @@ export function AppProvider({
   );
 
   const applySettings = useCallback(
-    async (next: Settings) => {
-      setSettings(next);
-      await saveSettings(next, store);
+    async (next: Partial<Settings>) => {
+      const merged: Settings = {
+        ...(settings ?? DEFAULT_SETTINGS),
+        ...next,
+        notifications: {
+          ...(settings ?? DEFAULT_SETTINGS).notifications,
+          ...(next.notifications ?? {}),
+        },
+      };
+      setSettings(merged);
+      await saveSettings(merged, store);
     },
-    [store],
+    [settings, store],
   );
 
   const resetGame = useCallback(async (): Promise<Progress | null> => {

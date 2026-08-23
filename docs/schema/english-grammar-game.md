@@ -192,6 +192,11 @@ This fragment intentionally shows two questions for readability. A shippable lev
 // ── Settings ──────────────────────────────────────────────────────
 interface Settings {
   theme: 'device' | 'light' | 'dark';
+  notifications: {
+    enabled: boolean;
+    hour: number;                // local time, 0–23
+    minute: number;              // local time, 0–59
+  };
 }
 
 // ── Progress ──────────────────────────────────────────────────────
