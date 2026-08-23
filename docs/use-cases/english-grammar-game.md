@@ -71,6 +71,12 @@ Behavioral spec derived from `docs/ideas/english-grammar-game.md`.
 - Then it is drawn from the level's question bank
 - And it shows a prompt with 4 answer choices
 
+**Scenario: Typed questions use their response shape**
+- Given the question is a fill-in-the-blank, fix-the-sentence, or word-order question
+- When I submit an answer
+- Then the game scores text answers case-insensitively with normalized whitespace and punctuation
+- And word-order answers are scored against the canonical word sequence
+
 **Scenario: Three correct in a row passes the level**
 - Given I have answered 2 questions correctly in a row
 - When I answer the next question correctly

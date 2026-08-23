@@ -8,19 +8,26 @@
  * Pure by construction: every function returns new state, never mutates inputs.
  */
 
-/** A multiple-choice grammar question (content schema, minimal subset). */
+import type { QuestionInput, QuestionUnion } from '../content/types';
+import { normalizeQuestion } from '../content/types';
+import { scoreAnswer, type AnswerResponse, type ScoreResult } from './scoring';
+
+export { scoreAnswer } from './scoring';
+export type { AnswerResponse } from './scoring';
+
+/** Legacy multiple-choice view retained for the existing UI until Task 9. */
 export interface Question {
   id: string;
   levelId: string;
-  /** Narrow rule tag — the key that powers adaptive serving & the Weakness Queue. */
   rule: string;
   prompt: string;
-  /** Exactly 4 choices. */
   choices: string[];
   correctIndex: number;
-  /** Aligned with choices: [correctIndex] explains why it's right, the rest why each is wrong. */
   choiceExplanations: string[];
 }
+
+/** Questions accepted at the machine boundary; legacy questions are normalized. */
+export type QuestionLike = Question | QuestionUnion | QuestionInput;
 
 /** Tuning parameters — all decided values, adjustable from real play. */
 export interface PassConfig {
@@ -61,7 +68,8 @@ export interface LevelSession {
 /** What happened as a result of one answer. */
 export interface AnswerOutcome {
   isCorrect: boolean;
-  correctIndex: number;
+  correctIndex?: number;
+  correctAnswer?: string;
   streak: number;
   correctCount: number;
   totalAnswered: number;
@@ -102,20 +110,28 @@ export class FinishedLevelError extends Error {
  */
 export function answerQuestion(
   session: LevelSession,
-  question: Question,
-  chosenIndex: number,
+  question: QuestionLike,
+  response: AnswerResponse | number,
   config: PassConfig = DEFAULT_PASS_CONFIG,
 ): { session: LevelSession; outcome: AnswerOutcome } {
   if (session.status !== 'in_progress') {
     throw new FinishedLevelError(session.status);
   }
-  if (chosenIndex < 0 || chosenIndex >= question.choices.length) {
+  const normalized = normalizeQuestion(question);
+  const answer: AnswerResponse =
+    typeof response === 'number' ? { type: 'index', index: response } : response;
+  if (answer.type === 'index' &&
+      (normalized.type !== 'multiple_choice' && normalized.type !== 'fix_sentence' ||
+        answer.index < 0 || answer.index >= normalized.choices.length)) {
     throw new RangeError(
-      `chosenIndex ${chosenIndex} out of range for question with ${question.choices.length} choices`,
+      `answer index ${answer.index} out of range for question with ${
+        'choices' in normalized ? normalized.choices.length : 0
+      } choices`,
     );
   }
 
-  const isCorrect = chosenIndex === question.correctIndex;
+  const score: ScoreResult = scoreAnswer(normalized, answer);
+  const isCorrect = score.isCorrect;
   const streak = isCorrect ? session.streak + 1 : 0;
   const correctCount = isCorrect ? session.correctCount + 1 : session.correctCount;
   const totalAnswered = session.totalAnswered + 1;
@@ -143,7 +159,8 @@ export function answerQuestion(
 
   const outcome: AnswerOutcome = {
     isCorrect,
-    correctIndex: question.correctIndex,
+    correctIndex: score.correctIndex,
+    correctAnswer: score.correctAnswer,
     streak,
     correctCount,
     totalAnswered,
@@ -171,18 +188,18 @@ export interface PickOptions {
  *   3. otherwise a random unasked question from the bank.
  * Returns null when the bank is exhausted.
  */
-export function pickNextQuestion(
-  bank: Question[],
+export function pickNextQuestion<T extends QuestionLike>(
+  bank: T[],
   askedIds: ReadonlySet<string>,
   lastWrongRule: string | null,
   options: PickOptions = {},
-): Question | null {
+): T | null {
   const rand = options.random ?? Math.random;
   const unasked = bank.filter(q => !askedIds.has(q.id));
   if (unasked.length === 0) {
     return null;
   }
-  const pickRandom = (pool: Question[]) => pool[Math.floor(rand() * pool.length)];
+  const pickRandom = (pool: T[]) => pool[Math.floor(rand() * pool.length)];
 
   if (lastWrongRule !== null) {
     const sameRule = unasked.filter(q => q.rule === lastWrongRule);
