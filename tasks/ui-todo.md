@@ -34,6 +34,15 @@ it is implemented, verified (tests / tsc / lint), and committed.
       Android-only hardware-back handler on Home asks "Exit app?" (Yes →
       `BackHandler.exitApp()`, No stays). No bottom Back button. Selector + new
       `HomeScreen.test.tsx` coverage green; navigator wiring lands in Task 6.
-- [ ] Task 5 — Topics screen (Issue 4)
+- [x] Task 5 — Topics screen (Issue 4)
+      New presentational `TopicsScreen` (`{ trackId }`): lists the selected
+      track's levels (each level teaches one topic) in level-number order with
+      derived statuses — passed / current / locked / needs-review — reusing the
+      pure `levelStatuses` selector filtered to the track; a first-time player
+      (progress null) sees every topic as available and tappable; tapping an
+      unlocked topic calls `onSelectLevel(levelId)` while locked topics are
+      disabled; unknown track id renders a defensive message; no bottom Back
+      button (system gesture); safe-area via ScreenShell. New
+      `TopicsScreen.test.tsx` coverage green; navigator wiring lands in Task 6.
 - [ ] Task 6 — Navigator restructure and boot flow (Issues 4, 8)
 - [ ] Task 7 — Regression sweep and remaining test coverage
