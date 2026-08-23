@@ -16,6 +16,7 @@ import { basicCluster04 } from './tracks/basic/basic-04';
 import { intermediateTrack } from './tracks/intermediate';
 import { advancedCluster01 } from './tracks/advanced/advanced-01';
 import { advancedCluster02 } from './tracks/advanced/advanced-02';
+import { advancedCluster03 } from './tracks/advanced/advanced-03';
 import { normalizeTrack } from './types';
 import type { Level, Track, TopicRule } from './types';
 
@@ -36,7 +37,7 @@ export const tracks: Track[] = [
     name: 'Advanced',
     label: 'Advanced',
     eligibleStartingPoint: true,
-    levels: [...advancedCluster01, ...advancedCluster02],
+    levels: [...advancedCluster01, ...advancedCluster02, ...advancedCluster03],
   }),
 ];
 

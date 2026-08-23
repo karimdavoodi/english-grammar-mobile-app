@@ -171,3 +171,18 @@ grammar, explanation, recurring-rule, and schema checklist. The reviewer remains
 | 18 | a18 | Determiners and Information Packaging | 12 | multiple_choice ×4, fix_sentence ×3, fill_blank ×3, word_order ×2 | `distributive_determiners`, `predeterminers` | `generic_reference` (a17) | AI | authoring-pass | Distributive and predeterminer scope. |
 | 19 | a19 | Focus and Prosody in Writing | 12 | multiple_choice ×4, fix_sentence ×3, fill_blank ×3, word_order ×2 | `focus_fronting`, `focus_particle` | `tentative_language` (a16) | AI | authoring-pass | Written focus through fronting and focus particles. |
 | 20 | a20 | Clefts and Pseudo-clefts | 12 | multiple_choice ×4, fix_sentence ×3, fill_blank ×3, word_order ×2 | `pseudo_cleft`, `reversed_cleft` | `focus_fronting` (a19) | AI | authoring-pass | Cleft information structure and agreement. |
+
+## Advanced track — Task 22C authoring pass
+
+| # | Level | Topic | Questions | Type mix | Home rules | Recurring rules | Reviewer | Status | Notes |
+|---|-------|-------|-----------|----------|------------|-----------------|----------|--------|-------|
+| 21 | a21 | Advanced Inversion | 12 | multiple_choice ×4, fix_sentence ×3, fill_blank ×3, word_order ×2 | `subject_auxiliary_inversion`, `locative_inversion` | `reversed_cleft` (a20) | AI | authoring-pass | Restrictive-adverbial and locative inversion. |
+| 22 | a22 | Extraposition and It-clauses | 12 | multiple_choice ×4, fix_sentence ×3, fill_blank ×3, word_order ×2 | `extraposition_it`, `anticipatory_it` | `subject_auxiliary_inversion` (a21) | AI | authoring-pass | Extraposed clauses and anticipatory infinitives. |
+| 23 | a23 | Coordination and Parallelism | 12 | multiple_choice ×4, fix_sentence ×3, fill_blank ×3, word_order ×2 | `parallel_structure`, `coordination_scope` | `extraposition_it` (a22) | AI | authoring-pass | Parallel forms and coordination boundaries. |
+| 24 | a24 | Ellipsis and Gapping | 12 | multiple_choice ×4, fix_sentence ×3, fill_blank ×3, word_order ×2 | `gapping`, `comparative_ellipsis` | `parallel_structure` (a23) | AI | authoring-pass | Gapping and recoverable comparative material. |
+| 25 | a25 | Concession and Scalar Meaning | 12 | multiple_choice ×4, fix_sentence ×3, fill_blank ×3, word_order ×2 | `concessive_clause`, `scalar_even_if` | `advanced_linking` (i29) | AI | authoring-pass | Concessive clauses and scalar hypothetical meaning. |
+| 26 | a26 | Academic and Formal Cohesion | 12 | multiple_choice ×4, fix_sentence ×3, fill_blank ×3, word_order ×2 | `academic_linking`, `resultative_cohesion` | `concessive_clause` (a25) | AI | authoring-pass | Formal linkers and resultative cohesion. |
+| 27 | a27 | Stance, Certainty, and Qualification | 12 | multiple_choice ×4, fix_sentence ×3, fill_blank ×3, word_order ×2 | `stance_noun_phrase`, `certainty_qualification` | `academic_linking` (a26) | AI | authoring-pass | Evidence, stance, and calibrated claims. |
+| 28 | a28 | Lexical Grammar and Valency | 12 | multiple_choice ×4, fix_sentence ×3, fill_blank ×3, word_order ×2 | `valency_alternation`, `light_verb_collocation` | `complex_complementation` (a13) | AI | authoring-pass | Verb complements and light-verb collocations. |
+| 29 | a29 | Register, Variation, and Editing | 12 | multiple_choice ×4, fix_sentence ×3, fill_blank ×3, word_order ×2 | `standard_edited_english`, `register_variant_choice` | `academic_linking` (a26) | AI | authoring-pass | Formal editing and register-sensitive choices. |
+| 30 | a30 | Advanced Grammar Consolidation | 13 | multiple_choice ×5, fix_sentence ×3, fill_blank ×3, word_order ×2 | `advanced_grammar_consolidation` | `subject_auxiliary_inversion` (a21), `valency_alternation` (a28) | AI | authoring-pass | Integrated advanced structure, stance, and register review. |
