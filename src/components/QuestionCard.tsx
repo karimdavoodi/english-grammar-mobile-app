@@ -12,21 +12,29 @@
 
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import type { Question } from '../content/types';
+import { normalizeQuestion, type QuestionInput } from '../content/types';
+import type { AnswerResponse } from '../game/scoring';
 import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
 import { ChoiceButton, type ChoiceStatus } from './ChoiceButton';
 import { ReportButton } from './ReportButton';
+import { FillBlankCard } from './FillBlankCard';
+import { FixSentenceCard } from './FixSentenceCard';
+import { WordOrderCard } from './WordOrderCard';
 
 export interface QuestionCardProps {
   /** The question being served. */
-  question: Question;
+  question: QuestionInput;
   /** The user's chosen index — null until an answer is submitted. */
   selectedIndex: number | null;
   /** True once the answer is submitted and feedback is being shown. */
   revealed: boolean;
-  /** Called with the 0-based chosen index (never once revealed). */
-  onAnswer: (index: number) => void;
+  /** Called with the response for the question type (never once revealed). */
+  onAnswer: (response: AnswerResponse) => void;
+  /** The submitted typed response, when applicable. */
+  selectedResponse?: AnswerResponse | null;
+  /** Injectable serving randomness for deterministic word-order shuffles. */
+  random?: () => number;
   onReport?: () => void;
 }
 
@@ -54,23 +62,40 @@ export function QuestionCard({
   revealed,
   onAnswer,
   onReport,
+  selectedResponse = null,
+  random,
 }: QuestionCardProps) {
   const styles = useThemedStyles(makeStyles);
+  const normalized = normalizeQuestion(question);
+  const response: AnswerResponse | null =
+    selectedResponse ?? (selectedIndex === null ? null : { type: 'index', index: selectedIndex });
+
+  if (normalized.type === 'fill_blank') {
+    return <FillBlankCard question={normalized} response={response} revealed={revealed} onAnswer={onAnswer} onReport={onReport} />;
+  }
+  if (normalized.type === 'word_order') {
+    return <WordOrderCard question={normalized} revealed={revealed} random={random} onAnswer={onAnswer} onReport={onReport} />;
+  }
+  if (normalized.type === 'fix_sentence') {
+    return <FixSentenceCard question={normalized} response={response} revealed={revealed} onAnswer={onAnswer} onReport={onReport} />;
+  }
+
+  const selectedChoice = response?.type === 'index' ? response.index : selectedIndex;
   return (
     <View style={styles.card} testID="question-card">
       <Text style={styles.prompt} accessibilityRole="header" testID="question-prompt">
         {question.prompt}
       </Text>
       <View style={styles.choices} testID="question-choices">
-        {question.choices.map((choice, index) => (
+        {normalized.choices.map((choice, index) => (
           <ChoiceButton
             key={index}
             index={index}
             choice={choice}
             revealed={revealed}
-            status={statusFor(index, selectedIndex, question.correctIndex, revealed)}
-            onPress={onAnswer}
-            explanation={question.choiceExplanations[index]}
+            status={statusFor(index, selectedChoice, normalized.correctIndex, revealed)}
+            onPress={choiceIndex => onAnswer({ type: 'index', index: choiceIndex })}
+            explanation={normalized.choiceExplanations[index]}
           />
         ))}
       </View>

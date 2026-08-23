@@ -10,7 +10,14 @@
 import React from 'react';
 import { Text } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
-import type { Question, Topic, TopicRule } from '../../content/types';
+import type {
+  FillBlankQuestion,
+  FixSentenceQuestion,
+  Question,
+  Topic,
+  TopicRule,
+  WordOrderQuestion,
+} from '../../content/types';
 import { ChoiceButton } from '../ChoiceButton';
 import { LessonCard } from '../LessonCard';
 import { ProgressHeader } from '../ProgressHeader';
@@ -50,6 +57,34 @@ const QUESTION: Question = {
     "'Started' is past simple — it does not mark the movie as finished before the later past action.",
     "'Was started' is passive voice — wrong; the movie began, it was not begun by someone.",
   ],
+};
+
+const FIX_SENTENCE: FixSentenceQuestion = {
+  ...QUESTION,
+  type: 'fix_sentence',
+  faultySentence: 'She go to work every day.',
+};
+
+const FILL_BLANK: FillBlankQuestion = {
+  id: 'b10q02',
+  levelId: 'b10',
+  rule: 'past_perfect_form',
+  type: 'fill_blank',
+  prompt: 'By noon, they ___ the report.',
+  correctAnswer: 'had finished',
+  acceptedAnswers: ['had completed'],
+  explanation: 'Use had + the past participle for the earlier past action.',
+  commonMistakes: [{ mistake: 'finished', feedback: 'The auxiliary had is needed here.' }],
+};
+
+const WORD_ORDER: WordOrderQuestion = {
+  id: 'b10q03',
+  levelId: 'b10',
+  rule: 'past_perfect_form',
+  type: 'word_order',
+  prompt: 'Arrange the words.',
+  sentenceWords: ['They', 'had', 'left'],
+  explanation: 'The past perfect uses had before the past participle.',
 };
 
 async function render(
@@ -147,7 +182,7 @@ describe('QuestionCard', () => {
     await ReactTestRenderer.act(() => {
       tree.root.findByProps({ testID: 'choice-button-2' }).props.onPress();
     });
-    expect(onAnswer).toHaveBeenCalledWith(2);
+    expect(onAnswer).toHaveBeenCalledWith({ type: 'index', index: 2 });
   });
 
   it('confirms a correct answer: correct choice highlighted, choices locked, all "why" shown', async () => {
@@ -176,6 +211,68 @@ describe('QuestionCard', () => {
     expect(wrong.props.accessibilityLabel).toContain('incorrect');
     expect(correct.props.accessibilityLabel).toContain('correct');
     expect(dimmed.props.accessibilityLabel).toContain('not chosen');
+  });
+
+  it('dispatches fix-sentence questions to the choice renderer', async () => {
+    const onAnswer = jest.fn();
+    const tree = await render(
+      <QuestionCard question={FIX_SENTENCE} selectedIndex={null} revealed={false} onAnswer={onAnswer} />,
+    );
+    expect(textOf(tree, 'faulty-sentence')).toBe(FIX_SENTENCE.faultySentence);
+    await ReactTestRenderer.act(() => {
+      tree.root.findByProps({ testID: 'choice-button-1' }).props.onPress();
+    });
+    expect(onAnswer).toHaveBeenCalledWith({ type: 'index', index: 1 });
+  });
+
+  it('dispatches fill-blank questions and reports normalized text', async () => {
+    const onAnswer = jest.fn();
+    const tree = await render(
+      <QuestionCard question={FILL_BLANK} selectedIndex={null} revealed={false} onAnswer={onAnswer} />,
+    );
+    expect(tree.root.findByProps({ testID: 'fill-blank-input' }).props.accessibilityLabel).toBe(
+      'Answer for: By noon, they ___ the report.',
+    );
+    await ReactTestRenderer.act(() => {
+      tree.root.findByProps({ testID: 'fill-blank-input' }).props.onChangeText('  HAD finished!  ');
+    });
+    await ReactTestRenderer.act(() => {
+      tree.root.findByProps({ testID: 'fill-blank-submit' }).props.onPress();
+    });
+    expect(onAnswer).toHaveBeenCalledWith({ type: 'text', text: 'had finished' });
+  });
+
+  it('dispatches word-order questions with the tapped index sequence', async () => {
+    const onAnswer = jest.fn();
+    const tree = await render(
+      <QuestionCard question={WORD_ORDER} selectedIndex={null} revealed={false} onAnswer={onAnswer} random={() => 0} />,
+    );
+    expect(tree.root.findByProps({ testID: 'word-order-word-0' })).toBeTruthy();
+    expect(tree.root.findByProps({ testID: 'word-order-word-1' })).toBeTruthy();
+    expect(tree.root.findByProps({ testID: 'word-order-word-2' })).toBeTruthy();
+    await ReactTestRenderer.act(() => tree.root.findByProps({ testID: 'word-order-word-1' }).props.onPress());
+    await ReactTestRenderer.act(() => tree.root.findByProps({ testID: 'word-order-word-2' }).props.onPress());
+    await ReactTestRenderer.act(() => tree.root.findByProps({ testID: 'word-order-word-0' }).props.onPress());
+    expect(tree.root.findByProps({ testID: 'word-order-builder' })).toBeTruthy();
+    await ReactTestRenderer.act(() => {
+      tree.root.findByProps({ testID: 'word-order-submit' }).props.onPress();
+    });
+    expect(onAnswer).toHaveBeenCalledWith({ type: 'sequence', indexes: [1, 2, 0] });
+  });
+
+  it('shows typed feedback with the canonical answer and matched mistake guidance', async () => {
+    const tree = await render(
+      <QuestionCard
+        question={FILL_BLANK}
+        selectedIndex={null}
+        selectedResponse={{ type: 'text', text: 'finished' }}
+        revealed
+        onAnswer={jest.fn()}
+      />,
+    );
+    expect(textOf(tree, 'typed-correct-answer')).toBe('Correct answer: had finished');
+    expect(textOf(tree, 'typed-explanation')).toBe(FILL_BLANK.explanation);
+    expect(textOf(tree, 'typed-common-mistake')).toContain('The auxiliary had is needed here.');
   });
 });
 

@@ -27,6 +27,7 @@ import type { Level } from '../content/types';
 import { LessonCard } from '../components/LessonCard';
 import { ProgressHeader } from '../components/ProgressHeader';
 import { QuestionCard } from '../components/QuestionCard';
+import type { AnswerResponse } from '../game/levelMachine';
 import {
   DEFAULT_PASS_CONFIG,
   type AnswerOutcome,
@@ -78,7 +79,7 @@ export interface LevelPlayScreenProps {
 type Phase = 'lesson' | 'question' | 'feedback' | 'ended';
 
 interface Feedback {
-  chosenIndex: number;
+  response: AnswerResponse;
   outcome: AnswerOutcome;
   /** Wrong answer → the lesson card is shown alongside the revealed question. */
   showLesson: boolean;
@@ -172,14 +173,14 @@ export function LevelPlayScreen({
   }, []);
 
   const handleAnswer = useCallback(
-    (chosenIndex: number) => {
+    (response: AnswerResponse) => {
       if (play.phase !== 'question' || !play.serve) {
         return;
       }
       const { progress, session, outcome } = applyAnswer({
         progress: play.progress,
         question: play.serve.question,
-        chosenIndex,
+        response,
         mode: play.serve.mode,
         config: passConfig,
       });
@@ -189,7 +190,7 @@ export function LevelPlayScreen({
         progress,
         session,
         phase: 'feedback',
-        feedback: { chosenIndex, outcome, showLesson: !outcome.isCorrect },
+        feedback: { response, outcome, showLesson: !outcome.isCorrect },
       });
     },
     [play, passConfig, persist],
@@ -284,9 +285,11 @@ export function LevelPlayScreen({
         {(phase === 'question' || phase === 'feedback') && serve ? (
           <QuestionCard
             question={serve.question}
-            selectedIndex={feedback?.chosenIndex ?? null}
+            selectedIndex={feedback?.response.type === 'index' ? feedback.response.index : null}
+            selectedResponse={feedback?.response ?? null}
             revealed={phase === 'feedback'}
             onAnswer={handleAnswer}
+            random={random}
             onReport={feedback?.showLesson ? () => onReport?.(serve.question.id) : undefined}
           />
         ) : null}
