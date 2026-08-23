@@ -56,7 +56,7 @@ Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases
 
 - [x] Task 18: Content authoring infrastructure (cluster modules + loader assembly)
 - [x] Task 19: 90-level content roadmap (topic map, rule registry, recurring strategy)
-- [ ] Task 20A: Complete Basic b13–b21
+- [x] Task 20A: Complete Basic b13–b21 (nine authored levels; validation and review entries added)
 - [ ] Task 20B: Complete Basic b22–b30
 - [ ] Task 21A: Author Intermediate levels 1–10
 - [ ] Task 21B: Author Intermediate levels 11–20
