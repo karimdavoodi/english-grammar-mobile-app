@@ -55,6 +55,7 @@ import { ThemeProvider, useTheme } from '../theme/ThemeProvider';
 import { AppContext, type AppContextValue } from './AppContext';
 import { createReport, buildReportsMailto, loadReports, saveReports, type ContentReport } from '../state/reports';
 import { Linking } from 'react-native';
+import { syncDailyReminder } from '../notifications/dailyReminder';
 
 export interface AppProviderProps {
   /** AsyncStorage-compatible store; inject a memory store in tests. */
@@ -110,6 +111,7 @@ export function AppProvider({
       setProgress(initialProgress);
       setReports(loadedReports);
       setReady(true);
+      syncDailyReminder(loadedSettings.notifications).catch(() => {});
     })();
     return () => {
       cancelled = true;
@@ -145,6 +147,7 @@ export function AppProvider({
       };
       setSettings(merged);
       await saveSettings(merged, store);
+      await syncDailyReminder(merged.notifications);
     },
     [settings, store],
   );

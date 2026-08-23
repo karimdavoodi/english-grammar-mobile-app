@@ -32,6 +32,19 @@ Behavioral spec derived from `docs/ideas/english-grammar-game.md`.
 - Then my current daily streak is 1
 - And my best streak is preserved
 
+## Feature: Daily Reminder Notifications
+
+**Scenario: A player enables the daily reminder**
+- Given notifications are disabled
+- When I enable the daily reminder at a chosen local time
+- Then the app requests notification permission
+- And one local reminder repeats every day at that time
+
+**Scenario: A player disables the daily reminder**
+- Given the daily reminder is enabled
+- When I disable it
+- Then the scheduled reminder is cancelled
+
 ---
 
 ## Feature: First Launch — Choosing a Starting Point
