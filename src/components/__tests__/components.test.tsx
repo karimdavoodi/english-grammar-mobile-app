@@ -160,6 +160,20 @@ describe('ChoiceButton', () => {
     );
     expect(textOf(shown, 'choice-explanation-0')).toBe('Why wrong');
   });
+
+  it('keeps the explanation hidden for dimmed choices even once revealed', async () => {
+    const tree = await render(
+      <ChoiceButton choice="starts" index={0} revealed status="dimmed" onPress={jest.fn()} explanation="Why" />,
+    );
+    expect(tree.root.findAllByProps({ testID: 'choice-explanation-0' })).toHaveLength(0);
+  });
+
+  it('shows the explanation for the correct choice once revealed', async () => {
+    const tree = await render(
+      <ChoiceButton choice="had started" index={1} revealed status="correct" onPress={jest.fn()} explanation="Why right" />,
+    );
+    expect(textOf(tree, 'choice-explanation-1')).toBe('Why right');
+  });
 });
 
 describe('QuestionCard', () => {
@@ -185,7 +199,7 @@ describe('QuestionCard', () => {
     expect(onAnswer).toHaveBeenCalledWith({ type: 'index', index: 2 });
   });
 
-  it('confirms a correct answer: correct choice highlighted, choices locked, all "why" shown', async () => {
+  it('confirms a correct answer: correct choice highlighted, choices locked, its "why" shown', async () => {
     const tree = await render(
       <QuestionCard question={QUESTION} selectedIndex={QUESTION.correctIndex} revealed onAnswer={jest.fn()} />,
     );
@@ -197,8 +211,12 @@ describe('QuestionCard', () => {
     for (let i = 0; i < 4; i += 1) {
       const button = tree.root.findByProps({ testID: `choice-button-${i}` });
       expect(button.props.accessibilityState.disabled).toBe(true);
-      expect(textOf(tree, `choice-explanation-${i}`)).toBe(QUESTION.choiceExplanations[i]);
     }
+    // Only the correct choice explains itself — the dimmed choices get none.
+    expect(textOf(tree, 'choice-explanation-1')).toBe(QUESTION.choiceExplanations[1]);
+    expect(tree.root.findAllByProps({ testID: 'choice-explanation-0' })).toHaveLength(0);
+    expect(tree.root.findAllByProps({ testID: 'choice-explanation-2' })).toHaveLength(0);
+    expect(tree.root.findAllByProps({ testID: 'choice-explanation-3' })).toHaveLength(0);
   });
 
   it('marks the wrong chosen answer wrong and the correct answer correct', async () => {
@@ -211,6 +229,12 @@ describe('QuestionCard', () => {
     expect(wrong.props.accessibilityLabel).toContain('incorrect');
     expect(correct.props.accessibilityLabel).toContain('correct');
     expect(dimmed.props.accessibilityLabel).toContain('not chosen');
+
+    // Only the correct + chosen choices explain themselves.
+    expect(textOf(tree, 'choice-explanation-0')).toBe(QUESTION.choiceExplanations[0]);
+    expect(textOf(tree, 'choice-explanation-1')).toBe(QUESTION.choiceExplanations[1]);
+    expect(tree.root.findAllByProps({ testID: 'choice-explanation-2' })).toHaveLength(0);
+    expect(tree.root.findAllByProps({ testID: 'choice-explanation-3' })).toHaveLength(0);
   });
 
   it('dispatches fix-sentence questions to the choice renderer', async () => {

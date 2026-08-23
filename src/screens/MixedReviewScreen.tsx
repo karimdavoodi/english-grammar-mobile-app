@@ -11,7 +11,6 @@ export interface MixedReviewScreenProps {
   progress: Progress;
   onProgressChange: (progress: Progress) => void;
   onEnd: (result: LevelEndResult) => void;
-  onExit: () => void;
 }
 
 export function MixedReviewScreen({
@@ -19,7 +18,6 @@ export function MixedReviewScreen({
   progress,
   onProgressChange,
   onEnd,
-  onExit,
 }: MixedReviewScreenProps) {
   const level = useMemo<Level | null>(() => {
     const allQuestions = tracks.flatMap(track => track.levels).flatMap(item => item.questions);
@@ -49,7 +47,6 @@ export function MixedReviewScreen({
       level={level}
       initialProgress={progress}
       onLevelEnd={onEnd}
-      onExit={onExit}
       onProgressChange={onProgressChange}
     />
   );

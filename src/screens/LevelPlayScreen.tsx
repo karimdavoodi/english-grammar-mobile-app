@@ -14,14 +14,15 @@
  *
  * Lifecycle:
  *   serve → [re-teach lesson] → question → answer → feedback
- *   feedback for a wrong answer shows the lesson card + the revealed question;
- *   feedback for a correct answer shows the revealed question + "Next question".
- *   Dismissing the final answer's feedback calls `onLevelEnd`; the caller
- *   (Task 8 result flow) is responsible for routing to the result screen.
+ *   feedback reveals the correct + chosen answers with their explanations and
+ *   offers "Next question"; a wrong answer never re-shows the lesson card (the
+ *   two per-choice explanations carry the teaching). Dismissing the final
+ *   answer's feedback calls `onLevelEnd`; the caller (Task 8 result flow) is
+ *   responsible for routing to the result screen.
  */
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text } from 'react-native';
 import { findRule, tracks } from '../content';
 import { normalizeQuestion } from '../content/types';
 import type { Level } from '../content/types';
@@ -40,7 +41,6 @@ import {
 import { serveNextQuestion, type ServeResult } from '../game/serving';
 import { interleavedBank } from '../game/mixed';
 import {
-  abandonSession,
   applyAnswer,
   queuedRuleSet,
   recordPlay,
@@ -77,8 +77,6 @@ export interface LevelPlayScreenProps {
   passConfig?: PassConfig;
   /** Called once the level ends (pass or mercy) and the final feedback is dismissed. */
   onLevelEnd?: (result: LevelEndResult) => void;
-  /** Called after a confirmed abandon has cleared the active session. */
-  onExit?: () => void;
   onReport?: (questionId: string) => void;
   onProgressChange?: (progress: Progress) => void;
 }
@@ -88,8 +86,6 @@ type Phase = 'lesson' | 'question' | 'feedback' | 'ended';
 interface Feedback {
   response: AnswerResponse;
   outcome: AnswerOutcome;
-  /** Wrong answer → the lesson card is shown alongside the revealed question. */
-  showLesson: boolean;
 }
 
 interface PlayState {
@@ -139,7 +135,6 @@ export function LevelPlayScreen({
   random,
   passConfig = DEFAULT_PASS_CONFIG,
   onLevelEnd,
-  onExit,
   onReport,
   onProgressChange,
 }: LevelPlayScreenProps) {
@@ -222,7 +217,7 @@ export function LevelPlayScreen({
         progress,
         session,
         phase: 'feedback',
-        feedback: { response, outcome, showLesson: !outcome.isCorrect },
+        feedback: { response, outcome },
       });
     },
     [onProgressChange, play, passConfig, persist, level.id, store],
@@ -278,30 +273,6 @@ export function LevelPlayScreen({
     });
   }, [onLevelEnd, play, level, random, store]);
 
-  const handleAbandon = useCallback(() => {
-    const mastery = play.session.kind === 'mastery';
-    Alert.alert(
-      mastery ? 'Exit Mastery Review?' : 'Quit this level?',
-      mastery
-        ? 'Your answers remain in your Weakness Queue and history.'
-        : 'Your in-progress answers on this level will be cleared. Completed levels and your Weakness Queue are kept.',
-      [
-        { text: 'Keep playing', style: 'cancel' },
-        {
-          text: 'Quit',
-          style: 'destructive',
-          onPress: () => {
-            const nextProgress = abandonSession(play.progress);
-            persist(nextProgress);
-            onProgressChange?.(nextProgress);
-            setPlay({ ...play, progress: nextProgress, phase: 'ended', feedback: null });
-            onExit?.();
-          },
-        },
-      ],
-    );
-  }, [onProgressChange, play, persist, onExit]);
-
   const { session, serve, phase, feedback } = play;
   const rule = serve ? (findRule(serve.question.rule) ?? null) : null;
   const review = serve ? serve.mode === 'review' : false;
@@ -320,7 +291,7 @@ export function LevelPlayScreen({
         </Text>
       ) : null}
 
-      <View style={styles.body}>
+      <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent}>
         {phase === 'lesson' && serve ? (
           <LessonCard
             topic={level.topic}
@@ -338,20 +309,15 @@ export function LevelPlayScreen({
             revealed={phase === 'feedback'}
             onAnswer={handleAnswer}
             random={random}
-            onReport={feedback?.showLesson ? () => onReport?.(serve.question.id) : undefined}
+            onReport={
+              phase === 'feedback' && feedback && !feedback.outcome.isCorrect
+                ? () => onReport?.(serve.question.id)
+                : undefined
+            }
           />
         ) : null}
 
-        {phase === 'feedback' && feedback?.showLesson ? (
-          <LessonCard
-            topic={level.topic}
-            rule={rule}
-            review={review}
-            onContinue={handleDismissFeedback}
-          />
-        ) : null}
-
-        {phase === 'feedback' && !feedback?.showLesson ? (
+        {phase === 'feedback' ? (
           <Pressable
             testID="next-question"
             accessibilityRole="button"
@@ -367,16 +333,7 @@ export function LevelPlayScreen({
             Level complete
           </Text>
         ) : null}
-      </View>
-
-      <Pressable
-        testID="abandon-level"
-        accessibilityRole="button"
-        onPress={handleAbandon}
-        style={({ pressed }) => [styles.quit, pressed && styles.quitPressed]}
-      >
-        <Text style={styles.quitLabel}>{session.kind === 'mastery' ? 'Exit Mastery Review' : 'Quit level'}</Text>
-      </Pressable>
+      </ScrollView>
     </ScreenShell>
   );
 }
@@ -391,6 +348,8 @@ const makeStyles = (colors: ThemeColors) =>
     },
     body: {
       flex: 1,
+    },
+    bodyContent: {
       padding: 16,
     },
     next: {
@@ -415,22 +374,5 @@ const makeStyles = (colors: ThemeColors) =>
       color: colors.textSecondary,
       textAlign: 'center',
       marginTop: 32,
-    },
-    quit: {
-      margin: 16,
-      alignSelf: 'flex-end',
-      paddingVertical: 8,
-      paddingHorizontal: 14,
-      borderRadius: 8,
-      borderWidth: 1,
-      borderColor: colors.borderStrong,
-    },
-    quitPressed: {
-      backgroundColor: colors.surfacePressed,
-    },
-    quitLabel: {
-      color: colors.textTertiary,
-      fontSize: 14,
-      fontWeight: '600',
     },
   });

@@ -7,7 +7,13 @@ it is implemented, verified (tests / tsc / lint), and committed.
       `ScreenShell` (themed background + top/bottom safe-area insets) wraps every
       screen root; shared `renderScreen`/`wrapInSafeArea` test harness renders
       screen tests inside a `SafeAreaProvider`.
-- [ ] Task 2 — Level-play question screen rework (Issues 3, 5, 6)
+- [x] Task 2 — Level-play question screen rework (Issues 3, 5, 6)
+      Question/feedback body scrolls (ScrollView); 'Quit level' / 'Exit Mastery
+      Review' button and abandon confirm dialog removed (`onExit` dropped from
+      `LevelPlayScreenProps` and the navigator/MixedReview wiring); feedback
+      reveals explanations only for the correct + chosen choices (others dimmed,
+      no explanation); post-answer `LessonCard` no longer re-shown; pre-question
+      re-teach lesson unchanged.
 - [ ] Task 3 — Settings and secondary-screen cleanup (Issues 2, 9)
 - [ ] Task 4 — Home screen (main screen) (Issues 2, 7, 8, 9)
 - [ ] Task 5 — Topics screen (Issue 4)

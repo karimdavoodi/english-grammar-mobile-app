@@ -3,8 +3,9 @@
  *
  * Presentational only: it renders one choice, reports presses, and reflects the
  * feedback state the parent assigns via `status`. Once `revealed`, the button is
- * locked (disabled) so the answer cannot change until feedback is dismissed, and
- * it shows the positionally-aligned per-choice "why" explanation.
+ * locked (disabled) so the answer cannot change until feedback is dismissed.
+ * The explanation is shown only for the correct and the chosen (wrong) choices —
+ * the dimmed non-participants get no "why" (Issue 6).
  *
  * Task 12: all colors come from the theme palette (`useThemedStyles`) — no
  * hardcoded hex.
@@ -106,7 +107,7 @@ export function ChoiceButton({
           {choice}
         </Text>
       </Pressable>
-      {revealed && explanation ? (
+      {revealed && explanation && (status === 'correct' || status === 'wrong') ? (
         <Text
           testID={`choice-explanation-${index}`}
           accessibilityLiveRegion="polite"

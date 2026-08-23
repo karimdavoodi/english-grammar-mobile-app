@@ -117,12 +117,6 @@ function LevelPlayRoute({
     [tracks, levelId, applyProgress, navigation],
   );
 
-  const handleExit = useCallback(() => {
-    // Quitting a level returns to the map — popTo the existing LevelMap, or
-    // (when quitting from the boot LevelPlay) replace this screen with it.
-    navigation.popTo('LevelMap');
-  }, [navigation]);
-
   if (!level || !progress) {
     // Defensive: an unknown level or missing progress should not reach here.
     // (Unknown-current-level repair is a Task 11 selector concern.)
@@ -134,7 +128,6 @@ function LevelPlayRoute({
       level={level}
       initialProgress={progress}
       onLevelEnd={handleLevelEnd}
-      onExit={handleExit}
       onReport={questionId => {
         createReport(questionId).then(() => navigation.navigate('Report', { questionId })).catch(() => {});
       }}
@@ -268,7 +261,6 @@ function MixedReviewRoute({
         applyProgress(result.progress).catch(() => {});
         navigation.replace('LevelMap');
       }}
-      onExit={() => navigation.popTo('LevelMap')}
     />
   );
 }

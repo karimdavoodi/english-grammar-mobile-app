@@ -26,7 +26,6 @@ jest.mock('@react-native-async-storage/async-storage', () => {
 });
 
 import React from 'react';
-import { Alert } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
 import type { Level, Question } from '../../content/types';
 import {
@@ -138,7 +137,6 @@ interface RenderOptions {
   initialProgress: Progress;
   level?: Level;
   onLevelEnd?: jest.Mock;
-  onExit?: jest.Mock;
   passConfig?: { passStreak: number; passVolume: number; mercyCap: number };
   random?: () => number;
   store?: StorageLike;
@@ -148,7 +146,6 @@ async function renderScreen({
   initialProgress,
   level = LEVEL,
   onLevelEnd = jest.fn(),
-  onExit = jest.fn(),
   passConfig,
   random = () => 0,
   store = createMemoryStore(),
@@ -164,13 +161,12 @@ async function renderScreen({
           random={random}
           passConfig={passConfig}
           onLevelEnd={onLevelEnd}
-          onExit={onExit}
         />,
       ),
     );
   });
   await flushAsync();
-  return { tree, store, onLevelEnd, onExit };
+  return { tree, store, onLevelEnd };
 }
 
 /** Map the currently rendered question prompt back to its fixture question. */
@@ -234,20 +230,30 @@ describe('LevelPlayScreen — fresh level', () => {
 });
 
 describe('LevelPlayScreen — wrong answers', () => {
-  it('shows the lesson card, reveals the rationale, and persists the weakness', async () => {
+  it('reveals the correct + chosen rationale and persists the weakness', async () => {
     const store = createMemoryStore();
     const { tree } = await renderScreen({ initialProgress: makeProgress(), store });
 
     await press(tree, 'choice-button-1'); // q1 correctIndex 0 → wrong
 
-    // Lesson card + revealed question with the correct choice highlighted
-    expect(countHostByTestID(tree, 'lesson-card')).toBe(1);
+    // No lesson card after an answer; the correct choice is highlighted, the
+    // chosen wrong choice is marked, and the other two are dimmed.
+    expect(countHostByTestID(tree, 'lesson-card')).toBe(0);
+    expect(countHostByTestID(tree, 'next-question')).toBe(1);
     expect(tree.root.findByProps({ testID: 'choice-button-0' }).props.accessibilityLabel).toContain(
       'correct',
     );
     expect(tree.root.findByProps({ testID: 'choice-button-1' }).props.accessibilityLabel).toContain(
       'incorrect',
     );
+    expect(tree.root.findByProps({ testID: 'choice-button-2' }).props.accessibilityLabel).toContain(
+      'not chosen',
+    );
+    // Only the correct + chosen choices explain themselves.
+    expect(countHostByTestID(tree, 'choice-explanation-0')).toBe(1);
+    expect(countHostByTestID(tree, 'choice-explanation-1')).toBe(1);
+    expect(countHostByTestID(tree, 'choice-explanation-2')).toBe(0);
+    expect(countHostByTestID(tree, 'choice-explanation-3')).toBe(0);
 
     // Persisted immediately: weakness queue + wrong-answer history
     const persisted = await loadProgress(store);
@@ -264,12 +270,12 @@ describe('LevelPlayScreen — wrong answers', () => {
     expect(persisted?.activeSession?.lastWrongRule).toBe(RULE_A);
   });
 
-  it('serves the next question adaptively (remediation) after dismissing the lesson', async () => {
+  it('serves the next question adaptively (remediation) after dismissing the feedback', async () => {
     const store = createMemoryStore();
     const { tree } = await renderScreen({ initialProgress: makeProgress(), store });
 
     await press(tree, 'choice-button-1'); // q1 wrong
-    await press(tree, 'lesson-continue');
+    await press(tree, 'next-question'); // dismiss wrong-answer feedback (no lesson card)
 
     // Same-rule unasked variant, served as remediation (never Review)
     expect(textOf(tree, 'question-prompt')).toBe('Prompt b10q02');
@@ -334,50 +340,6 @@ describe('LevelPlayScreen — resume', () => {
   });
 });
 
-describe('LevelPlayScreen — abandon', () => {
-  it('clears only the active session after confirmation', async () => {
-    const alertSpy = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
-    const onExit = jest.fn();
-    const store = createMemoryStore();
-    const initialProgress = makeProgress({
-      completedLevelIds: ['b01'],
-      weaknessQueue: {
-        [RULE_A]: { rule: RULE_A, missCount: 1, reviewStreak: 0, lastMissedAt: 'x' },
-      },
-      activeSession: {
-        levelId: 'b10',
-        askedIds: ['b10q01'],
-        correctCount: 0,
-        streak: 0,
-        totalAnswered: 1,
-        missCounts: { [RULE_A]: 1 },
-        lastWrongRule: RULE_A,
-      },
-    });
-    const { tree } = await renderScreen({ initialProgress, store, onExit });
-
-    await press(tree, 'abandon-level');
-    expect(alertSpy).toHaveBeenCalledTimes(1);
-    const buttons = alertSpy.mock.calls[0][2] as Array<{
-      text: string;
-      style?: string;
-      onPress?: () => void;
-    }>;
-    const quit = buttons.find(b => b.text === 'Quit');
-    await ReactTestRenderer.act(() => {
-      quit!.onPress!();
-    });
-    await flushAsync();
-
-    expect(onExit).toHaveBeenCalledTimes(1);
-    const persisted = await loadProgress(store);
-    expect(persisted?.activeSession).toBeNull();
-    expect(persisted?.completedLevelIds).toEqual(['b01']);
-    expect(persisted?.weaknessQueue[RULE_A].missCount).toBe(1);
-    alertSpy.mockRestore();
-  });
-});
-
 describe('LevelPlayScreen — level end', () => {
   it('passes by streak and reports onLevelEnd', async () => {
     const onLevelEnd = jest.fn();
@@ -404,12 +366,12 @@ describe('LevelPlayScreen — level end', () => {
 
     // 3 wrong answers in a row → mercy cap. Re-teach shows the lesson first from q3 on.
     await press(tree, 'choice-button-1'); // q1 wrong
-    await press(tree, 'lesson-continue');
+    await press(tree, 'next-question'); // dismiss wrong-answer feedback
     await press(tree, 'choice-button-0'); // q2 wrong
-    await press(tree, 'lesson-continue');
+    await press(tree, 'next-question'); // dismiss wrong-answer feedback
     await press(tree, 'lesson-continue'); // re-teach lesson before q3
     await press(tree, 'choice-button-3'); // q3 wrong → mercy
-    await press(tree, 'lesson-continue'); // dismiss final feedback
+    await press(tree, 'next-question'); // dismiss final feedback
 
     expect(onLevelEnd).toHaveBeenCalledTimes(1);
     const result = onLevelEnd.mock.calls[0][0];
@@ -433,7 +395,7 @@ describe('LevelPlayScreen — level end', () => {
       }
       const question = servedQuestion(tree, TWELVE_QUESTIONS);
       await press(tree, `choice-button-${wrongIndexOf(question)}`);
-      await press(tree, 'lesson-continue'); // wrong-answer feedback lesson
+      await press(tree, 'next-question'); // dismiss wrong-answer feedback
     }
 
     expect(onLevelEnd).toHaveBeenCalledTimes(1);

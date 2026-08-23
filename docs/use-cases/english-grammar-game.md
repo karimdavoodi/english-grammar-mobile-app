@@ -127,7 +127,7 @@ level.
 - Given I have answered 2 questions correctly in a row
 - When I answer the next question incorrectly
 - Then my streak resets to 0
-- And the topic lesson card is shown (teaching happens before re-testing)
+- And the feedback explains the correct and chosen answers
 
 **Scenario: Eight total correct passes the level**
 - Given I have answered correctly 7 times in total (streak broken at least once)
@@ -156,11 +156,12 @@ level.
 **I want** to be taught every time I get something wrong
 **So that** I actually learn the grammar, not just get scored
 
-**Scenario: A wrong answer shows the topic lesson card**
+**Scenario: A wrong answer explains the correct and chosen answers**
 - Given I am answering a question about "past perfect vs past simple"
 - When I submit a wrong answer
-- Then the topic lesson card is shown (form, rule, example)
-- And the per-choice explanations are shown — why the choice I made is wrong, and why the correct one is right
+- Then the correct choice's explanation is shown (why it is right)
+- And the chosen wrong choice's explanation is shown (why it is wrong)
+- And the other choices are dimmed with no explanation
 - And the correct answer is highlighted
 
 **Scenario: A correct answer confirms with the rationale**
@@ -213,7 +214,7 @@ level.
 **Scenario: A weakness is reinforced when still missed**
 - Given rule "past perfect" is in my Weakness Queue
 - When I answer a review question on it incorrectly
-- Then the topic lesson card is shown
+- Then the feedback explains the correct and chosen answers
 - And the rule stays in the Weakness Queue
 
 **Scenario: A queued rule has no question in the current level**
