@@ -4,8 +4,7 @@
  * Per docs/use-cases "Settings — Theme" and "Settings — Reset Progress":
  *   - the theme preference is offered as Device / Light / Dark, with the current
  *     choice marked; picking one calls `onChangeTheme`;
- *   - "Review mistakes" opens the Review screen (docs/use-cases "Review Screen"
- *     is reached from Settings);
+ *   - "Review mistakes" and "Review / Practice" open their respective study screens;
  *   - "Reset game" requires confirmation (a dialog appears before anything is
  *     erased) and only then calls `onReset` — progress is wiped, settings survive.
  *
@@ -38,6 +37,7 @@ export interface SettingsScreenProps {
   onReset: () => void;
   /** Called when the player taps "Review mistakes" (navigates to Review). */
   onOpenReview: () => void;
+  onOpenMixedReview?: () => void;
   /** Called when the player taps Back. */
   onBack?: () => void;
 }
@@ -47,6 +47,7 @@ export function SettingsScreen({
   onChangeTheme,
   onReset,
   onOpenReview,
+  onOpenMixedReview,
   onBack,
 }: SettingsScreenProps) {
   const styles = useThemedStyles(makeStyles);
@@ -132,6 +133,23 @@ export function SettingsScreen({
             </Text>
           </View>
         </Pressable>
+
+        {onOpenMixedReview ? <Pressable
+          testID="settings-mixed-review"
+          accessibilityRole="button"
+          accessibilityLabel="Review and practice"
+          onPress={onOpenMixedReview}
+          style={({ pressed }) => [styles.option, pressed && styles.optionPressed]}
+        >
+          <View style={styles.optionText}>
+            <Text style={styles.optionLabel} testID="settings-mixed-review-label">
+              Review / Practice
+            </Text>
+            <Text style={styles.optionHint}>
+              Practice weaknesses and passed levels in one short session
+            </Text>
+          </View>
+        </Pressable> : null}
 
         <Pressable
           testID="settings-reset"

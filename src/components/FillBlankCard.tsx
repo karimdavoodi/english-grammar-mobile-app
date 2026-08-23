@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import type { FillBlankQuestion } from '../content/types';
 import { normalizeText, type AnswerResponse } from '../game/scoring';
@@ -22,6 +22,9 @@ export function FillBlankCard({
 }) {
   const styles = useThemedStyles(makeStyles);
   const [text, setText] = useState('');
+  // Keep the latest native input value available to an immediate submit. This
+  // also makes the card deterministic for keyboard/native event batching.
+  const textRef = useRef('');
   const submittedText = response?.type === 'text' ? response.text : '';
   const mistake = question.commonMistakes?.find(
     item => normalizeText(item.mistake) === normalizeText(submittedText),
@@ -36,7 +39,10 @@ export function FillBlankCard({
         testID="fill-blank-input"
         accessibilityLabel={`Answer for: ${question.prompt}`}
         value={revealed ? submittedText : text}
-        onChangeText={setText}
+        onChangeText={value => {
+          textRef.current = value;
+          setText(value);
+        }}
         editable={!revealed}
         autoCapitalize="none"
         returnKeyType="done"
@@ -48,7 +54,7 @@ export function FillBlankCard({
         accessibilityLabel="Submit answer"
         accessibilityState={{ disabled: revealed || normalizeText(text).length === 0 }}
         disabled={revealed || normalizeText(text).length === 0}
-        onPress={() => onAnswer({ type: 'text', text: normalizeText(text) })}
+        onPress={() => onAnswer({ type: 'text', text: normalizeText(textRef.current) })}
         style={styles.submit}
       >
         <Text style={styles.submitLabel}>Check answer</Text>

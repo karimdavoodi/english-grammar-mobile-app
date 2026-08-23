@@ -38,6 +38,7 @@ export interface LevelMapScreenProps {
   onSelectLevel: (levelId: string) => void;
   /** Called when the Settings entry is tapped (Task 12). */
   onOpenSettings?: () => void;
+  onOpenMixedReview?: () => void;
   /** Called when the player taps Back. */
   onBack?: () => void;
 }
@@ -67,6 +68,7 @@ export function LevelMapScreen({
   progress,
   onSelectLevel,
   onOpenSettings,
+  onOpenMixedReview,
   onBack,
 }: LevelMapScreenProps) {
   const styles = useThemedStyles(makeStyles);
@@ -109,6 +111,17 @@ export function LevelMapScreen({
         <Text style={styles.subheading} testID="level-map-subheading">
           Your progress across the tracks. Tap any unlocked level to practice.
         </Text>
+        {onOpenMixedReview ? (
+          <Pressable
+            testID="level-map-mixed-review"
+            accessibilityRole="button"
+            accessibilityLabel="Review and practice"
+            onPress={onOpenMixedReview}
+            style={({ pressed }) => [styles.mixedReview, pressed && styles.mixedReviewPressed]}
+          >
+            <Text style={styles.mixedReviewLabel}>Review / Practice</Text>
+          </Pressable>
+        ) : null}
       </View>
 
       <ScrollView style={styles.list} contentContainerStyle={styles.listContent}>
@@ -270,6 +283,22 @@ const makeStyles = (colors: ThemeColors) =>
       fontSize: tokens.typography.body,
       lineHeight: 20,
       color: colors.primaryOnContainerMuted,
+    },
+    mixedReview: {
+      alignSelf: 'flex-start',
+      marginTop: tokens.spacing.md,
+      backgroundColor: colors.primary,
+      borderRadius: tokens.radii.md,
+      paddingVertical: tokens.spacing.sm,
+      paddingHorizontal: tokens.spacing.md,
+    },
+    mixedReviewPressed: {
+      backgroundColor: colors.primaryPressed,
+    },
+    mixedReviewLabel: {
+      color: colors.textOnAccent,
+      fontWeight: '700',
+      fontSize: tokens.typography.body,
     },
     list: {
       flex: 1,

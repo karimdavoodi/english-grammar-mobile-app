@@ -76,6 +76,7 @@ export interface LevelPlayScreenProps {
   /** Called after a confirmed abandon has cleared the active session. */
   onExit?: () => void;
   onReport?: (questionId: string) => void;
+  onProgressChange?: (progress: Progress) => void;
 }
 
 type Phase = 'lesson' | 'question' | 'feedback' | 'ended';
@@ -127,6 +128,7 @@ export function LevelPlayScreen({
   onLevelEnd,
   onExit,
   onReport,
+  onProgressChange,
 }: LevelPlayScreenProps) {
   const styles = useThemedStyles(makeStyles);
 
@@ -190,6 +192,7 @@ export function LevelPlayScreen({
         config: passConfig,
       });
       persist(progress);
+      onProgressChange?.(progress);
       setPlay({
         ...play,
         progress,
@@ -198,7 +201,7 @@ export function LevelPlayScreen({
         feedback: { response, outcome, showLesson: !outcome.isCorrect },
       });
     },
-    [play, passConfig, persist],
+    [onProgressChange, play, passConfig, persist],
   );
 
   const handleContinueFromLesson = useCallback(() => {
@@ -240,7 +243,7 @@ export function LevelPlayScreen({
       phase: nextServe.showLesson ? 'lesson' : 'question',
       feedback: null,
     });
-  }, [play, level, random, onLevelEnd]);
+  }, [onLevelEnd, play, level, random]);
 
   const handleAbandon = useCallback(() => {
     Alert.alert(
@@ -254,13 +257,14 @@ export function LevelPlayScreen({
           onPress: () => {
             const nextProgress = abandonSession(play.progress);
             persist(nextProgress);
+            onProgressChange?.(nextProgress);
             setPlay({ ...play, progress: nextProgress, phase: 'ended', feedback: null });
             onExit?.();
           },
         },
       ],
     );
-  }, [play, persist, onExit]);
+  }, [onProgressChange, play, persist, onExit]);
 
   const { session, serve, phase, feedback } = play;
   const rule = serve ? (findRule(serve.question.rule) ?? null) : null;

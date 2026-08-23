@@ -34,5 +34,6 @@ export type RootStackParamList = {
   Review: undefined;
   /** Appearance (theme) and reset — the Settings screen (Task 12). */
   Settings: undefined;
+  MixedReview: undefined;
   Report: { questionId?: string };
 };

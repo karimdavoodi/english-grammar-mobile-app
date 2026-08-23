@@ -297,6 +297,12 @@ The Review screen uses the most recent wrong choice for each question and retain
 - And Weakness Queue and wrong-answer history retain the answer
 - And my current level is unchanged
 
+**Scenario: Mixed Review is available from the app hubs**
+- Given I am on the level map or Settings
+- When I tap "Review / Practice"
+- Then a Mixed Review session opens
+- And leaving the session clears only its active session
+
 **Scenario: Leaving a level before it ends**
 - Given I am partway through a level
 - When I leave the level or relaunch the app

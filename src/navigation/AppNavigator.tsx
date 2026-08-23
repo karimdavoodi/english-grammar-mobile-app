@@ -24,7 +24,7 @@
  * screens their props.
  */
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import {
@@ -43,11 +43,13 @@ import { SettingsScreen } from '../screens/SettingsScreen';
 import { StartPointScreen } from '../screens/StartPointScreen';
 import { LevelPlayScreen, type LevelEndResult } from '../screens/LevelPlayScreen';
 import { ReportScreen } from '../screens/ReportScreen';
+import { MixedReviewScreen } from '../screens/MixedReviewScreen';
 import {
   completeLevel,
   flattenedLevelIds,
   nextLevelId,
   startingLevelId,
+  startMixedSession,
 } from '../state/reducers';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -152,6 +154,7 @@ function LevelMapRoute({
       progress={progress}
       onSelectLevel={levelId => navigation.push('LevelPlay', { levelId })}
       onOpenSettings={() => navigation.navigate('Settings')}
+      onOpenMixedReview={() => navigation.navigate('MixedReview')}
       onBack={() => navigation.goBack()}
     />
   );
@@ -216,7 +219,38 @@ function SettingsRoute({
       onChangeTheme={theme => applySettings({ theme })}
       onReset={handleReset}
       onOpenReview={() => navigation.navigate('Review')}
+      onOpenMixedReview={() => navigation.navigate('MixedReview')}
       onBack={() => navigation.goBack()}
+    />
+  );
+}
+
+function MixedReviewRoute({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList, 'MixedReview'>) {
+  const { tracks, progress, applyProgress } = useApp();
+  const mixedProgress = progress?.activeSession?.kind === 'mixed' ? progress : null;
+
+  useEffect(() => {
+    if (progress && !mixedProgress) {
+      const next = startMixedSession(progress, tracks, { size: 12 });
+      applyProgress(next).catch(() => {});
+    }
+  }, [applyProgress, mixedProgress, progress, tracks]);
+
+  if (!progress) return <MissingView message="Nothing to review yet." />;
+  if (!mixedProgress) return <MissingView message="Preparing Mixed Review…" />;
+
+  return (
+    <MixedReviewScreen
+      tracks={tracks}
+      progress={mixedProgress}
+      onProgressChange={next => applyProgress(next).catch(() => {})}
+      onEnd={result => {
+        applyProgress(result.progress).catch(() => {});
+        navigation.replace('LevelMap');
+      }}
+      onExit={() => navigation.popTo('LevelMap')}
     />
   );
 }
@@ -277,6 +311,7 @@ export function AppNavigator() {
         <Stack.Screen name="LevelMap" component={LevelMapRoute} />
         <Stack.Screen name="Review" component={ReviewRoute} />
         <Stack.Screen name="Settings" component={SettingsRoute} />
+        <Stack.Screen name="MixedReview" component={MixedReviewRoute} />
         <Stack.Screen name="Report" component={ReportRoute} />
       </Stack.Navigator>
     </NavigationContainer>
