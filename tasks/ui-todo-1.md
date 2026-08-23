@@ -55,7 +55,8 @@ after it is implemented, verified (tests / tsc / lint), and committed.
       use "Available"). Depends on Task 5a.
 
 ### Checkpoint
-- [ ] Full suite green: `npm test`; typecheck: `npx tsc --noEmit`; lint: `npm run lint`.
+- [x] Full suite green: `npm test`; typecheck: `npx tsc --noEmit`; lint: `npm run lint`.
+      Verified 2026-08-23: 30 suites / 331 tests pass, typecheck clean, lint clean.
 - [ ] Manual Android pass: back navigation, lesson on wrong answer, all levels accessible.
 - [ ] Manual visual pass: Stats screen, Review screen.
 - [ ] Review with human before proceeding.
