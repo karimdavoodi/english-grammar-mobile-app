@@ -10,10 +10,11 @@
 
 import { validateContent } from './validate';
 import { basicTrack } from './tracks/basic';
+import { normalizeTrack } from './types';
 import type { Level, Track, TopicRule } from './types';
 
 /** All bundled tracks, ordered by `track.order` on the map. */
-export const tracks: Track[] = [basicTrack];
+export const tracks: Track[] = [normalizeTrack(basicTrack)];
 
 // Fail-fast at load: malformed AI-generated content must never reach the app.
 validateContent(tracks);
@@ -51,4 +52,17 @@ export function findLevelById(
 
 export { validateContent } from './validate';
 export { ContentValidationError, DEFAULT_MERCY_CAP } from './validate';
-export type { Track, TrackId, Level, Topic, TopicRule, Question } from './types';
+export type {
+  Track,
+  TrackId,
+  Level,
+  Topic,
+  TopicRule,
+  Question,
+  QuestionUnion,
+  QuestionInput,
+  MultipleChoiceQuestion,
+  FixSentenceQuestion,
+  FillBlankQuestion,
+  WordOrderQuestion,
+} from './types';

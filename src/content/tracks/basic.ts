@@ -15,13 +15,13 @@
  * Content review: every level has a checklist entry in `docs/content-review.md`.
  */
 
-import type { Level, Track } from '../types';
+import type { LevelInput, TrackInput } from '../types';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Level 1 — Present Simple
 // ─────────────────────────────────────────────────────────────────────────────
 
-const presentSimpleLevel: Level = {
+const presentSimpleLevel: LevelInput = {
   id: 'b01',
   trackId: 'basic',
   number: 1,
@@ -223,7 +223,7 @@ const presentSimpleLevel: Level = {
 // Level 2 — Present Continuous
 // ─────────────────────────────────────────────────────────────────────────────
 
-const presentContinuousLevel: Level = {
+const presentContinuousLevel: LevelInput = {
   id: 'b02',
   trackId: 'basic',
   number: 2,
@@ -426,7 +426,7 @@ const presentContinuousLevel: Level = {
 // Level 3 — Past Simple
 // ─────────────────────────────────────────────────────────────────────────────
 
-const pastSimpleLevel: Level = {
+const pastSimpleLevel: LevelInput = {
   id: 'b03',
   trackId: 'basic',
   number: 3,
@@ -629,7 +629,7 @@ const pastSimpleLevel: Level = {
 // Level 4 — Past Continuous
 // ─────────────────────────────────────────────────────────────────────────────
 
-const pastContinuousLevel: Level = {
+const pastContinuousLevel: LevelInput = {
   id: 'b04',
   trackId: 'basic',
   number: 4,
@@ -832,7 +832,7 @@ const pastContinuousLevel: Level = {
 // Level 5 — Present Perfect
 // ─────────────────────────────────────────────────────────────────────────────
 
-const presentPerfectLevel: Level = {
+const presentPerfectLevel: LevelInput = {
   id: 'b05',
   trackId: 'basic',
   number: 5,
@@ -1035,7 +1035,7 @@ const presentPerfectLevel: Level = {
 // Level 6 — Future: will and going to
 // ─────────────────────────────────────────────────────────────────────────────
 
-const futureLevel: Level = {
+const futureLevel: LevelInput = {
   id: 'b06',
   trackId: 'basic',
   number: 6,
@@ -1238,7 +1238,7 @@ const futureLevel: Level = {
 // Level 7 — Modal verbs: can, could, must, should
 // ─────────────────────────────────────────────────────────────────────────────
 
-const modalLevel: Level = {
+const modalLevel: LevelInput = {
   id: 'b07',
   trackId: 'basic',
   number: 7,
@@ -1441,7 +1441,7 @@ const modalLevel: Level = {
 // Level 8 — Articles: a/an/the
 // ─────────────────────────────────────────────────────────────────────────────
 
-const articlesLevel: Level = {
+const articlesLevel: LevelInput = {
   id: 'b08',
   trackId: 'basic',
   number: 8,
@@ -1644,7 +1644,7 @@ const articlesLevel: Level = {
 // Level 9 — Comparatives and Superlatives
 // ─────────────────────────────────────────────────────────────────────────────
 
-const comparativesLevel: Level = {
+const comparativesLevel: LevelInput = {
   id: 'b09',
   trackId: 'basic',
   number: 9,
@@ -1848,7 +1848,7 @@ const comparativesLevel: Level = {
 // Level 10 — Past Perfect (the Task 4 reference level, renumbered to 10)
 // ─────────────────────────────────────────────────────────────────────────────
 
-const pastPerfectLevel: Level = {
+const pastPerfectLevel: LevelInput = {
   id: 'b10',
   trackId: 'basic',
   number: 10,
@@ -2049,7 +2049,7 @@ const pastPerfectLevel: Level = {
 // Level 11 — Prepositions of time
 // ─────────────────────────────────────────────────────────────────────────────
 
-const prepositionsTimeLevel: Level = {
+const prepositionsTimeLevel: LevelInput = {
   id: 'b11',
   trackId: 'basic',
   number: 11,
@@ -2253,7 +2253,7 @@ const prepositionsTimeLevel: Level = {
 // Level 12 — Zero and First Conditionals
 // ─────────────────────────────────────────────────────────────────────────────
 
-const conditionalsLevel: Level = {
+const conditionalsLevel: LevelInput = {
   id: 'b12',
   trackId: 'basic',
   number: 12,
@@ -2454,7 +2454,7 @@ const conditionalsLevel: Level = {
 };
 
 /** The Basic track — 12 levels (sequential 1..12), the v1 starting point. */
-export const basicTrack: Track = {
+export const basicTrack: TrackInput = {
   id: 'basic',
   order: 1,
   name: 'Basic',

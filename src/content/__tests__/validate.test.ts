@@ -2,7 +2,7 @@ import {
   ContentValidationError,
   validateContent,
 } from '../validate';
-import type { Level, Question, Track } from '../types';
+import type { Level, MultipleChoiceQuestion, Question, QuestionUnion, Track } from '../types';
 
 const MERCY_CAP = 12;
 
@@ -10,8 +10,9 @@ const MERCY_CAP = 12;
  * Build a valid, shippable question. A fixed 4-choice shape with correctIndex 0
  * and a non-empty aligned explanation at every position.
  */
-function makeQuestion(id: string, rule: string, levelId: string): Question {
+function makeQuestion(id: string, rule: string, levelId: string): MultipleChoiceQuestion {
   return {
+    type: 'multiple_choice',
     id,
     levelId,
     rule,
@@ -111,6 +112,56 @@ describe('validateContent — valid corpus', () => {
 });
 
 describe('validateContent — question shape', () => {
+  it('normalizes a legacy question without type as multiple_choice', () => {
+    const track = makeTrack();
+    delete (track.levels[0].questions[0] as Partial<MultipleChoiceQuestion>).type;
+    expect(() => validateContent([track], { mercyCap: MERCY_CAP })).not.toThrow();
+  });
+
+  it('accepts every supported question type', () => {
+    const track = makeTrack();
+    const question = track.levels[0].questions[0];
+    const questions = track.levels[0].questions as unknown as QuestionUnion[];
+    questions[0] = {
+      id: question.id,
+      levelId: question.levelId,
+      rule: question.rule,
+      type: 'fill_blank',
+      prompt: 'She ___ here.',
+      correctAnswer: 'works',
+      acceptedAnswers: ['works'],
+      explanation: 'Use the third-person singular form.',
+    };
+    questions[1] = {
+      id: track.levels[0].questions[1].id,
+      levelId: question.levelId,
+      rule: question.rule,
+      type: 'word_order',
+      sentenceWords: ['She', 'works', 'here.'],
+      explanation: 'Subject comes before the verb.',
+    };
+    questions[2] = {
+      ...question,
+      id: track.levels[0].questions[2].id,
+      type: 'fix_sentence',
+      faultySentence: 'She work here.',
+    };
+    expect(() => validateContent([track], { mercyCap: MERCY_CAP })).not.toThrow();
+  });
+
+  it('rejects malformed typed question fields', () => {
+    const track = makeTrack();
+    (track.levels[0].questions as unknown as QuestionUnion[])[0] = {
+      id: 'typed-q',
+      levelId: track.levels[0].id,
+      rule: 'rule_a',
+      type: 'word_order',
+      sentenceWords: ['Only', 'two'],
+      explanation: 'Needs more words.',
+    };
+    expect(() => validateContent([track], { mercyCap: MERCY_CAP })).toThrow(ContentValidationError);
+  });
+
   it('rejects a question without exactly 4 choices', () => {
     const track = makeTrack();
     track.levels[0].questions[0].choices = ['Alpha', 'Bravo', 'Charlie'];

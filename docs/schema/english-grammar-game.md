@@ -49,16 +49,47 @@ interface TopicRule {
 }
 
 // ── Questions ─────────────────────────────────────────────────────
-interface Question {
+type Question =
+  | MultipleChoiceQuestion
+  | FixSentenceQuestion
+  | FillBlankQuestion
+  | WordOrderQuestion;
+
+interface QuestionBase {
   id: string;           // e.g. 'b03q01' — globally unique
   levelId: string;      // owning level
   rule: string;         // narrow rule tag (may belong to this topic OR an earlier topic)
+}
+
+interface MultipleChoiceQuestion extends QuestionBase {
+  type: 'multiple_choice'; // legacy source objects may omit this; the loader adds it
   prompt: string;       // 'By the time we got to the station, the train ___ .'
   choices: string[];          // exactly 4
   correctIndex: number;       // 0–3
   choiceExplanations: string[]; // exactly 4, positionally aligned with choices:
                                 //   [correctIndex] = why that choice is RIGHT
                                 //   the other 3   = why each choice is WRONG
+}
+
+interface FixSentenceQuestion extends MultipleChoiceQuestion {
+  type: 'fix_sentence';
+  faultySentence: string; // sentence shown above the four correction choices
+}
+
+interface FillBlankQuestion extends QuestionBase {
+  type: 'fill_blank';
+  prompt: string;         // contains the blank to complete
+  correctAnswer: string;  // canonical answer
+  acceptedAnswers: string[]; // non-empty normalized accepted forms
+  explanation: string;
+  commonMistakes?: { mistake: string; feedback: string }[];
+}
+
+interface WordOrderQuestion extends QuestionBase {
+  type: 'word_order';
+  sentenceWords: string[]; // canonical order; at least 3 non-empty words
+  prompt?: string;
+  explanation: string;
 }
 ```
 
@@ -73,7 +104,9 @@ interface Question {
 
 `validateContent()` must throw on any of these — a safety net for AI-generated content:
 
-- [ ] `choices.length === 4` and `correctIndex` in `0..3`
+- [ ] `multiple_choice` and `fix_sentence` questions have `choices.length === 4` and `correctIndex` in `0..3`
+- [ ] `fill_blank` questions have non-empty `acceptedAnswers` and `correctAnswer`
+- [ ] `word_order` questions have at least 3 non-empty `sentenceWords`
 - [ ] No duplicate `question.id`, `level.id`, or `TopicRule.rule` definitions
 - [ ] No duplicate `track.id` values or `track.order` values
 - [ ] Every `Level.trackId` matches its containing track
@@ -86,6 +119,9 @@ interface Question {
 - [ ] `choiceExplanations.length === 4`, positionally aligned with `choices`
 - [ ] All 4 choice explanations are non-empty — a question with no "why" ships broken teaching
 - [ ] `choiceExplanations[correctIndex]` states why that choice is right (reviewer check — can't be fully automated)
+
+Legacy content may omit `type`; the loader normalizes it to `multiple_choice` before
+the app consumes the corpus. Loaded questions always carry the explicit discriminator.
 
 ### Example — abbreviated level fragment
 

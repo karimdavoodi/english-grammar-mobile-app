@@ -24,20 +24,20 @@ those decisions is still recommended before the store release.
 
 ---
 
-| # | Level | Topic | Questions | Home rules | Recurring rules | Reviewer | Status | Notes |
-|---|-------|-------|-----------|------------|-----------------|----------|--------|-------|
-| 1 | b01 | Present Simple | 12 | `present_simple_form`, `present_simple_usage` | — | Karim | human-review-pass | Form (-s/-es, do/does) + usage (habits, facts, schedules). |
-| 2 | b02 | Present Continuous | 12 | `present_continuous_form`, `present_simple_vs_continuous` | `present_simple_form` (b01) ×2 | Karim | human-review-pass | am/is/are + -ing; simple-vs-continuous pair questions. |
-| 3 | b03 | Past Simple | 12 | `past_simple_form`, `past_simple_usage` | `present_simple_form` (b01) ×2 | Karim | human-review-pass | Regular -ed + irregulars (went, ate, heard, lost); did/didn't. |
-| 4 | b04 | Past Continuous | 12 | `past_continuous_form`, `past_simple_vs_continuous` | `past_simple_form` (b03) ×2 | Karim | human-review-pass | was/were + -ing; interrupted-action patterns. |
-| 5 | b05 | Present Perfect | 12 | `present_perfect_form`, `present_perfect_vs_past_simple` | `past_simple_form` (b03) ×2 | Karim | human-review-pass | has/have + participle; unspecified-past vs specific-past contrast. |
-| 6 | b06 | Future: will and going to | 12 | `future_will`, `will_vs_going_to` | `present_continuous_form` (b02) ×2 | Karim | human-review-pass | Predictions/offers (will) vs plans/evidence (going to); present-continuous arrangements. |
-| 7 | b07 | Modal verbs: can, could, must, should | 12 | `modal_ability_permission`, `modal_obligation_advice` | `present_simple_form` (b01) ×2 | Karim | human-review-pass | Modal + base verb (no -s, no to); mustn't vs don't have to. |
-| 8 | b08 | Articles: a, an, the | 12 | `articles_a_an`, `articles_the_zero` | `present_simple_form` (b01) ×2 | Karim | human-review-pass | Sound-based a/an (hour, university); the vs zero article. Zero-article choice is the string `nothing`. |
-| 9 | b09 | Comparatives and Superlatives | 12 | `comparatives`, `superlatives` | `articles_a_an` (b08), `articles_the_zero` (b08) | Karim | human-review-pass | -er/more + than; the -est/the most; spelling (hotter). |
-| 10 | b10 | Past Perfect | 12 | `past_perfect_form`, `past_perfect_vs_past_simple` | — | Karim | human-review-pass | The Task 4 reference level, renumbered from b01 → b10 (level 10) when the track was completed. |
-| 11 | b11 | Prepositions of time | 12 | `prepositions_time_in_on_at`, `prepositions_time_since_for_until` | `present_simple_form` (b01), `past_simple_form` (b03) | Karim | human-review-pass | in/on/at; since/for/until. |
-| 12 | b12 | Zero and First Conditionals | 12 | `zero_conditional`, `first_conditional` | `present_simple_form` (b01), `future_will` (b06) | Karim | human-review-pass | Present simple in the if-clause, will in the result (never will in the if-clause). |
+| # | Level | Topic | Questions | Type mix | Home rules | Recurring rules | Reviewer | Status | Notes |
+|---|-------|-------|-----------|----------|------------|-----------------|----------|--------|-------|
+| 1 | b01 | Present Simple | 12 | multiple_choice ×12 | `present_simple_form`, `present_simple_usage` | — | Karim | human-review-pass | Form (-s/-es, do/does) + usage (habits, facts, schedules). |
+| 2 | b02 | Present Continuous | 12 | multiple_choice ×12 | `present_continuous_form`, `present_simple_vs_continuous` | `present_simple_form` (b01) ×2 | Karim | human-review-pass | am/is/are + -ing; simple-vs-continuous pair questions. |
+| 3 | b03 | Past Simple | 12 | multiple_choice ×12 | `past_simple_form`, `past_simple_usage` | `present_simple_form` (b01) ×2 | Karim | human-review-pass | Regular -ed + irregulars (went, ate, heard, lost); did/didn't. |
+| 4 | b04 | Past Continuous | 12 | multiple_choice ×12 | `past_continuous_form`, `past_simple_vs_continuous` | `past_simple_form` (b03) ×2 | Karim | human-review-pass | was/were + -ing; interrupted-action patterns. |
+| 5 | b05 | Present Perfect | 12 | multiple_choice ×12 | `present_perfect_form`, `present_perfect_vs_past_simple` | `past_simple_form` (b03) ×2 | Karim | human-review-pass | has/have + participle; unspecified-past vs specific-past contrast. |
+| 6 | b06 | Future: will and going to | 12 | multiple_choice ×12 | `future_will`, `will_vs_going_to` | `present_continuous_form` (b02) ×2 | Karim | human-review-pass | Predictions/offers (will) vs plans/evidence (going to); present-continuous arrangements. |
+| 7 | b07 | Modal verbs: can, could, must, should | 12 | multiple_choice ×12 | `modal_ability_permission`, `modal_obligation_advice` | `present_simple_form` (b01) ×2 | Karim | human-review-pass | Modal + base verb (no -s, no to); mustn't vs don't have to. |
+| 8 | b08 | Articles: a, an, the | 12 | multiple_choice ×12 | `articles_a_an`, `articles_the_zero` | `present_simple_form` (b01) ×2 | Karim | human-review-pass | Sound-based a/an (hour, university); the vs zero article. Zero-article choice is the string `nothing`. |
+| 9 | b09 | Comparatives and Superlatives | 12 | multiple_choice ×12 | `comparatives`, `superlatives` | `articles_a_an` (b08), `articles_the_zero` (b08) | Karim | human-review-pass | -er/more + than; the -est/the most; spelling (hotter). |
+| 10 | b10 | Past Perfect | 12 | multiple_choice ×12 | `past_perfect_form`, `past_perfect_vs_past_simple` | — | Karim | human-review-pass | The Task 4 reference level, renumbered from b01 → b10 (level 10) when the track was completed. |
+| 11 | b11 | Prepositions of time | 12 | multiple_choice ×12 | `prepositions_time_in_on_at`, `prepositions_time_since_for_until` | `present_simple_form` (b01), `past_simple_form` (b03) | Karim | human-review-pass | in/on/at; since/for/until. |
+| 12 | b12 | Zero and First Conditionals | 12 | multiple_choice ×12 | `zero_conditional`, `first_conditional` | `present_simple_form` (b01), `future_will` (b06) | Karim | human-review-pass | Present simple in the if-clause, will in the result (never will in the if-clause). |
 
 ## Global review checks applied at authoring time
 

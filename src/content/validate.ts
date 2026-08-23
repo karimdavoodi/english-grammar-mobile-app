@@ -16,7 +16,8 @@
  *   itself sits in the recurring level's bank (bank half).
  */
 
-import type { Question, Track } from './types';
+import { normalizeQuestion, normalizeTrack } from './types';
+import type { QuestionUnion, TrackInput } from './types';
 
 /** v1 level mercy cap — also the minimum question-bank size per level. */
 export const DEFAULT_MERCY_CAP = 12;
@@ -46,12 +47,15 @@ export class ContentValidationError extends Error {
  * every violation; returns normally when the content is shippable.
  */
 export function validateContent(
-  tracks: Track[],
+  sourceTracks: TrackInput[],
   options: ValidateOptions = { mercyCap: DEFAULT_MERCY_CAP },
 ): void {
   const { mercyCap } = options;
   const problems: string[] = [];
   const push = (message: string) => problems.push(message);
+
+  // Normalize legacy source objects before validating the runtime union.
+  const tracks = sourceTracks.map(normalizeTrack);
 
   // ── global uniqueness sets ────────────────────────────────────────────────
   const trackIds = new Set<string>();
@@ -61,7 +65,7 @@ export function validateContent(
   /** Global rule registry: rule tag → id of the level that canonically defines it. */
   const ruleRegistry = new Map<string, string>();
   /** All questions, collected for rule resolution after the registry is built. */
-  const allQuestions: Array<{ question: Question; levelId: string }> = [];
+  const allQuestions: Array<{ question: QuestionUnion; levelId: string }> = [];
 
   let eligibleTracks = 0;
 
@@ -133,7 +137,7 @@ export function validateContent(
           push(`question '${question.id}' levelId '${question.levelId}' does not match containing level '${level.id}'`);
         }
 
-        allQuestions.push({ question, levelId: level.id });
+        allQuestions.push({ question: normalizeQuestion(question), levelId: level.id });
       }
     }
   }
@@ -148,33 +152,68 @@ export function validateContent(
       push(`question '${question.id}' references rule '${question.rule}' which resolves to no TopicRule anywhere in the corpus`);
     }
 
-    if (question.choices.length !== 4) {
-      push(`question '${question.id}' has ${question.choices.length} choices; exactly 4 are required`);
-    }
-
-    if (
-      !Number.isInteger(question.correctIndex) ||
-      question.correctIndex < 0 ||
-      question.correctIndex > 3
-    ) {
-      push(`question '${question.id}' correctIndex ${question.correctIndex} is out of range 0..3`);
-    }
-
-    if (question.choiceExplanations.length !== 4) {
-      push(
-        `question '${question.id}' has ${question.choiceExplanations.length} choiceExplanations; ` +
-          `exactly 4, positionally aligned with choices, are required`,
-      );
-    } else {
-      question.choiceExplanations.forEach((explanation, i) => {
-        if (explanation.trim().length === 0) {
-          push(`question '${question.id}' choiceExplanation[${i}] is empty — a choice with no "why" ships broken teaching`);
+    switch (question.type) {
+      case 'multiple_choice':
+      case 'fix_sentence':
+        validateChoiceQuestion(question, push);
+        if (question.type === 'fix_sentence' && question.faultySentence.trim().length === 0) {
+          push(`question '${question.id}' faultySentence must be non-empty`);
         }
-      });
+        break;
+      case 'fill_blank':
+        if (question.acceptedAnswers.length === 0) {
+          push(`question '${question.id}' acceptedAnswers must contain at least one answer`);
+        }
+        if (question.correctAnswer.trim().length === 0) {
+          push(`question '${question.id}' correctAnswer must be non-empty`);
+        }
+        if (question.explanation.trim().length === 0) {
+          push(`question '${question.id}' explanation must be non-empty`);
+        }
+        break;
+      case 'word_order':
+        if (question.sentenceWords.length < 3) {
+          push(`question '${question.id}' sentenceWords must contain at least 3 words`);
+        }
+        if (question.sentenceWords.some(word => word.trim().length === 0)) {
+          push(`question '${question.id}' sentenceWords must not contain empty words`);
+        }
+        if (question.explanation.trim().length === 0) {
+          push(`question '${question.id}' explanation must be non-empty`);
+        }
+        break;
+      default:
+        push(`question has unknown type '${(question as never as { type: string }).type}'`);
     }
   }
 
   if (problems.length > 0) {
     throw new ContentValidationError(problems);
+  }
+}
+
+function validateChoiceQuestion(
+  question: Extract<QuestionUnion, { type: 'multiple_choice' | 'fix_sentence' }>,
+  push: (message: string) => void,
+): void {
+  if (question.choices.length !== 4) {
+    push(`question '${question.id}' has ${question.choices.length} choices; exactly 4 are required`);
+  }
+
+  if (!Number.isInteger(question.correctIndex) || question.correctIndex < 0 || question.correctIndex > 3) {
+    push(`question '${question.id}' correctIndex ${question.correctIndex} is out of range 0..3`);
+  }
+
+  if (question.choiceExplanations.length !== 4) {
+    push(
+      `question '${question.id}' has ${question.choiceExplanations.length} choiceExplanations; ` +
+        `exactly 4, positionally aligned with choices, are required`,
+    );
+  } else {
+    question.choiceExplanations.forEach((explanation, i) => {
+      if (explanation.trim().length === 0) {
+        push(`question '${question.id}' choiceExplanation[${i}] is empty — a choice with no "why" ships broken teaching`);
+      }
+    });
   }
 }

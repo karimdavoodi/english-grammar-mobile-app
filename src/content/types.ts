@@ -37,6 +37,8 @@ export interface Level {
   /** The single grammar topic this level teaches. */
   topic: Topic;
   /** The bank (≥ mercy cap; recommended target ~12). */
+  // Loaded MVP levels remain choice-based; QuestionInput allows future typed
+  // source questions before the machine/UI upgrades consume them.
   questions: Question[];
 }
 
@@ -66,14 +68,19 @@ export interface TopicRule {
   example: string;
 }
 
-/** A multiple-choice grammar question. */
-export interface Question {
+/** Fields shared by every question interaction. */
+interface BaseQuestion {
   /** e.g. 'b03q01' — globally unique. */
   id: string;
   /** Owning level. */
   levelId: string;
   /** Narrow rule tag (may belong to this topic OR an earlier topic). */
   rule: string;
+}
+
+/** A standard four-choice grammar question. */
+export interface MultipleChoiceQuestion extends BaseQuestion {
+  type: 'multiple_choice';
   prompt: string;
   /** Exactly 4 choices. */
   choices: string[];
@@ -85,4 +92,65 @@ export interface Question {
    *   the other 3   = why each choice is WRONG
    */
   choiceExplanations: string[];
+}
+
+/** A four-choice question that presents a faulty sentence for correction. */
+export type FixSentenceQuestion = Omit<MultipleChoiceQuestion, 'type'> & {
+  type: 'fix_sentence';
+  faultySentence: string;
+}
+
+/** A question answered by typing an accepted normalized form. */
+export interface FillBlankQuestion extends BaseQuestion {
+  type: 'fill_blank';
+  prompt: string;
+  correctAnswer: string;
+  acceptedAnswers: string[];
+  explanation: string;
+  commonMistakes?: Array<{ mistake: string; feedback: string }>;
+}
+
+/** A question answered by arranging the words into canonical order. */
+export interface WordOrderQuestion extends BaseQuestion {
+  type: 'word_order';
+  sentenceWords: string[];
+  prompt?: string;
+  explanation: string;
+}
+
+/** The runtime content union. Every loaded question has an explicit type. */
+export type QuestionUnion =
+  | MultipleChoiceQuestion
+  | FixSentenceQuestion
+  | FillBlankQuestion
+  | WordOrderQuestion;
+
+/** Backward-compatible authoring/consumer view for the existing MVP MC flow. */
+export interface Question extends Omit<MultipleChoiceQuestion, 'type'> {
+  type?: 'multiple_choice';
+}
+
+/** Legacy source shape accepted by the loader and normalized to multiple_choice. */
+export type LegacyMultipleChoiceQuestion = Omit<MultipleChoiceQuestion, 'type'>;
+export type QuestionInput = QuestionUnion | Question | LegacyMultipleChoiceQuestion;
+
+export type LevelInput = Omit<Level, 'questions'> & { questions: QuestionInput[] };
+export type TrackInput = Omit<Track, 'levels'> & { levels: LevelInput[] };
+
+/** Add the explicit discriminator required by the runtime union. */
+export function normalizeQuestion(question: QuestionInput): QuestionUnion {
+  if (!('type' in question)) {
+    return { ...question, type: 'multiple_choice' };
+  }
+  return question as QuestionUnion;
+}
+
+export function normalizeTrack(track: TrackInput): Track {
+  return {
+    ...track,
+    levels: track.levels.map(level => ({
+      ...level,
+      questions: level.questions.map(normalizeQuestion) as Question[],
+    })),
+  };
 }
