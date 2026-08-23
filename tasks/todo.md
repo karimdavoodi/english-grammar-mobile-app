@@ -74,7 +74,7 @@ Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases
 
 ## Phase 6 — End-game, polish, tuning, release
 
-- [ ] Task 24: Graduation screen + completion flow
+- [x] Task 24: Graduation screen + completion flow (final-level graduation route, progress summary, practice/map paths)
 - [ ] Task 25: Endless Mastery Review
 - [ ] Task 26: Tuning pass from real play (adjust `PassConfig`)
 - [ ] Task 27A: Gherkin extensions + feature-focused regression suites

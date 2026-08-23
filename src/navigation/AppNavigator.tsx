@@ -45,6 +45,7 @@ import { LevelPlayScreen, type LevelEndResult } from '../screens/LevelPlayScreen
 import { ReportScreen } from '../screens/ReportScreen';
 import { MixedReviewScreen } from '../screens/MixedReviewScreen';
 import { StatsScreen } from '../screens/StatsScreen';
+import { GraduationScreen } from '../screens/GraduationScreen';
 import { loadEvents, selectStats } from '../state/events';
 import {
   completeLevel,
@@ -288,10 +289,7 @@ function ResultRoute({
     if (nextLevel) {
       navigation.replace('LevelPlay', { levelId: nextLevel.id });
     } else {
-      // Completion state: no next level — the LevelMap is the destination.
-      // popTo the existing map, or (when the track was finished straight from
-      // the boot LevelPlay) replace this Result with it.
-      navigation.popTo('LevelMap');
+      navigation.replace('Graduation');
     }
   }, [nextLevel, navigation]);
 
@@ -305,6 +303,32 @@ function ResultRoute({
       outcome={outcome}
       nextLevel={nextLevel}
       onContinue={handleContinue}
+    />
+  );
+}
+
+function GraduationRoute({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList, 'Graduation'>) {
+  const { tracks, progress, store } = useApp();
+  const [accuracy, setAccuracy] = React.useState(0);
+  const totalLevels = flattenedLevelIds(tracks).length;
+  const completedLevels = progress
+    ? progress.completedLevelIds.filter(id => flattenedLevelIds(tracks).includes(id)).length
+    : 0;
+
+  useEffect(() => {
+    loadEvents(store).then(events => setAccuracy(selectStats(events).accuracy)).catch(() => {});
+  }, [store]);
+
+  return (
+    <GraduationScreen
+      completedLevels={completedLevels}
+      totalLevels={totalLevels}
+      dailyStreak={progress?.dailyStreak ?? 0}
+      accuracy={accuracy}
+      onKeepPracticing={() => navigation.replace('MixedReview')}
+      onOpenMap={() => navigation.replace('LevelMap')}
     />
   );
 }
@@ -324,6 +348,7 @@ export function AppNavigator() {
           initialParams={{ levelId: progress?.currentLevelId ?? '' }}
         />
         <Stack.Screen name="Result" component={ResultRoute} />
+        <Stack.Screen name="Graduation" component={GraduationRoute} />
         <Stack.Screen name="LevelMap" component={LevelMapRoute} />
         <Stack.Screen name="Review" component={ReviewRoute} />
         <Stack.Screen name="Settings" component={SettingsRoute} />

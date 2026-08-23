@@ -28,6 +28,7 @@ export type RootStackParamList = {
   StartPoint: undefined;
   LevelPlay: { levelId: string };
   Result: ResultScreenParams;
+  Graduation: undefined;
   /** The level map — progress overview and free-play hub (Task 10). */
   LevelMap: undefined;
   /** Wrong-answer study history grouped by rule (reachable from Settings in Task 12). */
