@@ -60,7 +60,7 @@ Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases
 - [x] Task 20B: Complete Basic b22–b30 (nine authored levels; validation and review entries added)
 - [x] Task 21A: Author Intermediate levels 1–10 (i01–i10 authored; validation, onboarding, and review entries added)
 - [x] Task 21B: Author Intermediate levels 11–20 (i11–i20 authored; validation and review entries added)
-- [ ] Task 21C: Author Intermediate levels 21–30
+- [x] Task 21C: Author Intermediate levels 21–30 (ten authored levels; validation and review entries added)
 - [ ] Task 22A: Author Advanced levels 1–10
 - [ ] Task 22B: Author Advanced levels 11–20
 - [ ] Task 22C: Author Advanced levels 21–30
