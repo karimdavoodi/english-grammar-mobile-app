@@ -7,10 +7,12 @@ import { createContext, useContext } from 'react';
 import type { Track } from '../content/types';
 import type { Progress, Settings } from '../state/types';
 import type { ContentReport } from '../state/reports';
+import type { StorageLike } from '../state/storage';
 
 export interface AppContextValue {
   /** The validated bundled tracks (content). */
   tracks: Track[];
+  store: StorageLike;
   /** Loaded settings (theme, …). */
   settings: Settings;
   reports: ContentReport[];

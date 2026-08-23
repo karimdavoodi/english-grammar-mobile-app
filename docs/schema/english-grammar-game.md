@@ -261,13 +261,16 @@ interface AppState {
 
 ### Persistence notes
 
-- Single AsyncStorage key per concern: `egg:settings`, `egg:progress` — small, atomic, cheap.
+- Single AsyncStorage key per concern: `egg:settings`, `egg:progress`, and `egg:events` — small, atomic, cheap.
 - `progress.version` lets future versions migrate saved games when the shape changes. Version 3 adds optional mixed-session metadata; version 4 adds daily streak fields without changing learning data. Older saves migrate through the registered chain.
 - Progress version 2 adds the optional `WrongAnswerEntry.lastResponse` field. Version 1
   records retain `lastChosenIndex` and migrate without losing history; when `lastResponse`
   is absent, Review treats the record as a legacy index response.
 - Content lookups always go **by id** into the bundled content — state never duplicates question text, only references ids. Adding levels in a release is safe because old saved IDs still resolve. Unknown historical question IDs may be omitted from Review, but an unknown current level must be repaired to the first valid level at or after the saved frontier; if none exists, show completion.
 - Reset = clear `egg:progress` (and re-enter the starting-point choice). Settings survive a reset.
+- `egg:events` is an append-only, bounded local statistics log. Answer, level-end, and
+  session lifecycle events remain after a progress reset; Stats derives totals, accuracy,
+  practice-date/streak history, and time played from this separate key.
 - **Unlock is derived, never stored:** flatten tracks by ascending `track.order`, then levels by ascending `level.number`. A level is unlocked when it occurs at or before the saved frontier, or its ID is in `completedLevelIds`. Passed levels show a pass mark; mercy-ended and skipped-earlier levels are unlocked but not passed. Mercy-end is not a separate persisted state. Levels whose rules appear in `weaknessQueue` may show a "needs review" indicator.
 - `activeSession` is cleared when a level passes or mercy-ends and is restored after app restart. It is reset when the player deliberately abandons a session.
 - Mixed Review uses the same counters with a volume target and ends when that target or its snapshotted bank is exhausted. Its answers update the Weakness Queue and wrong-answer history, while ending it clears only `activeSession` and leaves `currentLevelId` unchanged.

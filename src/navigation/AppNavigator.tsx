@@ -44,6 +44,8 @@ import { StartPointScreen } from '../screens/StartPointScreen';
 import { LevelPlayScreen, type LevelEndResult } from '../screens/LevelPlayScreen';
 import { ReportScreen } from '../screens/ReportScreen';
 import { MixedReviewScreen } from '../screens/MixedReviewScreen';
+import { StatsScreen } from '../screens/StatsScreen';
+import { loadEvents, selectStats } from '../state/events';
 import {
   completeLevel,
   flattenedLevelIds,
@@ -219,10 +221,20 @@ function SettingsRoute({
       onChangeTheme={theme => applySettings({ theme })}
       onReset={handleReset}
       onOpenReview={() => navigation.navigate('Review')}
+      onOpenStats={() => navigation.navigate('Stats')}
       onOpenMixedReview={() => navigation.navigate('MixedReview')}
       onBack={() => navigation.goBack()}
     />
   );
+}
+
+function StatsRoute({ navigation }: NativeStackScreenProps<RootStackParamList, 'Stats'>) {
+  const { store } = useApp();
+  const [stats, setStats] = React.useState(() => selectStats([]));
+  useEffect(() => {
+    loadEvents(store).then(events => setStats(selectStats(events))).catch(() => {});
+  }, [store]);
+  return <StatsScreen stats={stats} onOpenReview={() => navigation.navigate('Review')} onBack={() => navigation.goBack()} />;
 }
 
 function MixedReviewRoute({
@@ -313,6 +325,7 @@ export function AppNavigator() {
         <Stack.Screen name="Settings" component={SettingsRoute} />
         <Stack.Screen name="MixedReview" component={MixedReviewRoute} />
         <Stack.Screen name="Report" component={ReportRoute} />
+        <Stack.Screen name="Stats" component={StatsRoute} />
       </Stack.Navigator>
     </NavigationContainer>
   );

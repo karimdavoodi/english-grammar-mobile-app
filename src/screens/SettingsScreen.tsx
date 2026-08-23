@@ -37,6 +37,7 @@ export interface SettingsScreenProps {
   onReset: () => void;
   /** Called when the player taps "Review mistakes" (navigates to Review). */
   onOpenReview: () => void;
+  onOpenStats?: () => void;
   onOpenMixedReview?: () => void;
   /** Called when the player taps Back. */
   onBack?: () => void;
@@ -47,6 +48,7 @@ export function SettingsScreen({
   onChangeTheme,
   onReset,
   onOpenReview,
+  onOpenStats,
   onOpenMixedReview,
   onBack,
 }: SettingsScreenProps) {
@@ -148,6 +150,19 @@ export function SettingsScreen({
             <Text style={styles.optionHint}>
               Practice weaknesses and passed levels in one short session
             </Text>
+          </View>
+        </Pressable> : null}
+
+        {onOpenStats ? <Pressable
+          testID="settings-stats"
+          accessibilityRole="button"
+          accessibilityLabel="View stats"
+          onPress={onOpenStats}
+          style={({ pressed }) => [styles.option, pressed && styles.optionPressed]}
+        >
+          <View style={styles.optionText}>
+            <Text style={styles.optionLabel}>Stats</Text>
+            <Text style={styles.optionHint}>See your accuracy, practice days, and time played</Text>
           </View>
         </Pressable> : null}
 

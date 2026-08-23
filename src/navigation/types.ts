@@ -36,4 +36,5 @@ export type RootStackParamList = {
   Settings: undefined;
   MixedReview: undefined;
   Report: { questionId?: string };
+  Stats: undefined;
 };

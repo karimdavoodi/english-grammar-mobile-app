@@ -23,6 +23,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { findRule, tracks } from '../content';
+import { normalizeQuestion } from '../content/types';
 import type { Level } from '../content/types';
 import { LessonCard } from '../components/LessonCard';
 import { ProgressHeader } from '../components/ProgressHeader';
@@ -45,6 +46,7 @@ import {
   startLevelSession,
 } from '../state/reducers';
 import { DEFAULT_STORE, saveProgress, type StorageLike } from '../state/storage';
+import { appendEvent } from '../state/events';
 import { hydrateSession, type Progress } from '../state/types';
 import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
@@ -151,6 +153,7 @@ export function LevelPlayScreen({
   );
   const [play, setPlay] = useState<PlayState>(init.state);
   const [saveFailed, setSaveFailed] = useState(false);
+  const sessionIdRef = useRef(`${level.id}:${new Date().toISOString()}`);
 
   // Persistence is serialized so a rapid follow-up answer never lets an earlier
   // stale write land after a newer one: only one save is in flight at a time,
@@ -185,6 +188,7 @@ export function LevelPlayScreen({
   useEffect(() => {
     if (init.createdSession) {
       persist(init.state.progress);
+      appendEvent({ kind: 'session_start', sessionId: sessionIdRef.current, timestamp: new Date().toISOString() }, store).catch(() => {});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -203,6 +207,15 @@ export function LevelPlayScreen({
       });
       persist(progress);
       onProgressChange?.(progress);
+      appendEvent({
+        kind: 'answer',
+        questionId: play.serve.question.id,
+        rule: play.serve.question.rule,
+        questionType: normalizeQuestion(play.serve.question).type,
+        isCorrect: outcome.isCorrect,
+        levelId: level.id,
+        timestamp: new Date().toISOString(),
+      }, store).catch(() => {});
       setPlay({
         ...play,
         progress,
@@ -211,7 +224,7 @@ export function LevelPlayScreen({
         feedback: { response, outcome, showLesson: !outcome.isCorrect },
       });
     },
-    [onProgressChange, play, passConfig, persist],
+    [onProgressChange, play, passConfig, persist, level.id, store],
   );
 
   const handleContinueFromLesson = useCallback(() => {
@@ -229,6 +242,15 @@ export function LevelPlayScreen({
     const ended = outcome.passed || outcome.endedByMercy;
     if (ended) {
       setPlay({ ...play, phase: 'ended', feedback: null });
+      appendEvent({
+        kind: 'level_end',
+        levelId: level.id,
+        outcome: outcome.passed ? 'passed' : 'mercy_ended',
+        reason: outcome.passReason ?? (outcome.endedByMercy ? 'mercy' : 'completed'),
+        timestamp: new Date().toISOString(),
+      }, store).then(() => appendEvent({
+        kind: 'session_end', sessionId: sessionIdRef.current, timestamp: new Date().toISOString(),
+      }, store)).catch(() => {});
       onLevelEnd?.({ session: play.session, outcome, progress: play.progress });
       return;
     }
@@ -253,7 +275,7 @@ export function LevelPlayScreen({
       phase: nextServe.showLesson ? 'lesson' : 'question',
       feedback: null,
     });
-  }, [onLevelEnd, play, level, random]);
+  }, [onLevelEnd, play, level, random, store]);
 
   const handleAbandon = useCallback(() => {
     Alert.alert(

@@ -174,6 +174,7 @@ export function AppProvider({
   const value = useMemo<AppContextValue>(
     () => ({
       tracks,
+      store,
       settings: settings ?? DEFAULT_SETTINGS,
       reports,
       progress,
@@ -186,7 +187,7 @@ export function AppProvider({
       updateReport: editReport,
       exportReports: exportAllReports,
     }),
-    [tracks, settings, progress, reports, ready, chooseStartingPoint, applyProgress, applySettings, resetGame, addReport, editReport, exportAllReports],
+    [tracks, store, settings, progress, reports, ready, chooseStartingPoint, applyProgress, applySettings, resetGame, addReport, editReport, exportAllReports],
   );
 
   return (
