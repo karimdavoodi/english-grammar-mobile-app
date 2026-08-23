@@ -2,10 +2,10 @@
  * Derived state views — pure functions over content + progress.
  *
  * Implements the schema's "unlock is derived, never stored" rule
- * (docs/schema/english-grammar-game.md §2): a level is unlocked when it occurs
- * at or before the saved frontier, or its id is in `completedLevelIds`. Passed
- * levels show a pass mark; mercy-ended and skipped-earlier levels are unlocked
- * but not passed (no separate persisted state exists for them).
+ * (docs/schema/english-grammar-game.md §2): every level is unlocked for play
+ * (Round 2 product decision — "user should be able to access all levels").
+ * Passed levels show a pass mark; mercy-ended and skipped-earlier levels are
+ * unlocked but not passed (no separate persisted state exists for them).
  *
  * Also provides:
  *   - `repairProgress` — the persisted-ID repair: unknown historical question
@@ -41,27 +41,20 @@ export function orderedLevels(tracks: readonly Track[]): Level[] {
 }
 
 /**
- * The level ids unlocked for play: every level at or before the saved frontier,
- * plus any level in `completedLevelIds` (a passed level stays unlocked when the
- * frontier has moved on — replay never re-locks).
+ * The level ids unlocked for play. All levels are unlocked: the unlock-by-
+ * frontier derivation is dropped (Round 2 product decision — the user should
+ * be able to access all levels). `currentLevelId`, `completedLevelIds`,
+ * `isCurrent`, and `needsReview` still drive Resume, the Passed/Current/Review
+ * badges, and progress summaries — only the lock gate is gone.
  */
 export function unlockedLevelIds(
   tracks: readonly Track[],
-  progress: Progress,
+  _progress: Progress,
 ): ReadonlySet<string> {
-  const order = orderedLevels(tracks);
-  const frontierIndex = order.findIndex(level => level.id === progress.currentLevelId);
-  const completed = new Set(progress.completedLevelIds);
-  const unlocked = new Set<string>();
-  order.forEach((level, index) => {
-    if (completed.has(level.id) || (frontierIndex >= 0 && index <= frontierIndex)) {
-      unlocked.add(level.id);
-    }
-  });
-  return unlocked;
+  return new Set(orderedLevels(tracks).map(level => level.id));
 }
 
-/** Whether a single level is unlocked for play (see `unlockedLevelIds`). */
+/** Whether a single level is unlocked for play (every level is unlocked). */
 export function isLevelUnlocked(
   tracks: readonly Track[],
   progress: Progress,
@@ -83,7 +76,7 @@ export function levelNeedsReview(level: Level, queuedRules: ReadonlySet<string>)
 export interface LevelStatus {
   levelId: string;
   level: Level;
-  /** Playable (at-or-before the frontier, or passed). */
+  /** Playable (every level is unlocked). */
   unlocked: boolean;
   /** In `completedLevelIds` — the level was passed. */
   completed: boolean;

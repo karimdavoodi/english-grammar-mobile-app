@@ -37,11 +37,14 @@ after it is implemented, verified (tests / tsc / lint), and committed.
       (sentinel questionId) before navigating to Report; `ReportScreen` labels it
       "General feedback" so the note can be edited and sent. Updated Review, Report
       (new test file), and navigator tests.
-- [ ] Task 5a — Data layer: all levels unlocked
-      `unlockedLevelIds` returns every level id, so `isLevelUnlocked` is always true
-      and `levelStatuses.unlocked` is always true. `currentLevelId`, completed,
-      `isCurrent`, and `needsReview` stay. Update `selectors.test.ts` and
-      `journey.test.ts` (drop "future levels stay locked" assertions).
+- [x] Task 5a — Data layer: all levels unlocked
+      `unlockedLevelIds` now returns every level id, so `isLevelUnlocked` is true
+      for every level in the corpus and `levelStatuses.unlocked` is always true.
+      `currentLevelId`, completed, `isCurrent`, and `needsReview` stay — only the
+      lock gate is dropped (Round 2 "all levels accessible" decision). Updated
+      `selectors.test.ts` and `journey.test.ts` to assert all-unlocked and removed
+      the "future levels stay locked" assertions. Note: TopicsScreen lock-UI tests
+      fail as a result — Task 5b removes the locked presentation and updates them.
 - [ ] Task 5b — Topics screen: remove the locked rows
       `TopicsScreen` renders every level tappable (`disabled` false,
       `accessibilityRole="button"`), no "🔒 Locked" badge, no locked styles;

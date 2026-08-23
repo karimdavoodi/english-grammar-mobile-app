@@ -155,54 +155,44 @@ describe('orderedLevels', () => {
 });
 
 describe('unlockedLevelIds', () => {
-  it('unlocks only the frontier level when it is level 1', () => {
+  it('unlocks every level for a fresh frontier', () => {
     expect(unlockedLevelIds(TRACKS, makeProgress({ currentLevelId: 'b01' }))).toEqual(
-      new Set(['b01']),
+      new Set(['b01', 'b02', 'b03', 'i01']),
     );
   });
 
-  it('unlocks every level at or before the frontier', () => {
+  it('unlocks every level for any later frontier or track', () => {
     expect(unlockedLevelIds(TRACKS, makeProgress({ currentLevelId: 'b02' }))).toEqual(
-      new Set(['b01', 'b02']),
+      new Set(['b01', 'b02', 'b03', 'i01']),
     );
-  });
-
-  it('keeps a passed level unlocked even when the frontier has moved past it', () => {
-    const progress = makeProgress({
-      currentLevelId: 'b02',
-      completedLevelIds: ['b01'],
-    });
-    expect(unlockedLevelIds(TRACKS, progress)).toEqual(new Set(['b01', 'b02']));
-  });
-
-  it('unlocks a completed level beyond the frontier without advancing it', () => {
-    const progress = makeProgress({
-      currentLevelId: 'b01',
-      completedLevelIds: ['b02'],
-    });
-    expect(unlockedLevelIds(TRACKS, progress)).toEqual(new Set(['b01', 'b02']));
-  });
-
-  it('unlocks all earlier levels when the frontier is a later track (higher start)', () => {
     expect(unlockedLevelIds(TRACKS, makeProgress({ currentLevelId: 'i01' }))).toEqual(
       new Set(['b01', 'b02', 'b03', 'i01']),
     );
   });
 
-  it('locks levels after the frontier that are not completed', () => {
-    expect(unlockedLevelIds(TRACKS, makeProgress({ currentLevelId: 'b02' }))).not.toContain(
-      'b03',
-    );
+  it('unlocks every level regardless of completed levels', () => {
+    const progress = makeProgress({
+      currentLevelId: 'b01',
+      completedLevelIds: ['b02'],
+    });
+    expect(unlockedLevelIds(TRACKS, progress)).toEqual(new Set(['b01', 'b02', 'b03', 'i01']));
+  });
+
+  it('returns an empty set when there are no tracks', () => {
+    expect(unlockedLevelIds([], makeProgress())).toEqual(new Set());
   });
 });
 
 describe('isLevelUnlocked', () => {
-  it('is true at or before the frontier, false after it', () => {
+  it('is true for every level in the corpus', () => {
     const progress = makeProgress({ currentLevelId: 'b02' });
-    expect(isLevelUnlocked(TRACKS, progress, 'b01')).toBe(true);
-    expect(isLevelUnlocked(TRACKS, progress, 'b02')).toBe(true);
-    expect(isLevelUnlocked(TRACKS, progress, 'b03')).toBe(false);
-    expect(isLevelUnlocked(TRACKS, progress, 'i01')).toBe(false);
+    for (const level of orderedLevels(TRACKS)) {
+      expect(isLevelUnlocked(TRACKS, progress, level.id)).toBe(true);
+    }
+  });
+
+  it('is false only for a level id outside the corpus', () => {
+    expect(isLevelUnlocked(TRACKS, makeProgress(), 'ghost')).toBe(false);
   });
 });
 
@@ -238,7 +228,7 @@ describe('levelStatuses', () => {
       needsReview: true, // its bank question is tagged with the queued past rule
     });
     expect(byId.b03).toMatchObject({
-      unlocked: false,
+      unlocked: true,
       completed: false,
       isCurrent: false,
       needsReview: false,

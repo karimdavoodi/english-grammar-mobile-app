@@ -233,7 +233,7 @@ describe('full journey — fresh install → play → pass/mercy → review → 
     }
     expect(Object.keys(progress.wrongAnswers).length).toBeGreaterThan(1);
 
-    // ── Level-map view: b02 unlocked-but-not-passed; b03 current; future locked ──
+    // ── Level-map view: b02 unlocked-but-not-passed; b03 current; all unlocked ──
     const statuses = levelStatuses(tracks, progress);
     const sB02 = statuses.find(s => s.levelId === 'b02')!;
     expect(sB02.unlocked).toBe(true);
@@ -242,7 +242,7 @@ describe('full journey — fresh install → play → pass/mercy → review → 
     expect(sB03.unlocked).toBe(true);
     expect(sB03.isCurrent).toBe(true);
     const sB12 = statuses.find(s => s.levelId === 'b12')!;
-    expect(sB12.unlocked).toBe(false); // future levels stay locked
+    expect(sB12.unlocked).toBe(true); // every level is unlocked (Round 2)
 
     // ── Review: wrong-answer history grouped by rule, still-queued flagged ──
     const groups = reviewGroups(tracks, progress.wrongAnswers, queued);
