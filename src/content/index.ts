@@ -1,44 +1,26 @@
 /**
  * Content loader — assembles all bundled tracks and validates them at load.
  *
- * Importing this module runs `validateContent()` (fail-fast): a malformed track
- * throws before it can ever reach the app. The exported `tracks` array is the
- * single source of truth for the map sequence and onboarding choices — per the
- * governing principle, adding a level or track is a content edit here, never a
- * code change.
+ * Content is pure data: the tracks live in `./data/*.json`, bundled into the
+ * app by Metro and imported once at load. Importing this module runs
+ * `validateContent()` (fail-fast): a malformed track throws before it can ever
+ * reach the app. The exported `tracks` array is the single source of truth for
+ * the map sequence and onboarding choices — per the governing principle, adding
+ * a level or track is a content edit in `./data`, never a code change.
  */
 
 import { validateContent } from './validate';
-import { basicCluster01 } from './tracks/basic/basic-01';
-import { basicCluster02 } from './tracks/basic/basic-02';
-import { basicCluster03 } from './tracks/basic/basic-03';
-import { basicCluster04 } from './tracks/basic/basic-04';
-import { intermediateTrack } from './tracks/intermediate';
-import { advancedCluster01 } from './tracks/advanced/advanced-01';
-import { advancedCluster02 } from './tracks/advanced/advanced-02';
-import { advancedCluster03 } from './tracks/advanced/advanced-03';
 import { normalizeTrack } from './types';
-import type { Level, Track, TopicRule } from './types';
+import type { Level, Track, TopicRule, TrackInput } from './types';
+import basicData from './data/basic.json';
+import intermediateData from './data/intermediate.json';
+import advancedData from './data/advanced.json';
 
 /** All bundled tracks, ordered by `track.order` on the map. */
 export const tracks: Track[] = [
-  normalizeTrack({
-    id: 'basic',
-    order: 1,
-    name: 'Basic',
-    label: 'Beginner',
-    eligibleStartingPoint: true,
-    levels: [...basicCluster01, ...basicCluster02, ...basicCluster03, ...basicCluster04],
-  }),
-  normalizeTrack(intermediateTrack),
-  normalizeTrack({
-    id: 'advanced',
-    order: 3,
-    name: 'Advanced',
-    label: 'Advanced',
-    eligibleStartingPoint: true,
-    levels: [...advancedCluster01, ...advancedCluster02, ...advancedCluster03],
-  }),
+  normalizeTrack(basicData as TrackInput),
+  normalizeTrack(intermediateData as TrackInput),
+  normalizeTrack(advancedData as TrackInput),
 ];
 
 // Fail-fast at load: malformed AI-generated content must never reach the app.
