@@ -14,6 +14,7 @@ import { basicCluster02 } from './tracks/basic/basic-02';
 import { basicCluster03 } from './tracks/basic/basic-03';
 import { basicCluster04 } from './tracks/basic/basic-04';
 import { intermediateTrack } from './tracks/intermediate';
+import { advancedCluster01 } from './tracks/advanced/advanced-01';
 import { normalizeTrack } from './types';
 import type { Level, Track, TopicRule } from './types';
 
@@ -28,6 +29,14 @@ export const tracks: Track[] = [
     levels: [...basicCluster01, ...basicCluster02, ...basicCluster03, ...basicCluster04],
   }),
   normalizeTrack(intermediateTrack),
+  normalizeTrack({
+    id: 'advanced',
+    order: 3,
+    name: 'Advanced',
+    label: 'Advanced',
+    eligibleStartingPoint: true,
+    levels: advancedCluster01,
+  }),
 ];
 
 // Fail-fast at load: malformed AI-generated content must never reach the app.
