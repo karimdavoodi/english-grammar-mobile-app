@@ -77,6 +77,9 @@ describe('createInitialProgress', () => {
       activeSession: null,
       weaknessQueue: {},
       wrongAnswers: {},
+      dailyStreak: 0,
+      bestStreak: 0,
+      lastPlayedDate: null,
     });
   });
 

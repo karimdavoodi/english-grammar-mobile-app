@@ -41,6 +41,7 @@ import {
   abandonSession,
   applyAnswer,
   queuedRuleSet,
+  recordPlay,
   startLevelSession,
 } from '../state/reducers';
 import { DEFAULT_STORE, saveProgress, type StorageLike } from '../state/storage';
@@ -107,8 +108,10 @@ function resolveInitial(
   let progress = initialProgress;
   let createdSession = false;
   if (!(progress.activeSession && progress.activeSession.levelId === level.id)) {
-    progress = startLevelSession(progress, level.id);
+    progress = startLevelSession(progress, level.id, localDate(new Date()));
     createdSession = true;
+  } else {
+    progress = recordPlay(progress, localDate(new Date()));
   }
   const session = hydrateSession(progress.activeSession!);
   const bank: QuestionLike[] = level.interleave
@@ -117,6 +120,13 @@ function resolveInitial(
   const serve = serveNextQuestion(session, bank, queuedRuleSet(progress), { random });
   const phase: Phase = serve ? (serve.showLesson ? 'lesson' : 'question') : 'ended';
   return { state: { progress, session, serve, phase, feedback: null }, createdSession };
+}
+
+function localDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 export function LevelPlayScreen({

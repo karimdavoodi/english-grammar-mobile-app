@@ -279,12 +279,24 @@ describe('progress persistence', () => {
       },
     };
 
-    expect(migrateProgress(legacy)).toEqual({ ...legacy, version: 3 });
+    expect(migrateProgress(legacy)).toMatchObject({
+      ...legacy,
+      version: CURRENT_PROGRESS_VERSION,
+      dailyStreak: 0,
+      bestStreak: 0,
+      lastPlayedDate: null,
+    });
   });
 
   it('migrates version 2 mixed-session state to version 3', () => {
     const legacy = { version: 2, currentLevelId: 'b01', activeSession: null };
-    expect(migrateProgress(legacy)).toEqual({ ...legacy, version: 3 });
+    expect(migrateProgress(legacy)).toMatchObject({
+      ...legacy,
+      version: CURRENT_PROGRESS_VERSION,
+      dailyStreak: 0,
+      bestStreak: 0,
+      lastPlayedDate: null,
+    });
   });
 
   it('throws on state newer than the supported version', async () => {

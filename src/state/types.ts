@@ -91,6 +91,12 @@ export interface Progress {
   weaknessQueue: Record<string, WeaknessEntry>;
   /** Keyed by question id. */
   wrongAnswers: Record<string, WrongAnswerEntry>;
+  /** Consecutive calendar days on which the player started practice. */
+  dailyStreak?: number;
+  /** Highest daily streak reached. */
+  bestStreak?: number;
+  /** Local calendar date of the most recent practice day (YYYY-MM-DD). */
+  lastPlayedDate?: string | null;
 }
 
 /** Root app state: settings + progress (null until the start choice is made). */

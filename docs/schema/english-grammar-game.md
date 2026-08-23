@@ -206,6 +206,9 @@ interface Progress {
   activeSession: LevelSession | null; // resumable in-progress level, if any
   weaknessQueue: Record<string, WeaknessEntry>;  // keyed by rule tag
   wrongAnswers: Record<string, WrongAnswerEntry>; // keyed by question id
+  dailyStreak: number;                            // consecutive practice calendar days
+  bestStreak: number;                             // highest dailyStreak reached
+  lastPlayedDate: string | null;                  // local YYYY-MM-DD
 }
 
 interface WeaknessEntry {
@@ -259,7 +262,7 @@ interface AppState {
 ### Persistence notes
 
 - Single AsyncStorage key per concern: `egg:settings`, `egg:progress` — small, atomic, cheap.
-- `progress.version` lets future versions migrate saved games when the shape changes. Version 3 adds optional mixed-session metadata; version 2 saves migrate without changing their level-session data.
+- `progress.version` lets future versions migrate saved games when the shape changes. Version 3 adds optional mixed-session metadata; version 4 adds daily streak fields without changing learning data. Older saves migrate through the registered chain.
 - Progress version 2 adds the optional `WrongAnswerEntry.lastResponse` field. Version 1
   records retain `lastChosenIndex` and migrate without losing history; when `lastResponse`
   is absent, Review treats the record as a legacy index response.

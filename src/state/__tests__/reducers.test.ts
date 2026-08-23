@@ -38,6 +38,7 @@ import {
   flattenedLevelIds,
   nextLevelId,
   queuedRuleSet,
+  recordPlay,
   REVIEW_CLEAR_STREAK,
   startLevelSession,
 } from '../reducers';
@@ -60,6 +61,28 @@ function makeQuestion(overrides: Partial<Question> & { id: string }): Question {
 const qA1 = makeQuestion({ id: 'b10q01' });
 const qA2 = makeQuestion({ id: 'b10q02' });
 const qB1 = makeQuestion({ id: 'b10q03', rule: RULE_B, correctIndex: 2 });
+
+describe('recordPlay', () => {
+  it('starts a streak and records the best streak', () => {
+    const next = recordPlay(makeProgress(), '2026-08-22');
+    expect(next).toMatchObject({ dailyStreak: 1, bestStreak: 1, lastPlayedDate: '2026-08-22' });
+  });
+
+  it('keeps the streak on the same day', () => {
+    const progress = makeProgress({ dailyStreak: 3, bestStreak: 3, lastPlayedDate: '2026-08-22' });
+    expect(recordPlay(progress, '2026-08-22')).toBe(progress);
+  });
+
+  it('increments on the next calendar day, including month boundaries', () => {
+    const progress = makeProgress({ dailyStreak: 3, bestStreak: 4, lastPlayedDate: '2026-08-31' });
+    expect(recordPlay(progress, '2026-09-01')).toMatchObject({ dailyStreak: 4, bestStreak: 4 });
+  });
+
+  it('resets after a gap while preserving the best streak', () => {
+    const progress = makeProgress({ dailyStreak: 5, bestStreak: 5, lastPlayedDate: '2026-08-20' });
+    expect(recordPlay(progress, '2026-08-22')).toMatchObject({ dailyStreak: 1, bestStreak: 5 });
+  });
+});
 
 function makeProgress(overrides: Partial<Progress> = {}): Progress {
   return {

@@ -40,6 +40,34 @@ import {
 /** Consecutive correct Review answers that clear a rule from the Weakness Queue. */
 export const REVIEW_CLEAR_STREAK = 2;
 
+/** Return the number of whole calendar days between two local YYYY-MM-DD dates. */
+function calendarDayDifference(previous: string, current: string): number {
+  const parse = (value: string) => {
+    const [year, month, day] = value.split('-').map(Number);
+    return Date.UTC(year, month - 1, day);
+  };
+  return (parse(current) - parse(previous)) / 86_400_000;
+}
+
+/** Record one practice day without relying on the device clock. */
+export function recordPlay(progress: Progress, date: string): Progress {
+  const currentStreak = progress.dailyStreak ?? 0;
+  const bestStreak = progress.bestStreak ?? 0;
+  const lastPlayedDate = progress.lastPlayedDate ?? null;
+
+  if (lastPlayedDate === date) return progress;
+
+  const dailyStreak = lastPlayedDate && calendarDayDifference(lastPlayedDate, date) === 1
+    ? currentStreak + 1
+    : 1;
+  return {
+    ...progress,
+    dailyStreak,
+    bestStreak: Math.max(bestStreak, dailyStreak),
+    lastPlayedDate: date,
+  };
+}
+
 /** The rule tags currently in the Weakness Queue — the serving "queuedRules" set. */
 export function queuedRuleSet(progress: Progress): Set<string> {
   return new Set(Object.keys(progress.weaknessQueue));
@@ -52,11 +80,12 @@ export function queuedRuleSet(progress: Progress): Set<string> {
  * A session for any other level — or no session — is replaced by a fresh one
  * for `levelId`. Resuming never mutates the stored progress.
  */
-export function startLevelSession(progress: Progress, levelId: string): Progress {
+export function startLevelSession(progress: Progress, levelId: string, date?: string): Progress {
+  const played = date === undefined ? progress : recordPlay(progress, date);
   if (progress.activeSession && progress.activeSession.kind !== 'mixed' && progress.activeSession.levelId === levelId) {
-    return progress;
+    return played;
   }
-  return { ...progress, activeSession: persistSession(createSession(levelId)) };
+  return { ...played, activeSession: persistSession(createSession(levelId)) };
 }
 
 /** Start or resume a deterministic Mixed Review session without moving the frontier. */
@@ -331,6 +360,9 @@ export function createInitialProgress(
     activeSession: null,
     weaknessQueue: {},
     wrongAnswers: {},
+    dailyStreak: 0,
+    bestStreak: 0,
+    lastPlayedDate: null,
   };
 }
 

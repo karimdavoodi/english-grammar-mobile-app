@@ -17,7 +17,7 @@ export const SETTINGS_KEY = 'egg:settings';
 export const PROGRESS_KEY = 'egg:progress';
 
 /** Current Progress schema version — bump and register a migration when the shape changes. */
-export const CURRENT_PROGRESS_VERSION = 3;
+export const CURRENT_PROGRESS_VERSION = 4;
 
 /** Minimal AsyncStorage-compatible surface the storage layer depends on. */
 export interface StorageLike {
@@ -41,6 +41,14 @@ const MIGRATIONS: Record<number, (progress: Progress) => Progress> = {
   1: progress => ({ ...progress, version: 2 }),
   // 2 → 3: mixed-session metadata is optional, so old level sessions remain valid.
   2: progress => ({ ...progress, version: 3 }),
+  // 3 → 4: add the local daily-streak summary without changing learning data.
+  3: progress => ({
+    ...progress,
+    version: 4,
+    dailyStreak: 0,
+    bestStreak: 0,
+    lastPlayedDate: null,
+  }),
 };
 
 /**

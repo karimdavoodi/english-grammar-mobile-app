@@ -142,6 +142,17 @@ function textOf(tree: ReactTestRenderer.ReactTestRenderer, testID: string): stri
 }
 
 describe('LevelMapScreen — track and level rendering', () => {
+  it('shows the current and best daily streak', async () => {
+    const tree = await render(
+      <LevelMapScreen
+        tracks={TRACKS}
+        progress={makeProgress({ dailyStreak: 4, bestStreak: 7 })}
+        onSelectLevel={jest.fn()}
+      />,
+    );
+    expect(textOf(tree, 'level-map-streak-summary')).toContain('Daily streak: 4 · Best: 7');
+  });
+
   it('renders every track section and every level title', async () => {
     const tree = await render(
       <LevelMapScreen

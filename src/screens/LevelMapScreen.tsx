@@ -111,6 +111,9 @@ export function LevelMapScreen({
         <Text style={styles.subheading} testID="level-map-subheading">
           Your progress across the tracks. Tap any unlocked level to practice.
         </Text>
+        <Text style={styles.streakSummary} testID="level-map-streak-summary">
+          Daily streak: {progress.dailyStreak ?? 0} · Best: {progress.bestStreak ?? 0} · Practice today
+        </Text>
         {onOpenMixedReview ? (
           <Pressable
             testID="level-map-mixed-review"
@@ -283,6 +286,12 @@ const makeStyles = (colors: ThemeColors) =>
       fontSize: tokens.typography.body,
       lineHeight: 20,
       color: colors.primaryOnContainerMuted,
+    },
+    streakSummary: {
+      marginTop: tokens.spacing.sm,
+      fontSize: tokens.typography.body,
+      fontWeight: '600',
+      color: colors.primaryOnContainer,
     },
     mixedReview: {
       alignSelf: 'flex-start',

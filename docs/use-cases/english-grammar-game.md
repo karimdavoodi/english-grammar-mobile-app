@@ -13,6 +13,25 @@ Behavioral spec derived from `docs/ideas/english-grammar-game.md`.
 
 **MVP contract:** v1 bundles Basic content only. Therefore v1 starts at Basic level 1 and does not offer unavailable Intermediate or Advanced choices. The higher-start scenarios apply once those tracks are bundled.
 
+## Feature: Daily Practice Streak
+
+**Scenario: Practice starts a daily streak**
+- Given I have not practiced today
+- When I start any level
+- Then my current daily streak increases or starts at 1
+- And the level map shows my current and best streak
+
+**Scenario: Same-day practice does not double-count**
+- Given I have already practiced today
+- When I start another level
+- Then my current daily streak stays unchanged
+
+**Scenario: Missing a day resets the current streak**
+- Given my last practice was more than one calendar day ago
+- When I start any level
+- Then my current daily streak is 1
+- And my best streak is preserved
+
 ---
 
 ## Feature: First Launch — Choosing a Starting Point
