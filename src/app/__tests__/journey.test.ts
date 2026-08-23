@@ -7,7 +7,7 @@
  * acceptance criterion "Fresh install → start → play → pass/mercy → review →
  * reset completes without data loss or invalid navigation":
  *
- *   fresh install (Basic-only) → auto-start at level 1 (no start-choice screen)
+ *   fresh install (multiple tracks) → choose Basic at the start-choice screen
  *   → play b01 (miss one, then pass by streak) → wrong-answer history populated;
  *     the missed rule is cleared from the Weakness Queue by correct Review
  *     answers during the same level — proving "clear a weakness, keep the history"
@@ -44,9 +44,9 @@ import { serveNextQuestion, type ServeResult } from '../../game/serving';
 import {
   applyAnswer,
   completeLevel,
+  createInitialProgress,
   flattenedLevelIds,
   queuedRuleSet,
-  resolveBootProgress,
   startLevelSession,
 } from '../../state/reducers';
 import { repairProgress, reviewGroups, levelStatuses } from '../../state/selectors';
@@ -161,9 +161,8 @@ describe('full journey — fresh install → play → pass/mercy → review → 
     const b01 = findLevelById(tracks, 'b01')!;
     const b02 = findLevelById(tracks, 'b02')!;
 
-    // ── Fresh install: Basic-only auto-starts at level 1 (no choice screen) ──
-    const boot = resolveBootProgress(tracks, null);
-    expect(boot).not.toBeNull();
+    // ── Fresh install: choose Basic from the multi-track start-point flow ──
+    const boot = createInitialProgress(tracks, { trackId: 'basic', levelNumber: 1 });
     expect(boot!.currentLevelId).toBe('b01');
     expect(boot!.startingPoint).toEqual({ trackId: 'basic', levelNumber: 1 });
     expect(boot!.completedLevelIds).toEqual([]);
@@ -282,8 +281,7 @@ describe('full journey — fresh install → play → pass/mercy → review → 
     await resetProgress(store);
     expect(await loadProgress(store)).toBeNull();
     expect(await loadSettings(store)).toEqual({ theme: 'dark', notifications: { enabled: false, hour: 9, minute: 0 } }); // settings survive
-    const fresh = resolveBootProgress(tracks, null);
-    expect(fresh).not.toBeNull();
+    const fresh = createInitialProgress(tracks, { trackId: 'basic', levelNumber: 1 });
     expect(fresh!.currentLevelId).toBe('b01');
     expect(fresh!.completedLevelIds).toEqual([]);
   });
@@ -293,7 +291,7 @@ describe('full journey — fresh install → play → pass/mercy → review → 
     // currentLevelId in the real corpus at every step — the "no invalid
     // navigation" invariant the navigator relies on. (Drives the reducers
     // directly with real content.)
-    let progress = resolveBootProgress(tracks, null)!;
+    let progress = createInitialProgress(tracks, { trackId: 'basic', levelNumber: 1 });
     for (const [levelId, passed] of [
       ['b01', true],
       ['b02', false],

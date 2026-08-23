@@ -135,13 +135,14 @@ async function pressCorrectAnswer(
 }
 
 describe('AppNavigator — route wiring', () => {
-  it('auto-starts at LevelPlay (StartPoint never rendered) and routes pass → Result → next level', async () => {
+  it('chooses Basic from StartPoint and routes pass → Result → next level', async () => {
     const store = createStore();
     const tree = await renderApp(store);
 
-    // Basic-only fresh install: AppProvider auto-starts, so the navigator boots
-    // straight into LevelPlay — the "only one track bundled" / "returning
-    // players are not asked again" route decision.
+    // Multiple eligible tracks show the existing first-launch choice flow.
+    expect(countHostByTestID(tree, 'start-point-screen')).toBe(1);
+    expect(countHostByTestID(tree, 'level-play-screen')).toBe(0);
+    await press(tree, 'start-choice-basic');
     expect(countHostByTestID(tree, 'level-play-screen')).toBe(1);
     expect(countHostByTestID(tree, 'start-point-screen')).toBe(0);
     const boot = await loadProgress(store);

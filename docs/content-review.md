@@ -96,3 +96,18 @@ grammar, explanation, recurring-rule, and schema checklist. The reviewer remains
   rule as the canonical teaching for the -ing form; the question explanations add
   the future-arrangement usage note. **Confirmed:** pedagogically sound — the rule
   card teaches the form, and the explanations supply the future-arrangement usage.
+
+## Intermediate track — Task 21A authoring pass
+
+| # | Level | Topic | Questions | Type mix | Home rules | Recurring rules | Reviewer | Status | Notes |
+|---|-------|-------|-----------|----------|------------|-----------------|----------|--------|-------|
+| 1 | i01 | Tense Review in Narratives | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `narrative_tense_sequence`, `past_perfect_narrative` | `present_simple_form` (b01) | AI | authoring-pass | Main events, background actions, and earlier past events. |
+| 2 | i02 | Past Perfect Continuous | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `past_perfect_continuous_form`, `past_perfect_continuous_duration` | `past_perfect_form` (b10) | AI | authoring-pass | Duration and visible results before a past point. |
+| 3 | i03 | Future Continuous and Future Perfect | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `future_continuous_form`, `future_perfect_form` | `future_will` (b06) | AI | authoring-pass | Future activity in progress versus completed by a deadline. |
+| 4 | i04 | Future in the Past | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `future_in_past_would`, `future_in_past_was_going_to` | `past_simple_form` (b03) | AI | authoring-pass | Later events and intentions viewed from the past. |
+| 5 | i05 | Third Conditional | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `third_conditional_form`, `third_conditional_regret` | `first_conditional` (b12) | AI | authoring-pass | Unreal past conditions, results, and regret. |
+| 6 | i06 | Mixed Conditionals | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `mixed_conditional_past_present`, `mixed_conditional_present_past` | `first_conditional` (b12) | AI | authoring-pass | Past and present time references combined in unreal conditions. |
+| 7 | i07 | Passive Voice: Extended Tenses | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `perfect_passive`, `modal_passive` | `past_simple_form` (b03) | AI | authoring-pass | Perfect and modal passive constructions. |
+| 8 | i08 | Causative Have and Get | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `causative_have`, `causative_get` | `present_perfect_form` (b05) | AI | authoring-pass | Arranging for another person to perform a service. |
+| 9 | i09 | Reported Questions and Commands | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `reported_questions`, `reported_commands` | `present_simple_form` (b01) | AI | authoring-pass | Statement word order and reported instructions. |
+| 10 | i10 | Reporting Verbs | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `reporting_verbs_patterns`, `reporting_verb_object` | `gerund_after_preposition` (b18) | AI | authoring-pass | Verb-specific gerund, infinitive, and object patterns. |
