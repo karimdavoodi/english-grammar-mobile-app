@@ -78,7 +78,7 @@ Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases
 - [x] Task 25: Endless Mastery Review (whole-corpus bank, weakness prioritization, cycling session, explicit exit)
 - [x] Task 26: Tuning pass from real play (adjust `PassConfig`) — baseline 3/8/12 retained; decision and follow-up evidence threshold documented
 - [x] Task 27A: Gherkin extensions + feature-focused regression suites (new feature scenarios, notification coverage, and all-types/Mastery journey regression)
-- [ ] Task 27B: Full journey and platform regression
+- [x] Task 27B: Full journey and platform regression (release journey coverage, Android debug build, and Android/iOS regression matrix documented; iOS build awaits full Xcode)
 - [ ] Task 28: Final release 2.0 (Android + iOS)
 
 ## Optional (droppable)

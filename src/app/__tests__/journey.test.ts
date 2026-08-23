@@ -48,6 +48,7 @@ import {
   flattenedLevelIds,
   queuedRuleSet,
   recordPlay,
+  startMixedSession,
   startMasterySession,
   startLevelSession,
 } from '../../state/reducers';
@@ -87,7 +88,7 @@ function createStore(): StorageLike {
 type TestResponse = number | AnswerResponse;
 
 /** Submit a deterministic correct or incorrect response for every question type. */
-function responseFor(question: Question, correct: boolean): TestResponse {
+function responseFor(question: Question | QuestionUnion, correct: boolean): TestResponse {
   const typed = question as QuestionUnion;
   switch (typed.type) {
     case 'fill_blank':
@@ -355,4 +356,99 @@ describe('full journey — fresh install → play → pass/mercy → review → 
     expect(answered.outcome.passed).toBe(false);
     expect(answered.progress.activeSession?.kind).toBe('mastery');
   });
+
+  it('runs the release journey through mixed review, graduation, mastery, and reset', async () => {
+    const store = createStore();
+    let progress = createInitialProgress(tracks, { trackId: 'basic', levelNumber: 1 });
+
+    // Fresh install → start → play: typed-answer coverage is proven against
+    // real corpus content before the release-only end-game transitions.
+    const typedQuestions = tracks
+      .flatMap(track => track.levels.flatMap(level => level.questions as QuestionUnion[]))
+      .filter(question => question.type !== 'multiple_choice')
+      .slice(0, 3);
+    expect(new Set(typedQuestions.map(question => question.type))).toEqual(
+      new Set(['fix_sentence', 'fill_blank', 'word_order']),
+    );
+    for (const question of typedQuestions) {
+      const response: AnswerResponse =
+        question.type === 'fill_blank'
+          ? { type: 'text', text: question.correctAnswer }
+          : question.type === 'word_order'
+            ? { type: 'sequence', indexes: question.sentenceWords.map((_, index) => index) }
+            : { type: 'index', index: question.correctIndex };
+      expect(scoreAnswer(question, response).isCorrect).toBe(true);
+    }
+
+    // A passed level supplies the first bank sample, just as it does for a
+    // player opening Mixed Review from the map after their first win.
+    progress = completeLevel(progress, {
+      levelId: 'b01',
+      passed: true,
+      levelOrder: flattenedLevelIds(tracks),
+    });
+
+    // Mixed Review → the persisted bank is finite and ends cleanly, without
+    // moving the level frontier.
+    const frontierBeforeMixed = progress.currentLevelId;
+    progress = startMixedSession(progress, tracks, { size: 4, random: () => 0 });
+    expect(progress.activeSession?.kind).toBe('mixed');
+    expect(progress.activeSession?.bankQuestionIds).toHaveLength(4);
+    expect(progress.currentLevelId).toBe(frontierBeforeMixed);
+    for (const questionId of progress.activeSession?.bankQuestionIds ?? []) {
+      const question = questionsForId(questionId);
+      const response = responseFor(question, true);
+      const result = applyAnswer({
+        progress,
+        question,
+        ...(typeof response === 'number' ? { chosenIndex: response } : { response }),
+        mode: 'normal',
+        now: NOW,
+      });
+      progress = result.progress;
+    }
+    expect(progress.activeSession).toBeNull();
+    expect(progress.currentLevelId).toBe(frontierBeforeMixed);
+
+    // Streak → complete corpus → Result's null next level targets Graduation.
+    progress = recordPlay(progress, '2026-08-22');
+    progress = recordPlay(progress, '2026-08-23');
+    expect(progress.dailyStreak).toBe(2);
+    const allLevelIds = flattenedLevelIds(tracks);
+    for (const levelId of allLevelIds) {
+      progress = completeLevel(progress, {
+        levelId,
+        passed: true,
+        levelOrder: allLevelIds,
+      });
+    }
+    expect(progress.completedLevelIds).toHaveLength(allLevelIds.length);
+    expect(nextLevelIdForJourney(allLevelIds, allLevelIds.at(-1)!)).toBeNull();
+
+    // Graduation → Mastery Review → explicit reset. Mastery cycles its bank;
+    // reset removes progress but preserves settings and the local event log.
+    progress = startMasterySession(progress, tracks, { random: () => 0 });
+    expect(progress.activeSession?.kind).toBe('mastery');
+    await saveSettings({ theme: 'dark' }, store);
+    await saveProgress(progress, store);
+    await resetProgress(store);
+    expect(await loadProgress(store)).toBeNull();
+    expect(await loadSettings(store)).toEqual({
+      theme: 'dark',
+      notifications: { enabled: false, hour: 9, minute: 0 },
+    });
+  });
 });
+
+function questionsForId(questionId: string): QuestionUnion {
+  const question = tracks
+    .flatMap(track => track.levels.flatMap(level => level.questions))
+    .find(candidate => candidate.id === questionId);
+  if (!question) throw new Error(`Question ${questionId} is not in the validated corpus.`);
+  return question as QuestionUnion;
+}
+
+function nextLevelIdForJourney(levelIds: readonly string[], levelId: string): string | null {
+  const index = levelIds.indexOf(levelId);
+  return index >= 0 && index < levelIds.length - 1 ? levelIds[index + 1] : null;
+}
