@@ -1,23 +1,22 @@
 /**
  * AppNavigator — the root native-stack navigator.
  *
- * Task 9 wires React Navigation and the first-launch start-point flow:
- *   - no saved progress → the StartPoint choice (or, with a single eligible
- *     track, the AppProvider auto-starts and this navigator boots at LevelPlay);
- *   - saved progress (returning player) → LevelPlay at the current level;
+ * Home-first (docs/ui-plan.md Task 6): the app always boots to Home — the main
+ * screen that lists the three tracks plus the study shortcuts (Settings, Resume,
+ * Wrong answers, Review / Practice, Stats). There is no first-launch choice
+ * screen and no flat level map anymore:
+ *   - tapping a track pushes the Topics screen for that track;
+ *   - tapping a topic pushes a fresh LevelPlay (a first-time player's first tap
+ *     creates the starting point via `chooseStartingPoint`, so everything before
+ *     it unlocks by derivation);
  *   - a level ending routes to Result, whose Continue advances to the next level
- *     or — in the completion state — pops to the LevelMap (Task 10).
- *
- * Task 10 adds the LevelMap as the progress overview and free-play hub: quitting
- * a level and the completion-state "Go to map" both `popTo` it, and tapping an
- * unlocked level `push`es a fresh LevelPlay so replayed levels always mount
- * cleanly (the play screen resolves its session once on mount).
- *
- * Task 12 adds Settings (theme + reset): the map gains a Settings entry, and the
- * Settings route offers the appearance choice, a Review link, and a confirmed
- * reset that replaces the whole stack with the re-initialized boot route
- * (auto-started current level for Basic-only v1, or the StartPoint choice).
- * All defensive "missing" views consume the theme palette like every screen.
+ *     or — in the completion state — to Graduation;
+ *   - Graduation's "Go to level map" and Mixed Review's exit both pop back to
+ *     Home; Settings' reset replaces the whole stack with Home (never the old
+ *     StartPoint screen);
+ *   - back navigation everywhere is the system gesture (no bottom Back buttons,
+ *     no native header). The Android hardware-back exit-confirm lives on the
+ *     Home screen itself.
  *
  * Content and state come from the AppContext (`useApp`): the navigator stays
  * thin, resolving content ids to Level/Track objects and handing presentational
@@ -37,11 +36,11 @@ import { ScreenShell } from '../components/ScreenShell';
 import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
 import type { RootStackParamList } from './types';
-import { LevelMapScreen } from '../screens/LevelMapScreen';
+import { HomeScreen } from '../screens/HomeScreen';
+import { TopicsScreen } from '../screens/TopicsScreen';
 import { ResultScreen } from '../screens/ResultScreen';
 import { ReviewScreen } from '../screens/ReviewScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
-import { StartPointScreen } from '../screens/StartPointScreen';
 import { LevelPlayScreen, type LevelEndResult } from '../screens/LevelPlayScreen';
 import { ReportScreen } from '../screens/ReportScreen';
 import { MixedReviewScreen } from '../screens/MixedReviewScreen';
@@ -52,9 +51,9 @@ import {
   completeLevel,
   flattenedLevelIds,
   nextLevelId,
-  startingLevelId,
   startMasterySession,
 } from '../state/reducers';
+import { resumableLevelId } from '../state/selectors';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -68,25 +67,78 @@ function MissingView({ message }: { message: string }) {
   );
 }
 
-/** First-launch start choice — offers each eligible track at its level 1. */
-function StartPointRoute({
+/** The main screen — track list, progress summary, and study shortcuts (Task 4). */
+function HomeRoute({
   navigation,
-}: NativeStackScreenProps<RootStackParamList, 'StartPoint'>) {
-  const { tracks, chooseStartingPoint } = useApp();
-  const eligible = useMemo(() => tracks.filter(t => t.eligibleStartingPoint), [tracks]);
+}: NativeStackScreenProps<RootStackParamList, 'Home'>) {
+  const { tracks, progress } = useApp();
 
-  const handleChoose = useCallback(
-    async (trackId: string, levelNumber: number) => {
-      await chooseStartingPoint(trackId, levelNumber);
-      const levelId = startingLevelId(tracks, { trackId, levelNumber });
-      if (levelId) {
-        navigation.replace('LevelPlay', { levelId });
+  const handleResume = useCallback(() => {
+    if (!progress) {
+      return;
+    }
+    const target = resumableLevelId(progress);
+    if (target.kind === 'mastery') {
+      // A mastery/mixed session's persisted levelId is a sentinel string, not a
+      // real level id — routing it to LevelPlay would land on the missing view.
+      navigation.navigate('MixedReview');
+    } else {
+      navigation.navigate('LevelPlay', { levelId: target.levelId });
+    }
+  }, [progress, navigation]);
+
+  return (
+    <HomeScreen
+      tracks={tracks}
+      progress={progress}
+      onOpenSettings={() => navigation.navigate('Settings')}
+      onResume={handleResume}
+      onOpenReview={() => navigation.navigate('Review')}
+      onOpenMixedReview={() => navigation.navigate('MixedReview')}
+      onOpenStats={() => navigation.navigate('Stats')}
+      onSelectTrack={trackId => navigation.push('Topics', { trackId })}
+    />
+  );
+}
+
+/** One track's topic list — tapping an unlocked topic pushes a fresh LevelPlay. */
+function TopicsRoute({
+  route,
+  navigation,
+}: NativeStackScreenProps<RootStackParamList, 'Topics'>) {
+  const { tracks, progress, chooseStartingPoint } = useApp();
+  const { trackId } = route.params;
+  const track = useMemo(() => tracks.find(t => t.id === trackId), [tracks, trackId]);
+
+  const handleSelectLevel = useCallback(
+    async (levelId: string) => {
+      const level = findLevelById(tracks, levelId);
+      if (!level) {
+        return;
       }
+      if (!progress) {
+        // First-time player: the first tapped topic becomes the starting point
+        // (everything before it unlocks by derivation), then the level mounts.
+        await chooseStartingPoint(trackId, level.number);
+      }
+      navigation.push('LevelPlay', { levelId });
     },
-    [tracks, chooseStartingPoint, navigation],
+    [tracks, progress, chooseStartingPoint, trackId, navigation],
   );
 
-  return <StartPointScreen tracks={eligible} onChoose={handleChoose} />;
+  if (!track) {
+    // Defensive: an unknown track id should not reach here.
+    return <MissingView message="This track is not available." />;
+  }
+
+  return (
+    <TopicsScreen
+      tracks={tracks}
+      trackId={trackId}
+      progress={progress}
+      onSelectLevel={handleSelectLevel}
+    />
+  );
 }
 
 /** The question loop for one level — resumes a saved session, ends at Result. */
@@ -119,7 +171,7 @@ function LevelPlayRoute({
 
   if (!level || !progress) {
     // Defensive: an unknown level or missing progress should not reach here.
-    // (Unknown-current-level repair is a Task 11 selector concern.)
+    // (Unknown-current-level repair is a selector concern.)
     return <MissingView message="This level is not available." />;
   }
 
@@ -135,28 +187,6 @@ function LevelPlayRoute({
   );
 }
 
-/** The level map — progress overview + free-play hub (Task 10). */
-function LevelMapRoute({
-  navigation,
-}: NativeStackScreenProps<RootStackParamList, 'LevelMap'>) {
-  const { tracks, progress } = useApp();
-  if (!progress) {
-    // No progress yet means nothing to map — the boot flow routes to the
-    // starting point instead, so this is defensive only.
-    return <MissingView message="Nothing to explore yet." />;
-  }
-  return (
-    <LevelMapScreen
-      tracks={tracks}
-      progress={progress}
-      onSelectLevel={levelId => navigation.push('LevelPlay', { levelId })}
-      onOpenSettings={() => navigation.navigate('Settings')}
-      onOpenMixedReview={() => navigation.navigate('MixedReview')}
-      onBack={() => navigation.goBack()}
-    />
-  );
-}
-
 function ReportRoute() {
   const { reports, updateReport, exportReports: sendReports } = useApp();
   return (
@@ -168,7 +198,7 @@ function ReportRoute() {
   );
 }
 
-/** Wrong-answer study history — the Task 11 Review screen (Settings links here). */
+/** Wrong-answer study history — the Review screen (Home links here). */
 function ReviewRoute({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'Review'>) {
@@ -189,22 +219,21 @@ function ReviewRoute({
   );
 }
 
-/** Settings — appearance, growth preferences, study links, and reset. */
+/** Settings — appearance, growth preferences, and reset. */
 function SettingsRoute({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'Settings'>) {
   const { settings, progress, applySettings, resetGame } = useApp();
 
   const handleReset = useCallback(async () => {
-    const next = await resetGame();
-    // A reset replaces the whole stack with the re-initialized boot route:
-    // Basic-only v1 auto-starts at the fresh current level; multiple eligible
-    // tracks leave progress null and show the StartPoint choice.
+    await resetGame();
+    // The boot route is always Home now: a reset replaces the whole stack with
+    // Home. With multiple eligible tracks progress is null → the empty
+    // "Pick a level to begin" state; with a single eligible track the reset
+    // auto-starts fresh progress and Home shows it. Never the old StartPoint.
     navigation.reset({
       index: 0,
-      routes: next
-        ? [{ name: 'LevelPlay', params: { levelId: next.currentLevelId } }]
-        : [{ name: 'StartPoint' }],
+      routes: [{ name: 'Home' }],
     });
   }, [resetGame, navigation]);
 
@@ -253,7 +282,7 @@ function MixedReviewRoute({
       onProgressChange={next => applyProgress(next).catch(() => {})}
       onEnd={result => {
         applyProgress(result.progress).catch(() => {});
-        navigation.replace('LevelMap');
+        navigation.popTo('Home');
       }}
     />
   );
@@ -315,28 +344,23 @@ function GraduationRoute({
       dailyStreak={progress?.dailyStreak ?? 0}
       accuracy={accuracy}
       onKeepPracticing={() => navigation.replace('MixedReview')}
-      onOpenMap={() => navigation.replace('LevelMap')}
+      onOpenMap={() => navigation.popTo('Home')}
     />
   );
 }
 
 export function AppNavigator() {
-  const { progress } = useApp();
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={progress ? 'LevelPlay' : 'StartPoint'}
+        initialRouteName="Home"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="StartPoint" component={StartPointRoute} />
-        <Stack.Screen
-          name="LevelPlay"
-          component={LevelPlayRoute}
-          initialParams={{ levelId: progress?.currentLevelId ?? '' }}
-        />
+        <Stack.Screen name="Home" component={HomeRoute} />
+        <Stack.Screen name="Topics" component={TopicsRoute} />
+        <Stack.Screen name="LevelPlay" component={LevelPlayRoute} />
         <Stack.Screen name="Result" component={ResultRoute} />
         <Stack.Screen name="Graduation" component={GraduationRoute} />
-        <Stack.Screen name="LevelMap" component={LevelMapRoute} />
         <Stack.Screen name="Review" component={ReviewRoute} />
         <Stack.Screen name="Settings" component={SettingsRoute} />
         <Stack.Screen name="MixedReview" component={MixedReviewRoute} />

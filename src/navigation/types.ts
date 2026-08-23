@@ -1,7 +1,9 @@
 // Navigation route param types.
 //
-// Task 9 builds the navigator; these types pin the data each known route
-// carries so screens and callers compile against a stable contract.
+// The Home-first root stack (docs/ui-plan.md Task 6): the app always boots to
+// Home, which lists the three tracks plus the study shortcuts. Tapping a track
+// opens Topics for that track; tapping a topic pushes a fresh LevelPlay. This
+// replaces the old StartPoint first-launch choice and the flat LevelMap.
 
 import type { AnswerOutcome } from '../game/levelMachine';
 
@@ -19,21 +21,21 @@ export interface ResultScreenParams {
 }
 
 /**
- * Root stack routes. Task 9 wires StartPoint (first-launch choice), LevelPlay,
- * and Result; Task 10 adds the LevelMap; Task 11 adds Review; Settings lands in
- * Task 12.
+ * Root stack routes. The app boots to Home unconditionally; every other screen
+ * is pushed on top. `Topics` carries the selected track id; `LevelPlay` the
+ * level id to play (a fresh mount per replay).
  */
 export type RootStackParamList = {
-  /** First-launch "Where do you want to start?" — shown only with no progress. */
-  StartPoint: undefined;
+  /** The main screen — track list + progress summary + study shortcuts (Task 4). */
+  Home: undefined;
+  /** One track's topic list — lists that track's levels with derived statuses (Task 5). */
+  Topics: { trackId: string };
   LevelPlay: { levelId: string };
   Result: ResultScreenParams;
   Graduation: undefined;
-  /** The level map — progress overview and free-play hub (Task 10). */
-  LevelMap: undefined;
-  /** Wrong-answer study history grouped by rule (reachable from Settings in Task 12). */
+  /** Wrong-answer study history grouped by rule (reachable from Home). */
   Review: undefined;
-  /** Appearance (theme) and reset — the Settings screen (Task 12). */
+  /** Appearance (theme), Growth (notifications), and reset. */
   Settings: undefined;
   MixedReview: undefined;
   Report: { questionId?: string };

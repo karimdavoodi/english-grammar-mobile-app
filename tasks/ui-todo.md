@@ -44,5 +44,20 @@ it is implemented, verified (tests / tsc / lint), and committed.
       disabled; unknown track id renders a defensive message; no bottom Back
       button (system gesture); safe-area via ScreenShell. New
       `TopicsScreen.test.tsx` coverage green; navigator wiring lands in Task 6.
-- [ ] Task 6 — Navigator restructure and boot flow (Issues 4, 8)
+- [x] Task 6 — Navigator restructure and boot flow (Issues 4, 8)
+      Root stack is Home-first: `initialRouteName` is always `Home`; `StartPoint`
+      removed (never shown), `LevelMap` removed, `Topics: { trackId }` added.
+      `HomeRoute` wires Settings / Resume (via `resumableLevelId`: mastery →
+      Mixed Review, level session → LevelPlay at `activeSession.levelId`, none →
+      LevelPlay at `currentLevelId`) / Wrong answers / Review / Stats / track
+      cards → `push('Topics', { trackId })`. `TopicsRoute` resolves the track and
+      on `onSelectLevel` with no progress calls `chooseStartingPoint` then pushes
+      a fresh `LevelPlay`; with progress it pushes directly (fresh mount per
+      replay). Settings reset now `navigation.reset`s to Home (never the deleted
+      StartPoint). Mixed Review exit and Graduation "Go to level map" return to
+      Home via `popTo('Home')`. `LevelPlay` has no `onExit` wiring. Deleted
+      `StartPointScreen.tsx` / `LevelMapScreen.tsx` and their tests;
+      `AppNavigator.test.tsx` rewritten for the Home-first flow (new player picks
+      a track + topic and passes through Result; returning player lands on Home
+      and resumes; reset lands on Home). Full suite green.
 - [ ] Task 7 — Regression sweep and remaining test coverage

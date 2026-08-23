@@ -1,16 +1,17 @@
 /**
- * AppNavigator — route-wiring integration tests (Task 14).
+ * AppNavigator — route-wiring integration tests (docs/ui-plan.md Task 6).
  *
  * Renders the REAL AppProvider + AppNavigator (native-stack) over the real
  * validated content corpus, closing the integration seams the unit/component
  * suites leave open:
- *   - the boot route decision `progress ? LevelPlay : StartPoint` is exercised
- *     at the route level (not just the provider level);
- *   - the LevelPlay → Result handoff (`onLevelEnd` → `completeLevel` → Result
- *     params) is driven end-to-end through a real pass-by-streak;
- *   - Result's "Continue to <next level>" replaces into the next LevelPlay;
- *   - a returning player with saved progress resumes straight into their current
- *     level — StartPoint is never rendered.
+ *   - the Home-first boot decision is exercised at the route level: a new
+ *     player (no progress) and a returning player (saved progress) both land on
+ *     Home — StartPoint is never rendered;
+ *   - Home → Topics → LevelPlay → Result → next level runs end-to-end through a
+ *     real pass-by-streak, with the first topic tap creating the starting point;
+ *   - a returning player resumes into their current level from Home's Resume
+ *     button, and can also pick a track → Topics → replay an unlocked level;
+ *   - a Settings reset replaces the stack with Home (never StartPoint).
  *
  * Requires the Jest `transformIgnorePatterns` override in jest.config.js so
  * @react-navigation / react-native-screens ESM transform for a real render.
@@ -26,6 +27,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
 }));
 
 import React from 'react';
+import { Alert } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
 import { AppProvider } from '../../app/AppProvider';
 import { findLevelById, tracks } from '../../content';
@@ -137,20 +139,33 @@ async function pressCorrectAnswer(
   }
 }
 
-describe('AppNavigator — route wiring', () => {
-  it('chooses Basic from StartPoint and routes pass → Result → next level', async () => {
+describe('AppNavigator — Home-first boot', () => {
+  it('boots a new player to Home (never StartPoint) with no Resume', async () => {
     const store = createStore();
     const tree = await renderApp(store);
 
-    // Multiple eligible tracks show the existing first-launch choice flow.
-    expect(countHostByTestID(tree, 'start-point-screen')).toBe(1);
-    expect(countHostByTestID(tree, 'level-play-screen')).toBe(0);
-    await press(tree, 'start-choice-basic');
-    expect(countHostByTestID(tree, 'level-play-screen')).toBe(1);
+    expect(countHostByTestID(tree, 'home-screen')).toBe(1);
+    expect(countHostByTestID(tree, 'home-resume')).toBe(0);
     expect(countHostByTestID(tree, 'start-point-screen')).toBe(0);
+    expect(textOf(tree, 'home-progress-summary')).toBe('Pick a level to begin');
+
+    await ReactTestRenderer.act(() => tree.unmount());
+  });
+
+  it('flows a new player Home → Topics → LevelPlay → Result → next level', async () => {
+    const store = createStore();
+    const tree = await renderApp(store);
+
+    // Pick the Basic track → Topics lists its topics (all available first-time).
+    await press(tree, 'home-track-basic');
+    expect(countHostByTestID(tree, 'topics-screen')).toBe(1);
+
+    // First topic tap creates the starting point and opens LevelPlay.
+    await press(tree, 'topics-level-b01');
+    expect(countHostByTestID(tree, 'level-play-screen')).toBe(1);
     const boot = await loadProgress(store);
     expect(boot?.currentLevelId).toBe('b01');
-    expect(boot?.completedLevelIds).toEqual([]);
+    expect(boot?.startingPoint).toEqual({ trackId: 'basic', levelNumber: 1 });
 
     // Pass b01 by streak: 3 correct answers in a row.
     const b01 = findLevelById(tracks, 'b01')!;
@@ -174,11 +189,12 @@ describe('AppNavigator — route wiring', () => {
     expect(countHostByTestID(tree, 'result-screen')).toBe(0);
     expect(renderedQuestionBelongsTo(tree, 'b02')).toBe(true);
 
-    // Unmount so the NavigationContainer's timers/listeners release (Jest teardown).
     await ReactTestRenderer.act(() => tree.unmount());
   });
+});
 
-  it('resumes a returning player straight into their current level — StartPoint not shown', async () => {
+describe('AppNavigator — returning player', () => {
+  it('lands on Home and resumes into the current level via the Resume button', async () => {
     const store = createStore();
     await saveProgress(
       createInitialProgress(tracks, { trackId: 'basic', levelNumber: 5 }),
@@ -186,11 +202,70 @@ describe('AppNavigator — route wiring', () => {
     );
     const tree = await renderApp(store);
 
+    expect(countHostByTestID(tree, 'home-screen')).toBe(1);
+    expect(countHostByTestID(tree, 'home-resume')).toBe(1);
     expect(countHostByTestID(tree, 'start-point-screen')).toBe(0);
+
+    await press(tree, 'home-resume');
     expect(countHostByTestID(tree, 'level-play-screen')).toBe(1);
     // The served question belongs to b05's bank — the resume target, not b01.
     expect(renderedQuestionBelongsTo(tree, 'b05')).toBe(true);
 
     await ReactTestRenderer.act(() => tree.unmount());
+  });
+
+  it('replays an unlocked earlier level via Home → Topics', async () => {
+    const store = createStore();
+    await saveProgress(
+      createInitialProgress(tracks, { trackId: 'basic', levelNumber: 5 }),
+      store,
+    );
+    const tree = await renderApp(store);
+
+    await press(tree, 'home-track-basic');
+    expect(countHostByTestID(tree, 'topics-screen')).toBe(1);
+
+    // b03 is before the b05 frontier, so it is unlocked and tappable.
+    await press(tree, 'topics-level-b03');
+    expect(countHostByTestID(tree, 'level-play-screen')).toBe(1);
+    expect(renderedQuestionBelongsTo(tree, 'b03')).toBe(true);
+
+    await ReactTestRenderer.act(() => tree.unmount());
+  });
+});
+
+describe('AppNavigator — reset', () => {
+  it('lands on Home (never StartPoint) after a Settings reset', async () => {
+    const store = createStore();
+    await saveProgress(
+      createInitialProgress(tracks, { trackId: 'basic', levelNumber: 1 }),
+      store,
+    );
+    const alertSpy = jest.spyOn(Alert, 'alert').mockImplementation((_title, _message, buttons) => {
+      // Settings' reset is confirmed through a native Alert — confirm it.
+      const reset = buttons?.find(button => button.text === 'Reset');
+      reset?.onPress?.();
+    });
+
+    try {
+      const tree = await renderApp(store);
+      expect(countHostByTestID(tree, 'home-screen')).toBe(1);
+
+      await press(tree, 'home-settings');
+      expect(countHostByTestID(tree, 'settings-screen')).toBe(1);
+
+      await press(tree, 'settings-reset');
+
+      // After a reset with multiple eligible tracks progress is null and the
+      // stack lands on the empty Home state — never StartPoint.
+      expect(countHostByTestID(tree, 'home-screen')).toBe(1);
+      expect(countHostByTestID(tree, 'start-point-screen')).toBe(0);
+      expect(textOf(tree, 'home-progress-summary')).toBe('Pick a level to begin');
+      expect(await loadProgress(store)).toBeNull();
+
+      await ReactTestRenderer.act(() => tree.unmount());
+    } finally {
+      alertSpy.mockRestore();
+    }
   });
 });
