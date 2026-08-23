@@ -29,6 +29,7 @@ import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
 import { AppProvider } from '../../app/AppProvider';
 import { findLevelById, tracks } from '../../content';
+import type { QuestionUnion } from '../../content/types';
 import { createInitialProgress } from '../../state/reducers';
 import { loadProgress, saveProgress, type StorageLike } from '../../state/storage';
 import { AppNavigator } from '../AppNavigator';
@@ -91,17 +92,46 @@ function countHostByTestID(tree: ReactTestRenderer.ReactTestRenderer, testID: st
     .length;
 }
 
-/** The correct choice index for whatever question is currently rendered. */
-function correctChoiceForCurrentPrompt(
+function renderedQuestionBelongsTo(tree: ReactTestRenderer.ReactTestRenderer, levelId: string): boolean {
+  const level = findLevelById(tracks, levelId)!;
+  const prompt = textOf(tree, 'question-prompt');
+  if (tree.root.findAllByProps({ testID: 'word-order-card' }).length > 0) {
+    return level.questions.some(q => (q as QuestionUnion).type === 'word_order');
+  }
+  if (tree.root.findAllByProps({ testID: 'fix-sentence-card' }).length > 0) {
+    return level.questions.some(q => (q as QuestionUnion).type === 'fix_sentence');
+  }
+  return level.questions.some(q => q.prompt === prompt);
+}
+
+/** Submit the correct response for whatever question is currently rendered. */
+async function pressCorrectAnswer(
   tree: ReactTestRenderer.ReactTestRenderer,
   levelId: string,
-): number {
+): Promise<void> {
   const prompt = textOf(tree, 'question-prompt');
-  const question = findLevelById(tracks, levelId)!.questions.find(q => q.prompt === prompt);
+  const level = findLevelById(tracks, levelId)!;
+  const question = level.questions.find(q => q.prompt === prompt) ??
+    (tree.root.findAllByProps({ testID: 'word-order-card' }).length > 0
+      ? level.questions.find(q => (q as QuestionUnion).type === 'word_order')
+      : tree.root.findAllByProps({ testID: 'fix-sentence-card' }).length > 0
+        ? level.questions.find(q => (q as QuestionUnion).type === 'fix_sentence')
+        : undefined);
   if (!question) {
     throw new Error(`No question in ${levelId} matches the rendered prompt "${prompt}".`);
   }
-  return question.correctIndex;
+  const typed = question as QuestionUnion;
+  if (typed.type === 'fill_blank') {
+    tree.root.findByProps({ testID: 'fill-blank-input' }).props.onChangeText(typed.correctAnswer);
+    await press(tree, 'fill-blank-submit');
+  } else if (typed.type === 'word_order') {
+    for (let index = 0; index < typed.sentenceWords.length; index += 1) {
+      await press(tree, `word-order-word-${index}`);
+    }
+    await press(tree, 'word-order-submit');
+  } else {
+    await press(tree, `choice-button-${typed.correctIndex}`);
+  }
 }
 
 describe('AppNavigator — route wiring', () => {
@@ -121,8 +151,7 @@ describe('AppNavigator — route wiring', () => {
     // Pass b01 by streak: 3 correct answers in a row.
     const b01 = findLevelById(tracks, 'b01')!;
     for (let i = 0; i < 3; i++) {
-      const correct = correctChoiceForCurrentPrompt(tree, 'b01');
-      await press(tree, `choice-button-${correct}`);
+      await pressCorrectAnswer(tree, 'b01');
       await press(tree, 'next-question');
     }
 
@@ -139,8 +168,7 @@ describe('AppNavigator — route wiring', () => {
     await press(tree, 'result-continue');
     expect(countHostByTestID(tree, 'level-play-screen')).toBe(1);
     expect(countHostByTestID(tree, 'result-screen')).toBe(0);
-    const b02 = findLevelById(tracks, 'b02')!;
-    expect(b02.questions.some(q => q.prompt === textOf(tree, 'question-prompt'))).toBe(true);
+    expect(renderedQuestionBelongsTo(tree, 'b02')).toBe(true);
 
     // Unmount so the NavigationContainer's timers/listeners release (Jest teardown).
     await ReactTestRenderer.act(() => tree.unmount());
@@ -157,8 +185,7 @@ describe('AppNavigator — route wiring', () => {
     expect(countHostByTestID(tree, 'start-point-screen')).toBe(0);
     expect(countHostByTestID(tree, 'level-play-screen')).toBe(1);
     // The served question belongs to b05's bank — the resume target, not b01.
-    const b05 = findLevelById(tracks, 'b05')!;
-    expect(b05.questions.some(q => q.prompt === textOf(tree, 'question-prompt'))).toBe(true);
+    expect(renderedQuestionBelongsTo(tree, 'b05')).toBe(true);
 
     await ReactTestRenderer.act(() => tree.unmount());
   });

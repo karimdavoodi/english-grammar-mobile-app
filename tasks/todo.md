@@ -22,7 +22,7 @@ Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases
 - [x] Task 7: Machine scoring generalization (`scoreAnswer`, `AnswerResponse`)
 - [x] Task 8: State + migration for typed responses (version 1 → 2)
 - [x] Task 9: Type-specific components + `QuestionCard` dispatch (fix-sentence, fill-blank, word-order cards with typed feedback and accessible submission)
-- [ ] Task 10: Author/convert typed questions into the 12 Basic levels
+- [x] Task 10: Author/convert typed questions into the 12 Basic levels (9 MC + 1 fix-sentence + 1 fill-blank + 1 word-order per level; review matrix updated)
 
 ### Checkpoint: Four question types
 - [ ] MC, fix-sentence, fill-blank, word-order play end-to-end on device

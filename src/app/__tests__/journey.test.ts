@@ -37,8 +37,9 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
 }));
 
 import { findLevelById, tracks } from '../../content';
-import type { Level, Question } from '../../content/types';
+import type { Level, Question, QuestionUnion } from '../../content/types';
 import { DEFAULT_PASS_CONFIG, type AnswerOutcome } from '../../game/levelMachine';
+import type { AnswerResponse } from '../../game/scoring';
 import { serveNextQuestion, type ServeResult } from '../../game/serving';
 import {
   applyAnswer,
@@ -81,9 +82,26 @@ function createStore(): StorageLike {
   };
 }
 
-/** Any non-correct choice index — answers wrong deterministically. */
-function wrongIndex(question: Question): number {
-  return (question.correctIndex + 1) % question.choices.length;
+type TestResponse = number | AnswerResponse;
+
+/** Submit a deterministic correct or incorrect response for every question type. */
+function responseFor(question: Question, correct: boolean): TestResponse {
+  const typed = question as QuestionUnion;
+  switch (typed.type) {
+    case 'fill_blank':
+      return { type: 'text', text: correct ? typed.correctAnswer : '' };
+    case 'word_order':
+      return {
+        type: 'sequence',
+        indexes: correct
+          ? typed.sentenceWords.map((_, index) => index)
+          : typed.sentenceWords.map((_, index) => typed.sentenceWords.length - index - 1),
+      };
+    case 'fix_sentence':
+    case 'multiple_choice':
+    default:
+      return correct ? typed.correctIndex : (typed.correctIndex + 1) % typed.choices.length;
+  }
 }
 
 interface PlayedLevel {
@@ -100,7 +118,7 @@ interface PlayedLevel {
 function playLevel(
   progress: Progress,
   level: Level,
-  choose: (question: Question, serve: ServeResult) => number,
+  choose: (question: Question, serve: ServeResult) => TestResponse,
 ): PlayedLevel {
   let p = startLevelSession(progress, level.id);
   let outcome: AnswerOutcome | null = null;
@@ -116,10 +134,11 @@ function playLevel(
     if (serve.mode === 'review') {
       reviewServes++;
     }
+    const response = choose(serve.question, serve);
     const result = applyAnswer({
       progress: p,
       question: serve.question,
-      chosenIndex: choose(serve.question, serve),
+      ...(typeof response === 'number' ? { chosenIndex: response } : { response }),
       mode: serve.mode,
       config: DEFAULT_PASS_CONFIG,
       now: NOW,
@@ -158,9 +177,9 @@ describe('full journey — fresh install → play → pass/mercy → review → 
       if (first) {
         first = false;
         missedRule = question.rule;
-        return wrongIndex(question);
+        return responseFor(question, false);
       }
-      return question.correctIndex;
+      return responseFor(question, true);
     });
     expect(pass.outcome.passed).toBe(true);
     expect(pass.outcome.passReason).toBe('streak');
@@ -186,7 +205,7 @@ describe('full journey — fresh install → play → pass/mercy → review → 
     );
 
     // ── Play b02 → real 12-answer mercy-end (all wrong): unlocked, NOT passed ──
-    const mercy = playLevel(progress, b02, question => wrongIndex(question));
+    const mercy = playLevel(progress, b02, question => responseFor(question, false));
     expect(mercy.outcome.endedByMercy).toBe(true);
     expect(mercy.outcome.passed).toBe(false);
     expect(mercy.outcome.totalAnswered).toBe(12); // the real mercy cap
@@ -237,7 +256,7 @@ describe('full journey — fresh install → play → pass/mercy → review → 
     // ── A queued rule resurfaces as a Review serve in a later level that carries ──
     // ── it (fresh serve: priority 2 is a queued rule; the bank has one). ──
     const laterCarrying = order
-      .slice(order.indexOf('b03'))
+      .slice(order.indexOf('b02'))
       .map(id => findLevelById(tracks, id)!)
       .find(level => level.questions.some(q => queued.has(q.rule)));
     expect(laterCarrying).toBeDefined();
@@ -281,7 +300,7 @@ describe('full journey — fresh install → play → pass/mercy → review → 
       ['b03', true],
     ] as const) {
       const level = findLevelById(tracks, levelId)!;
-      const ended = playLevel(progress, level, q => (passed ? q.correctIndex : wrongIndex(q)));
+      const ended = playLevel(progress, level, q => responseFor(q, passed));
       progress = completeLevel(ended.progress, {
         levelId,
         passed: ended.outcome.passed,
