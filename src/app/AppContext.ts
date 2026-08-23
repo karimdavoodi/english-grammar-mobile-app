@@ -6,12 +6,14 @@
 import { createContext, useContext } from 'react';
 import type { Track } from '../content/types';
 import type { Progress, Settings } from '../state/types';
+import type { ContentReport } from '../state/reports';
 
 export interface AppContextValue {
   /** The validated bundled tracks (content). */
   tracks: Track[];
   /** Loaded settings (theme, …). */
   settings: Settings;
+  reports: ContentReport[];
   /** The progress slice, or null until a starting point is chosen. */
   progress: Progress | null;
   /** true once settings + progress have loaded — the boot decision is final. */
@@ -30,6 +32,9 @@ export interface AppContextValue {
    * (or null for the start choice) so the caller can route to it.
    */
   resetGame: () => Promise<Progress | null>;
+  createReport: (questionId: string) => Promise<void>;
+  updateReport: (id: string, note: string) => Promise<void>;
+  exportReports: () => Promise<void>;
 }
 
 export const AppContext = createContext<AppContextValue | null>(null);

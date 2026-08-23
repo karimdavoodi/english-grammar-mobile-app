@@ -28,6 +28,7 @@ import type { WeaknessEntry, WrongAnswerEntry } from '../state/types';
 import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
 import { tokens } from '../theme/tokens';
+import { ReportButton } from '../components/ReportButton';
 
 export interface ReviewScreenProps {
   /** The bundled tracks — wrong-answer ids resolve back into this content. */
@@ -38,6 +39,7 @@ export interface ReviewScreenProps {
   weaknessQueue: Record<string, WeaknessEntry>;
   /** Called when the player taps Back (the navigator routes it). */
   onBack?: () => void;
+  onReport?: (questionId: string) => void;
 }
 
 export function ReviewScreen({
@@ -45,6 +47,7 @@ export function ReviewScreen({
   wrongAnswers,
   weaknessQueue,
   onBack,
+  onReport,
 }: ReviewScreenProps) {
   const styles = useThemedStyles(makeStyles);
   const queuedRules = useMemo(
@@ -160,6 +163,7 @@ export function ReviewScreen({
                       {missed.correctExplanation}
                     </Text>
                   </View>
+                  {onReport ? <ReportButton onPress={() => onReport(missed.question.id)} /> : null}
                 </View>
               ))}
             </View>

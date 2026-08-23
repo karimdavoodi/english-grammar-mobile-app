@@ -42,6 +42,7 @@ import { ReviewScreen } from '../screens/ReviewScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
 import { StartPointScreen } from '../screens/StartPointScreen';
 import { LevelPlayScreen, type LevelEndResult } from '../screens/LevelPlayScreen';
+import { ReportScreen } from '../screens/ReportScreen';
 import {
   completeLevel,
   flattenedLevelIds,
@@ -87,7 +88,7 @@ function LevelPlayRoute({
   route,
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'LevelPlay'>) {
-  const { tracks, progress, applyProgress } = useApp();
+  const { tracks, progress, applyProgress, createReport } = useApp();
   const { levelId } = route.params;
   const level = useMemo(() => findLevelById(tracks, levelId), [tracks, levelId]);
 
@@ -128,6 +129,9 @@ function LevelPlayRoute({
       initialProgress={progress}
       onLevelEnd={handleLevelEnd}
       onExit={handleExit}
+      onReport={questionId => {
+        createReport(questionId).then(() => navigation.navigate('Report', { questionId })).catch(() => {});
+      }}
     />
   );
 }
@@ -153,11 +157,23 @@ function LevelMapRoute({
   );
 }
 
+function ReportRoute({ navigation }: NativeStackScreenProps<RootStackParamList, 'Report'>) {
+  const { reports, updateReport, exportReports: sendReports } = useApp();
+  return (
+    <ReportScreen
+      reports={reports}
+      onUpdate={updateReport}
+      onExport={sendReports}
+      onBack={() => navigation.goBack()}
+    />
+  );
+}
+
 /** Wrong-answer study history — the Task 11 Review screen (Settings links here). */
 function ReviewRoute({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'Review'>) {
-  const { tracks, progress } = useApp();
+  const { tracks, progress, createReport } = useApp();
   if (!progress) {
     // No progress yet means no mistakes — nothing to review.
     return <MissingView message="Nothing to review yet." />;
@@ -168,6 +184,9 @@ function ReviewRoute({
       wrongAnswers={progress.wrongAnswers}
       weaknessQueue={progress.weaknessQueue}
       onBack={() => navigation.goBack()}
+      onReport={(questionId: string) => {
+        createReport(questionId).then(() => navigation.navigate('Report', { questionId })).catch(() => {});
+      }}
     />
   );
 }
@@ -258,6 +277,7 @@ export function AppNavigator() {
         <Stack.Screen name="LevelMap" component={LevelMapRoute} />
         <Stack.Screen name="Review" component={ReviewRoute} />
         <Stack.Screen name="Settings" component={SettingsRoute} />
+        <Stack.Screen name="Report" component={ReportRoute} />
       </Stack.Navigator>
     </NavigationContainer>
   );

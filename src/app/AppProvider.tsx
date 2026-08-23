@@ -53,6 +53,8 @@ import { DEFAULT_SETTINGS, type Progress, type Settings } from '../state/types';
 import { darkColors, lightColors } from '../theme/themes';
 import { ThemeProvider, useTheme } from '../theme/ThemeProvider';
 import { AppContext, type AppContextValue } from './AppContext';
+import { createReport, buildReportsMailto, loadReports, saveReports, type ContentReport } from '../state/reports';
+import { Linking } from 'react-native';
 
 export interface AppProviderProps {
   /** AsyncStorage-compatible store; inject a memory store in tests. */
@@ -71,13 +73,15 @@ export function AppProvider({
   const [settings, setSettings] = useState<Settings | null>(null);
   const [progress, setProgress] = useState<Progress | null>(null);
   const [ready, setReady] = useState(false);
+  const [reports, setReports] = useState<ContentReport[]>([]);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const [loadedSettings, savedProgress] = await Promise.all([
+      const [loadedSettings, savedProgress, loadedReports] = await Promise.all([
         loadSettings(store),
         loadProgress(store),
+        loadReports(store),
       ]);
       if (cancelled) {
         return;
@@ -104,6 +108,7 @@ export function AppProvider({
       }
       setSettings(loadedSettings);
       setProgress(initialProgress);
+      setReports(loadedReports);
       setReady(true);
     })();
     return () => {
@@ -151,18 +156,37 @@ export function AppProvider({
     return next;
   }, [tracks, store]);
 
+  const addReport = useCallback(async (questionId: string) => {
+    const report = await createReport(questionId, '', store);
+    setReports(current => [...current, report]);
+  }, [store]);
+  const editReport = useCallback(async (id: string, note: string) => {
+    const next = reports.map(report => report.id === id ? { ...report, note } : report);
+    setReports(next);
+    await saveReports(next, store);
+  }, [reports, store]);
+  const exportAllReports = useCallback(async () => {
+    await Linking.openURL(buildReportsMailto(reports));
+    await saveReports([], store);
+    setReports([]);
+  }, [reports, store]);
+
   const value = useMemo<AppContextValue>(
     () => ({
       tracks,
       settings: settings ?? DEFAULT_SETTINGS,
+      reports,
       progress,
       ready,
       chooseStartingPoint,
       applyProgress,
       applySettings,
       resetGame,
+      createReport: addReport,
+      updateReport: editReport,
+      exportReports: exportAllReports,
     }),
-    [tracks, settings, progress, ready, chooseStartingPoint, applyProgress, applySettings, resetGame],
+    [tracks, settings, progress, reports, ready, chooseStartingPoint, applyProgress, applySettings, resetGame, addReport, editReport, exportAllReports],
   );
 
   return (

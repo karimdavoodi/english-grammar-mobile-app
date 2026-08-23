@@ -16,6 +16,7 @@ import type { Question } from '../content/types';
 import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
 import { ChoiceButton, type ChoiceStatus } from './ChoiceButton';
+import { ReportButton } from './ReportButton';
 
 export interface QuestionCardProps {
   /** The question being served. */
@@ -26,6 +27,7 @@ export interface QuestionCardProps {
   revealed: boolean;
   /** Called with the 0-based chosen index (never once revealed). */
   onAnswer: (index: number) => void;
+  onReport?: () => void;
 }
 
 function statusFor(
@@ -51,6 +53,7 @@ export function QuestionCard({
   selectedIndex,
   revealed,
   onAnswer,
+  onReport,
 }: QuestionCardProps) {
   const styles = useThemedStyles(makeStyles);
   return (
@@ -71,6 +74,7 @@ export function QuestionCard({
           />
         ))}
       </View>
+      {revealed && onReport ? <ReportButton onPress={onReport} /> : null}
     </View>
   );
 }

@@ -72,6 +72,7 @@ export interface LevelPlayScreenProps {
   onLevelEnd?: (result: LevelEndResult) => void;
   /** Called after a confirmed abandon has cleared the active session. */
   onExit?: () => void;
+  onReport?: (questionId: string) => void;
 }
 
 type Phase = 'lesson' | 'question' | 'feedback' | 'ended';
@@ -119,6 +120,7 @@ export function LevelPlayScreen({
   passConfig = DEFAULT_PASS_CONFIG,
   onLevelEnd,
   onExit,
+  onReport,
 }: LevelPlayScreenProps) {
   const styles = useThemedStyles(makeStyles);
 
@@ -285,6 +287,7 @@ export function LevelPlayScreen({
             selectedIndex={feedback?.chosenIndex ?? null}
             revealed={phase === 'feedback'}
             onAnswer={handleAnswer}
+            onReport={feedback?.showLesson ? () => onReport?.(serve.question.id) : undefined}
           />
         ) : null}
 
