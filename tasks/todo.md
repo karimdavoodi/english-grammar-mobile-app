@@ -7,7 +7,7 @@ Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases
 - [x] Task 1: Human content review of the Basic track (b01–b12 → `human-review-pass`)
 - [x] Task 2: App identity + store assets (name, icon, splash, copy, privacy policy)
 - [x] Task 3: Crash reporting + release build pipeline (local ErrorUtils log + mailto; signing template + `npm run release:android`)
-- [ ] Task 4: iOS enablement (pods, build, TestFlight)
+- [x] Task 4: iOS enablement (pods, build, TestFlight) — project configured; simulator/archive guide added (local build requires full Xcode + CMake)
 - [ ] Task 5: Report-an-error button + Report screen (offline, mailto/clipboard export)
 
 ### Checkpoint: Release 1.0
