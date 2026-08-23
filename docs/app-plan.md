@@ -37,6 +37,8 @@ plan.
 | **Cloud sync / accounts** | **Local-first, sync deferred** | Progress stays in AsyncStorage. No auth, no backend. `docs/ideas` "Accounts / cloud sync" stays out of scope. |
 | **Monetization** | **None for now** | No ads, no IAP. Store release is free. Revisit after retention data. |
 | **Teaching language** | **English-only** | Lesson cards, rule explanations, and UI stay English. No i18n layer. |
+| **Progress reset** | **Events and settings survive** | Reset clears learning progress only; local stats/events remain available for tuning and are stored under separate keys. |
+| **External release credentials** | **Never committed** | Signing keys, Sentry DSNs, Apple/Google credentials, and store uploads are environment/owner responsibilities; the repo contains only templates and documented commands. |
 
 ### What is already built (do not redo)
 
@@ -58,8 +60,8 @@ every refactor.
   stay data. The loader derives the map order and onboarding choices from content metadata —
   nothing hardcodes "3 tracks" or "30 levels". Authoring the 90-level corpus is a *content*
   effort; the app code does not change for it (except the one content-assembly refactor below).
-- **Question types via a backward-compatible tagged union.** `Question.type` defaults to
-  `'multiple_choice'`, so existing content and saved state keep working. MC and
+- **Question types via a backward-compatible tagged union.** Legacy content with no `type`
+  is normalized to `'multiple_choice'` by the loader/validator, so existing content and saved state keep working. MC and
   fix-the-sentence score by index; fill-in-the-blank and word-order are scored by a pure
   `scoreAnswer` resolver. The existing machine API generalizes from `chosenIndex` to an
   `AnswerResponse` — a contained refactor with the full suite as the guard.
@@ -68,8 +70,10 @@ every refactor.
   gain a tolerant parse-and-merge read (the current `loadSettings` rejects unknown shapes, so
   new settings fields require a rewrite of that function).
 - **Mixed review / interleaving are synthesized banks, not new machines.** A "mixed" session
-  is `createSession` over a *cross-level bank* assembled by a pure selector. Interleaved
-  levels add earlier-level questions into their play bank. No new state machine.
+  uses the existing machine over a cross-level bank assembled by a pure selector. Its persisted
+  session records `kind: 'mixed'` and the selected question ids so it can resume deterministically
+  without changing `currentLevelId`; interleaved levels add earlier-level questions into their
+  play bank. No new state machine.
 - **Growth layer is local and opt-in.** Daily streaks live in `Progress`; analytics is a local
   append-only event log (`egg:events`) surfaced on a Stats screen — no third-party analytics,
   consistent with local-first. Notifications use `@notifee/react-native` (local-only), default
@@ -107,6 +111,9 @@ Everything else is already in `package.json`.
 - **Schema doc is updated with every schema change.** `docs/schema/english-grammar-game.md`
   and `docs/use-cases/english-grammar-game.md` are extended in the same task that changes
   the code, so the docs never drift from the implementation.
+- **Migration sequence is reserved.** Task 8 migrates progress 1 → 2 for typed responses;
+  Task 11 migrates 2 → 3 for mixed-session metadata; Task 14 migrates 3 → 4 for streaks.
+  Later shape changes append migrations rather than reusing a version number.
 
 ---
 
@@ -170,10 +177,10 @@ questions so the Weakness Queue has material to resurface across all 90 levels.
 
 ### Phase 4 — Growth layer: streaks, stats, notifications
 
-- [ ] Task 14: Daily streak tracking + streak UI (version 2 → 3)
+- [ ] Task 14: Daily streak tracking + streak UI (version 3 → 4)
 - [ ] Task 15: Local event log + Stats screen
+- [ ] Task 17: Settings growth + tolerant settings read (foundation)
 - [ ] Task 16: Local notifications (`@notifee`) + notification settings
-- [ ] Task 17: Settings growth + tolerant settings read
 
 ### Checkpoint: Growth layer
 - [ ] Streak increments on a new day, resets on a missed day, survives relaunch
@@ -184,9 +191,14 @@ questions so the Weakness Queue has material to resurface across all 90 levels.
 
 - [ ] Task 18: Content authoring infrastructure (track-level cluster modules + loader assembly)
 - [ ] Task 19: 90-level content roadmap (topic map, rule registry, recurring-rule strategy)
-- [ ] Task 20: Complete Basic to 30 levels (b13–b30, authored in clusters)
-- [ ] Task 21: Author Intermediate track (30 levels, in clusters)
-- [ ] Task 22: Author Advanced track (30 levels, in clusters)
+- [ ] Task 20A: Complete Basic b13–b21
+- [ ] Task 20B: Complete Basic b22–b30
+- [ ] Task 21A: Author Intermediate levels 1–10
+- [ ] Task 21B: Author Intermediate levels 11–20
+- [ ] Task 21C: Author Intermediate levels 21–30
+- [ ] Task 22A: Author Advanced levels 1–10
+- [ ] Task 22B: Author Advanced levels 11–20
+- [ ] Task 22C: Author Advanced levels 21–30
 - [ ] Task 23: Human review of all new content + review-doc extension
 
 ### Checkpoint: 90-level corpus
@@ -200,7 +212,8 @@ questions so the Weakness Queue has material to resurface across all 90 levels.
 - [ ] Task 24: Graduation screen + completion flow
 - [ ] Task 25: Endless Mastery Review
 - [ ] Task 26: Tuning pass from real play (adjust `PassConfig` from Stats)
-- [ ] Task 27: Gherkin extension + full regression suite
+- [ ] Task 27A: Gherkin extensions + feature-focused regression suites
+- [ ] Task 27B: Full journey and platform regression
 - [ ] Task 28: Final release 2.0 (Android + iOS)
 
 ### Optional (droppable) — Audio polish
@@ -281,7 +294,7 @@ telemetry dependency — it is release infra, not product backend; the plan trea
 default and the local log as the fallback if the human prefers zero third parties.
 
 **Acceptance criteria:**
-- [ ] A release keystore + signing config exist; `./gradlew bundleRelease` produces a signed AAB.
+- [ ] A documented release signing template/config exists; `./gradlew bundleRelease` produces a signed AAB when the owner supplies credentials outside git.
 - [ ] JS and native crashes are captured (Sentry) or logged locally (fallback) and reachable by the developer.
 - [ ] `npm run lint`, `npx tsc --noEmit`, `npm test` stay green; a Sentry DSN (if used) is injected, never committed.
 
@@ -308,7 +321,7 @@ mostly native/build work; the JS is already cross-platform by construction.
 
 **Acceptance criteria:**
 - [ ] `npx pod-install` succeeds; the iOS app builds and runs the full loop on a simulator.
-- [ ] A TestFlight build uploads (or a documented signing path is ready).
+- [ ] An unsigned simulator build is verified; a documented archive/TestFlight signing path is ready. Upload requires the owner's Apple credentials.
 - [ ] Any iOS-only rendering/behavior gaps (e.g. safe-area insets, keyboard on typed questions later) are fixed.
 
 **Verification:**
@@ -357,7 +370,8 @@ This feeds the human content-review pipeline of every later content task.
 ### Task 6: Content schema — question-type tagged union + validator extension
 
 **Description:** Extend `src/content/types.ts` so `Question` is a discriminated union on a
-`type` field defaulting to `'multiple_choice'` — existing content validates unchanged. Add
+`type` field. Legacy source objects may omit it and are normalized to `'multiple_choice'` by
+the loader/validator, so existing content validates unchanged. Add
 two genuinely new interaction types and one presentational type:
 
 - `fill_blank`: `prompt` with a blank, `correctAnswer` (canonical), `acceptedAnswers: string[]`
@@ -399,7 +413,7 @@ the same change. `docs/content-review.md` records the type mix per level.
 and a pure `scoreAnswer(question, response)` that resolves `isCorrect` per type (normalized
 text match for fill_blank, sequence match for word_order, index match for MC/fix_sentence).
 Refactor `answerQuestion(session, question, response, config)` to accept a response and source
-`isCorrect` from `scoreAnswer`; `AnswerOutcome` keeps `correctIndex` for choice-based types and
+`isCorrect` from `scoreAnswer`; `AnswerOutcome` makes `correctIndex` optional for typed
 gains a display `correctAnswer` for typed ones. `pickNextQuestion` / `serving.ts` are untouched
 (they only read `rule`/`id`). Keep `game/levelMachine.ts`'s `Question` aligned to the content
 union (source the type from `content/types` via `import type` — the machine now genuinely needs
@@ -516,14 +530,16 @@ must pass the new validator.
 **Description:** Build the pure assembler `mixedBank(tracks, progress, { size, random })` —
 a cross-level bank that serves queued-rule questions first (any level whose bank contains a
 queued rule), then recently-missed questions (from `wrongAnswers`, freshest first), then a
-sampled spread across passed levels. A Mixed Review session is `createSession('mixed')` over
-that bank with a volume pass target and an explicit end (bank exhausted or target reached) —
-no new state machine. `serveNextQuestion` works unchanged over any bank; the re-teach rule
-still applies.
+sampled spread across passed levels. The session uses the existing machine over that bank with a
+volume target and an explicit end
+(bank exhausted or target reached). Persist `kind: 'level' | 'mixed'` and a de-duplicated
+`bankQuestionIds` snapshot, with a 2 → 3 migration, so resume is deterministic and
+`currentLevelId` remains untouched. No new state machine.
 
 **Acceptance criteria:**
 - [ ] `mixedBank` prioritizes queued rules, then wrong answers, then sampling; size-capped; deterministic with injected `random`.
 - [ ] A mixed session runs through the existing machine/reducers without touching persisted `currentLevelId`.
+- [ ] A mixed session resumes from its persisted bank snapshot after relaunch; ending it clears only the active session.
 - [ ] Mixed answers still feed the Weakness Queue and wrong-answer history normally.
 
 **Verification:**
@@ -534,7 +550,8 @@ still applies.
 
 **Files likely touched:**
 - `src/game/mixed.ts` (new, pure), `src/game/__tests__/mixed.test.ts` (new)
-- `src/state/selectors.ts` (reuse)
+- `src/state/types.ts`, `src/state/storage.ts`, `src/state/reducers.ts`, `src/state/__tests__/*`
+- `src/state/selectors.ts` (reuse), `docs/schema/english-grammar-game.md`
 
 **Estimated scope:** Medium
 
@@ -595,25 +612,25 @@ history feeds it, wrong answers keep feeding the queue). Route wiring follows th
 
 ---
 
-### Task 14: Daily streak tracking + streak UI (version 2 → 3)
+### Task 14: Daily streak tracking + streak UI (version 3 → 4)
 
 **Description:** Add the growth-layer streak: `Progress` gains `dailyStreak`, `bestStreak`,
 and `lastPlayedDate` (local `YYYY-MM-DD`). A pure `recordPlay(progress, date)` increments the
 streak when `date` is the next day, keeps it on the same day, resets to 1 when a gap is missed,
 and tracks `bestStreak`. Wired into level start/answer. A streak summary (current + best +
-"practice today") appears on the map header. Bump `CURRENT_PROGRESS_VERSION` to 3 and register
-the 2 → 3 migration (add the three fields, defaulting to 0/null).
+"practice today") appears on the map header. Bump `CURRENT_PROGRESS_VERSION` to 4 and register
+the 3 → 4 migration (add the three fields, defaulting to 0/null).
 
 **Acceptance criteria:**
 - [ ] `recordPlay` handles same-day, next-day, and gap correctly (pure, timezone-injectable, tested).
 - [ ] Playing any level updates the streak; the map shows current + best streak.
-- [ ] Version 2 → 3 migration preserves all existing progress.
+- [ ] Version 3 → 4 migration preserves all existing progress.
 
 **Verification:**
 - [ ] `npm test -- reducers selectors` (streak cases + migration)
 - [ ] Manual: relaunch across a simulated day boundary
 
-**Dependencies:** Task 8 (migration mechanics)
+**Dependencies:** Task 11 (migration mechanics, version 3 → 4)
 
 **Files likely touched:**
 - `src/state/types.ts`, `src/state/reducers.ts` (`recordPlay`), `src/state/storage.ts` (migration)
@@ -630,8 +647,8 @@ answer events (question id, rule, type, isCorrect, levelId, timestamp), level-en
 (outcome, reason), and session events. Pure selectors compute totals, accuracy by rule,
 per-type accuracy, streak history, and time played. A `StatsScreen` (presentational) renders
 the summary and links to the Review screen. No third-party analytics — this data also drives
-the Phase 6 tuning decision. Events survive progress resets (telemetry, not progress) or are
-cleared on reset — decide and document in the storage contract.
+the Phase 6 tuning decision. Events survive progress resets (they are local stats, not learning
+progress) and this separate-key behavior is documented in the storage contract.
 
 **Acceptance criteria:**
 - [ ] Answer/level-end events append correctly and are bounded (cap the log length to avoid unbounded growth).
@@ -687,7 +704,8 @@ defaults the new fields (`notifications`, and the optional `audio`) rather than 
 whole shape (the current implementation returns `DEFAULT_SETTINGS` for any unknown shape —
 it would wipe new settings). Extend `SettingsScreen` with the streak display, notification
 toggle + time picker, the Stats link, and (when the optional TTS task is taken) the audio
-toggle. `Settings` stays the only slice that survives a progress reset.
+toggle. Task 16 owns notification scheduling; Task 29 owns the optional audio toggle.
+`Settings` stays the only non-event slice that survives a progress reset.
 
 **Acceptance criteria:**
 - [ ] `loadSettings` merges saved fields with defaults and never drops `theme` or new fields.
@@ -698,7 +716,7 @@ toggle. `Settings` stays the only slice that survives a progress reset.
 - [ ] `npm test -- storage SettingsScreen AppProvider`
 - [ ] Manual: change settings, reset progress, confirm settings survive
 
-**Dependencies:** Task 14, Task 16, Task 15 (UI entries)
+**Dependencies:** Task 14, Task 15
 
 **Files likely touched:**
 - `src/state/storage.ts`, `src/state/types.ts`
@@ -782,7 +800,7 @@ types, recurring-rule questions into earlier material, `level.number` 13–30 se
 **Files likely touched:**
 - `src/content/tracks/basic/**` (new cluster modules), `docs/content-review.md`
 
-**Estimated scope:** Large (content) — split into two ~9-level sub-tasks
+**Estimated scope:** Medium per cluster — execute as Task 20A (b13–b21), then Task 20B (b22–b30); each cluster must validate independently.
 
 ---
 
@@ -808,7 +826,7 @@ multi-track StartPoint flow.
 **Files likely touched:**
 - `src/content/tracks/intermediate/**` (new), `docs/content-review.md`
 
-**Estimated scope:** Large (content) — split into three ~10-level sub-tasks
+**Estimated scope:** Medium per cluster — execute as Tasks 21A–21C (10 levels each), with a validation checkpoint after every cluster.
 
 ---
 
@@ -834,7 +852,7 @@ recurrences, `authoring-pass` entries.
 **Files likely touched:**
 - `src/content/tracks/advanced/**` (new), `docs/content-review.md`
 
-**Estimated scope:** Large (content) — split into three ~10-level sub-tasks
+**Estimated scope:** Medium per cluster — execute as Tasks 22A–22C (10 levels each), with a validation checkpoint after every cluster.
 
 ---
 
@@ -968,7 +986,7 @@ journey test). Run the complete verification matrix: `npm test`, `npm run lint`,
 **Files likely touched:**
 - `docs/use-cases/english-grammar-game.md`, `src/**/__tests__/**`, `src/app/__tests__/journey.test.ts`
 
-**Estimated scope:** Large (test volume) — split by feature area
+**Estimated scope:** Medium per slice — execute as Task 27A (feature scenarios and focused suites), then Task 27B (full journey and platform matrix).
 
 ---
 

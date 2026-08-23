@@ -31,7 +31,7 @@ Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases
 
 ## Phase 3 — Mixed review & interleaving
 
-- [ ] Task 11: Mixed-bank assembly + mixed session serving
+- [ ] Task 11: Mixed-bank assembly + mixed session serving (version 2 → 3; resumable bank snapshot)
 - [ ] Task 12: Interleaved levels (earlier-level questions mixed in)
 - [ ] Task 13: Mixed Review route/screen + map entry + use-cases
 
@@ -42,10 +42,10 @@ Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases
 
 ## Phase 4 — Growth layer
 
-- [ ] Task 14: Daily streak tracking + streak UI (version 2 → 3)
+- [ ] Task 14: Daily streak tracking + streak UI (version 3 → 4)
 - [ ] Task 15: Local event log + Stats screen
+- [ ] Task 17: Settings growth + tolerant settings read (do before Task 16)
 - [ ] Task 16: Local notifications (`@notifee`) + notification settings
-- [ ] Task 17: Settings growth + tolerant settings read
 
 ### Checkpoint: Growth layer
 - [ ] Streak increments/resets correctly and survives relaunch
@@ -56,9 +56,14 @@ Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases
 
 - [ ] Task 18: Content authoring infrastructure (cluster modules + loader assembly)
 - [ ] Task 19: 90-level content roadmap (topic map, rule registry, recurring strategy)
-- [ ] Task 20: Complete Basic to 30 levels (b13–b30)
-- [ ] Task 21: Author Intermediate track (30 levels)
-- [ ] Task 22: Author Advanced track (30 levels)
+- [ ] Task 20A: Complete Basic b13–b21
+- [ ] Task 20B: Complete Basic b22–b30
+- [ ] Task 21A: Author Intermediate levels 1–10
+- [ ] Task 21B: Author Intermediate levels 11–20
+- [ ] Task 21C: Author Intermediate levels 21–30
+- [ ] Task 22A: Author Advanced levels 1–10
+- [ ] Task 22B: Author Advanced levels 11–20
+- [ ] Task 22C: Author Advanced levels 21–30
 - [ ] Task 23: Human review of all new content + review-doc extension
 
 ### Checkpoint: 90-level corpus
@@ -72,7 +77,8 @@ Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases
 - [ ] Task 24: Graduation screen + completion flow
 - [ ] Task 25: Endless Mastery Review
 - [ ] Task 26: Tuning pass from real play (adjust `PassConfig`)
-- [ ] Task 27: Gherkin extension + full regression suite
+- [ ] Task 27A: Gherkin extensions + feature-focused regression suites
+- [ ] Task 27B: Full journey and platform regression
 - [ ] Task 28: Final release 2.0 (Android + iOS)
 
 ## Optional (droppable)
