@@ -28,14 +28,15 @@ after it is implemented, verified (tests / tsc / lint), and committed.
       button. Update `LevelPlayScreen.test.tsx` (wrong answer shows lesson inline;
       Next shows no lesson; mercy/12-cap tests stop pressing `lesson-continue`
       mid-level) and `components.test.tsx`.
-- [ ] Task 4 — Review screen cleanup (no per-question miss count / report; one
+- [x] Task 4 — Review screen cleanup (no per-question miss count / report; one
       report at the end)
-      Remove the per-entry "Missed N time(s)" line and per-question `ReportButton`
-      from `ReviewScreen`. Replace `onReport(questionId)` with a single `onOpenReport()`
-      rendered at the end of a non-empty list. `ReviewRoute` creates a
-      `general-review-feedback` draft before opening Report; `ReportScreen` labels it
-      "General feedback" so its note can be edited and sent. Update Review, Report,
-      and navigator tests.
+      Removed the per-entry "Missed N time(s)" line and per-question `ReportButton`
+      from `ReviewScreen`; replaced `onReport(questionId)` with a single
+      `onOpenReport()` rendered as one "Report a problem" action at the end of a
+      non-empty list. `ReviewRoute` creates a `general-review-feedback` draft
+      (sentinel questionId) before navigating to Report; `ReportScreen` labels it
+      "General feedback" so the note can be edited and sent. Updated Review, Report
+      (new test file), and navigator tests.
 - [ ] Task 5a — Data layer: all levels unlocked
       `unlockedLevelIds` returns every level id, so `isLevelUnlocked` is always true
       and `levelStatuses.unlocked` is always true. `currentLevelId`, completed,

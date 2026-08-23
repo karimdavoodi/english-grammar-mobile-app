@@ -34,6 +34,7 @@ import { findLevelById, tracks } from '../../content';
 import type { QuestionUnion } from '../../content/types';
 import { createInitialProgress } from '../../state/reducers';
 import { loadProgress, saveProgress, type StorageLike } from '../../state/storage';
+import { loadReports } from '../../state/reports';
 import { wrapInSafeArea } from '../../test-utils';
 import { AppNavigator } from '../AppNavigator';
 
@@ -229,6 +230,45 @@ describe('AppNavigator — returning player', () => {
     await press(tree, 'topics-level-b03');
     expect(countHostByTestID(tree, 'level-play-screen')).toBe(1);
     expect(renderedQuestionBelongsTo(tree, 'b03')).toBe(true);
+
+    await ReactTestRenderer.act(() => tree.unmount());
+  });
+});
+
+describe('AppNavigator — Review general-feedback report (Task 4)', () => {
+  it('Review → "Report a problem" creates an editable general-feedback draft and opens Report', async () => {
+    const store = createStore();
+    await saveProgress(
+      {
+        ...createInitialProgress(tracks, { trackId: 'basic', levelNumber: 1 }),
+        wrongAnswers: {
+          b01q01: {
+            questionId: 'b01q01',
+            count: 1,
+            lastChosenIndex: 2,
+            lastMissedAt: '2026-08-01T10:00:00.000Z',
+          },
+        },
+      },
+      store,
+    );
+    const tree = await renderApp(store);
+
+    // Home → Review (the review shortcut renders because progress exists).
+    await press(tree, 'home-review');
+    expect(countHostByTestID(tree, 'review-screen')).toBe(1);
+
+    // The single report action opens Report with an editable general-feedback
+    // draft — no per-question report, no empty outbox, no fake question id.
+    await press(tree, 'review-report-problem');
+    expect(countHostByTestID(tree, 'report-screen')).toBe(1);
+    expect(textOf(tree, 'report-question-general-review-feedback')).toBe('General feedback');
+    expect(countHostByTestID(tree, 'report-general-review-feedback')).toBe(1);
+
+    // The draft is persisted so the note editor / export flow can use it.
+    const reports = await loadReports(store);
+    expect(reports.map(report => report.questionId)).toEqual(['general-review-feedback']);
+    expect(reports[0].note).toBe('');
 
     await ReactTestRenderer.act(() => tree.unmount());
   });

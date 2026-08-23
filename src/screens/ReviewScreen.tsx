@@ -3,8 +3,11 @@
  *
  * Per docs/use-cases "Review Screen" and docs/schema §2: every missed question
  * is listed grouped by its rule tag, showing the question, the player's last
- * wrong choice, the correct answer, the cumulative miss count, and both "why"
- * explanations (why the wrong choice is wrong, why the correct one is right).
+ * wrong choice, the correct answer, and both "why" explanations (why the wrong
+ * choice is wrong, why the correct one is right). A single "Report a problem"
+ * action at the end of a non-empty list opens the general-feedback report flow
+ * (docs/ui-plan-1.md Task 4) — there is no per-question report button or per
+ * entry miss-count line.
  *
  * This is study history, not the active Weakness Queue: a rule still in the
  * queue is flagged ("In your Weakness Queue"), but clearing a weakness never
@@ -21,14 +24,13 @@
  */
 
 import React, { useMemo } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { Track } from '../content/types';
 import { reviewGroups } from '../state/selectors';
 import type { WeaknessEntry, WrongAnswerEntry } from '../state/types';
 import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
 import { tokens } from '../theme/tokens';
-import { ReportButton } from '../components/ReportButton';
 import { ScreenShell } from '../components/ScreenShell';
 
 export interface ReviewScreenProps {
@@ -38,14 +40,18 @@ export interface ReviewScreenProps {
   wrongAnswers: Record<string, WrongAnswerEntry>;
   /** The active Weakness Queue keyed by rule tag — flags rules still being studied. */
   weaknessQueue: Record<string, WeaknessEntry>;
-  onReport?: (questionId: string) => void;
+  /**
+   * Opens the general-feedback report flow — rendered as one "Report a problem"
+   * action at the end of a non-empty list (no per-question report buttons).
+   */
+  onOpenReport?: () => void;
 }
 
 export function ReviewScreen({
   tracks,
   wrongAnswers,
   weaknessQueue,
-  onReport,
+  onOpenReport,
 }: ReviewScreenProps) {
   const styles = useThemedStyles(makeStyles);
   const queuedRules = useMemo(
@@ -80,92 +86,100 @@ export function ReviewScreen({
             </Text>
           </View>
         ) : (
-          groups.map(group => (
-            <View
-              key={group.rule}
-              style={styles.group}
-              testID={`review-group-${group.rule}`}
-            >
-              <View style={styles.groupHeader}>
-                <Text
-                  style={styles.ruleTitle}
-                  accessibilityRole="header"
-                  testID={`review-rule-title-${group.rule}`}
-                >
-                  {group.ruleTitle}
-                </Text>
-                {group.stillQueued ? (
-                  <View style={styles.weakBadge} testID={`review-weak-${group.rule}`}>
-                    <Text style={styles.weakBadgeLabel}>In your Weakness Queue</Text>
-                  </View>
-                ) : null}
-              </View>
-              {group.ruleExplanation ? (
-                <Text
-                  style={styles.ruleTeaching}
-                  testID={`review-rule-teaching-${group.rule}`}
-                >
-                  {group.ruleExplanation}
-                </Text>
-              ) : null}
-              {group.ruleExample ? (
-                <Text
-                  style={styles.ruleExample}
-                  testID={`review-rule-example-${group.rule}`}
-                >
-                  {group.ruleExample}
-                </Text>
-              ) : null}
-
-              {group.missedQuestions.map(missed => (
-                <View
-                  key={missed.question.id}
-                  style={styles.entry}
-                  testID={`review-question-${missed.question.id}`}
-                >
+          <>
+            {groups.map(group => (
+              <View
+                key={group.rule}
+                style={styles.group}
+                testID={`review-group-${group.rule}`}
+              >
+                <View style={styles.groupHeader}>
                   <Text
-                    style={styles.prompt}
-                    testID={`review-prompt-${missed.question.id}`}
+                    style={styles.ruleTitle}
+                    accessibilityRole="header"
+                    testID={`review-rule-title-${group.rule}`}
                   >
-                    {missed.question.prompt}
+                    {group.ruleTitle}
                   </Text>
-                  <Text
-                    style={styles.answerRow}
-                    testID={`review-chosen-${missed.question.id}`}
-                  >
-                    Your answer: {missed.chosenAnswer}
-                  </Text>
-                  <Text
-                    style={styles.answerRow}
-                    testID={`review-correct-${missed.question.id}`}
-                  >
-                    Correct answer: {missed.correctAnswer}
-                  </Text>
-                  <Text
-                    style={styles.missCount}
-                    testID={`review-miss-count-${missed.question.id}`}
-                  >
-                    Missed {missed.count} time{missed.count === 1 ? '' : 's'}
-                  </Text>
-                  <View style={styles.why}>
-                    <Text
-                      style={styles.whyWrong}
-                      testID={`review-why-wrong-${missed.question.id}`}
-                    >
-                      {missed.wrongExplanation}
-                    </Text>
-                    <Text
-                      style={styles.whyRight}
-                      testID={`review-why-right-${missed.question.id}`}
-                    >
-                      {missed.correctExplanation}
-                    </Text>
-                  </View>
-                  {onReport ? <ReportButton onPress={() => onReport(missed.question.id)} /> : null}
+                  {group.stillQueued ? (
+                    <View style={styles.weakBadge} testID={`review-weak-${group.rule}`}>
+                      <Text style={styles.weakBadgeLabel}>In your Weakness Queue</Text>
+                    </View>
+                  ) : null}
                 </View>
-              ))}
-            </View>
-          ))
+                {group.ruleExplanation ? (
+                  <Text
+                    style={styles.ruleTeaching}
+                    testID={`review-rule-teaching-${group.rule}`}
+                  >
+                    {group.ruleExplanation}
+                  </Text>
+                ) : null}
+                {group.ruleExample ? (
+                  <Text
+                    style={styles.ruleExample}
+                    testID={`review-rule-example-${group.rule}`}
+                  >
+                    {group.ruleExample}
+                  </Text>
+                ) : null}
+
+                {group.missedQuestions.map(missed => (
+                  <View
+                    key={missed.question.id}
+                    style={styles.entry}
+                    testID={`review-question-${missed.question.id}`}
+                  >
+                    <Text
+                      style={styles.prompt}
+                      testID={`review-prompt-${missed.question.id}`}
+                    >
+                      {missed.question.prompt}
+                    </Text>
+                    <Text
+                      style={styles.answerRow}
+                      testID={`review-chosen-${missed.question.id}`}
+                    >
+                      Your answer: {missed.chosenAnswer}
+                    </Text>
+                    <Text
+                      style={styles.answerRow}
+                      testID={`review-correct-${missed.question.id}`}
+                    >
+                      Correct answer: {missed.correctAnswer}
+                    </Text>
+                    <View style={styles.why}>
+                      <Text
+                        style={styles.whyWrong}
+                        testID={`review-why-wrong-${missed.question.id}`}
+                      >
+                        {missed.wrongExplanation}
+                      </Text>
+                      <Text
+                        style={styles.whyRight}
+                        testID={`review-why-right-${missed.question.id}`}
+                      >
+                        {missed.correctExplanation}
+                      </Text>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            ))}
+            {onOpenReport ? (
+              <Pressable
+                testID="review-report-problem"
+                accessibilityRole="button"
+                onPress={onOpenReport}
+                style={({ pressed }) => [
+                  styles.reportProblem,
+                  pressed && styles.reportProblemPressed,
+                ]}
+              >
+                <Text style={styles.reportProblemLabel}>Report a problem</Text>
+              </Pressable>
+            ) : null}
+          </>
         )}
       </ScrollView>
     </ScreenShell>
@@ -281,12 +295,23 @@ const makeStyles = (colors: ThemeColors) =>
       lineHeight: 20,
       color: colors.textTertiary,
     },
-    missCount: {
-      fontSize: tokens.typography.small,
+    reportProblem: {
+      marginTop: tokens.spacing.md,
+      paddingVertical: 12,
+      paddingHorizontal: tokens.spacing.md,
+      borderWidth: 1,
+      borderColor: colors.borderStrong,
+      borderRadius: tokens.radii.md,
+      alignItems: 'center',
+      backgroundColor: colors.surface,
+    },
+    reportProblemPressed: {
+      backgroundColor: colors.surfacePressed,
+    },
+    reportProblemLabel: {
+      color: colors.textSecondary,
       fontWeight: '600',
-      color: colors.warningText,
-      marginTop: 4,
-      marginBottom: 6,
+      fontSize: tokens.typography.bodyLarge,
     },
     why: {
       marginTop: 6,

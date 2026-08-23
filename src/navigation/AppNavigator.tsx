@@ -54,6 +54,7 @@ import {
   nextLevelId,
   startMasterySession,
 } from '../state/reducers';
+import { GENERAL_REVIEW_FEEDBACK_ID } from '../state/reports';
 import { resumableLevelId } from '../state/selectors';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -237,8 +238,13 @@ function ReviewRoute({
       tracks={tracks}
       wrongAnswers={progress.wrongAnswers}
       weaknessQueue={progress.weaknessQueue}
-      onReport={(questionId: string) => {
-        createReport(questionId).then(() => navigation.navigate('Report', { questionId })).catch(() => {});
+      onOpenReport={() => {
+        // One general-feedback draft per press — a real ContentReport keyed to
+        // the sentinel questionId, so Report opens an editable "General
+        // feedback" entry instead of an empty outbox or a misleading question id.
+        createReport(GENERAL_REVIEW_FEEDBACK_ID)
+          .then(() => navigation.navigate('Report', {}))
+          .catch(() => {});
       }}
     />
   );

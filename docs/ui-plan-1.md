@@ -20,7 +20,7 @@ LevelPlay).
 | 1 | Mobile back inside a level asks "exit app?" instead of returning, or stops working | `HomeScreen` registers a **mount-time** `BackHandler` listener (shows the "Exit app?" dialog) that is never scoped to Home being focused. It stays active while Topics/LevelPlay/Result are pushed, so it can swallow hardware back on pushed screens (exit dialog instead of a pop) and, in some navigation states, leaves back handling wedged. | The exit-confirm is registered **only while Home is focused** (`useFocusEffect` in the route layer). Back on any pushed screen pops the stack normally; only back on Home asks to exit. |
 | 2 | Stats screen is unprofessional; "ACCURACY BY RULE" shows raw rule tags with `_` | `StatsScreen` renders a plain text list and prints the raw rule tag (e.g. `present_simple_form`) as-is. `StatsSummary.accuracyByRule` is keyed by tag, not by the human `TopicRule.title`. | Redesigned stats layout (metric tiles + per-rule accuracy bars). "Accuracy by rule" rows show the canonical human `TopicRule.title` (no underscores), resolved via `findRule`, falling back to the tag. |
 | 3 | On a wrong answer the lesson is NOT shown immediately; it appears after clicking "Next question" | `LevelPlayScreen` shows the lesson only in a pre-question `lesson` phase (adaptive re-teach, `serve.showLesson`), which the Next press routes into. The feedback phase never shows the lesson. | A wrong answer renders the `LessonCard` **inline on the same feedback screen**; "Next question" serves the next question directly (never an intermediate lesson). Entry re-teach on a resumed session is unchanged. |
-| 4 | Review screen: per-question "Missed N item" and per-question "Report problem" are noisy | `ReviewScreen` renders a `Missed {count} time(s)` line and a `ReportButton` inside every missed-question entry. | Remove the per-entry miss count and per-entry Report buttons; keep **one** "Report a problem" action at the bottom of the screen that opens the Report screen. |
+| 4 | Review screen: per-question "Missed N item" and per-question "Report problem" are noisy | `ReviewScreen` renders a `Missed {count} time(s)` line and a `ReportButton` inside every missed-question entry. | Remove the per-entry miss count and per-entry Report buttons; keep **one** "Report a problem" action at the bottom of the screen. It creates a general-feedback draft and opens its editable Report view. |
 | 5 | Levels ahead of the frontier are locked; user wants access to all levels | `unlockedLevelIds` (selectors.ts) unlocks only levels at/before the frontier, and `TopicsScreen` disables the rest (`disabled`, "🔒 Locked"). | All levels are unlocked in the data layer (`unlockedLevelIds`/`isLevelUnlocked`/`levelStatuses` always unlock) and `TopicsScreen` renders every level tappable with no lock UI. |
 
 ---
@@ -44,6 +44,8 @@ LevelPlay).
    `content/index.ts` (the same lookup `LevelPlayScreen` uses). `StatsScreen`
    imports `findRule` and shows `findRule(tag)?.title ?? tag`, keeping the screen
    presentational (no new props) and the fallback safe for unknown/test tags.
+   Rows sort alphabetically by their resolved display title (then by tag) so the
+   order is stable, testable, and does not depend on event insertion order.
 
 3. **Teach-on-failure lives on the wrong-answer feedback screen.** The
    `LessonCard` becomes an inline element of the `feedback` phase whenever the
@@ -63,18 +65,32 @@ LevelPlay).
    the product intent ("user should be able to access all levels") and avoids
    leaving dead lock logic behind after the UI is cleaned up.
 
-5. **No schema/state/content migration.** Progress, settings, content shapes,
-   and persisted events are unchanged. All five changes are presentational or
-   pure-derivation edits plus test updates.
+5. **The single Review report is general feedback, not an arbitrary missed
+   question.** Navigating to the existing Report route by itself only opens an
+   empty outbox; it does not create anything the player can edit or send. The
+   bottom action therefore creates one normal `ContentReport` using the stable
+   sentinel id `general-review-feedback`, then navigates to Report. `ReportScreen`
+   displays that id as "General feedback" rather than as a question id. This
+   reuses the existing persisted report shape (including its note editor and
+   export flow), needs no migration, and avoids silently attaching a report to
+   an unrelated missed question.
+
+6. **No Progress/settings/content migration.** Progress, settings, bundled
+   content shapes, and persisted events are unchanged. The report record shape
+   is also unchanged; the general-feedback sentinel is a valid existing string
+   value. All five changes are presentational or pure-derivation edits plus test
+   updates.
 
 ---
 
 ## Task list
 
-All tasks are independent (no shared files) and can be parallelized. Suggested
-order follows the issue list.
+Tasks 2 and 3 can proceed independently. Task 5b follows Task 5a so the UI
+consumes the new selector contract. Tasks 1 and 4 both modify
+`AppNavigator.tsx`; do them sequentially (Task 1 first) or coordinate a single
+owner for that file. Suggested order: 1 → 2/3 in parallel → 4 → 5a → 5b.
 
-### Phase 1: Independent fixes
+### Phase 1: Ordered workstreams
 
 #### Task 1 — Scope the Android exit-confirm to Home (back-navigation fix)
 
@@ -117,6 +133,7 @@ bar, and the percentage. Keep the "Review mistakes" button.
 - [ ] Summary metrics render as themed tiles/cards (theme tokens), not plain text lines.
 - [ ] "Accuracy by rule" rows show the human `TopicRule.title` (no `_`), `correct/total`, an accuracy bar, and the percentage.
 - [ ] Unknown rule tags (fixtures/tests) fall back to the raw tag — no crash.
+- [ ] Rule rows sort by resolved title (then raw tag), independent of event insertion order.
 - [ ] "Review mistakes" still calls `onOpenReview` (`stats-review`).
 
 **Verification:**
@@ -172,25 +189,31 @@ renders without its own Continue.
 **Description:** In `ReviewScreen`, remove the per-entry "Missed N time(s)" line
 and the per-question `ReportButton`. Replace the `onReport(questionId)` prop with
 a single `onOpenReport()` prop rendered as one "Report a problem" action at the
-bottom of the screen; `ReviewRoute` wires it to `navigation.navigate('Report')`.
+bottom of a non-empty list. `ReviewRoute` creates a `general-review-feedback`
+report draft, then navigates to Report; `ReportScreen` labels that draft
+"General feedback" so the editable note and Send reports flow are useful.
 
 **Acceptance criteria:**
 - [ ] No per-question "Missed N" line remains.
 - [ ] No per-question Report button remains.
 - [ ] Exactly one "Report a problem" button at the end of the list calls `onOpenReport`.
+- [ ] Pressing it creates/opens an editable general-feedback draft; Report does not show an empty outbox or a misleading question id.
 
 **Verification:**
-- Tests pass: `npx jest src/screens/__tests__/ReviewScreen.test.tsx src/navigation/__tests__/AppNavigator.test.tsx`.
+- Tests pass: `npx jest src/screens/__tests__/ReviewScreen.test.tsx src/screens/__tests__/ReportScreen.test.tsx src/navigation/__tests__/AppNavigator.test.tsx`.
 - Build/typecheck: `npx tsc --noEmit`; lint: `npm run lint`.
 
 **Dependencies:** None.
 
 **Files likely touched:**
 - `src/screens/ReviewScreen.tsx`
-- `src/navigation/AppNavigator.tsx` (ReviewRoute prop swap)
+- `src/navigation/AppNavigator.tsx` (ReviewRoute draft creation + prop swap)
+- `src/screens/ReportScreen.tsx` (general-feedback label)
 - `src/screens/__tests__/ReviewScreen.test.tsx`
+- `src/screens/__tests__/ReportScreen.test.tsx`
+- `src/navigation/__tests__/AppNavigator.test.tsx`
 
-**Estimated scope:** Small–Medium.
+**Estimated scope:** Medium.
 
 #### Task 5a — Data layer: all levels unlocked
 
@@ -210,7 +233,7 @@ that assert frontier locking.
 - Tests pass: `npx jest src/state/__tests__/selectors.test.ts src/app/__tests__/journey.test.ts`.
 - Build/typecheck: `npx tsc --noEmit`; lint: `npm run lint`.
 
-**Dependencies:** None (independent of 5b).
+**Dependencies:** None.
 
 **Files likely touched:**
 - `src/state/selectors.ts`
@@ -235,7 +258,8 @@ non-current levels read "Available"). Passed / Current / Review badges stay.
 - Tests pass: `npx jest src/screens/__tests__/TopicsScreen.test.tsx`.
 - Build/typecheck: `npx tsc --noEmit`; lint: `npm run lint`.
 
-**Dependencies:** None (lands independently of 5a).
+**Dependencies:** Task 5a (the screen consumes `levelStatuses.unlocked === true`
+for every level, then removes now-dead lock presentation).
 
 **Files likely touched:**
 - `src/screens/TopicsScreen.tsx`
@@ -259,18 +283,14 @@ non-current levels read "Available"). Passed / Current / Review badges stay.
 | Hardware-back behavior is device/OS specific; jest cannot reproduce native-stack back fully | Med | Scope the handler with `useFocusEffect` (deterministic: listener only while Home focused) and gate the task on a manual Android-device pass. |
 | Lesson on every wrong answer may feel visually heavy | Low | It is the requested behavior; the card is the existing compact `LessonCard`, rendered inline and dismissed by Next. |
 | Removing the frontier unlock changes selector semantics | Med | Keep `currentLevelId`/Resume/badges intact; the change is display-only and covered by updated selector + journey tests. |
-| Single Review "Report a problem" opens the Report screen, which can be empty ("No pending reports.") | Low | Accepted for now; see open question 1 for a richer report flow later. |
+| General-feedback report uses a sentinel rather than a content question id | Low | Keep the sentinel private to route/screen code, label it "General feedback" in the UI, and cover the editable/export path in tests. |
 
 ---
 
 ## Open questions
 
-1. **Review "Report a problem" destination** — The single button opens the
-   existing Report screen (default, minimal). If a per-question report from the
-   Review list is still wanted later, that needs a question picker or a
-   "report this question" affordance — out of scope here.
-2. **Stats rule ordering** — Default: alphabetical by title (stable, testable).
+1. **Stats rule ordering** — Default: alphabetical by title (stable, testable).
    Alternative: weakest-first (ascending accuracy) to highlight trouble spots.
-3. **Inline lesson cadence** — Default per the request: every wrong answer shows
+2. **Inline lesson cadence** — Default per the request: every wrong answer shows
    the lesson. Alternative: only at the re-teach threshold (≥2 misses). The
    default matches the issue wording.

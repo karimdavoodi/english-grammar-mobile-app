@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { ScreenShell } from '../components/ScreenShell';
-import type { ContentReport } from '../state/reports';
+import { GENERAL_REVIEW_FEEDBACK_ID, type ContentReport } from '../state/reports';
 import { useThemedStyles } from '../theme/ThemeProvider';
 import type { ThemeColors } from '../theme/themes';
 
@@ -35,22 +35,30 @@ export function ReportScreen({ reports, onUpdate, onExport }: ReportScreenProps)
         {reports.length === 0 ? (
           <Text style={styles.empty} testID="reports-empty">No pending reports.</Text>
         ) : (
-          reports.map(report => (
-            <View key={report.id} style={styles.report} testID={`report-${report.questionId}`}>
-              <Text style={styles.question}>Question: {report.questionId}</Text>
-              <TextInput
-                testID={`report-note-${report.questionId}`}
-                accessibilityLabel={`Note for ${report.questionId}`}
-                value={notes[report.id] ?? report.note}
-                onChangeText={note => setNotes(current => ({ ...current, [report.id]: note }))}
-                onBlur={() => saveNote(report)}
-                placeholder="Optional note"
-                placeholderTextColor={colorsPlaceholder}
-                multiline
-                style={styles.input}
-              />
-            </View>
-          ))
+          reports.map(report => {
+            // The Review screen's general-feedback draft uses a sentinel
+            // questionId — label it "General feedback", not a fake question id.
+            const isGeneralFeedback = report.questionId === GENERAL_REVIEW_FEEDBACK_ID;
+            const label = isGeneralFeedback ? 'General feedback' : report.questionId;
+            return (
+              <View key={report.id} style={styles.report} testID={`report-${report.questionId}`}>
+                <Text style={styles.question} testID={`report-question-${report.questionId}`}>
+                  {isGeneralFeedback ? 'General feedback' : `Question: ${report.questionId}`}
+                </Text>
+                <TextInput
+                  testID={`report-note-${report.questionId}`}
+                  accessibilityLabel={`Note for ${label}`}
+                  value={notes[report.id] ?? report.note}
+                  onChangeText={note => setNotes(current => ({ ...current, [report.id]: note }))}
+                  onBlur={() => saveNote(report)}
+                  placeholder="Optional note"
+                  placeholderTextColor={colorsPlaceholder}
+                  multiline
+                  style={styles.input}
+                />
+              </View>
+            );
+          })
         )}
       </ScrollView>
       {reports.length > 0 ? (

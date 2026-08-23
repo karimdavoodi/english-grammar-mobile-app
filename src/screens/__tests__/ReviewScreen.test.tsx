@@ -4,8 +4,10 @@
  * reducers — so each test renders it with explicit props.
  *
  * Coverage maps to the Task 11 acceptance criteria: the empty state, grouping by
- * rule, per-entry details (last wrong choice, correct answer, miss count, both
- * "why" explanations), the still-queued flag, and the back affordance.
+ * rule, per-entry details (last wrong choice, correct answer, both "why"
+ * explanations), the still-queued flag, and the back affordance. Task 4 (docs/
+ * ui-plan-1.md) removes the per-entry miss count and per-question report button
+ * and adds one "Report a problem" action at the end of a non-empty list.
  */
 
 import React from 'react';
@@ -145,7 +147,7 @@ describe('ReviewScreen — grouping', () => {
     expect(tree.root.findByProps({ testID: 'review-question-b02q01' })).toBeTruthy();
   });
 
-  it('shows the question, both answers, the miss count, and both "why" explanations', async () => {
+  it('shows the question, both answers, and both "why" explanations', async () => {
     const tree = await render(
       <ReviewScreen tracks={TRACKS} wrongAnswers={WRONG_ANSWERS} weaknessQueue={{}} />,
     );
@@ -153,17 +155,16 @@ describe('ReviewScreen — grouping', () => {
     expect(textOf(tree, 'review-prompt-b01q02')).toBe('Prompt b01q02');
     expect(textOf(tree, 'review-chosen-b01q02')).toBe('Your answer: beta');
     expect(textOf(tree, 'review-correct-b01q02')).toBe('Correct answer: alpha');
-    expect(textOf(tree, 'review-miss-count-b01q02')).toBe('Missed 1 time');
     expect(textOf(tree, 'review-why-wrong-b01q02')).toBe('wrong: beta');
     expect(textOf(tree, 'review-why-right-b01q02')).toBe('correct: alpha');
   });
 
-  it('pluralizes the miss count and uses the cumulative count', async () => {
+  it('does not show a per-question miss-count line (Task 4)', async () => {
     const tree = await render(
       <ReviewScreen tracks={TRACKS} wrongAnswers={WRONG_ANSWERS} weaknessQueue={{}} />,
     );
-    expect(textOf(tree, 'review-miss-count-b01q01')).toBe('Missed 2 times');
-    expect(textOf(tree, 'review-miss-count-b02q01')).toBe('Missed 3 times');
+    expect(tree.root.findAllByProps({ testID: 'review-miss-count-b01q01' })).toHaveLength(0);
+    expect(tree.root.findAllByProps({ testID: 'review-miss-count-b02q01' })).toHaveLength(0);
   });
 
   it('shows the rule teaching in the group header', async () => {
@@ -207,6 +208,83 @@ describe('ReviewScreen — back affordance (Task 3)', () => {
       <ReviewScreen tracks={TRACKS} wrongAnswers={WRONG_ANSWERS} weaknessQueue={{}} />,
     );
     expect(tree.root.findAllByProps({ testID: 'review-back' })).toHaveLength(0);
+  });
+});
+
+describe('ReviewScreen — single report action (Task 4)', () => {
+  /** Count host-rendered nodes carrying a testID (Pressable duplicates it on hosts). */
+  function hostCount(tree: ReactTestRenderer.ReactTestRenderer, testID: string): number {
+    return tree.root.findAll(
+      node => typeof node.type === 'string' && node.props.testID === testID,
+    ).length;
+  }
+
+  /** Count host-rendered text nodes whose children equal `text`. */
+  function hostTextCount(tree: ReactTestRenderer.ReactTestRenderer, text: string): number {
+    return tree.root.findAll(
+      node => typeof node.type === 'string' && String(node.props.children) === text,
+    ).length;
+  }
+
+  it('renders exactly one "Report a problem" action at the end of a non-empty list', async () => {
+    const tree = await render(
+      <ReviewScreen
+        tracks={TRACKS}
+        wrongAnswers={WRONG_ANSWERS}
+        weaknessQueue={{}}
+        onOpenReport={jest.fn()}
+      />,
+    );
+    expect(hostCount(tree, 'review-report-problem')).toBe(1);
+    expect(hostTextCount(tree, 'Report a problem')).toBe(1);
+  });
+
+  it('does not render the report action when the list is empty', async () => {
+    const tree = await render(
+      <ReviewScreen
+        tracks={TRACKS}
+        wrongAnswers={{}}
+        weaknessQueue={{}}
+        onOpenReport={jest.fn()}
+      />,
+    );
+    expect(hostCount(tree, 'review-report-problem')).toBe(0);
+  });
+
+  it('omits the report action when no handler is provided', async () => {
+    const tree = await render(
+      <ReviewScreen tracks={TRACKS} wrongAnswers={WRONG_ANSWERS} weaknessQueue={{}} />,
+    );
+    expect(hostCount(tree, 'review-report-problem')).toBe(0);
+  });
+
+  it('renders no per-question Report button', async () => {
+    const tree = await render(
+      <ReviewScreen
+        tracks={TRACKS}
+        wrongAnswers={WRONG_ANSWERS}
+        weaknessQueue={{}}
+        onOpenReport={jest.fn()}
+      />,
+    );
+    expect(hostCount(tree, 'report-button')).toBe(0);
+  });
+
+  it('calls onOpenReport (with no arguments) when pressed', async () => {
+    const onOpenReport = jest.fn();
+    const tree = await render(
+      <ReviewScreen
+        tracks={TRACKS}
+        wrongAnswers={WRONG_ANSWERS}
+        weaknessQueue={{}}
+        onOpenReport={onOpenReport}
+      />,
+    );
+    await ReactTestRenderer.act(() => {
+      tree.root.findByProps({ testID: 'review-report-problem' }).props.onPress();
+    });
+    expect(onOpenReport).toHaveBeenCalledTimes(1);
+    expect(onOpenReport).toHaveBeenCalledWith();
   });
 });
 

@@ -4,6 +4,14 @@ import { Linking } from 'react-native';
 export const REPORTS_KEY = 'egg:reports';
 export const REPORTS_VERSION = 1;
 
+/**
+ * Sentinel `questionId` for the Review screen's single "Report a problem"
+ * action (docs/ui-plan-1.md Task 4). Not a content question id: the Report
+ * screen labels it "General feedback" so the editable note / export flow reads
+ * as general feedback rather than a misleading question reference.
+ */
+export const GENERAL_REVIEW_FEEDBACK_ID = 'general-review-feedback';
+
 export interface ContentReport {
   id: string;
   questionId: string;
