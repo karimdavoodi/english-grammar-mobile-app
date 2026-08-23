@@ -349,3 +349,65 @@ The Review screen uses the most recent wrong choice for each question and retain
 - Then the current level session is resumed from its saved counters (streak, correct count, answered count, per-rule misses)
 - And already-asked questions are not repeated
 - And the next question is still chosen adaptively (remediation, then review, then random)
+
+---
+
+## Feature: Production Question Types
+
+**Scenario: Every production question type scores its canonical response**
+- Given the bundled corpus contains multiple-choice, fix-the-sentence, fill-in-the-blank, and word-order questions
+- When I submit the canonical response for each type
+- Then every response is scored as correct
+- And the response shape is retained for typed-question feedback
+
+**Automated equivalent:** `src/app/__tests__/journey.test.ts` — corpus response-type coverage;
+`src/components/__tests__/components.test.tsx` — type-specific rendering and feedback.
+
+## Feature: Interleaved Practice
+
+**Scenario: An interleaved level adds earlier questions after its own bank**
+- Given the current level enables interleaving
+- When its question bank is assembled
+- Then its own questions appear first
+- And a de-duplicated sample from earlier levels follows
+- And queued rules and recurring rules are preferred in that sample
+
+**Automated equivalent:** `src/game/__tests__/mixed.test.ts` — `interleavedBank` scenarios.
+
+## Feature: Graduation and Mastery Review
+
+**Scenario: Completing the corpus shows graduation choices**
+- Given I have passed every bundled level
+- When the final result is shown
+- Then graduation reports the completed corpus and practice summary
+- And it offers Mastery Review and the level map
+
+**Scenario: Mastery Review cycles without progression limits**
+- Given I open Mastery Review from graduation
+- When I answer the bank through one complete cycle
+- Then the bank starts again without passing or mercy-ending
+- And answers continue to update weakness and wrong-answer history
+
+**Automated equivalent:** `src/screens/__tests__/GraduationScreen.test.tsx`,
+`src/state/__tests__/reducers.test.ts`, and `src/app/__tests__/journey.test.ts`.
+
+## Feature: Report an Error
+
+**Scenario: A player can save and export an offline report**
+- Given I notice an incorrect or unclear question
+- When I submit a report from the question or Review screen
+- Then the report is stored locally without a backend
+- And I can open a pre-filled mail compose with the question details
+
+**Automated equivalent:** `src/state/__tests__/errors.test.ts`,
+`src/app/__tests__/errorReporting.test.ts`.
+
+## Feature: Daily Reminder Scheduling
+
+**Scenario: Reminder reconciliation is safe when disabled or denied**
+- Given the reminder is disabled or notification permission is denied
+- When reminder settings are reconciled
+- Then any existing reminder is cancelled
+- And no new reminder is scheduled
+
+**Automated equivalent:** `src/notifications/__tests__/dailyReminder.test.ts`.

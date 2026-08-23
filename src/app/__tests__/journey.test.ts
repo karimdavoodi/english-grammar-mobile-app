@@ -39,7 +39,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
 import { findLevelById, tracks } from '../../content';
 import type { Level, Question, QuestionUnion } from '../../content/types';
 import { DEFAULT_PASS_CONFIG, type AnswerOutcome } from '../../game/levelMachine';
-import type { AnswerResponse } from '../../game/scoring';
+import { scoreAnswer, type AnswerResponse } from '../../game/scoring';
 import { serveNextQuestion, type ServeResult } from '../../game/serving';
 import {
   applyAnswer,
@@ -47,6 +47,8 @@ import {
   createInitialProgress,
   flattenedLevelIds,
   queuedRuleSet,
+  recordPlay,
+  startMasterySession,
   startLevelSession,
 } from '../../state/reducers';
 import { repairProgress, reviewGroups, levelStatuses } from '../../state/selectors';
@@ -313,5 +315,44 @@ describe('full journey — fresh install → play → pass/mercy → review → 
     expect(progress.completedLevelIds).toEqual(['b01', 'b03']);
     expect(progress.activeSession).toBeNull();
     expect(CURRENT_PROGRESS_VERSION).toBe(progress.version);
+  });
+
+  it('covers every response type before cycling Mastery Review at graduation', () => {
+    const questions = tracks.flatMap(track =>
+      track.levels.flatMap(level => level.questions as QuestionUnion[]),
+    );
+    const questionTypes = new Set(questions.map(question => question.type));
+    expect(questionTypes).toEqual(
+      new Set(['multiple_choice', 'fix_sentence', 'fill_blank', 'word_order']),
+    );
+
+    for (const question of questions.filter(candidate => questionTypes.has(candidate.type))) {
+      const response: AnswerResponse =
+        question.type === 'fill_blank'
+          ? { type: 'text', text: question.correctAnswer }
+          : question.type === 'word_order'
+            ? { type: 'sequence', indexes: question.sentenceWords.map((_, index) => index) }
+            : { type: 'index', index: question.correctIndex };
+      expect(scoreAnswer(question, response).isCorrect).toBe(true);
+    }
+
+    let progress = createInitialProgress(tracks, { trackId: 'basic', levelNumber: 1 });
+    progress = recordPlay(progress, '2026-08-23');
+    expect(progress.dailyStreak).toBe(1);
+    progress = startMasterySession(progress, tracks, { random: () => 0 });
+    expect(progress.activeSession?.kind).toBe('mastery');
+
+    const masteryQuestion = questions.find(
+      question => question.id === progress.activeSession?.bankQuestionIds?.[0],
+    )!;
+    const response: AnswerResponse =
+      masteryQuestion.type === 'fill_blank'
+        ? { type: 'text', text: masteryQuestion.correctAnswer }
+        : masteryQuestion.type === 'word_order'
+          ? { type: 'sequence', indexes: masteryQuestion.sentenceWords.map((_, index) => index) }
+          : { type: 'index', index: masteryQuestion.correctIndex };
+    const answered = applyAnswer({ progress, question: masteryQuestion, response, mode: 'normal' });
+    expect(answered.outcome.passed).toBe(false);
+    expect(answered.progress.activeSession?.kind).toBe('mastery');
   });
 });
