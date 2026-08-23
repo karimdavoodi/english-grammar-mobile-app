@@ -39,14 +39,14 @@ Only two things can leave the device, and both are under your control or opt-in:
    optional note, and the app version. Nothing is sent until you hit send in
    your own email app. The recipient address is the developer's support inbox.
 
-2. **Crash reports (release builds only, if enabled).** To fix bugs in shipped
-   builds, release builds may be wired to a crash-reporting service (such as
-   Sentry). A crash report contains a stack trace and device metadata (model,
-   OS version, app version) — no name, email, or account. **This is disabled by
-   default and is a developer choice:** the repository documents both a
-   no-third-party fallback (local error log + email export) and the optional
-   crash-reporting integration. If a future release enables it, this section
-   will be updated to name the provider.
+2. **Crash reports (release builds only).** To fix bugs in shipped builds,
+   current builds capture uncaught JS errors into the local error log described
+   above — nothing leaves the device on its own. The log can be exported by the
+   developer as an email. A future release may instead (or additionally) wire a
+   crash-reporting service (such as Sentry), which would send a stack trace and
+   device metadata (model, OS version, app version) — no name, email, or
+   account. That would be a developer choice, disabled by default, and if it is
+   enabled this section will be updated to name the provider.
 
 ## Permissions
 
