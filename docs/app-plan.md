@@ -1,9 +1,9 @@
-# Implementation Plan: English Grammar Game — Final Complete Version
+# Implementation Plan: English Grammar Review — Final Complete Version
 
 > Source documents:
-> - `docs/ideas/english-grammar-game.md` — product vision & roadmap (the 90-level plan)
-> - `docs/schema/english-grammar-game.md` — content & state schema
-> - `docs/use-cases/english-grammar-game.md` — Gherkin behavioral spec (MVP; this plan extends it)
+> - `docs/ideas/english-grammar-review.md` — product vision & roadmap (the 90-level plan)
+> - `docs/schema/english-grammar-review.md` — content & state schema
+> - `docs/use-cases/english-grammar-review.md` — Gherkin behavioral spec (MVP; this plan extends it)
 > - `docs/mvp-plan.md` — the completed MVP plan (Tasks 1–14, all DONE)
 > - `docs/content-review.md` — Basic-track content review checklist (all 12 levels `authoring-pass` / `human-review-pending`)
 > - `docs/progress.md` — verified state of the shipped MVP
@@ -108,8 +108,8 @@ Everything else is already in `package.json`.
 - **State references ids only (unchanged).** New typed answers record the response
   (`lastResponse`) alongside the existing `lastChosenIndex`; Review resolves both back into
   content for display.
-- **Schema doc is updated with every schema change.** `docs/schema/english-grammar-game.md`
-  and `docs/use-cases/english-grammar-game.md` are extended in the same task that changes
+- **Schema doc is updated with every schema change.** `docs/schema/english-grammar-review.md`
+  and `docs/use-cases/english-grammar-review.md` are extended in the same task that changes
   the code, so the docs never drift from the implementation.
 - **Migration sequence is reserved.** Task 8 migrates progress 1 → 2 for typed responses;
   Task 11 migrates 2 → 3 for mixed-session metadata; Task 14 migrates 3 → 4 for streaks.
@@ -277,7 +277,7 @@ Sentry crash payloads. Update `app.json` / Android resources / iOS `Info.plist` 
 **Dependencies:** None
 
 **Files likely touched:**
-- `app.json`, `android/app/src/main/res/**`, `ios/EnglishGrammarGame/**`, `docs/privacy.md`
+- `app.json`, `android/app/src/main/res/**`, `ios/EnglishGrammarReview/**`, `docs/privacy.md`
 
 **Estimated scope:** Medium
 
@@ -384,7 +384,7 @@ two genuinely new interaction types and one presentational type:
 Extend `validateContent()` with per-type integrity (bank ≥ mercy cap still counts all types;
 `choiceExplanations` required only for choice-based types; `acceptedAnswers` non-empty for
 fill_blank; `sentenceWords.length ≥ 3` for word_order; every question still carries a unique
-id, a resolvable `rule`, and `levelId`). Update `docs/schema/english-grammar-game.md` §1 in
+id, a resolvable `rule`, and `levelId`). Update `docs/schema/english-grammar-review.md` §1 in
 the same change. `docs/content-review.md` records the type mix per level.
 
 **Acceptance criteria:**
@@ -400,7 +400,7 @@ the same change. `docs/content-review.md` records the type mix per level.
 
 **Files likely touched:**
 - `src/content/types.ts`, `src/content/validate.ts`, `src/content/__tests__/validate.test.ts`
-- `docs/schema/english-grammar-game.md`
+- `docs/schema/english-grammar-review.md`
 
 **Estimated scope:** Medium
 
@@ -433,7 +433,7 @@ the discriminator). Update `docs/use-cases` "Level Play" for typed responses.
 **Files likely touched:**
 - `src/game/levelMachine.ts` (+ new `src/game/scoring.ts` or inline `scoreAnswer`)
 - `src/game/__tests__/levelMachine.test.ts` (add scoring cases), `src/game/__tests__/scoring.test.ts` (new)
-- `docs/use-cases/english-grammar-game.md`
+- `docs/use-cases/english-grammar-review.md`
 
 **Estimated scope:** Medium (contained refactor, suite-guarded)
 
@@ -447,7 +447,7 @@ the response; `reviewGroups`/`ReviewScreen` resolve a response to display text (
 text; text → the submitted text; sequence → the joined sentence) with the correct answer shown
 per type. Bump `CURRENT_PROGRESS_VERSION` to 2 and register a migration (1 → 2) that keeps
 existing entries' `lastChosenIndex` and leaves `lastResponse` absent (choice-based) — a real
-typed wrong answer only arrives after this release. Update `docs/schema/english-grammar-game.md` §2.
+typed wrong answer only arrives after this release. Update `docs/schema/english-grammar-review.md` §2.
 
 **Acceptance criteria:**
 - [ ] `WrongAnswerEntry.lastResponse` is optional and backward-compatible.
@@ -462,7 +462,7 @@ typed wrong answer only arrives after this release. Update `docs/schema/english-
 
 **Files likely touched:**
 - `src/state/types.ts`, `src/state/storage.ts`, `src/state/reducers.ts`, `src/state/selectors.ts`
-- `src/state/__tests__/*`, `docs/schema/english-grammar-game.md`
+- `src/state/__tests__/*`, `docs/schema/english-grammar-review.md`
 
 **Estimated scope:** Medium
 
@@ -551,7 +551,7 @@ volume target and an explicit end
 **Files likely touched:**
 - `src/game/mixed.ts` (new, pure), `src/game/__tests__/mixed.test.ts` (new)
 - `src/state/types.ts`, `src/state/storage.ts`, `src/state/reducers.ts`, `src/state/__tests__/*`
-- `src/state/selectors.ts` (reuse), `docs/schema/english-grammar-game.md`
+- `src/state/selectors.ts` (reuse), `docs/schema/english-grammar-review.md`
 
 **Estimated scope:** Medium
 
@@ -606,7 +606,7 @@ history feeds it, wrong answers keep feeding the queue). Route wiring follows th
 **Files likely touched:**
 - `src/screens/MixedReviewScreen.tsx` (new), `src/navigation/types.ts`, `src/navigation/AppNavigator.tsx`
 - `src/screens/LevelMapScreen.tsx` (entry), `src/screens/SettingsScreen.tsx` (entry)
-- `docs/use-cases/english-grammar-game.md`
+- `docs/use-cases/english-grammar-review.md`
 
 **Estimated scope:** Medium
 
@@ -957,7 +957,7 @@ option (unchanged default today).
 **Dependencies:** Task 15 (data), Task 23 (content finality)
 
 **Files likely touched:**
-- `src/game/levelMachine.ts` (defaults), `docs/use-cases/english-grammar-game.md`, `docs/content-roadmap.md` (tuning note)
+- `src/game/levelMachine.ts` (defaults), `docs/use-cases/english-grammar-review.md`, `docs/content-roadmap.md` (tuning note)
 
 **Estimated scope:** Small
 
@@ -965,7 +965,7 @@ option (unchanged default today).
 
 ### Task 27: Gherkin extension + full regression suite
 
-**Description:** Extend `docs/use-cases/english-grammar-game.md` with features added since the
+**Description:** Extend `docs/use-cases/english-grammar-review.md` with features added since the
 MVP — typed question types, Mixed Review, interleaving, daily streaks, notifications,
 Graduation, Mastery Review, report-an-error — and add automated equivalents for every new
 scenario, following the proven pattern (pure unit/selector/screen/navigator tests + a full
@@ -984,7 +984,7 @@ journey test). Run the complete verification matrix: `npm test`, `npm run lint`,
 **Dependencies:** Tasks 2–26
 
 **Files likely touched:**
-- `docs/use-cases/english-grammar-game.md`, `src/**/__tests__/**`, `src/app/__tests__/journey.test.ts`
+- `docs/use-cases/english-grammar-review.md`, `src/**/__tests__/**`, `src/app/__tests__/journey.test.ts`
 
 **Estimated scope:** Medium per slice — execute as Task 27A (feature scenarios and focused suites), then Task 27B (full journey and platform matrix).
 
@@ -1061,7 +1061,7 @@ affecting the core plan. Native rebuild required.
   (e.g. Basic 36, Intermediate 30, Advanced 24)? Resolved in Task 19 from pedagogy; the app
   is content-driven either way.
 - **App name / icon / store copy:** Needs the human owner (Task 2); the working title
-  "English Grammar Game" is a placeholder.
+  "English Grammar Review" is a placeholder.
 - **Notification default:** Off by default (recommended) vs. a default reminder time.
 - **fix_sentence interaction:** Chosen as "pick the corrected rewrite" (MC-shaped). A
   tap-the-error variant is a possible later extension, not in this plan.

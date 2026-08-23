@@ -1,7 +1,7 @@
 /**
  * Content schema types — the static, bundled, read-only "database".
  *
- * Field-for-field mirror of `docs/schema/english-grammar-game.md` §1 (Content).
+ * Field-for-field mirror of `docs/schema/english-grammar-review.md` §1 (Content).
  * The app is a player, the content is a database: tracks, levels, topics,
  * rules, and questions are all plain data. `validateContent()` (validate.ts)
  * is the fail-fast safety net for AI-generated content.

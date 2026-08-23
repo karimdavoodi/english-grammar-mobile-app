@@ -2,8 +2,8 @@
  * Adaptive serving orchestrator — decides, from a `LevelSession` + the level's
  * question bank + the Weakness Queue, what to serve next and whether to re-teach.
  *
- * Design: docs/use-cases/english-grammar-game.md (Teach on Failure, Weakness Queue)
- *         docs/schema/english-grammar-game.md §1 (How the rule tag powers the mechanics)
+ * Design: docs/use-cases/english-grammar-review.md (Teach on Failure, Weakness Queue)
+ *         docs/schema/english-grammar-review.md §1 (How the rule tag powers the mechanics)
  *
  * This module is the thin caller-side wrapper around `pickNextQuestion`. It
  * classifies each serve (remediation | review | normal) and applies the re-teach

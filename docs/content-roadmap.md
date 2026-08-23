@@ -1,4 +1,4 @@
-# English Grammar Game — 90-Level Content Roadmap
+# English Grammar Review — 90-Level Content Roadmap
 
 This document is the authoring contract for the full corpus. The app remains a
 content player: level order, topics, rules, and question types belong in the
@@ -217,6 +217,6 @@ The values remain injectable through `PassConfig`. Revisit them after Stats has
 at least 20 completed level sessions across at least five players (or an
 equivalent anonymized play export), comparing pass rate, median answers to
 pass, and mercy-ended rate by level. Any future change must update the tuning
-parameters in `docs/use-cases/english-grammar-game.md`, retain the validator's
+parameters in `docs/use-cases/english-grammar-review.md`, retain the validator's
 configured `mercyCap` bank check, and add regression coverage for the changed
 outcomes.

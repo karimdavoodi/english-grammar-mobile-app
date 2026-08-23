@@ -19,7 +19,7 @@ rework, Settings cleanup, Home screen, Topics screen, Home-first navigator).
   from every screen), no abandon dialog / Quit level / `onExit` wiring, no flat
   LevelMap, no Settings study shortcuts, no StartPoint flow (deleted with its
   screen and tests).
-- **Docs updated:** `docs/use-cases/english-grammar-game.md` — "First Launch"
+- **Docs updated:** `docs/use-cases/english-grammar-review.md` — "First Launch"
   rewritten as Home-first boot (pick a topic to start; returning players land on
   Home with Resume; no start-choice screen), "Level Map" replaced by "Home and
   Topics" (per-track progress summary, per-level status badges), and the Review /
@@ -27,7 +27,7 @@ rework, Settings cleanup, Home screen, Topics screen, Home-first navigator).
 
 ## Task 14: Full Gherkin verification and Android smoke/regression pass — DONE
 
-Completed the final verification pass per `docs/mvp-plan.md` Task 14: every Gherkin scenario in `docs/use-cases/english-grammar-game.md` now has an automated test equivalent, and the Android build + runtime smoke pass ran on an API 37 emulator.
+Completed the final verification pass per `docs/mvp-plan.md` Task 14: every Gherkin scenario in `docs/use-cases/english-grammar-review.md` now has an automated test equivalent, and the Android build + runtime smoke pass ran on an API 37 emulator.
 
 **Scenario-by-scenario coverage audit** — all 8 features / ~31 scenarios in the Gherkin spec were mapped against the 18 pre-existing suites (machine/serving/validate/storage/selectors/reducers/startup/components/7 screens/theme/provider/loader). The majority were already covered at the unit/component level; the audit surfaced four integration seams, all closed here:
 
@@ -36,7 +36,7 @@ Completed the final verification pass per `docs/mvp-plan.md` Task 14: every Gher
 - **Real mercy cap through the screen (NEW)** — `src/screens/__tests__/LevelPlayScreen.test.tsx` gains a 12-question fixture + a test that answers every question wrong under the real `DEFAULT_PASS_CONFIG`, mercy-ending at `totalAnswered: 12` (`onLevelEnd` reports `endedByMercy`, `passed: false`, `streak: 0`, `correctCount: 0`) — previously the real 12-question cap was only exercised at the machine level (the screen test used `mercyCap: 3`).
 - **Resumed-session adaptive serving (NEW)** — `src/screens/__tests__/LevelPlayScreen.test.tsx` adds a test seeding `missCounts: {RULE_A: 2}` + `lastWrongRule: RULE_A` + a queued rule: the re-teach lesson re-shows after resume and the served question is the same-rule remediation variant (not the queued Review) — closing the resume gap where `missCounts`/`lastWrongRule` were previously only round-tripped at the storage adapter and remediation/review priority was only unit-tested in isolation.
 
-**Android build + runtime smoke (device)** — `./gradlew app:assembleDebug` → **BUILD SUCCESSFUL** (compileSdk 37, build-tools 37, NDK 27.1, Hermes/new-arch); the debug APK installed on the `Medium_Phone` API-37 emulator; `npx react-native run-android --no-packager` (the `npm run android` path; Metro was already running) rebuilt, reinstalled, and relaunched. On-device scripted pass: fresh install auto-started at Basic level 1 and rendered the LevelPlayScreen (ProgressHeader, prompt, 4 choices, Quit); tapping a choice produced the correct-answer feedback (revealed choices + per-choice "why" + Next question); tapping Next served the next question with the header advancing (Streak: 1, Answered: 1/12). Logcat showed the JS bundle loaded from Metro (`Running "EnglishGrammarGame"`, Fabric) with no JS errors and no crash; `MainActivity` was in the foreground.
+**Android build + runtime smoke (device)** — `./gradlew app:assembleDebug` → **BUILD SUCCESSFUL** (compileSdk 37, build-tools 37, NDK 27.1, Hermes/new-arch); the debug APK installed on the `Medium_Phone` API-37 emulator; `npx react-native run-android --no-packager` (the `npm run android` path; Metro was already running) rebuilt, reinstalled, and relaunched. On-device scripted pass: fresh install auto-started at Basic level 1 and rendered the LevelPlayScreen (ProgressHeader, prompt, 4 choices, Quit); tapping a choice produced the correct-answer feedback (revealed choices + per-choice "why" + Next question); tapping Next served the next question with the header advancing (Streak: 1, Answered: 1/12). Logcat showed the JS bundle loaded from Metro (`Running "EnglishGrammarReview"`, Fabric) with no JS errors and no crash; `MainActivity` was in the foreground.
 
 Verification: `npm test` **236/236 pass** (6 new across 3 suites; existing suites intact) · `npm run lint` clean · `npx tsc --noEmit` clean · Android debug build BUILD SUCCESSFUL + on-device question→answer→feedback→next loop verified. Known device limitation: the on-device pass was scripted to the core loop (the full pass/mercy/review/reset progression is covered by the automated journey + navigator tests); a future human regression should cycle every theme mode and run a full multi-level playthrough for retention feel.
 
@@ -66,7 +66,7 @@ Verification: `npx tsc --noEmit` clean · `npm test` 20/20 pass · `npm run lint
 
 ## Task 2: Content schema types + validator — DONE
 
-Defined the content schema and its fail-fast validator per `docs/schema/english-grammar-game.md` §1:
+Defined the content schema and its fail-fast validator per `docs/schema/english-grammar-review.md` §1:
 
 - `src/content/types.ts` — `Track`, `Level`, `Topic`, `TopicRule`, `Question` mirroring the schema field-for-field, with doc comments for the id/rule contracts (globally unique ids; `TopicRule.rule` as the global tag).
 - `src/content/validate.ts` — `validateContent(tracks, { mercyCap })` (default mercy cap 12) accumulating every violation into one `ContentValidationError`:
@@ -82,7 +82,7 @@ Verification: `npm test -- validate` 24/24 pass · `npm test` 44/44 pass (existi
 
 ## Task 3: State types + AsyncStorage persistence — DONE
 
-Implemented the runtime state layer and its persistence per `docs/schema/english-grammar-game.md` §2 (State):
+Implemented the runtime state layer and its persistence per `docs/schema/english-grammar-review.md` §2 (State):
 
 - `src/state/types.ts` — `Settings`, `StartingPoint`, `PersistedLevelSession` (excludes the machine-only `status`), `WeaknessEntry`, `WrongAnswerEntry`, `Progress`, and `AppState`, plus `DEFAULT_SETTINGS`. Explicit adapters `persistSession()` / `hydrateSession()` map to/from the existing `levelMachine.LevelSession` without dropping counters or asked ids (a saved session always rehydrates as `in_progress`).
 - `src/state/storage.ts` — load/save under `egg:settings` / `egg:progress`; a `progress.version` migration gate (`CURRENT_PROGRESS_VERSION = 1`, `migrateProgress()` walks a registered migration chain, 0 → 1 stamps the initial shape, throws on malformed or newer-than-supported data); `resetProgress()` clears only `egg:progress` so settings survive. Every function takes an injectable `StorageLike` store (defaulting to the real AsyncStorage) for testability.

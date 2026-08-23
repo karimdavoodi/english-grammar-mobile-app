@@ -2,8 +2,8 @@
  * Level-play state machine — the pure, testable brain of the game.
  *
  * Faithful to the design in:
- *   docs/use-cases/english-grammar-game.md
- *   docs/schema/english-grammar-game.md
+ *   docs/use-cases/english-grammar-review.md
+ *   docs/schema/english-grammar-review.md
  *
  * Pure by construction: every function returns new state, never mutates inputs.
  */

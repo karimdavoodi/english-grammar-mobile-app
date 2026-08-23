@@ -152,12 +152,12 @@ describe('composeErrorReport', () => {
     ];
 
     const { subject, body } = composeErrorReport(errors, {
-      appName: 'English Grammar Game',
+      appName: 'English Grammar Review',
       to: 'support@example.com',
     });
 
-    expect(subject).toBe('English Grammar Game error report');
-    expect(body).toContain('App: English Grammar Game');
+    expect(subject).toBe('English Grammar Review error report');
+    expect(body).toContain('App: English Grammar Review');
     expect(body).toContain('2 entries');
     expect(body).toContain('[fatal]');
     expect(body).toContain('Something broke');
@@ -167,7 +167,7 @@ describe('composeErrorReport', () => {
 
   it('handles an empty log', () => {
     const { body } = composeErrorReport([], {
-      appName: 'English Grammar Game',
+      appName: 'English Grammar Review',
       to: 'support@example.com',
     });
     expect(body).toContain('No errors recorded.');
@@ -187,7 +187,7 @@ describe('errorReportMailto', () => {
     ];
 
     const url = errorReportMailto(errors, {
-      appName: 'English Grammar Game',
+      appName: 'English Grammar Review',
       to: 'support@example.com',
     });
 

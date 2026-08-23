@@ -1,4 +1,4 @@
-# Task List — English Grammar Game, Final Complete Version
+# Task List — English Grammar Review, Final Complete Version
 
 Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases.
 

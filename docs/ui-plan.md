@@ -150,7 +150,7 @@ indicator. Add a test harness so screen tests render inside a
 - `src/components/FixSentenceCard.tsx` (same choice-reveal behavior)
 - `src/screens/MixedReviewScreen.tsx` (drop `onExit` pass-through)
 - `src/navigation/AppNavigator.tsx` (drop `handleExit` / `onExit` wiring)
-- `docs/use-cases/english-grammar-game.md` (update the wrong-answer scenario)
+- `docs/use-cases/english-grammar-review.md` (update the wrong-answer scenario)
 - Tests: `src/screens/__tests__/LevelPlayScreen.test.tsx`, `src/components/__tests__/components.test.tsx`, `src/navigation/__tests__/AppNavigator.test.tsx`, `src/game/__tests__/serving.test.ts` (re-teach assertions stay)
 
 **Estimated scope:** Medium.
@@ -320,7 +320,7 @@ regression + lint + typecheck, and the manual device pass.
 - [ ] `npx tsc --noEmit` clean; `npm run lint` clean.
 - [ ] New coverage present: HomeScreen (progress text, Resume visibility, action callbacks), TopicsScreen (statuses, locked behavior, no-progress state), BackHandler exit-confirm, feedback only-correct-and-chosen behavior.
 - [ ] Old expectations removed: bottom Back buttons, abandon dialog/quit button, LevelMap flat map, Settings study buttons, StartPoint flow.
-- [ ] `docs/use-cases/english-grammar-game.md` updated for the feedback change (post-answer lesson card no longer re-shown) and the Home/Topics structure.
+- [ ] `docs/use-cases/english-grammar-review.md` updated for the feedback change (post-answer lesson card no longer re-shown) and the Home/Topics structure.
 
 **Verification:**
 - [ ] Full `npm test` run.
@@ -328,7 +328,7 @@ regression + lint + typecheck, and the manual device pass.
 
 **Dependencies:** Tasks 1–6.
 
-**Files likely touched:** test files across the suite; `docs/use-cases/english-grammar-game.md`; `docs/progress.md` (progress note).
+**Files likely touched:** test files across the suite; `docs/use-cases/english-grammar-review.md`; `docs/progress.md` (progress note).
 
 **Estimated scope:** Medium.
 

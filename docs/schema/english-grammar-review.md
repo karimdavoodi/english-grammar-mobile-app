@@ -1,4 +1,4 @@
-# English Grammar Game — Content & State Schema
+# English Grammar Review — Content & State Schema
 
 TypeScript shape behind the principle: **the app is a player, the content is a database.**
 

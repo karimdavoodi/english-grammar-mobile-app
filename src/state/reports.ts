@@ -98,7 +98,7 @@ export async function clearReports(store: StorageLike = DEFAULT_STORE): Promise<
 
 export function buildReportsMailto(reports: ContentReport[]): string {
   const body = reports.map(report => `${report.questionId}\n${report.note || '(no note)'}\n${report.timestamp}`).join('\n\n');
-  return `mailto:?subject=${encodeURIComponent('English Grammar Game content report')}&body=${encodeURIComponent(body)}`;
+  return `mailto:?subject=${encodeURIComponent('English Grammar Review content report')}&body=${encodeURIComponent(body)}`;
 }
 
 export async function exportReports(reports: ContentReport[]): Promise<void> {

@@ -1,11 +1,11 @@
-# Privacy Policy — English Grammar Game
+# Privacy Policy — English Grammar Review
 
 *Effective with the 2.0.0 release. This document describes the app's actual
 data behavior; it is updated in the same task that changes the behavior.*
 
 ## Summary
 
-**English Grammar Game is a local-first app.** It has no accounts, cloud storage,
+**English Grammar Review is a local-first app.** It has no accounts, cloud storage,
 advertising SDK, or third-party analytics. Almost everything happens on your device.
 
 ## What is stored on your device

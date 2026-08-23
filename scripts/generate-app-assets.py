@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate the English Grammar Game app-identity assets.
+Generate the English Grammar Review app-identity assets.
 
 Draws a single master icon (1024x1024) and derives every platform artifact
 from it so the icon is consistent across Android (legacy + adaptive) and iOS.
@@ -14,7 +14,7 @@ Outputs:
   android/app/src/main/res/mipmap-*/ic_launcher.png        (+ _round)
   android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml (+ _round)
   android/app/src/main/res/drawable/ic_launcher_foreground.xml
-  ios/EnglishGrammarGame/Images.xcassets/AppIcon.appiconset/icon-*.png
+  ios/EnglishGrammarReview/Images.xcassets/AppIcon.appiconset/icon-*.png
 
 Run:  python3 scripts/generate-app-assets.py
 Requires: Pillow (pip install Pillow)
@@ -196,7 +196,7 @@ def save_ios_icons(master: Image.Image) -> None:
     appicon = os.path.join(
         ROOT,
         "ios",
-        "EnglishGrammarGame",
+        "EnglishGrammarReview",
         "Images.xcassets",
         "AppIcon.appiconset",
     )

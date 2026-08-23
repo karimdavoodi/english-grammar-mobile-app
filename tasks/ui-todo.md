@@ -69,7 +69,7 @@ it is implemented, verified (tests / tsc / lint), and committed.
       state), feedback only-correct-and-chosen behavior (dimmed choices get no
       explanation). Old expectations confirmed removed: no bottom Back buttons,
       no abandon dialog / Quit level / `onExit`, no flat LevelMap, no Settings
-      study shortcuts, no StartPoint flow. `docs/use-cases/english-grammar-game.md`
+      study shortcuts, no StartPoint flow. `docs/use-cases/english-grammar-review.md`
       updated for the Home/Topics structure (First Launch rewritten as Home-first
       boot; Level Map → Home and Topics; Review / Mixed Review / reset /
       graduation point at Home). Stale StartPoint / abandon-dialog comments

@@ -1,6 +1,6 @@
-# Store Listing — English Grammar Game
+# Store Listing — English Grammar Review
 
-Release 2.0 listing copy for **English Grammar Game**. The app is free, offline,
+Release 2.0 listing copy for **English Grammar Review**. The app is free, offline,
 and contains the complete 90-level corpus.
 
 Source icon: `assets/icon-master.png` (1024×1024). Screenshots are taken from a
@@ -8,7 +8,7 @@ real device; see the checklist at the bottom.
 
 ## Google Play
 
-**App name:** English Grammar Game
+**App name:** English Grammar Review
 
 **Category:** Education
 
@@ -17,7 +17,7 @@ real device; see the checklist at the bottom.
 
 **Full description:**
 
-> English Grammar Game turns grammar practice into a game you can actually win.
+> English Grammar Review turns grammar practice into a game you can actually win.
 > Play through bite-sized levels, and the app adapts to you: miss a rule and a
 > short lesson card teaches it on the spot; keep missing it and that rule lands
 > in your personal Weakness Queue, ready to resurface until you master it.
@@ -41,7 +41,7 @@ real device; see the checklist at the bottom.
 
 ## App Store
 
-**App name:** English Grammar Game
+**App name:** English Grammar Review
 
 **Subtitle:** Grammar practice, level by level
 
@@ -50,7 +50,7 @@ whatever you miss.
 
 **Description:**
 
-> English Grammar Game is a focused, friendly way to master the grammar that
+> English Grammar Review is a focused, friendly way to master the grammar that
 > English learners actually trip over. Work through 90 levels across Basic,
 > Intermediate, and Advanced tracks, with practice that adapts to what you miss.
 >

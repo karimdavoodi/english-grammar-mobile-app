@@ -1,4 +1,4 @@
-# Release Pipeline & Crash Reporting — English Grammar Game
+# Release Pipeline & Crash Reporting — English Grammar Review
 
 Companion to Task 3 of `docs/app-plan.md`. Covers the Android release build
 (signing + AAB) and the crash/error-visibility story for shipped builds.
@@ -31,8 +31,8 @@ recommended location is `android/app/` next to the debug keystore:
 ```sh
 keytool -genkeypair -v \
   -storetype PKCS12 \
-  -keystore android/app/english-grammar-game-release.keystore \
-  -alias englishgrammargame \
+  -keystore android/app/english-grammar-review-release.keystore \
+  -alias englishgrammarreview \
   -keyalg RSA -keysize 2048 -validity 10000
 ```
 
@@ -50,7 +50,7 @@ cp android/keystore.properties.example android/keystore.properties
 ```
 
 `storeFile` is resolved relative to the `android/app` module directory, so
-`english-grammar-game-release.keystore` (in `android/app/`) is referenced by
+`english-grammar-review-release.keystore` (in `android/app/`) is referenced by
 just its file name.
 
 ### Build the release AAB

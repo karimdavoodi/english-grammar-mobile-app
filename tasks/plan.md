@@ -1,4 +1,4 @@
-# Implementation Plan: English Grammar Game — Final Complete Version
+# Implementation Plan: English Grammar Review — Final Complete Version
 
 **The full plan lives in `docs/app-plan.md`** — this file is the `/build`-convention pointer
 plus a phase index. Read `docs/app-plan.md` for the overview, architecture decisions, scope

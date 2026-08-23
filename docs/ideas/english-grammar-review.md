@@ -1,4 +1,4 @@
-# English Grammar Game (working title)
+# English Grammar Review (working title)
 
 ## Problem Statement
 How might we help self-directed English learners *master* grammar — not just get scored on it — through a 90-level mobile game that teaches on every mistake?

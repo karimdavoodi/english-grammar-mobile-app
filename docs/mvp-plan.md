@@ -1,9 +1,9 @@
-# Implementation Plan: English Grammar Game — MVP (Basic Track)
+# Implementation Plan: English Grammar Review — MVP (Basic Track)
 
 > Source documents:
-> - `docs/ideas/english-grammar-game.md` — product vision & MVP scope
-> - `docs/schema/english-grammar-game.md` — content & state schema
-> - `docs/use-cases/english-grammar-game.md` — Gherkin behavioral spec
+> - `docs/ideas/english-grammar-review.md` — product vision & MVP scope
+> - `docs/schema/english-grammar-review.md` — content & state schema
+> - `docs/use-cases/english-grammar-review.md` — Gherkin behavioral spec
 
 ## Overview
 
@@ -230,7 +230,7 @@ keep the app compiling.
 ### Task 2: Content schema types + validator
 
 **Description:** Define the content TypeScript interfaces exactly as in
-`docs/schema/english-grammar-game.md` (`Track`, `Level`, `Topic`, `TopicRule`,
+`docs/schema/english-grammar-review.md` (`Track`, `Level`, `Topic`, `TopicRule`,
 `Question`) and implement `validateContent()` covering every fail-fast rule in the
 schema doc (4 choices + aligned explanations, unique ids, `trackId`/`levelId`
 consistency, `rule` resolves to a `TopicRule`, sequential `level.number`, ≥1
@@ -625,7 +625,7 @@ streak and volume, mercy-end, cross-level review, wrong-answer history, reset, a
 all theme modes. Run the Android build and record any known device limitations.
 
 **Acceptance criteria:**
-- [ ] All scenarios in `docs/use-cases/english-grammar-game.md` pass on Android or
+- [ ] All scenarios in `docs/use-cases/english-grammar-review.md` pass on Android or
       have an automated test equivalent.
 - [ ] Fresh install → start → play → pass/mercy → review → reset completes without
       data loss or invalid navigation.

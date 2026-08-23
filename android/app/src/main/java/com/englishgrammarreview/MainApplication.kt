@@ -1,4 +1,4 @@
-package com.englishgrammargame
+package com.englishgrammarreview
 
 import android.app.Application
 import com.facebook.react.PackageList

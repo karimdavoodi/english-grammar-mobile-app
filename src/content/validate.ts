@@ -1,6 +1,6 @@
 /**
  * Load/dev-time content validator — the fail-fast safety net for AI-generated
- * content. Every documented rule in `docs/schema/english-grammar-game.md` §1
+ * content. Every documented rule in `docs/schema/english-grammar-review.md` §1
  * ("Content validation") throws here; a malformed track can never reach the app.
  *
  * Design notes:

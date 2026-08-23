@@ -99,7 +99,7 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, HOST, () => {
   console.log(
-    `\nEnglish Grammar Game — web preview: http://${HOST}:${PORT}\n` +
+    `\nEnglish Grammar Review — web preview: http://${HOST}:${PORT}\n` +
       `(proxying Metro at http://${METRO_HOST}:${METRO_PORT})\n`,
   );
 });

@@ -2,7 +2,7 @@
  * Derived state views — pure functions over content + progress.
  *
  * Implements the schema's "unlock is derived, never stored" rule
- * (docs/schema/english-grammar-game.md §2): every level is unlocked for play
+ * (docs/schema/english-grammar-review.md §2): every level is unlocked for play
  * (Round 2 product decision — "user should be able to access all levels").
  * Passed levels show a pass mark; mercy-ended and skipped-earlier levels are
  * unlocked but not passed (no separate persisted state exists for them).

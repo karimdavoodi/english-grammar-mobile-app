@@ -1,5 +1,5 @@
 /**
- * English Grammar Game — app root.
+ * English Grammar Review — app root.
  *
  * Task 9 replaces the NewAppScreen scaffold with the real composition root:
  * SafeAreaProvider → AppProvider (loads content + state, decides the boot

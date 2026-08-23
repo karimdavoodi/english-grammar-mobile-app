@@ -1,6 +1,6 @@
-# English Grammar Game — Use Cases (Gherkin)
+# English Grammar Review — Use Cases (Gherkin)
 
-Behavioral spec derived from `docs/ideas/english-grammar-game.md`.
+Behavioral spec derived from `docs/ideas/english-grammar-review.md`.
 
 **Tuning parameters** (decided values — treat as tunable from real play):
 - Pass rule: **3 correct in a row** OR **8 total correct**, whichever comes first.

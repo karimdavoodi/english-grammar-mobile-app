@@ -4,8 +4,8 @@
  * Weakness Queue, wrong-answer history), deliberate abandonment, and the
  * end-of-level pass/mercy transition (frontier advance + completion marks).
  *
- * Design: docs/use-cases/english-grammar-game.md (Level Play, Teach on Failure,
- * Weakness Queue) and docs/schema/english-grammar-game.md §2 (State).
+ * Design: docs/use-cases/english-grammar-review.md (Level Play, Teach on Failure,
+ * Weakness Queue) and docs/schema/english-grammar-review.md §2 (State).
  *
  * The machine (`levelMachine.answerQuestion`) scores one answer and advances the
  * session; these reducers wrap that with the persisted Progress transitions.

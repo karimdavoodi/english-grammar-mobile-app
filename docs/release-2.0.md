@@ -16,14 +16,14 @@ npm test
 npm run lint
 npx tsc --noEmit
 npm run release:android
-xcodebuild -workspace ios/EnglishGrammarGame.xcworkspace \
-  -scheme EnglishGrammarGame -configuration Release \
+xcodebuild -workspace ios/EnglishGrammarReview.xcworkspace \
+  -scheme EnglishGrammarReview -configuration Release \
   -destination 'generic/platform=iOS' \
-  -archivePath build/EnglishGrammarGame.xcarchive archive
+  -archivePath build/EnglishGrammarReview.xcarchive archive
 ```
 
 The Android artifact is `android/app/build/outputs/bundle/release/app-release.aab`.
-The iOS archive is `build/EnglishGrammarGame.xcarchive`. Android can produce a
+The iOS archive is `build/EnglishGrammarReview.xcarchive`. Android can produce a
 debug-signed smoke artifact without local credentials; a store upload requires
 `android/keystore.properties` and the matching private keystore. iOS archiving
 and uploading requires signing configured in Xcode.

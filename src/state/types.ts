@@ -1,7 +1,7 @@
 /**
  * Runtime state types — the persisted, device-local layer of the game.
  *
- * Field-for-field mirror of `docs/schema/english-grammar-game.md` §2 (State).
+ * Field-for-field mirror of `docs/schema/english-grammar-review.md` §2 (State).
  * Content lookups always go by id into the bundled content — state never
  * duplicates question text, only references ids.
  */

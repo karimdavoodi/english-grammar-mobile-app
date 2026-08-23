@@ -1,6 +1,6 @@
 # iOS Build and TestFlight Guide
 
-The iOS target uses bundle identifier `com.englishgrammargame`, matching the
+The iOS target uses bundle identifier `com.englishgrammarreview`, matching the
 Android application ID. The repository does not contain Apple signing
 credentials or a development team ID.
 
@@ -30,8 +30,8 @@ On a Mac with the full Xcode application installed and selected:
 
 ```sh
 xcodebuild \
-  -workspace ios/EnglishGrammarGame.xcworkspace \
-  -scheme EnglishGrammarGame \
+  -workspace ios/EnglishGrammarReview.xcworkspace \
+  -scheme EnglishGrammarReview \
   -configuration Debug \
   -sdk iphonesimulator \
   -destination 'platform=iOS Simulator,name=iPhone 16' \
@@ -49,26 +49,26 @@ If the simulator name differs on the machine, list available destinations and
 replace the `-destination` value:
 
 ```sh
-xcodebuild -workspace ios/EnglishGrammarGame.xcworkspace \
-  -scheme EnglishGrammarGame -showdestinations
+xcodebuild -workspace ios/EnglishGrammarReview.xcworkspace \
+  -scheme EnglishGrammarReview -showdestinations
 ```
 
 ## Archive and TestFlight
 
 An owner with Apple Developer access must first open the project in Xcode,
-select the `EnglishGrammarGame` target, choose the organization's Team, and
-confirm the `com.englishgrammargame` App ID exists in the Apple Developer
+select the `EnglishGrammarReview` target, choose the organization's Team, and
+confirm the `com.englishgrammarreview` App ID exists in the Apple Developer
 portal. Xcode can then manage provisioning automatically.
 
 From the repository root:
 
 ```sh
 xcodebuild \
-  -workspace ios/EnglishGrammarGame.xcworkspace \
-  -scheme EnglishGrammarGame \
+  -workspace ios/EnglishGrammarReview.xcworkspace \
+  -scheme EnglishGrammarReview \
   -configuration Release \
   -destination 'generic/platform=iOS' \
-  -archivePath build/EnglishGrammarGame.xcarchive \
+  -archivePath build/EnglishGrammarReview.xcarchive \
   archive
 ```
 
