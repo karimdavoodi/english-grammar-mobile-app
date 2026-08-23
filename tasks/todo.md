@@ -55,7 +55,7 @@ Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases
 ## Phase 5 — Full 90-level corpus
 
 - [x] Task 18: Content authoring infrastructure (cluster modules + loader assembly)
-- [ ] Task 19: 90-level content roadmap (topic map, rule registry, recurring strategy)
+- [x] Task 19: 90-level content roadmap (topic map, rule registry, recurring strategy)
 - [ ] Task 20A: Complete Basic b13–b21
 - [ ] Task 20B: Complete Basic b22–b30
 - [ ] Task 21A: Author Intermediate levels 1–10
