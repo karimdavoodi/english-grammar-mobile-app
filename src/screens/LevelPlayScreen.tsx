@@ -41,6 +41,7 @@ import {
 import { serveNextQuestion, type ServeResult } from '../game/serving';
 import { interleavedBank } from '../game/mixed';
 import {
+  abandonSession,
   applyAnswer,
   queuedRuleSet,
   recordPlay,
@@ -261,7 +262,14 @@ export function LevelPlayScreen({
     );
     if (!nextServe) {
       // Validated content keeps each bank ≥ the mercy cap, so an in-progress
-      // level never runs dry; a dry bank here is defensive only.
+      // level never runs dry; a dry bank here is defensive only. A continued
+      // practice session is the exception — it can answer every question in the
+      // topic. Clear it so a later resume never lands on an empty dead-end.
+      if (play.session.practice) {
+        const cleared = abandonSession(play.progress);
+        persist(cleared);
+        onProgressChange?.(cleared);
+      }
       setPlay({ ...play, phase: 'ended', feedback: null });
       return;
     }
@@ -274,7 +282,7 @@ export function LevelPlayScreen({
       phase: 'question',
       feedback: null,
     });
-  }, [onLevelEnd, play, level, random, store]);
+  }, [onLevelEnd, onProgressChange, persist, play, level, random, store]);
 
   const { session, serve, phase, feedback } = play;
   const rule = serve ? (findRule(serve.question.rule) ?? null) : null;

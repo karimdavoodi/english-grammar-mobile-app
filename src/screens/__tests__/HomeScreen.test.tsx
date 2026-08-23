@@ -171,7 +171,7 @@ describe('HomeScreen — rendering', () => {
       />,
     );
 
-    expect(textOf(tree, 'home-heading')).toBe('Home');
+    expect(textOf(tree, 'home-heading')).toBe('English Grammar Review');
     expect(tree.root.findByProps({ testID: 'home-heading' }).props.accessibilityRole).toBe('header');
     expect(hostNodes(tree, 'home-settings')).toHaveLength(1);
     expect(hostNodes(tree, 'home-resume')).toHaveLength(1);

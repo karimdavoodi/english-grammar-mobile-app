@@ -5,7 +5,7 @@
 // opens Topics for that track; tapping a topic pushes a fresh LevelPlay. This
 // replaces the old StartPoint first-launch choice and the flat LevelMap.
 
-import type { AnswerOutcome } from '../game/levelMachine';
+import type { AnswerOutcome, LevelSession } from '../game/levelMachine';
 
 /** Params for the end-of-level result route (Task 8). */
 export interface ResultScreenParams {
@@ -18,6 +18,11 @@ export interface ResultScreenParams {
   outcome: AnswerOutcome;
   /** Next level id in the flattened sequence, or null when the track is complete. */
   nextLevelId: string | null;
+  /**
+   * The ended session, kept so "Keep practicing" can continue it (preserving
+   * streak / correct count / asked questions) instead of restarting the level.
+   */
+  practiceSession?: LevelSession;
 }
 
 /**
@@ -30,7 +35,7 @@ export type RootStackParamList = {
   Home: undefined;
   /** One track's topic list — lists that track's levels with derived statuses (Task 5). */
   Topics: { trackId: string };
-  LevelPlay: { levelId: string };
+  LevelPlay: { levelId: string; practiceSession?: LevelSession };
   Result: ResultScreenParams;
   Graduation: undefined;
   /** Wrong-answer study history grouped by rule (reachable from Home). */

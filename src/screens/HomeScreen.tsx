@@ -85,7 +85,7 @@ export function HomeScreen({
       <View style={styles.header}>
         <View style={styles.headerRow}>
           <Text style={styles.heading} accessibilityRole="header" testID="home-heading">
-            Home
+            English Grammar Review
           </Text>
           {onOpenSettings ? (
             <Pressable

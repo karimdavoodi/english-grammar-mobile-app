@@ -60,6 +60,8 @@ export interface PersistedLevelSession {
   /** Mixed Review metadata; omitted from legacy level-session snapshots. */
   kind?: 'level' | 'mixed' | 'mastery';
   bankQuestionIds?: string[];
+  /** Continued-practice session (pass rules suspended); see LevelSession.practice. */
+  practice?: boolean;
 }
 
 /** One rule in the Weakness Queue — keyed by rule tag across levels. */
@@ -134,6 +136,9 @@ export function persistSession(session: LevelSession): PersistedLevelSession {
     persisted.kind = session.kind;
     persisted.bankQuestionIds = [...new Set(session.bankQuestionIds ?? [])];
   }
+  if (session.practice) {
+    persisted.practice = true;
+  }
   return persisted;
 }
 
@@ -150,5 +155,6 @@ export function hydrateSession(persisted: PersistedLevelSession): LevelSession {
     status: 'in_progress',
     ...(persisted.kind ? { kind: persisted.kind } : {}),
     ...(persisted.bankQuestionIds ? { bankQuestionIds: [...new Set(persisted.bankQuestionIds)] } : {}),
+    ...(persisted.practice ? { practice: true } : {}),
   };
 }

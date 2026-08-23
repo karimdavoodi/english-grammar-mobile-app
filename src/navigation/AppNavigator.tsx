@@ -58,6 +58,7 @@ import {
   completeLevel,
   flattenedLevelIds,
   nextLevelId,
+  resumeLevelForPractice,
   startMasterySession,
 } from '../state/reducers';
 import { GENERAL_REVIEW_FEEDBACK_ID } from '../state/reports';
@@ -178,8 +179,8 @@ function LevelPlayRoute({
   route,
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'LevelPlay'>) {
-  const { tracks, progress, applyProgress, createReport } = useApp();
-  const { levelId } = route.params;
+  const { tracks, progress, applyProgress, createReport, store } = useApp();
+  const { levelId, practiceSession } = route.params;
   const level = useMemo(() => findLevelById(tracks, levelId), [tracks, levelId]);
 
   const handleLevelEnd = useCallback(
@@ -196,6 +197,9 @@ function LevelPlayRoute({
         levelId,
         outcome: result.outcome,
         nextLevelId: nextLevelId(order, levelId),
+        // The ended session lets Result's "Keep practicing" continue the same
+        // level (preserving streak / correct count / asked questions).
+        practiceSession: result.session,
       });
     },
     [tracks, levelId, applyProgress, navigation],
@@ -207,10 +211,20 @@ function LevelPlayRoute({
     return <MissingView message="This level is not available." />;
   }
 
+  // "Keep practicing" resumes the just-ended session in-place rather than
+  // restarting the level: the practice session is hydrated as in_progress with
+  // pass/mercy suspended, so the player keeps answering the remaining questions
+  // with the same streak / correct count. (Persisted naturally on the first
+  // practice answer.)
+  const initialProgress = practiceSession
+    ? resumeLevelForPractice(progress, practiceSession)
+    : progress;
+
   return (
     <LevelPlayScreen
       level={level}
-      initialProgress={progress}
+      initialProgress={initialProgress}
+      store={store}
       onLevelEnd={handleLevelEnd}
       onReport={questionId => {
         createReport(questionId).then(() => navigation.navigate('Report', { questionId })).catch(() => {});
@@ -331,7 +345,7 @@ function ResultRoute({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'Result'>) {
   const { tracks } = useApp();
-  const { levelId, outcome, nextLevelId: nextId } = route.params;
+  const { levelId, outcome, nextLevelId: nextId, practiceSession } = route.params;
   const level = useMemo(() => findLevelById(tracks, levelId), [tracks, levelId]);
   const nextLevel = useMemo(
     () => (nextId ? findLevelById(tracks, nextId) ?? null : null),
@@ -346,6 +360,12 @@ function ResultRoute({
     }
   }, [nextLevel, navigation]);
 
+  // "Keep practicing" continues the just-ended session (not a restart): the
+  // practice session is handed back to LevelPlay, which resumes it in-place.
+  const handleKeepPracticing = useCallback(() => {
+    navigation.replace('LevelPlay', { levelId, practiceSession });
+  }, [levelId, practiceSession, navigation]);
+
   if (!level) {
     return <MissingView message="This level is not available." />;
   }
@@ -356,6 +376,7 @@ function ResultRoute({
       outcome={outcome}
       nextLevel={nextLevel}
       onContinue={handleContinue}
+      onKeepPracticing={handleKeepPracticing}
     />
   );
 }

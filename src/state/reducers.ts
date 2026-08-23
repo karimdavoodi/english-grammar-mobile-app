@@ -183,11 +183,15 @@ export function applyAnswer(input: ApplyAnswerInput): ApplyAnswerResult {
   const session = hydrateSession(progress.activeSession);
   const mixed = session.kind === 'mixed' || session.kind === 'mastery';
   const mastery = session.kind === 'mastery';
+  // A continued-practice session (resumed from a finished level) is answered
+  // like a mixed session: pass/mercy rules are suspended so the player can keep
+  // answering without re-passing or mercy-ending the already-completed level.
+  const practice = session.practice === true;
   const { session: nextSession, outcome } = answerQuestion(
     session,
     question,
     response,
-    mixed
+    mixed || practice
       ? {
           ...(input.config ?? DEFAULT_PASS_CONFIG),
           passStreak: Number.POSITIVE_INFINITY,
@@ -274,6 +278,20 @@ export function abandonSession(progress: Progress): Progress {
     return progress;
   }
   return { ...progress, activeSession: null };
+}
+
+/**
+ * Continue practicing the just-passed level: restore the ended session (streak,
+ * correct count, asked questions all preserved) as an in-progress practice
+ * session. `applyAnswer` answers practice sessions with pass/mercy rules
+ * suspended, so the player keeps answering without re-passing or mercy-ending
+ * the already-completed level.
+ */
+export function resumeLevelForPractice(progress: Progress, session: LevelSession): Progress {
+  return {
+    ...progress,
+    activeSession: persistSession({ ...session, status: 'in_progress', practice: true }),
+  };
 }
 
 // ── End-of-level transition (pass / mercy-end) ─────────────────────

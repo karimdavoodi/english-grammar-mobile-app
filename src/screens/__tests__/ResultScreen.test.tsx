@@ -80,7 +80,7 @@ describe('ResultScreen — pass messages', () => {
 
     expect(textOf(tree, 'result-heading')).toBe('Streak!');
     expect(textOf(tree, 'result-level-title')).toBe('Past Perfect');
-    expect(labelOf(tree, 'result-continue')).toBe('Continue to Prepositions of time');
+    expect(labelOf(tree, 'result-continue')).toBe('Jump to Prepositions of time');
     expect(textOf(tree, 'result-summary')).toContain('Correct: 3');
     expect(textOf(tree, 'result-summary')).toContain('Streak: 3');
   });
@@ -128,6 +128,58 @@ describe('ResultScreen — completion state', () => {
     );
 
     expect(labelOf(tree, 'result-continue')).toBe('Go to map');
+  });
+});
+
+describe('ResultScreen — keep practicing', () => {
+  it('offers to replay the topic after a streak pass (with a next level)', async () => {
+    const onKeepPracticing = jest.fn();
+    const tree = await render(
+      <ResultScreen
+        level={LEVEL}
+        outcome={makeOutcome({ passed: true, passReason: 'streak', streak: 3 })}
+        nextLevel={NEXT_LEVEL}
+        onContinue={jest.fn()}
+        onKeepPracticing={onKeepPracticing}
+      />,
+    );
+
+    const button = tree.root.findByProps({ testID: 'result-keep-practicing' });
+    expect(button.props.accessibilityRole).toBe('button');
+    expect(button.props.accessibilityLabel).toBe('Keep practicing');
+
+    await ReactTestRenderer.act(() => {
+      button.props.onPress();
+    });
+    expect(onKeepPracticing).toHaveBeenCalledTimes(1);
+  });
+
+  it('is hidden on a mercy end', async () => {
+    const tree = await render(
+      <ResultScreen
+        level={LEVEL}
+        outcome={makeOutcome({ passed: false, endedByMercy: true, totalAnswered: 12 })}
+        nextLevel={NEXT_LEVEL}
+        onContinue={jest.fn()}
+        onKeepPracticing={jest.fn()}
+      />,
+    );
+
+    expect(tree.root.findAllByProps({ testID: 'result-keep-practicing' })).toHaveLength(0);
+  });
+
+  it('is hidden in the completion state (no next level)', async () => {
+    const tree = await render(
+      <ResultScreen
+        level={LEVEL}
+        outcome={makeOutcome({ passed: true, passReason: 'volume', correctCount: 8 })}
+        nextLevel={null}
+        onContinue={jest.fn()}
+        onKeepPracticing={jest.fn()}
+      />,
+    );
+
+    expect(tree.root.findAllByProps({ testID: 'result-keep-practicing' })).toHaveLength(0);
   });
 });
 

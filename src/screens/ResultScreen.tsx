@@ -8,10 +8,10 @@
  *   - mercy-ended        → the level ends at the answer cap, stays unlocked
  *
  * The frontier advance and `completedLevelIds` are handled by the caller's
- * reducer (`completeLevel`); this screen only reports the outcome and offers
- * "Continue" to the next level — or to the completion/map state when the track
- * has no next level. Presentational: no navigation, storage, or reducer imports,
- * so it tests with fixture data like the Task 7A components.
+ * reducer (`completeLevel`); this screen only reports the outcome and offers to
+ * jump to the next level — or to the completion/map state when the track has no
+ * next level. Presentational: no navigation, storage, or reducer imports, so it
+ * tests with fixture data like the Task 7A components.
  *
  * Task 12: all colors come from the theme palette (the success family).
  */
@@ -31,11 +31,19 @@ export interface ResultScreenProps {
   outcome: AnswerOutcome;
   /** The next level to continue to, or null in the completion state. */
   nextLevel: Level | null;
-  /** Called when the player taps Continue / Go to map. */
+  /** Called when the player taps Jump to next level / Go to map. */
   onContinue: () => void;
+  /** Continue the just-ended topic instead of advancing (optional alt to Jump). */
+  onKeepPracticing?: () => void;
 }
 
-export function ResultScreen({ level, outcome, nextLevel, onContinue }: ResultScreenProps) {
+export function ResultScreen({
+  level,
+  outcome,
+  nextLevel,
+  onContinue,
+  onKeepPracticing,
+}: ResultScreenProps) {
   const styles = useThemedStyles(makeStyles);
   const { passed, passReason, endedByMercy, correctCount, streak, totalAnswered } = outcome;
 
@@ -59,7 +67,7 @@ export function ResultScreen({ level, outcome, nextLevel, onContinue }: ResultSc
     explanation = 'This level is done. Continue when you are ready.';
   }
 
-  const continueLabel = nextLevel ? `Continue to ${nextLevel.title}` : 'Go to map';
+  const jumpLabel = nextLevel ? `Jump to ${nextLevel.title}` : 'Go to map';
 
   return (
     <ScreenShell testID="result-screen">
@@ -82,12 +90,27 @@ export function ResultScreen({ level, outcome, nextLevel, onContinue }: ResultSc
         <Pressable
           testID="result-continue"
           accessibilityRole="button"
-          accessibilityLabel={continueLabel}
+          accessibilityLabel={jumpLabel}
           onPress={onContinue}
           style={({ pressed }) => [styles.continue, pressed && styles.continuePressed]}
         >
-          <Text style={styles.continueLabel}>{continueLabel}</Text>
+          <Text style={styles.jumpLabel}>{jumpLabel}</Text>
         </Pressable>
+
+        {onKeepPracticing && passed && nextLevel ? (
+          <Pressable
+            testID="result-keep-practicing"
+            accessibilityRole="button"
+            accessibilityLabel="Keep practicing"
+            onPress={onKeepPracticing}
+            style={({ pressed }) => [
+              styles.keepPracticing,
+              pressed && styles.keepPracticingPressed,
+            ]}
+          >
+            <Text style={styles.keepPracticingLabel}>Keep practicing</Text>
+          </Pressable>
+        ) : null}
       </View>
     </ScreenShell>
   );
@@ -141,8 +164,25 @@ const makeStyles = (colors: ThemeColors) =>
     continuePressed: {
       backgroundColor: colors.successPressed,
     },
-    continueLabel: {
+    jumpLabel: {
       color: colors.textOnAccent,
+      fontWeight: '600',
+      fontSize: 16,
+    },
+    keepPracticing: {
+      alignSelf: 'stretch',
+      marginTop: 10,
+      borderColor: colors.successBorder,
+      borderRadius: 8,
+      borderWidth: 1,
+      paddingVertical: 13,
+      alignItems: 'center',
+    },
+    keepPracticingPressed: {
+      backgroundColor: colors.successContainer,
+    },
+    keepPracticingLabel: {
+      color: colors.successOnContainerStrong,
       fontWeight: '600',
       fontSize: 16,
     },

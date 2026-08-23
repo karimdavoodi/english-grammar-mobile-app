@@ -192,6 +192,50 @@ describe('AppNavigator — Home-first boot', () => {
 
     await ReactTestRenderer.act(() => tree.unmount());
   });
+
+  it('continues the same session from Result via "Keep practicing" (not a restart)', async () => {
+    const store = createStore();
+    const tree = await renderApp(store);
+
+    // Pick the Basic track → open b01 and pass it by streak.
+    await press(tree, 'home-track-basic');
+    await press(tree, 'topics-level-b01');
+    for (let i = 0; i < 3; i++) {
+      await pressCorrectAnswer(tree, 'b01');
+      await press(tree, 'next-question');
+    }
+
+    // Result: the streak message with the alternate keep-practicing action.
+    expect(textOf(tree, 'result-heading')).toBe('Streak!');
+    expect(countHostByTestID(tree, 'result-keep-practicing')).toBe(1);
+
+    // Keep practicing → replaces into LevelPlay for the SAME level (b01),
+    // CONTINUING the session — the streak / correct / answered counters survive.
+    await press(tree, 'result-keep-practicing');
+    expect(countHostByTestID(tree, 'level-play-screen')).toBe(1);
+    expect(countHostByTestID(tree, 'result-screen')).toBe(0);
+    expect(renderedQuestionBelongsTo(tree, 'b01')).toBe(true);
+    expect(textOf(tree, 'progress-streak')).toBe('Streak: 3');
+    expect(textOf(tree, 'progress-correct')).toBe('Correct: 3');
+    expect(textOf(tree, 'progress-answered')).toBe('Answered: 3/12');
+
+    // Practice mode never re-passes: another correct answer keeps the level
+    // playing (streak 4, answered 4) instead of bouncing back to Result.
+    await pressCorrectAnswer(tree, 'b01');
+    await press(tree, 'next-question');
+    expect(countHostByTestID(tree, 'result-screen')).toBe(0);
+    expect(textOf(tree, 'progress-streak')).toBe('Streak: 4');
+    expect(textOf(tree, 'progress-answered')).toBe('Answered: 4/12');
+
+    // The level stays completed, the frontier stays put, and the practice
+    // session is persisted as resumable.
+    const afterPractice = await loadProgress(store);
+    expect(afterPractice?.completedLevelIds).toEqual(['b01']);
+    expect(afterPractice?.currentLevelId).toBe('b02');
+    expect(afterPractice?.activeSession).toMatchObject({ practice: true });
+
+    await ReactTestRenderer.act(() => tree.unmount());
+  });
 });
 
 describe('AppNavigator — returning player', () => {

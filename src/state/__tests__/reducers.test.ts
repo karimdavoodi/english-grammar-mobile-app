@@ -28,9 +28,10 @@ jest.mock('@react-native-async-storage/async-storage', () => {
 
 import type { Level, Question, Track } from '../../content/types';
 import type { FillBlankQuestion } from '../../content/types';
-import { DEFAULT_PASS_CONFIG } from '../../game/levelMachine';
+import { createSession, DEFAULT_PASS_CONFIG, type LevelSession } from '../../game/levelMachine';
 import { CURRENT_PROGRESS_VERSION } from '../storage';
 import type { Progress } from '../types';
+import { persistSession } from '../types';
 import {
   abandonSession,
   applyAnswer,
@@ -39,6 +40,7 @@ import {
   nextLevelId,
   queuedRuleSet,
   recordPlay,
+  resumeLevelForPractice,
   REVIEW_CLEAR_STREAK,
   startMasterySession,
   startLevelSession,
@@ -176,6 +178,93 @@ describe('Mastery Review', () => {
     expect(second.outcome.endedByMercy).toBe(false);
     expect(second.progress.activeSession).toMatchObject({ kind: 'mastery', askedIds: [] });
     expect(second.session.askedIds).toEqual([]);
+  });
+});
+
+describe('resumeLevelForPractice', () => {
+  it('restores a passed session as in-progress practice, preserving counters', () => {
+    const ended: LevelSession = {
+      ...createSession('b10'),
+      status: 'passed',
+      streak: 3,
+      correctCount: 3,
+      totalAnswered: 3,
+      askedIds: ['b10q01', 'b10q02', 'b10q03'],
+    };
+    const resumed = resumeLevelForPractice(makeProgress({ completedLevelIds: ['b10'] }), ended);
+
+    expect(resumed.activeSession).toMatchObject({
+      levelId: 'b10',
+      practice: true,
+      streak: 3,
+      correctCount: 3,
+      totalAnswered: 3,
+      askedIds: ['b10q01', 'b10q02', 'b10q03'],
+    });
+  });
+});
+
+describe('applyAnswer — practice continuation', () => {
+  it('never re-passes or mercy-ends a resumed practice session, even past the cap', () => {
+    const practiceSession: LevelSession = {
+      ...createSession('b10'),
+      practice: true,
+      streak: 3,
+      correctCount: 3,
+      totalAnswered: 11, // at the default mercy-cap boundary
+      askedIds: ['b10q02'],
+    };
+    const progress = makeProgress({
+      completedLevelIds: ['b10'],
+      activeSession: persistSession(practiceSession),
+    });
+
+    const result = applyAnswer({
+      progress,
+      question: qA1,
+      chosenIndex: qA1.correctIndex,
+      mode: 'normal',
+    });
+
+    expect(result.outcome.isCorrect).toBe(true);
+    expect(result.outcome.streak).toBe(4);
+    expect(result.outcome.passed).toBe(false);
+    expect(result.outcome.endedByMercy).toBe(false);
+    expect(result.session.status).toBe('in_progress');
+    expect(result.session.practice).toBe(true);
+    expect(result.progress.activeSession).toMatchObject({
+      streak: 4,
+      correctCount: 4,
+      totalAnswered: 12,
+    });
+  });
+
+  it('keeps a wrong practice answer in progress without ending the session', () => {
+    const practiceSession: LevelSession = {
+      ...createSession('b10'),
+      practice: true,
+      streak: 3,
+      correctCount: 3,
+      totalAnswered: 3,
+      askedIds: ['b10q02'],
+    };
+    const progress = makeProgress({
+      completedLevelIds: ['b10'],
+      activeSession: persistSession(practiceSession),
+    });
+
+    const result = applyAnswer({
+      progress,
+      question: qA1,
+      chosenIndex: qA1.correctIndex + 1, // wrong choice
+      mode: 'normal',
+    });
+
+    expect(result.outcome.passed).toBe(false);
+    expect(result.outcome.endedByMercy).toBe(false);
+    expect(result.session.status).toBe('in_progress');
+    expect(result.session.streak).toBe(0);
+    expect(result.progress.activeSession).not.toBeNull();
   });
 });
 

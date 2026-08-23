@@ -66,6 +66,13 @@ export interface LevelSession {
   /** Mixed Review metadata; absent for legacy level sessions. */
   kind?: 'level' | 'mixed' | 'mastery';
   bankQuestionIds?: string[];
+  /**
+   * Continued practice after a pass: the session was resumed from a finished
+   * level and is answered with pass/mercy rules suspended, so it never passes
+   * or mercy-ends again (the caller applies an ∞ pass config). The player keeps
+   * answering the remaining questions until they leave.
+   */
+  practice?: boolean;
 }
 
 /** What happened as a result of one answer. */
