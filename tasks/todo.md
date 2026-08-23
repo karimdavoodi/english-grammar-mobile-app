@@ -4,14 +4,14 @@ Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases
 
 ## Phase 1 — Release 1.0 hardening
 
-- [ ] Task 1: Human content review of the Basic track (b01–b12 → `human-review-pass`)
+- [x] Task 1: Human content review of the Basic track (b01–b12 → `human-review-pass`)
 - [x] Task 2: App identity + store assets (name, icon, splash, copy, privacy policy)
 - [ ] Task 3: Crash reporting + release build pipeline (Sentry or local log; signed AAB)
 - [ ] Task 4: iOS enablement (pods, build, TestFlight)
 - [ ] Task 5: Report-an-error button + Report screen (offline, mailto/clipboard export)
 
 ### Checkpoint: Release 1.0
-- [ ] Basic levels all `human-review-pass`
+- [x] Basic levels all `human-review-pass`
 - [ ] Signed release build installs; crash reporting verified
 - [ ] iOS build + TestFlight runs the full loop
 - [ ] Report-an-error works from question feedback and Review
