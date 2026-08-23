@@ -45,12 +45,14 @@ after it is implemented, verified (tests / tsc / lint), and committed.
       `selectors.test.ts` and `journey.test.ts` to assert all-unlocked and removed
       the "future levels stay locked" assertions. Note: TopicsScreen lock-UI tests
       fail as a result — Task 5b removes the locked presentation and updates them.
-- [ ] Task 5b — Topics screen: remove the locked rows
-      `TopicsScreen` renders every level tappable (`disabled` false,
-      `accessibilityRole="button"`), no "🔒 Locked" badge, no locked styles;
+- [x] Task 5b — Topics screen: remove the locked rows
+      `TopicsScreen` now renders every level tappable (`accessibilityRole="button"`,
+      no `disabled` / lock state), with no "🔒 Locked" badge and no locked styles;
       `stateLabel` never returns "Locked" (unpassed non-current levels read
-      "Available"). Passed / Current / Review badges stay. Update `TopicsScreen.test.tsx`.
-      Depends on Task 5a.
+      "Available"). Passed / Current / Review badges stay. Updated
+      `TopicsScreen.test.tsx` (removed disabled/locked assertions; added
+      no-lock-badges and beyond-frontier tap coverage; accessibility labels now
+      use "Available"). Depends on Task 5a.
 
 ### Checkpoint
 - [ ] Full suite green: `npm test`; typecheck: `npx tsc --noEmit`; lint: `npm run lint`.

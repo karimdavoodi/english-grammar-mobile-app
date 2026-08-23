@@ -3,10 +3,12 @@
  *
  * Home shows only the three tracks; tapping a track opens this screen, which
  * lists that track's levels in level-number order (each level teaches one
- * topic) with the derived statuses — passed, current, locked, needs-review —
- * reusing the pure `levelStatuses` selector filtered to the selected track.
- * A first-time player (progress null) sees every topic as available; the
- * navigator wires the first tap to create the starting point (Task 6).
+ * topic) with the derived statuses — passed, current, needs-review — reusing
+ * the pure `levelStatuses` selector filtered to the selected track. Every
+ * level is playable (all levels unlocked, Round 2 decision); the lock gate
+ * and its presentation were removed in Task 5. A first-time player (progress
+ * null) sees every topic as available; the navigator wires the first tap to
+ * create the starting point (Task 6).
  *
  * No bottom Back button: back is the system gesture (issue 2). Safe-area via
  * ScreenShell (issue 1). Presentational: no navigation, storage, or reducer
@@ -31,14 +33,14 @@ export interface TopicsScreenProps {
   trackId: string;
   /** The progress slice, or null for a first-time player (all topics available). */
   progress: Progress | null;
-  /** Called when an unlocked level/topic is tapped (push a fresh LevelPlay). */
+  /** Called when a level/topic is tapped (push a fresh LevelPlay). */
   onSelectLevel: (levelId: string) => void;
 }
 
 /**
  * The selected track's level statuses, in level-number order. With progress,
  * reuse `levelStatuses` filtered to the track; for a first-time player every
- * topic is available (nothing passed, current, locked, or queued for review).
+ * topic is available (nothing passed, current, or queued for review).
  */
 function statusesForTrack(
   tracks: readonly Track[],
@@ -67,10 +69,8 @@ function stateLabel(status: LevelStatus): string {
   if (status.isCurrent) {
     return 'Current level';
   }
-  if (status.unlocked) {
-    return 'Available';
-  }
-  return 'Locked';
+  // Every level is unlocked, so the unpassed non-current state is "Available".
+  return 'Available';
 }
 
 export function TopicsScreen({
@@ -114,8 +114,7 @@ export function TopicsScreen({
 
       <ScrollView style={styles.list} contentContainerStyle={styles.listContent}>
         {statuses.map(status => {
-          const { level, unlocked, completed, isCurrent, needsReview } = status;
-          const locked = !unlocked;
+          const { level, completed, isCurrent, needsReview } = status;
           const label = `Level ${level.number}, ${level.title}, ${stateLabel(status)}${
             needsReview ? ', needs review' : ''
           }`;
@@ -123,16 +122,13 @@ export function TopicsScreen({
             <Pressable
               key={level.id}
               testID={`topics-level-${level.id}`}
-              accessibilityRole={locked ? undefined : 'button'}
+              accessibilityRole="button"
               accessibilityLabel={label}
-              accessibilityState={{ disabled: locked }}
-              disabled={locked}
               onPress={() => onSelectLevel(level.id)}
               style={({ pressed }) => [
                 styles.levelRow,
                 isCurrent && styles.levelRowCurrent,
-                locked && styles.levelRowLocked,
-                pressed && !locked && styles.levelRowPressed,
+                pressed && styles.levelRowPressed,
               ]}
             >
               <View style={[styles.numberBadge, isCurrent && styles.numberBadgeCurrent]}>
@@ -143,13 +139,13 @@ export function TopicsScreen({
 
               <View style={styles.levelInfo}>
                 <Text
-                  style={[styles.levelTitle, locked && styles.levelTitleLocked]}
+                  style={styles.levelTitle}
                   testID={`topics-title-${level.id}`}
                 >
                   {level.title}
                 </Text>
                 <Text
-                  style={[styles.levelTopic, locked && styles.levelTopicLocked]}
+                  style={styles.levelTopic}
                   testID={`topics-topic-${level.id}`}
                 >
                   {level.topic.title}
@@ -186,11 +182,6 @@ export function TopicsScreen({
                       Current
                     </Text>
                   </View>
-                ) : null}
-                {locked ? (
-                  <Text style={styles.lockedLabel} testID={`topics-locked-${level.id}`}>
-                    🔒 Locked
-                  </Text>
                 ) : null}
               </View>
             </Pressable>
@@ -248,9 +239,6 @@ const makeStyles = (colors: ThemeColors) =>
       backgroundColor: colors.primaryContainer,
       borderWidth: 2,
     },
-    levelRowLocked: {
-      backgroundColor: colors.surfaceMuted,
-    },
     levelRowPressed: {
       backgroundColor: colors.surfacePressed,
     },
@@ -283,16 +271,10 @@ const makeStyles = (colors: ThemeColors) =>
       fontWeight: '600',
       color: colors.textPrimary,
     },
-    levelTitleLocked: {
-      color: colors.textDisabled,
-    },
     levelTopic: {
       fontSize: tokens.typography.small,
       color: colors.textMuted,
       marginTop: 1,
-    },
-    levelTopicLocked: {
-      color: colors.textDisabled,
     },
     badges: {
       alignItems: 'flex-end',
@@ -331,11 +313,6 @@ const makeStyles = (colors: ThemeColors) =>
       fontSize: tokens.typography.caption,
       fontWeight: '700',
       color: colors.textOnAccent,
-    },
-    lockedLabel: {
-      fontSize: tokens.typography.caption,
-      fontWeight: '600',
-      color: colors.textDisabled,
     },
     missingContent: {
       flex: 1,

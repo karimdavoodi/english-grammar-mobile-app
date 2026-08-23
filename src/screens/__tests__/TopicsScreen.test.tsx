@@ -5,10 +5,10 @@
  * props.
  *
  * Coverage maps to the Task 5 acceptance criteria: only the selected track's
- * topics, in level-number order; status badges (passed / current / locked /
- * needs-review) when progress exists; all topics available and tappable with no
- * progress; tapping an unlocked topic calls `onSelectLevel` while locked topics
- * are disabled; no bottom Back button.
+ * topics, in level-number order; status badges (passed / current / needs-review)
+ * when progress exists; every topic available and tappable (all levels unlocked
+ * — no lock badges, no disabled rows) with or without progress; tapping a topic
+ * calls `onSelectLevel`; no bottom Back button.
  */
 
 import React from 'react';
@@ -243,7 +243,7 @@ describe('TopicsScreen — status badges with progress', () => {
     expect(tree.root.findAllByProps({ testID: 'topics-passed-b02' })).toHaveLength(0);
   });
 
-  it('shows locked levels and marks them disabled', async () => {
+  it('renders no lock badges — every level is tappable even beyond the frontier', async () => {
     const tree = await render(
       <TopicsScreen
         tracks={TRACKS}
@@ -253,10 +253,18 @@ describe('TopicsScreen — status badges with progress', () => {
       />,
     );
 
-    expect(textOf(tree, 'topics-locked-b02')).toContain('Locked');
-    const locked = tree.root.findByProps({ testID: 'topics-level-b02' });
-    expect(locked.props.disabled).toBe(true);
-    expect(locked.props.accessibilityState).toEqual({ disabled: true });
+    // Levels past the old frontier (b02+) carry no lock badge and stay enabled.
+    expect(hostNodes(tree, /^topics-locked-/)).toHaveLength(0);
+    for (const id of [
+      'topics-level-b01',
+      'topics-level-b02',
+      'topics-level-b03',
+      'topics-level-b04',
+    ]) {
+      const row = tree.root.findByProps({ testID: id });
+      expect(row.props.accessibilityRole).toBe('button');
+      expect(row.props.disabled).not.toBe(true);
+    }
   });
 
   it('flags a level whose bank contains a queued rule with a Review badge', async () => {
@@ -278,8 +286,8 @@ describe('TopicsScreen — status badges with progress', () => {
   });
 
   it('renders an unlocked-but-not-passed level with no status badge', async () => {
-    // b02 is at-or-before the frontier (unlocked) but neither completed nor
-    // current — the mercy-ended / skipped-earlier state. No badges at all.
+    // b02 is neither completed nor current — the mercy-ended / skipped-earlier
+    // state. No badges at all, and the row stays tappable (all levels unlocked).
     const tree = await render(
       <TopicsScreen
         tracks={TRACKS}
@@ -337,7 +345,7 @@ describe('TopicsScreen — first-time player (progress null)', () => {
 });
 
 describe('TopicsScreen — tapping topics', () => {
-  it('calls onSelectLevel with the tapped unlocked topic id', async () => {
+  it('calls onSelectLevel with the tapped topic id', async () => {
     const onSelectLevel = jest.fn();
     const tree = await render(
       <TopicsScreen
@@ -348,7 +356,7 @@ describe('TopicsScreen — tapping topics', () => {
       />,
     );
 
-    // Replay a passed topic — it stays unlocked and is tappable.
+    // Replay a passed topic — it stays tappable.
     await ReactTestRenderer.act(() => {
       tree.root.findByProps({ testID: 'topics-level-b01' }).props.onPress();
     });
@@ -362,7 +370,7 @@ describe('TopicsScreen — tapping topics', () => {
     expect(onSelectLevel).toHaveBeenCalledWith('b02');
   });
 
-  it('marks locked topics disabled so tapping cannot open them', async () => {
+  it('taps a level beyond the old frontier — no lock gate', async () => {
     const onSelectLevel = jest.fn();
     const tree = await render(
       <TopicsScreen
@@ -373,12 +381,16 @@ describe('TopicsScreen — tapping topics', () => {
       />,
     );
 
-    const locked = tree.root.findByProps({ testID: 'topics-level-b04' });
-    expect(locked.props.accessibilityRole).toBeUndefined();
-    expect(locked.props.accessibilityState).toEqual({ disabled: true });
-    // A disabled Pressable ignores presses natively; the callback is never
-    // invoked for a locked topic in the rendered tree.
-    expect(onSelectLevel).not.toHaveBeenCalled();
+    // b04 is past the old frontier but is now a normal, enabled button.
+    const ahead = tree.root.findByProps({ testID: 'topics-level-b04' });
+    expect(ahead.props.accessibilityRole).toBe('button');
+    expect(ahead.props.disabled).not.toBe(true);
+
+    await ReactTestRenderer.act(() => {
+      ahead.props.onPress();
+    });
+    expect(onSelectLevel).toHaveBeenCalledTimes(1);
+    expect(onSelectLevel).toHaveBeenCalledWith('b04');
   });
 });
 
@@ -420,7 +432,10 @@ describe('TopicsScreen — accessibility', () => {
       'Level 3, Level b03, Current level, needs review',
     );
     expect(tree.root.findByProps({ testID: 'topics-level-b04' }).props.accessibilityLabel).toBe(
-      'Level 4, Level b04, Locked',
+      'Level 4, Level b04, Available',
+    );
+    expect(tree.root.findByProps({ testID: 'topics-level-b04' }).props.accessibilityRole).toBe(
+      'button',
     );
   });
 
