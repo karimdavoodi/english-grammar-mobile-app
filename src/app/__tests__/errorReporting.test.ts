@@ -83,7 +83,7 @@ describe('installErrorReporting', () => {
     expect(h.recorded).toHaveLength(1);
     expect(h.recorded[0]).toMatchObject({
       message: 'Kaboom',
-      appVersion: '1.0.0',
+      appVersion: '2.0.0',
       isFatal: true,
       timestamp: '2026-08-22T10:00:00.000Z',
     });

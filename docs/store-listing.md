@@ -1,14 +1,10 @@
 # Store Listing — English Grammar Game
 
-*Working title: **English Grammar Game**. Final name is an owner decision (see
-`docs/app-plan.md`, Open Questions). Text below is drafted for the current
-release — the 12-level Basic track with the full mastery loop. Update it when
-Phases 2–6 ship (question types, mixed review, streaks, 90-level corpus).*
+Release 2.0 listing copy for **English Grammar Game**. The app is free, offline,
+and contains the complete 90-level corpus.
 
 Source icon: `assets/icon-master.png` (1024×1024). Screenshots are taken from a
 real device; see the checklist at the bottom.
-
----
 
 ## Google Play
 
@@ -17,7 +13,7 @@ real device; see the checklist at the bottom.
 **Category:** Education
 
 **Short description (≤ 80 chars):**
-> Master English grammar one level at a time. Free, offline, no ads.
+> Master English grammar across 90 adaptive levels. Free and offline.
 
 **Full description:**
 
@@ -33,15 +29,15 @@ real device; see the checklist at the bottom.
 > - Every wrong answer explains the specific error, then shows a mini-lesson.
 >
 > Features:
-> - 12 grammar levels covering the essential tenses, modals, articles,
->   conditionals, comparatives, and prepositions — with more on the way.
+> - 90 grammar levels across Basic, Intermediate, and Advanced tracks.
+> - Multiple question types that move from recognition to production.
+> - Mixed Review and Endless Mastery Review for long-term retention.
 > - A cross-level Weakness Queue that keeps your problem rules in front of you.
 > - A Review screen for every wrong answer you've ever given.
-> - A Level Map so you always know what's next.
+> - Daily streaks, local statistics, and optional local practice reminders.
+> - Graduation when you complete the full corpus.
 > - Light and dark themes, adjustable in Settings.
 > - 100% offline. No account. No ads. No in-app purchases. Free.
-
----
 
 ## App Store
 
@@ -55,8 +51,8 @@ whatever you miss.
 **Description:**
 
 > English Grammar Game is a focused, friendly way to master the grammar that
-> English learners actually trip over: tenses, modals, articles, conditionals,
-> comparisons, and prepositions.
+> English learners actually trip over. Work through 90 levels across Basic,
+> Intermediate, and Advanced tracks, with practice that adapts to what you miss.
 >
 > Play a level and the app adapts to what you get wrong. Each miss shows the
 > specific error and a short lesson card for the rule — then that rule is queued
@@ -65,38 +61,38 @@ whatever you miss.
 > questions makes sure practice stays fair.
 >
 > What's inside:
-> - 12 levels of focused grammar practice, with a full roadmap to 90 levels.
+> - 90 focused levels across three tracks.
+> - Multiple-choice, fix-the-sentence, fill-in-the-blank, and word-order practice.
 > - A Weakness Queue that keeps problem rules in regular rotation.
 > - A Review screen of your complete wrong-answer history.
+> - Mixed Review, Endless Mastery Review, graduation, and daily streaks.
+> - Optional local practice reminders and on-device statistics.
 > - Progress that is saved on your device and works entirely offline.
 > - No account, no ads, no in-app purchases — a clean, calm experience.
 
 **Keywords:** grammar, English, learn, tenses, practice
 
----
+## Screenshots checklist
 
-## Screenshots checklist (capture from a real device)
-
-1. **Level Map** — the track with the next level highlighted and streak header.
-2. **Question** — a multiple-choice question card with 4 answers.
-3. **Feedback / lesson** — a wrong-answer reveal with the explanation and the
-   teach-on-failure lesson card.
+1. **Level Map** — three tracks with the next level and streak highlighted.
+2. **Question** — a typed question card (capture one of the four question types).
+3. **Feedback / lesson** — a wrong-answer reveal with the explanation and lesson.
 4. **Result** — the level-complete pass state.
 5. **Review** — the wrong-answer history grouped by rule.
-6. **Settings** — theme toggle and app info.
+6. **Settings** — theme and local reminder controls.
+7. **Stats / Mastery** — local accuracy, streaks, or endless review entry.
 
-Screenshot order on the store should follow the player journey (map → play →
-feedback → result → review). Capture at the largest supported resolution, in
-both light and dark theme where the store allows, with status bars hidden.
-
----
+Screenshot order should follow the player journey (map → play → feedback →
+result → review). Capture at the largest supported resolution, in both light and
+dark theme where the store allows, with status bars hidden.
 
 ## Release checklist (owner)
 
-- [ ] Final app name chosen; update `app.json`, Android `strings.xml`,
-      iOS `Info.plist`, this file, and `docs/privacy.md`.
-- [ ] Replace placeholder screenshots with device captures.
+- [x] Release 2.0 version and final feature copy updated in app/native metadata
+      and this listing.
+- [ ] Final app name chosen; update Android `strings.xml`, iOS `Info.plist`,
+      this file, and `docs/privacy.md` if it changes.
+- [ ] Replace this checklist's screenshot plan with device captures.
 - [ ] Fill in the support email / contact in `docs/privacy.md` and the store
       console.
-- [ ] Verify the privacy policy text matches the shipped build (local-first,
-      user-initiated reports, optional crash reporting).
+- [ ] Verify the privacy policy text matches the shipped build.
