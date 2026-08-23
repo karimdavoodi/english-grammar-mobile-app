@@ -9,12 +9,22 @@
  */
 
 import { validateContent } from './validate';
-import { basicTrack } from './tracks/basic';
+import { basicCluster01 } from './tracks/basic/basic-01';
+import { basicCluster02 } from './tracks/basic/basic-02';
 import { normalizeTrack } from './types';
 import type { Level, Track, TopicRule } from './types';
 
 /** All bundled tracks, ordered by `track.order` on the map. */
-export const tracks: Track[] = [normalizeTrack(basicTrack)];
+export const tracks: Track[] = [
+  normalizeTrack({
+    id: 'basic',
+    order: 1,
+    name: 'Basic',
+    label: 'Beginner',
+    eligibleStartingPoint: true,
+    levels: [...basicCluster01, ...basicCluster02],
+  }),
+];
 
 // Fail-fast at load: malformed AI-generated content must never reach the app.
 validateContent(tracks);
