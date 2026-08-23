@@ -21,7 +21,19 @@ it is implemented, verified (tests / tsc / lint), and committed.
       Stats, and Report; `onBack` dropped from their props and the navigator
       wiring (back is the system gesture). Tests assert the absence of the old
       entries/buttons.
-- [ ] Task 4 — Home screen (main screen) (Issues 2, 7, 8, 9)
+- [x] Task 4 — Home screen (main screen) (Issues 2, 7, 8, 9)
+      New `HomeScreen` (replaces the flat LevelMap as the hub): Settings entry
+      (`home-settings`), per-track progress summary from the new pure
+      `completedByTrack` selector ("Basic: 3/30 · …") or "Pick a level to begin"
+      for first-time players (progress null), Resume button (only with progress),
+      Wrong answers (`home-review`), Review / Practice (`home-mixed-review`),
+      Stats (`home-stats`), and three track cards (`onSelectTrack(trackId)` →
+      Topics). New pure `resumableLevelId` selector routes resume by session kind
+      (mastery/mixed → Mixed Review; level session → LevelPlay at
+      `activeSession.levelId`; no session → LevelPlay at `currentLevelId`).
+      Android-only hardware-back handler on Home asks "Exit app?" (Yes →
+      `BackHandler.exitApp()`, No stays). No bottom Back button. Selector + new
+      `HomeScreen.test.tsx` coverage green; navigator wiring lands in Task 6.
 - [ ] Task 5 — Topics screen (Issue 4)
 - [ ] Task 6 — Navigator restructure and boot flow (Issues 4, 8)
 - [ ] Task 7 — Regression sweep and remaining test coverage

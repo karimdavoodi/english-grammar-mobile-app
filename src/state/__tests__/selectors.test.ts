@@ -17,12 +17,14 @@ import type {
 } from '../../content/types';
 import type { Progress, WeaknessEntry, WrongAnswerEntry } from '../types';
 import {
+  completedByTrack,
   firstValidLevelId,
   isLevelUnlocked,
   levelNeedsReview,
   levelStatuses,
   orderedLevels,
   repairProgress,
+  resumableLevelId,
   reviewGroups,
   unlockedLevelIds,
   weaknessEntries,
@@ -536,5 +538,103 @@ describe('reviewGroups — typed responses', () => {
       correctAnswer: 'She works here.',
       wrongExplanation: 'Wrong.',
     });
+  });
+});
+
+describe('completedByTrack', () => {
+  it('counts passed levels per track in track order', () => {
+    const progress = makeProgress({
+      currentLevelId: 'b03',
+      completedLevelIds: ['b01', 'b02'],
+    });
+    expect(completedByTrack(TRACKS, progress)).toEqual([
+      { trackId: 'basic', trackName: 'Basic', totalLevels: 3, completedLevels: 2 },
+      { trackId: 'intermediate', trackName: 'Intermediate', totalLevels: 1, completedLevels: 0 },
+    ]);
+  });
+
+  it('counts only passed levels — not unlocked or current levels', () => {
+    const progress = makeProgress({ currentLevelId: 'b02', completedLevelIds: [] });
+    expect(completedByTrack(TRACKS, progress)).toEqual([
+      { trackId: 'basic', trackName: 'Basic', totalLevels: 3, completedLevels: 0 },
+      { trackId: 'intermediate', trackName: 'Intermediate', totalLevels: 1, completedLevels: 0 },
+    ]);
+  });
+
+  it('returns an empty list when there are no tracks', () => {
+    expect(completedByTrack([], makeProgress())).toEqual([]);
+  });
+});
+
+describe('resumableLevelId', () => {
+  it('resumes a normal level session at its saved level', () => {
+    const progress = makeProgress({
+      currentLevelId: 'b01',
+      activeSession: {
+        levelId: 'b02',
+        askedIds: ['b02q01'],
+        correctCount: 1,
+        streak: 1,
+        totalAnswered: 1,
+        missCounts: {},
+        lastWrongRule: null,
+      },
+    });
+    expect(resumableLevelId(progress)).toEqual({ kind: 'level', levelId: 'b02' });
+  });
+
+  it('routes a mastery session to Mixed Review (sentinel levelId is not a real level)', () => {
+    const progress = makeProgress({
+      activeSession: {
+        levelId: 'mastery',
+        kind: 'mastery',
+        askedIds: [],
+        correctCount: 0,
+        streak: 0,
+        totalAnswered: 0,
+        missCounts: {},
+        lastWrongRule: null,
+      },
+    });
+    expect(resumableLevelId(progress)).toEqual({ kind: 'mastery' });
+  });
+
+  it('routes a mixed session to Mixed Review (sentinel levelId is not a real level)', () => {
+    const progress = makeProgress({
+      activeSession: {
+        levelId: 'mixed',
+        kind: 'mixed',
+        askedIds: [],
+        correctCount: 0,
+        streak: 0,
+        totalAnswered: 0,
+        missCounts: {},
+        lastWrongRule: null,
+      },
+    });
+    expect(resumableLevelId(progress)).toEqual({ kind: 'mastery' });
+  });
+
+  it('resumes at the current frontier level when no session is active', () => {
+    expect(resumableLevelId(makeProgress({ currentLevelId: 'b05' }))).toEqual({
+      kind: 'level',
+      levelId: 'b05',
+    });
+  });
+
+  it('falls back to the current level when a level session has no level id', () => {
+    const progress = makeProgress({
+      currentLevelId: 'b01',
+      activeSession: {
+        levelId: '',
+        askedIds: [],
+        correctCount: 0,
+        streak: 0,
+        totalAnswered: 0,
+        missCounts: {},
+        lastWrongRule: null,
+      },
+    });
+    expect(resumableLevelId(progress)).toEqual({ kind: 'level', levelId: 'b01' });
   });
 });

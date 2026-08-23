@@ -112,6 +112,63 @@ export function levelStatuses(
   }));
 }
 
+// ── Home summary (Task 4) ──────────────────────────────────────────
+// The Home screen's progress summary and Resume target are pure derivations
+// over the same content + progress the map uses.
+
+/** Per-track pass counts for the Home progress summary. */
+export interface TrackCompletionSummary {
+  trackId: string;
+  /** Display name, e.g. 'Basic'. */
+  trackName: string;
+  /** Levels in the track. */
+  totalLevels: number;
+  /** Passed levels in the track. */
+  completedLevels: number;
+}
+
+/** Passed levels per track, in track order — the Home progress summary. */
+export function completedByTrack(
+  tracks: readonly Track[],
+  progress: Progress,
+): TrackCompletionSummary[] {
+  const completed = new Set(progress.completedLevelIds);
+  return [...tracks]
+    .sort((a, b) => a.order - b.order)
+    .map(track => ({
+      trackId: track.id,
+      trackName: track.name,
+      totalLevels: track.levels.length,
+      completedLevels: track.levels.filter(level => completed.has(level.id)).length,
+    }));
+}
+
+/**
+ * Where the Home "Resume" button should route.
+ *
+ * Routes by session kind:
+ *   - a `mastery` (endless) or `mixed` (finite) review session resumes Mixed
+ *     Review — both persist the sentinel strings `'mastery'` / `'mixed'` as
+ *     their `levelId`, which are not real level ids, so routing them to
+ *     LevelPlay would land on the "level not available" view;
+ *   - a normal level session resumes LevelPlay at `activeSession.levelId`;
+ *   - no session resumes LevelPlay at the current frontier level.
+ */
+export type ResumableTarget =
+  | { kind: 'level'; levelId: string }
+  | { kind: 'mastery' };
+
+export function resumableLevelId(progress: Progress): ResumableTarget {
+  const session = progress.activeSession;
+  if (session) {
+    if (session.kind === 'mastery' || session.kind === 'mixed') {
+      return { kind: 'mastery' };
+    }
+    return { kind: 'level', levelId: session.levelId || progress.currentLevelId };
+  }
+  return { kind: 'level', levelId: progress.currentLevelId };
+}
+
 /**
  * The first level id in the flattened sequence — the repair target for an
  * unknown current level, and the completion-state fallback when no level exists
