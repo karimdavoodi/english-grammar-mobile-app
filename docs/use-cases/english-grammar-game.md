@@ -9,6 +9,14 @@ Behavioral spec derived from `docs/ideas/english-grammar-game.md`.
 - Weakness Queue: a rule leaves the queue after **2 correct review answers**.
 - Re-teach: the lesson card re-shows before a question when its rule has been missed **2 times** in the current level.
 
+**Task 26 tuning decision (2026-08-23):** retain these defaults for now. The
+local Stats implementation has no real-player export in this repository, so
+the available fixtures are insufficient evidence for changing the pass rule.
+The values remain injectable through `PassConfig`; revisit them after at least
+20 completed level sessions across five players (or an equivalent anonymized
+play export), using pass rate, median answers to pass, and mercy-ended rate by
+level.
+
 **Progression contract:** tracks and levels form one ordered sequence using `track.order`, then `level.number`. A player may start at any bundled track marked as an eligible starting point. All levels before that point are unlocked for practice; only later levels are locked. Passing or mercy-ending a level advances the frontier to the next level in this sequence. If no next level is bundled, the player sees the completion state and may replay any unlocked level.
 
 **MVP contract:** v1 bundles Basic content only. Therefore v1 starts at Basic level 1 and does not offer unavailable Intermediate or Advanced choices. The higher-start scenarios apply once those tracks are bundled.

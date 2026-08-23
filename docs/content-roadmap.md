@@ -199,3 +199,24 @@ The validator's existing global rule registry is the dry-run contract: a new
 cluster passes when every question tag resolves to exactly one `TopicRule` and
 no canonical tag is defined twice. The first authored cluster should be checked
 against this document before the next cluster is started.
+
+## Pass-rule tuning decision — 2026-08-23
+
+Task 15 provides local aggregate Stats from the `egg:events` answer log, but
+this repository contains no production play export or real-player sample from
+which to estimate level difficulty. The available Stats fixtures therefore do
+not support a responsible numerical retune. Keep the shipped defaults:
+
+| Parameter | Decision | Rationale |
+| --- | ---: | --- |
+| `passStreak` | 3 | Retains the original mastery signal: three consecutive demonstrations of the rule. |
+| `passVolume` | 8 | Retains the volume safeguard for learners who make occasional mistakes. |
+| `mercyCap` | 12 | Matches the validated minimum bank size, so a level cannot exhaust its questions before mercy ends. |
+
+The values remain injectable through `PassConfig`. Revisit them after Stats has
+at least 20 completed level sessions across at least five players (or an
+equivalent anonymized play export), comparing pass rate, median answers to
+pass, and mercy-ended rate by level. Any future change must update the tuning
+parameters in `docs/use-cases/english-grammar-game.md`, retain the validator's
+configured `mercyCap` bank check, and add regression coverage for the changed
+outcomes.
