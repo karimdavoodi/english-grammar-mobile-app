@@ -269,6 +269,34 @@ The Review screen uses the most recent wrong choice for each question and retain
 - Then I can replay it for review
 - And replaying does not re-lock the level
 
+## Feature: Mixed Review
+
+**As a** player
+**I want** a short session assembled from my known weaknesses and passed levels
+**So that** I can practice across topics without changing my current level
+
+**Scenario: Mixed Review prioritizes useful practice**
+- Given I have queued rules and recently missed questions
+- When I start Mixed Review
+- Then queued-rule questions are placed first
+- And recently missed questions follow in freshest-first order
+- And remaining slots sample questions across passed levels
+- And each question id appears at most once in the session bank
+
+**Scenario: Mixed Review resumes its original bank**
+- Given I have started Mixed Review and relaunched the app
+- When I resume the session
+- Then it uses the persisted bank snapshot
+- And already-served questions are not repeated
+- And my current level remains unchanged
+
+**Scenario: Mixed Review ends without changing progression**
+- Given I am answering a Mixed Review question
+- When the volume target is reached or the bank is exhausted
+- Then the mixed session ends
+- And Weakness Queue and wrong-answer history retain the answer
+- And my current level is unchanged
+
 **Scenario: Leaving a level before it ends**
 - Given I am partway through a level
 - When I leave the level or relaunch the app

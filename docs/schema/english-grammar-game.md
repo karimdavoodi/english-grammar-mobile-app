@@ -241,6 +241,14 @@ interface LevelSession {
   lastWrongRule: string | null;       // rule of the last wrong answer (null if none or last was correct) — resumes remediation
 }
 
+// Mixed Review reuses the same machine counters. Its bank is snapshotted so a
+// relaunch serves the same question ids and does not rebuild from changed
+// progress; `currentLevelId` is never changed by a mixed session.
+interface MixedSession extends LevelSession {
+  kind: 'mixed';
+  bankQuestionIds: string[]; // de-duplicated, selected-at-start question ids
+}
+
 // ── Root ──────────────────────────────────────────────────────────
 interface AppState {
   settings: Settings;
@@ -251,7 +259,7 @@ interface AppState {
 ### Persistence notes
 
 - Single AsyncStorage key per concern: `egg:settings`, `egg:progress` — small, atomic, cheap.
-- `progress.version` lets future versions migrate saved games when the shape changes.
+- `progress.version` lets future versions migrate saved games when the shape changes. Version 3 adds optional mixed-session metadata; version 2 saves migrate without changing their level-session data.
 - Progress version 2 adds the optional `WrongAnswerEntry.lastResponse` field. Version 1
   records retain `lastChosenIndex` and migrate without losing history; when `lastResponse`
   is absent, Review treats the record as a legacy index response.
@@ -259,6 +267,7 @@ interface AppState {
 - Reset = clear `egg:progress` (and re-enter the starting-point choice). Settings survive a reset.
 - **Unlock is derived, never stored:** flatten tracks by ascending `track.order`, then levels by ascending `level.number`. A level is unlocked when it occurs at or before the saved frontier, or its ID is in `completedLevelIds`. Passed levels show a pass mark; mercy-ended and skipped-earlier levels are unlocked but not passed. Mercy-end is not a separate persisted state. Levels whose rules appear in `weaknessQueue` may show a "needs review" indicator.
 - `activeSession` is cleared when a level passes or mercy-ends and is restored after app restart. It is reset when the player deliberately abandons a session.
+- Mixed Review uses the same counters with a volume target and ends when that target or its snapshotted bank is exhausted. Its answers update the Weakness Queue and wrong-answer history, while ending it clears only `activeSession` and leaves `currentLevelId` unchanged.
 - A level passes when `streak >= 3` or `correctCount >= 8`; otherwise a session mercy-ends when `totalAnswered >= 12`. Review and remediation questions count normally toward all level counters.
 
 ---

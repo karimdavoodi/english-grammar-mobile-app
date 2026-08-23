@@ -63,6 +63,9 @@ export interface LevelSession {
   /** Rule of the last wrong answer (null if none or last was correct) — resumes remediation. */
   lastWrongRule: string | null;
   status: SessionStatus;
+  /** Mixed Review metadata; absent for legacy level sessions. */
+  kind?: 'level' | 'mixed';
+  bankQuestionIds?: string[];
 }
 
 /** What happened as a result of one answer. */

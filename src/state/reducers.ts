@@ -17,6 +17,7 @@
  */
 
 import type { Track } from '../content/types';
+import { mixedBank } from '../game/mixed';
 import {
   answerQuestion,
   createSession,
@@ -52,10 +53,29 @@ export function queuedRuleSet(progress: Progress): Set<string> {
  * for `levelId`. Resuming never mutates the stored progress.
  */
 export function startLevelSession(progress: Progress, levelId: string): Progress {
-  if (progress.activeSession && progress.activeSession.levelId === levelId) {
+  if (progress.activeSession && progress.activeSession.kind !== 'mixed' && progress.activeSession.levelId === levelId) {
     return progress;
   }
   return { ...progress, activeSession: persistSession(createSession(levelId)) };
+}
+
+/** Start or resume a deterministic Mixed Review session without moving the frontier. */
+export function startMixedSession(
+  progress: Progress,
+  tracks: readonly Track[],
+  options: { size: number; random?: () => number },
+): Progress {
+  if (progress.activeSession?.kind === 'mixed') return progress;
+  const bankQuestionIds = mixedBank(tracks, progress, options).map(question => question.id);
+  if (bankQuestionIds.length === 0) return { ...progress, activeSession: null };
+  return {
+    ...progress,
+    activeSession: {
+      ...persistSession(createSession('mixed')),
+      kind: 'mixed',
+      bankQuestionIds,
+    },
+  };
 }
 
 /** One submitted answer plus its immutable pre-answer serve mode. */
@@ -113,11 +133,14 @@ export function applyAnswer(input: ApplyAnswerInput): ApplyAnswerResult {
   }
 
   const session = hydrateSession(progress.activeSession);
+  const mixed = session.kind === 'mixed';
   const { session: nextSession, outcome } = answerQuestion(
     session,
     question,
     response,
-    input.config ?? DEFAULT_PASS_CONFIG,
+    mixed
+      ? { ...(input.config ?? DEFAULT_PASS_CONFIG), passStreak: Number.POSITIVE_INFINITY }
+      : input.config ?? DEFAULT_PASS_CONFIG,
   );
   const now = input.now ?? new Date().toISOString();
 
@@ -172,15 +195,19 @@ export function applyAnswer(input: ApplyAnswerInput): ApplyAnswerResult {
     };
   }
 
-  const ended = nextSession.status !== 'in_progress';
+  const mixedBankExhausted = mixed && nextSession.askedIds.length >= (session.bankQuestionIds?.length ?? 0);
+  const ended = nextSession.status !== 'in_progress' || mixedBankExhausted;
+  const endedSession = mixedBankExhausted && nextSession.status === 'in_progress'
+    ? { ...nextSession, status: 'mercy_ended' as const }
+    : nextSession;
   const nextProgress: Progress = {
     ...progress,
     weaknessQueue,
     wrongAnswers,
-    activeSession: ended ? null : persistSession(nextSession),
+    activeSession: ended ? null : persistSession(endedSession),
   };
 
-  return { progress: nextProgress, session: nextSession, outcome };
+  return { progress: nextProgress, session: ended ? endedSession : nextSession, outcome };
 }
 
 /**

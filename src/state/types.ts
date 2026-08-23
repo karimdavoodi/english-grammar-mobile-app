@@ -48,6 +48,9 @@ export interface PersistedLevelSession {
   missCounts: Record<string, number>;
   /** Rule of the last wrong answer (null if none or last was correct). */
   lastWrongRule: string | null;
+  /** Mixed Review metadata; omitted from legacy level-session snapshots. */
+  kind?: 'level' | 'mixed';
+  bankQuestionIds?: string[];
 }
 
 /** One rule in the Weakness Queue — keyed by rule tag across levels. */
@@ -103,7 +106,7 @@ export interface AppState {
 
 /** Drop the machine-only `status` field for persistence. */
 export function persistSession(session: LevelSession): PersistedLevelSession {
-  return {
+  const persisted: PersistedLevelSession = {
     levelId: session.levelId,
     askedIds: session.askedIds,
     correctCount: session.correctCount,
@@ -112,6 +115,11 @@ export function persistSession(session: LevelSession): PersistedLevelSession {
     missCounts: session.missCounts,
     lastWrongRule: session.lastWrongRule,
   };
+  if (session.kind === 'mixed') {
+    persisted.kind = 'mixed';
+    persisted.bankQuestionIds = [...new Set(session.bankQuestionIds ?? [])];
+  }
+  return persisted;
 }
 
 /** Rehydrate a saved session as an always-in-progress machine session. */
@@ -125,5 +133,7 @@ export function hydrateSession(persisted: PersistedLevelSession): LevelSession {
     missCounts: persisted.missCounts,
     lastWrongRule: persisted.lastWrongRule,
     status: 'in_progress',
+    ...(persisted.kind ? { kind: persisted.kind } : {}),
+    ...(persisted.bankQuestionIds ? { bankQuestionIds: [...new Set(persisted.bankQuestionIds)] } : {}),
   };
 }
