@@ -47,11 +47,20 @@ those decisions is still recommended before the store release.
 | 19 | b19 | Imperatives and Instructions | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `imperative_form`, `imperative_negative` | `modal_obligation_advice` (b07) | AI | authoring-pass | Positive and negative instructions. |
 | 20 | b20 | Questions and Short Answers | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `question_word_order`, `short_answers` | `present_simple_form` (b01) | AI | authoring-pass | Auxiliary inversion and matching short answers. |
 | 21 | b21 | Passive Voice: Introduction | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `present_passive_form`, `past_passive_form` | `past_simple_form` (b03) | AI | authoring-pass | Present and past passive forms with past participles. |
+| 22 | b22 | Reported Speech: Statements | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `reported_statements_backshift`, `reported_pronouns_time` | `present_simple_form` (b01) | AI | authoring-pass | Backshift plus pronoun and time-expression changes. |
+| 23 | b23 | Relative Clauses: Defining | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `defining_relative_who_which`, `relative_pronoun_omission` | `present_simple_form` (b01) | AI | authoring-pass | Defining relative clauses and object-pronoun omission. |
+| 24 | b24 | Present Perfect: Experiences and Results | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `present_perfect_experience`, `present_perfect_result` | `present_perfect_form` (b05) | AI | authoring-pass | Experiences without finished time and present results. |
+| 25 | b25 | Present Perfect Continuous | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `present_perfect_continuous_form`, `present_perfect_simple_duration` | `present_perfect_form` (b05) | AI | authoring-pass | Ongoing activities and duration with have/has been + -ing. |
+| 26 | b26 | Second Conditional | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `second_conditional_form`, `second_conditional_use` | `first_conditional` (b12) | AI | authoring-pass | Hypothetical present and future situations. |
+| 27 | b27 | Modals of Probability | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `modal_probability_present`, `modal_probability_past` | `modal_ability_permission` (b07) | AI | authoring-pass | Present and past guesses with modal auxiliaries. |
+| 28 | b28 | Linkers and Contrast | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `because_so`, `although_but` | `present_simple_usage` (b01) | AI | authoring-pass | Reasons, results, and contrasting clauses. |
+| 29 | b29 | Phrasal Verbs: Separable Basics | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `phrasal_verb_particle_position`, `phrasal_verb_object_type` | `imperative_form` (b19) | AI | authoring-pass | Particle placement with noun and pronoun objects. |
+| 30 | b30 | Basic Grammar Consolidation | 12 | multiple_choice ×9, fix_sentence ×1, fill_blank ×1, word_order ×1 | `basic_grammar_consolidation` | `present_simple_form` (b01), `present_perfect_form` (b05) | AI | authoring-pass | Cumulative review of core Basic grammar. |
 
 ## Global review checks applied at authoring time
 
 - **Schema conformance** — every level passes `validateContent()` on the full
-  Basic track (12 levels, `level.number` 1..12 sequential; every `Question.rule`
+  Basic track (30 levels, `level.number` 1..30 sequential; every `Question.rule`
   resolves to a unique `TopicRule`; each rule defined exactly once; 4 choices +
   4 positionally-aligned non-empty explanations; banks ≥ mercy cap 12).
 - **Grammatical correctness** — each question has exactly one defensible answer;

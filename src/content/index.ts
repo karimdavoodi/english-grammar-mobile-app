@@ -12,6 +12,7 @@ import { validateContent } from './validate';
 import { basicCluster01 } from './tracks/basic/basic-01';
 import { basicCluster02 } from './tracks/basic/basic-02';
 import { basicCluster03 } from './tracks/basic/basic-03';
+import { basicCluster04 } from './tracks/basic/basic-04';
 import { normalizeTrack } from './types';
 import type { Level, Track, TopicRule } from './types';
 
@@ -23,7 +24,7 @@ export const tracks: Track[] = [
     name: 'Basic',
     label: 'Beginner',
     eligibleStartingPoint: true,
-    levels: [...basicCluster01, ...basicCluster02, ...basicCluster03],
+    levels: [...basicCluster01, ...basicCluster02, ...basicCluster03, ...basicCluster04],
   }),
 ];
 

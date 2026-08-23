@@ -9,6 +9,7 @@ import type { TrackInput } from '../types';
 import { basicCluster01 } from './basic/basic-01';
 import { basicCluster02 } from './basic/basic-02';
 import { basicCluster03 } from './basic/basic-03';
+import { basicCluster04 } from './basic/basic-04';
 
 export const basicTrack: TrackInput = {
   id: 'basic',
@@ -16,5 +17,5 @@ export const basicTrack: TrackInput = {
   name: 'Basic',
   label: 'Beginner',
   eligibleStartingPoint: true,
-  levels: [...basicCluster01, ...basicCluster02, ...basicCluster03],
+  levels: [...basicCluster01, ...basicCluster02, ...basicCluster03, ...basicCluster04],
 };
