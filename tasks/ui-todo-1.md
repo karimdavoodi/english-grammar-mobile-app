@@ -11,7 +11,7 @@ after it is implemented, verified (tests / tsc / lint), and committed.
       back on Home asks to exit. Update `HomeScreen.test.tsx` (drop the exit-confirm
       block) and add focus-scoped coverage in `AppNavigator.test.tsx`. Manual
       Android-device pass required (hardware back can't be fully reproduced in jest).
-- [ ] Task 2 — Stats screen redesign + human rule names
+- [x] Task 2 — Stats screen redesign + human rule names
       Redesign `StatsScreen` from plain text lines into themed summary tiles
       (Answers / Accuracy / Time played / Practice days) and an "Accuracy by rule"
       section whose rows show the human `TopicRule.title` (resolved via `findRule`,
