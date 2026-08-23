@@ -214,7 +214,6 @@
           "levelId": "b01",
           "rule": "present_simple_form",
           "type": "fix_sentence",
-          "faultySentence": "The train leave at six every day.",
           "prompt": "The train ___ at six every day.",
           "choices": [
             "leaves",
@@ -224,10 +223,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "'leaves' is correct: the sentence requires 'leaves'.",
-            "'leave' is wrong: the sentence requires 'leaves'.",
-            "'is leaving' is wrong: the sentence requires 'leaves'.",
-            "'left' is wrong: the sentence requires 'leaves'."
+            "'Leaves' is correct: 'the train' is singular and a regular schedule uses the present simple.",
+            "'Leave' is the base form and does not agree with singular 'the train'.",
+            "'Is leaving' describes an action in progress or a current arrangement, not the regular schedule stated here.",
+            "'Left' is past simple and does not fit a schedule that is generally true."
           ]
         },
         {
@@ -235,12 +234,12 @@
           "levelId": "b01",
           "rule": "present_simple_usage",
           "type": "fill_blank",
-          "prompt": "I ___ coffee every morning.",
-          "correctAnswer": "drink",
+          "prompt": "My father usually ___ the news before breakfast.",
+          "correctAnswer": "reads",
           "acceptedAnswers": [
-            "drink"
+            "reads"
           ],
-          "explanation": "General habits use the present simple; plural subjects take the base verb."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b01q12",
@@ -248,12 +247,16 @@
           "rule": "present_simple_usage",
           "type": "word_order",
           "sentenceWords": [
-            "Cats",
-            "like",
-            "milk."
+            "My",
+            "brother",
+            "plays",
+            "tennis",
+            "on",
+            "Sundays."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "General habits use the present simple; plural subjects take the base verb."
+          "explanation": "General habits use the present simple; plural subjects take the base verb.",
+          "correctAnswer": "My brother plays tennis on Sundays."
         }
       ]
     },
@@ -466,7 +469,6 @@
           "levelId": "b02",
           "rule": "present_simple_vs_continuous",
           "type": "fix_sentence",
-          "faultySentence": "She walk to work every day.",
           "prompt": "She ___ to work every day, but today she is cycling.",
           "choices": [
             "walks",
@@ -476,10 +478,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "'walks' is correct: the sentence requires 'walks'.",
-            "'is walking' is wrong: the sentence requires 'walks'.",
-            "'walk' is wrong: the sentence requires 'walks'.",
-            "'walked' is wrong: the sentence requires 'walks'."
+            "'Walks' is correct: 'every day' describes a routine, so the present simple is required.",
+            "'Is walking' describes what is happening now, but today she is cycling.",
+            "'Walk' is the base form and does not agree with singular 'she'.",
+            "'Walked' is past simple and does not fit the present routine."
           ]
         },
         {
@@ -487,13 +489,12 @@
           "levelId": "b02",
           "rule": "present_simple_vs_continuous",
           "type": "fill_blank",
-          "prompt": "They ___ dinner right now.",
-          "correctAnswer": "are having",
+          "prompt": "Please be quiet. The baby ___ right now.",
+          "correctAnswer": "is sleeping",
           "acceptedAnswers": [
-            "are having",
-            "have"
+            "is sleeping"
           ],
-          "explanation": "Use the present continuous for an action happening now."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b02q12",
@@ -501,14 +502,16 @@
           "rule": "present_simple_vs_continuous",
           "type": "word_order",
           "sentenceWords": [
-            "We",
+            "Look!",
+            "The",
+            "children",
             "are",
-            "watching",
-            "a",
-            "film."
+            "running",
+            "outside."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Use the present continuous for an action happening now."
+          "explanation": "Use the present continuous for an action happening now.",
+          "correctAnswer": "Look! The children are running outside."
         }
       ]
     },
@@ -700,19 +703,19 @@
           "id": "b03q09",
           "levelId": "b03",
           "rule": "past_simple_usage",
-          "prompt": "I ___ my keys this morning.",
+          "prompt": "I ___ my keys yesterday morning.",
           "choices": [
             "lose",
             "am losing",
             "lost",
-            "losing"
+            "was losing"
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "'Lose' is wrong: the base form does not express a finished past action.",
-            "'Am losing' is wrong: present continuous describes a process now, not an event this morning.",
-            "'Lost' is correct: 'this morning' is a past time, so the past simple fits.",
-            "'Losing' is wrong: the -ing form needs a helper verb."
+            "'Lose' is the present-simple base form and does not fit the finished past time 'yesterday morning'.",
+            "'Am losing' is present continuous and refers to an action happening now.",
+            "'Lost' is the past-simple form of 'lose' and correctly describes a completed event yesterday morning.",
+            "'Was losing' would describe an ongoing process at a particular past moment; that meaning is not intended here."
           ],
           "type": "multiple_choice"
         },
@@ -721,7 +724,6 @@
           "levelId": "b03",
           "rule": "past_simple_usage",
           "type": "fix_sentence",
-          "faultySentence": "When did you moved here?",
           "prompt": "When ___ you move here?",
           "choices": [
             "did",
@@ -731,10 +733,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "'did' is correct: the sentence requires 'did'.",
-            "'do' is wrong: the sentence requires 'did'.",
-            "'does' is wrong: the sentence requires 'did'.",
-            "'are' is wrong: the sentence requires 'did'."
+            "'Did' is correct: past-simple questions use 'did + subject + base verb'.",
+            "'Do' is present simple and does not fit the past question.",
+            "'Does' is present simple and is used with he/she/it, not 'you'.",
+            "'Are' would require a different construction and cannot form this past-simple question."
           ]
         },
         {
@@ -742,12 +744,12 @@
           "levelId": "b03",
           "rule": "past_simple_usage",
           "type": "fill_blank",
-          "prompt": "I ___ my keys this morning.",
-          "correctAnswer": "lost",
+          "prompt": "They ___ to Ottawa last weekend.",
+          "correctAnswer": "drove",
           "acceptedAnswers": [
-            "lost"
+            "drove"
           ],
-          "explanation": "The past simple describes a completed action at a finished past time."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b03q12",
@@ -755,14 +757,16 @@
           "rule": "past_simple_usage",
           "type": "word_order",
           "sentenceWords": [
-            "She",
-            "visited",
-            "the",
-            "museum",
-            "yesterday."
+            "We",
+            "watched",
+            "a",
+            "film",
+            "last",
+            "night."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "The past simple describes a completed action at a finished past time."
+          "explanation": "The past simple describes a completed action at a finished past time.",
+          "correctAnswer": "We watched a film last night."
         }
       ]
     },
@@ -975,7 +979,6 @@
           "levelId": "b04",
           "rule": "past_simple_vs_continuous",
           "type": "fix_sentence",
-          "faultySentence": "They was playing chess when I came in.",
           "prompt": "They ___ chess when I came in.",
           "choices": [
             "were playing",
@@ -985,10 +988,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "'were playing' is correct: the sentence requires 'were playing'.",
-            "'played' is wrong: the sentence requires 'were playing'.",
-            "'are playing' is wrong: the sentence requires 'were playing'.",
-            "'play' is wrong: the sentence requires 'were playing'."
+            "'Were playing' is correct: the game was in progress when I entered.",
+            "'Played' presents the game as a completed past event rather than an action in progress.",
+            "'Are playing' is present continuous and does not fit the past event 'came in'.",
+            "'Play' is present simple and does not fit the past context."
           ]
         },
         {
@@ -996,12 +999,12 @@
           "levelId": "b04",
           "rule": "past_simple_vs_continuous",
           "type": "fill_blank",
-          "prompt": "I ___ down the street when it started to rain.",
-          "correctAnswer": "was walking",
+          "prompt": "At 7 p.m. yesterday, I ___ dinner with my family.",
+          "correctAnswer": "was eating",
           "acceptedAnswers": [
-            "was walking"
+            "was eating"
           ],
-          "explanation": "Use the past continuous for an action in progress when another past event happened."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b04q12",
@@ -1009,15 +1012,18 @@
           "rule": "past_simple_vs_continuous",
           "type": "word_order",
           "sentenceWords": [
-            "We",
-            "were",
-            "eating",
+            "She",
+            "was",
+            "driving",
+            "home",
             "when",
-            "she",
-            "called."
+            "it",
+            "started",
+            "raining."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Use the past continuous for an action in progress when another past event happened."
+          "explanation": "Use the past continuous for an action in progress when another past event happened.",
+          "correctAnswer": "She was driving home when it started raining."
         }
       ]
     },
@@ -1039,7 +1045,7 @@
           {
             "rule": "present_perfect_vs_past_simple",
             "title": "Present Perfect vs Past Simple",
-            "explanation": "Use the present perfect when the exact time is not stated or when the result matters now (I have lost my keys — I cannot find them). Use the past simple when the time is finished and specific (I lost my keys yesterday).",
+            "explanation": "Use the present perfect when the exact past time is not specified, when an experience is considered up to now, or when a past action has a present result. Use the past simple for a completed action at a finished, specific past time such as yesterday or in 2019.",
             "example": "He has visited Rome (experience). / He visited Rome in 2019 (specific past time)."
           }
         ]
@@ -1049,7 +1055,7 @@
           "id": "b05q01",
           "levelId": "b05",
           "rule": "present_perfect_form",
-          "prompt": "She ___ her homework already.",
+          "prompt": "She ___ her homework already, so she can relax now.",
           "choices": [
             "finished",
             "has finished",
@@ -1058,10 +1064,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "'Finished' is wrong: without a specific past time, the finished action that matters now needs the present perfect.",
-            "'Has finished' is correct: 'already' signals the present perfect, and 'she' takes 'has'.",
-            "'Is finishing' is wrong: present continuous means the action is still in progress.",
-            "'Finishes' is wrong: the present simple describes a habit, not a completed action."
+            "'Finished' is past simple. Without a finished past-time reference, the present-perfect form better expresses the completed action with a present result.",
+            "'Has finished' is correct: the action is completed and its result matters now; 'she' takes 'has'.",
+            "'Is finishing' means the action is still in progress, which conflicts with 'already' and 'so she can relax now'.",
+            "'Finishes' is present simple and normally describes a habit or repeated action, not a completed task with a present result."
           ],
           "type": "multiple_choice"
         },
@@ -1069,7 +1075,7 @@
           "id": "b05q02",
           "levelId": "b05",
           "rule": "present_perfect_form",
-          "prompt": "We ___ this film twice.",
+          "prompt": "We ___ this film twice, and we want to watch it again.",
           "choices": [
             "see",
             "have seen",
@@ -1078,10 +1084,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "'See' is wrong: the base form does not express a completed experience.",
-            "'Have seen' is correct: 'we' takes 'have' + the past participle for an experience up to now.",
-            "'Saw' is wrong: the past simple needs a specific past time, which is not given here.",
-            "'Are seeing' is wrong: present continuous describes the action happening now."
+            "'See' is the base form and cannot complete this present-perfect statement.",
+            "'Have seen' is correct: it describes an experience that has occurred twice up to now.",
+            "'Saw' is past simple and would normally need a completed past-time context such as 'last year'.",
+            "'Are seeing' is present continuous and does not express two completed experiences."
           ],
           "type": "multiple_choice"
         },
@@ -1198,10 +1204,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "'Has visited' is wrong: 'in 2019' is a finished, specific past time, which belongs with the past simple.",
-            "'Visits' is wrong: the present simple does not fit a past event.",
-            "'Visited' is correct: a specific finished time ('in 2019') takes the past simple.",
-            "'Is visiting' is wrong: present continuous describes the visit happening now."
+            "'Has visited' is present perfect, but 'in 2019' identifies a finished past time, so past simple is required.",
+            "'Visits' is present simple and does not fit the finished past time 'in 2019'.",
+            "'Visited' is correct: 'in 2019' refers to a completed, specific past time.",
+            "'Is visiting' is present continuous and would describe a visit happening around now."
           ],
           "type": "multiple_choice"
         },
@@ -1230,7 +1236,6 @@
           "levelId": "b05",
           "rule": "present_perfect_vs_past_simple",
           "type": "fix_sentence",
-          "faultySentence": "He have broken his leg.",
           "prompt": "He ___ his leg, so he cannot play today.",
           "choices": [
             "has broken",
@@ -1240,10 +1245,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "'has broken' is correct: the sentence requires 'has broken'.",
-            "'broke' is wrong: the sentence requires 'has broken'.",
-            "'breaks' is wrong: the sentence requires 'has broken'.",
-            "'is breaking' is wrong: the sentence requires 'has broken'."
+            "'Has broken' is correct: the injury happened before now and its result affects him now.",
+            "'Broke' is past simple and would normally require a finished past-time context if the focus were a completed past event.",
+            "'Breaks' is present simple and does not describe this completed injury.",
+            "'Is breaking' suggests the injury is happening at this moment."
           ]
         },
         {
@@ -1251,13 +1256,12 @@
           "levelId": "b05",
           "rule": "present_perfect_vs_past_simple",
           "type": "fill_blank",
-          "prompt": "We ___ here since 2020.",
-          "correctAnswer": "have lived",
+          "prompt": "I ___ never ___ to Australia.",
+          "correctAnswer": "have;been",
           "acceptedAnswers": [
-            "have lived",
-            "lived"
+            "have been"
           ],
-          "explanation": "Use the present perfect when a past event has a result or connection to now."
+          "explanation": "Use 'have been' for a present-perfect experience with the subject 'I'."
         },
         {
           "id": "b05q12",
@@ -1265,14 +1269,16 @@
           "rule": "present_perfect_vs_past_simple",
           "type": "word_order",
           "sentenceWords": [
-            "She",
-            "has",
-            "finished",
-            "her",
-            "homework."
+            "Have",
+            "you",
+            "ever",
+            "visited",
+            "New",
+            "York?"
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Use the present perfect when a past event has a result or connection to now."
+          "explanation": "Use the present perfect when a past event has a result or connection to now.",
+          "correctAnswer": "Have you ever visited New York?"
         }
       ]
     },
@@ -1294,7 +1300,7 @@
           {
             "rule": "will_vs_going_to",
             "title": "Will vs Going to",
-            "explanation": "Use be going to for plans made before the moment of speaking and for predictions based on present evidence (Look at those clouds — it's going to rain). Use will for spontaneous decisions and general predictions (I'll answer the phone).",
+            "explanation": "Use be going to for plans or intentions already formed before speaking and for predictions based on present evidence. Use will for spontaneous decisions, offers, promises, and many general predictions. Other future forms, especially the present continuous, can also express arrangements.",
             "example": "We are going to move next month (plan). / The doorbell is ringing — I’ll get it (spontaneous)."
           }
         ]
@@ -1404,7 +1410,7 @@
           "id": "b06q06",
           "levelId": "b06",
           "rule": "will_vs_going_to",
-          "prompt": "I ___ a doctor when I grow up.",
+          "prompt": "I have decided that I ___ a doctor when I grow up.",
           "choices": [
             "am going to be",
             "will be",
@@ -1413,10 +1419,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "'Am going to be' is correct: a long-held intention for the future takes 'going to'.",
-            "'Will be' is wrong: 'will' suits a spontaneous decision, but this is a considered intention.",
-            "'Am' is wrong: 'am' alone cannot express a future intention with 'a doctor'.",
-            "'Be' is wrong: 'be' needs an auxiliary to form a future."
+            "'Am going to be' is correct because the speaker has already made the future decision or intention.",
+            "'Will be' can express a prediction, but the sentence explicitly presents this as an existing intention.",
+            "'Am' is present simple and cannot express the future intention in this sentence.",
+            "'Be' is the base form and needs an auxiliary such as 'am going to' or 'will'."
           ],
           "type": "multiple_choice"
         },
@@ -1444,19 +1450,19 @@
           "id": "b06q08",
           "levelId": "b06",
           "rule": "will_vs_going_to",
-          "prompt": "We ___ dinner with friends tomorrow — we booked a table.",
+          "prompt": "We decided last week that we ___ move to a larger house next year.",
           "choices": [
-            "will have",
-            "have",
-            "are going to have",
-            "had"
+            "will",
+            "are going to",
+            "do",
+            "did"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "choiceExplanations": [
-            "'Will have' is wrong: the dinner was arranged before speaking, so 'going to' fits better.",
-            "'Have' is wrong: the present simple does not express a future arrangement.",
-            "'Are going to have' is correct: a pre-arranged plan takes 'going to'.",
-            "'Had' is wrong: the past simple does not fit a future event."
+            "'Will' can express a future prediction or decision, but this sentence emphasizes a plan already decided last week.",
+            "'Are going to' is correct: it expresses a prior plan or intention.",
+            "'Do' is a present-simple auxiliary and cannot complete this future construction.",
+            "'Did' is past simple and cannot express the planned move next year."
           ],
           "type": "multiple_choice"
         },
@@ -1485,20 +1491,19 @@
           "levelId": "b06",
           "rule": "will_vs_going_to",
           "type": "fix_sentence",
-          "faultySentence": "We are going buy a new house.",
-          "prompt": "It is decided: we ___ a new house.",
+          "prompt": "We have already made the plan: we ___ move next month.",
           "choices": [
-            "are going to buy",
-            "will buy",
-            "buy",
-            "bought"
+            "are going to",
+            "will",
+            "do",
+            "did"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "'are going to buy' is correct: the sentence requires 'are going to buy'.",
-            "'will buy' is wrong: the sentence requires 'are going to buy'.",
-            "'buy' is wrong: the sentence requires 'are going to buy'.",
-            "'bought' is wrong: the sentence requires 'are going to buy'."
+            "'Are going to' is correct for a future plan that has already been made.",
+            "'Will' can express a future decision or prediction, but the sentence explicitly emphasizes an existing plan.",
+            "'Do' is a present-simple auxiliary and cannot complete this future construction.",
+            "'Did' is past simple and cannot express a move next month."
           ]
         },
         {
@@ -1506,12 +1511,12 @@
           "levelId": "b06",
           "rule": "will_vs_going_to",
           "type": "fill_blank",
-          "prompt": "She ___ probably pass the exam.",
+          "prompt": "I promise I ___ call you after work.",
           "correctAnswer": "will",
           "acceptedAnswers": [
             "will"
           ],
-          "explanation": "Use will for a prediction and going to for a prior plan."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b06q12",
@@ -1519,15 +1524,16 @@
           "rule": "will_vs_going_to",
           "type": "word_order",
           "sentenceWords": [
-            "They",
-            "are",
-            "flying",
-            "to",
-            "Paris",
-            "tomorrow."
+            "I",
+            "will",
+            "help",
+            "you",
+            "with",
+            "that."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Use will for a prediction and going to for a prior plan."
+          "explanation": "Use will for a prediction and going to for a prior plan.",
+          "correctAnswer": "I will help you with that."
         }
       ]
     },
@@ -1740,20 +1746,19 @@
           "levelId": "b07",
           "rule": "modal_obligation_advice",
           "type": "fix_sentence",
-          "faultySentence": "If you have a headache, you should to take a rest.",
-          "prompt": "If you have a headache, you ___ take a rest.",
+          "prompt": "You ___ take an umbrella; it is going to rain.",
           "choices": [
             "should",
             "should to",
-            "must to",
-            "are should"
+            "are should",
+            "can to"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "'should' is correct: the sentence requires 'should'.",
-            "'should to' is wrong: the sentence requires 'should'.",
-            "'must to' is wrong: the sentence requires 'should'.",
-            "'are should' is wrong: the sentence requires 'should'."
+            "'Should' is correct for advice or a recommendation.",
+            "'Should to' is incorrect because a modal is followed directly by the base verb.",
+            "'Are should' is not a grammatical modal construction.",
+            "'Can to' is incorrect because 'can' is followed directly by the base verb without 'to'."
           ]
         },
         {
@@ -1761,12 +1766,12 @@
           "levelId": "b07",
           "rule": "modal_obligation_advice",
           "type": "fill_blank",
-          "prompt": "You ___ wear a seat belt in a car.",
+          "prompt": "You ___ not park here; this space is reserved.",
           "correctAnswer": "must",
           "acceptedAnswers": [
             "must"
           ],
-          "explanation": "A modal is followed directly by the base verb; must expresses obligation."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b07q12",
@@ -1776,12 +1781,13 @@
           "sentenceWords": [
             "You",
             "should",
-            "call",
-            "your",
-            "doctor."
+            "drink",
+            "more",
+            "water."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "A modal is followed directly by the base verb; must expresses obligation."
+          "explanation": "A modal is followed directly by the base verb; must expresses obligation.",
+          "correctAnswer": "You should drink more water."
         }
       ]
     },
@@ -1994,20 +2000,19 @@
           "levelId": "b08",
           "rule": "articles_the_zero",
           "type": "fix_sentence",
-          "faultySentence": "Water in this glass is cold.",
           "prompt": "___ water in this glass is cold.",
           "choices": [
             "The",
             "A",
             "An",
-            "nothing"
+            "No article"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "'The' is correct: the sentence requires 'The'.",
-            "'A' is wrong: the sentence requires 'The'.",
-            "'An' is wrong: the sentence requires 'The'.",
-            "'nothing' is wrong: the sentence requires 'The'."
+            "'The' is correct because the phrase refers to specific water—the water in this particular glass.",
+            "'A' cannot normally be used with the uncountable noun 'water' in this meaning.",
+            "'An' is also an indefinite article and cannot be used with uncountable 'water' here.",
+            "'No article' would be possible when talking about water in general, but this sentence identifies specific water in one glass."
           ]
         },
         {
@@ -2015,12 +2020,12 @@
           "levelId": "b08",
           "rule": "articles_the_zero",
           "type": "fill_blank",
-          "prompt": "She is ___ honest person.",
-          "correctAnswer": "an",
+          "prompt": "We visited ___ museum near our hotel yesterday.",
+          "correctAnswer": "the",
           "acceptedAnswers": [
-            "an"
+            "the"
           ],
-          "explanation": "Use the before a specific noun and an before a vowel sound."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b08q12",
@@ -2028,14 +2033,15 @@
           "rule": "articles_the_zero",
           "type": "word_order",
           "sentenceWords": [
-            "The",
-            "children",
-            "are",
-            "at",
-            "school."
+            "I",
+            "bought",
+            "an",
+            "umbrella",
+            "yesterday."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Use the before a specific noun and an before a vowel sound."
+          "explanation": "Use the before a specific noun and an before a vowel sound.",
+          "correctAnswer": "I bought an umbrella yesterday."
         }
       ]
     },
@@ -2248,20 +2254,19 @@
           "levelId": "b09",
           "rule": "superlatives",
           "type": "fix_sentence",
-          "faultySentence": "Of the three roads, this one is the longer.",
           "prompt": "Of the three roads, this one is the ___.",
           "choices": [
-            "longest",
-            "longer",
             "long",
-            "more long"
+            "longer",
+            "longest",
+            "most long"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "choiceExplanations": [
-            "'longest' is correct: the sentence requires 'longest'.",
-            "'longer' is wrong: the sentence requires 'longest'.",
-            "'long' is wrong: the sentence requires 'longest'.",
-            "'more long' is wrong: the sentence requires 'longest'."
+            "'Long' is the positive form and does not compare three roads.",
+            "'Longer' is the comparative form, which is normally used to compare two items.",
+            "'Longest' is the superlative form used for one item among three or more.",
+            "'Most long' is not the standard superlative form of 'long'."
           ]
         },
         {
@@ -2269,12 +2274,12 @@
           "levelId": "b09",
           "rule": "superlatives",
           "type": "fill_blank",
-          "prompt": "This bag is ___ than mine.",
-          "correctAnswer": "more expensive",
+          "prompt": "Mount Everest is ___ mountain in the world.",
+          "correctAnswer": "the highest",
           "acceptedAnswers": [
-            "more expensive"
+            "the highest"
           ],
-          "explanation": "Comparatives compare two things; superlatives rank one within a group."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b09q12",
@@ -2285,11 +2290,14 @@
             "This",
             "is",
             "the",
-            "best",
-            "option."
+            "most",
+            "expensive",
+            "car",
+            "here."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Comparatives compare two things; superlatives rank one within a group."
+          "explanation": "Comparatives compare two things; superlatives rank one within a group.",
+          "correctAnswer": "This is the most expensive car here."
         }
       ]
     },
@@ -2311,7 +2319,7 @@
           {
             "rule": "past_perfect_vs_past_simple",
             "title": "Past Perfect vs Past Simple",
-            "explanation": "Use past simple for the later action and past perfect for the earlier one.",
+            "explanation": "Use the past perfect to make the earlier of two past events clear (When we arrived, the movie had started). The past simple can sometimes also describe a sequence when the order is already clear, so good questions should provide enough context to test the earlier-past meaning.",
             "example": "The train had left (earlier) by the time we arrived (later)."
           }
         ]
@@ -2341,19 +2349,19 @@
           "id": "b10q02",
           "levelId": "b10",
           "rule": "past_perfect_form",
-          "prompt": "She ___ her keys before leaving the house.",
+          "prompt": "When I arrived, I realized she ___ the door before she left.",
           "choices": [
-            "locks",
-            "had locked",
             "locked",
-            "has locked"
+            "had locked",
+            "has locked",
+            "was locking"
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "'Locks' is present simple — wrong tense for a past event.",
-            "'Had locked' is correct: the locking happened before the leaving, so past perfect fits.",
-            "'Locked' is past simple — it does not mark the locking as earlier than the leaving.",
-            "'Has locked' is present perfect — wrong; the leaving is a past event, so the earlier action needs past perfect."
+            "'Locked' is past simple, but the sentence needs to show that locking happened before the later past realization.",
+            "'Had locked' is correct: the past perfect marks the earlier past action.",
+            "'Has locked' is present perfect and does not fit the past-time sequence.",
+            "'Was locking' describes an action in progress, not a completed action that happened before the realization."
           ],
           "type": "multiple_choice"
         },
@@ -2361,19 +2369,19 @@
           "id": "b10q03",
           "levelId": "b10",
           "rule": "past_perfect_form",
-          "prompt": "The children ___ asleep by nine o'clock.",
+          "prompt": "When we checked the children at nine, they ___ asleep.",
           "choices": [
             "fell",
             "have fallen",
             "had fallen",
-            "fall"
+            "were falling"
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "'Fell' is past simple — it does not mark the falling asleep as completed by a past time.",
-            "'Have fallen' is present perfect — wrong; nine o'clock is a past reference point.",
-            "'Had fallen' is correct: past perfect for the action completed before a past time (nine o'clock).",
-            "'Fall' is present simple — wrong tense for a past event."
+            "'Fell' would describe the moment they became asleep, not the earlier completed event before the check.",
+            "'Have fallen' is present perfect and does not fit this past-time sequence.",
+            "'Had fallen' is correct: they became asleep before we checked them at nine.",
+            "'Were falling' suggests the process was in progress at the time of the check, which is not the intended meaning."
           ],
           "type": "multiple_choice"
         },
@@ -2401,19 +2409,19 @@
           "id": "b10q05",
           "levelId": "b10",
           "rule": "past_perfect_form",
-          "prompt": "After they ___, the meeting began.",
+          "prompt": "After the guests ___ down, the host began the presentation.",
           "choices": [
-            "were sitting",
-            "sat down",
-            "have sat down",
-            "had sat down"
+            "sat",
+            "have sat",
+            "had sat",
+            "were sitting"
           ],
-          "correctIndex": 3,
+          "correctIndex": 2,
           "choiceExplanations": [
-            "'Were sitting' is past continuous — wrong; the meaning here is a completed action, not one in progress.",
-            "'Sat down' is past simple — it does not mark the sitting as earlier than the meeting.",
-            "'Have sat down' is present perfect — wrong; the meeting began in the past.",
-            "'Had sat down' is correct: past perfect for the action completed before the meeting began."
+            "'Sat' is possible in some narrative contexts, but it does not explicitly mark the earlier completed action being tested here.",
+            "'Have sat' is present perfect and does not fit the past narrative.",
+            "'Had sat' is correct: the guests sat down before the host began the presentation.",
+            "'Were sitting' describes an ongoing state rather than the completed earlier event."
           ],
           "type": "multiple_choice"
         },
@@ -2490,10 +2498,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "'Took' is past simple — it does not mark the taking as earlier than the closing.",
-            "'Has taken' is present perfect — wrong; the kitchen closed in the past.",
-            "'Had taken' is correct: past perfect for the earlier action; the closing is the later past action.",
-            "'Takes' is present simple — wrong tense for past events."
+            "'Took' is past simple, but the question specifically asks you to show that taking the order happened before another past event.",
+            "'Has taken' is present perfect and does not fit the completed past-time sequence.",
+            "'Had taken' is correct: the order was taken before the kitchen closed.",
+            "'Takes' is present simple and does not fit the past context."
           ],
           "type": "multiple_choice"
         },
@@ -2502,20 +2510,19 @@
           "levelId": "b10",
           "rule": "past_perfect_vs_past_simple",
           "type": "fix_sentence",
-          "faultySentence": "The waiter had took our order before the kitchen closed.",
           "prompt": "The waiter ___ our order before the kitchen closed.",
           "choices": [
-            "had taken",
             "took",
             "has taken",
+            "had taken",
             "takes"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "choiceExplanations": [
-            "'had taken' is correct: the sentence requires 'had taken'.",
-            "'took' is wrong: the sentence requires 'had taken'.",
-            "'has taken' is wrong: the sentence requires 'had taken'.",
-            "'takes' is wrong: the sentence requires 'had taken'."
+            "'Took' is past simple, but the question emphasizes that the action happened before another past event.",
+            "'Has taken' is present perfect and does not fit this completed past sequence.",
+            "'Had taken' is correct: past perfect marks the earlier action before the kitchen closed.",
+            "'Takes' is present simple and does not fit the past context."
           ]
         },
         {
@@ -2523,12 +2530,12 @@
           "levelId": "b10",
           "rule": "past_perfect_vs_past_simple",
           "type": "fill_blank",
-          "prompt": "She ___ her keys before I asked.",
-          "correctAnswer": "had found",
+          "prompt": "By the time the police arrived, the thief ___.",
+          "correctAnswer": "had escaped",
           "acceptedAnswers": [
-            "had found"
+            "had escaped"
           ],
-          "explanation": "Use the past perfect for the earlier of two past actions."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b10q12",
@@ -2538,13 +2545,15 @@
           "sentenceWords": [
             "They",
             "had",
-            "left",
+            "finished",
+            "dinner",
             "before",
             "we",
             "arrived."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Use the past perfect for the earlier of two past actions."
+          "explanation": "Use the past perfect for the earlier of two past actions.",
+          "correctAnswer": "They had finished dinner before we arrived."
         }
       ]
     },
@@ -2757,20 +2766,19 @@
           "levelId": "b11",
           "rule": "prepositions_time_since_for_until",
           "type": "fix_sentence",
-          "faultySentence": "The shop is open for nine o’clock.",
           "prompt": "The shop is open ___ nine o’clock.",
           "choices": [
             "until",
-            "since",
             "for",
-            "in"
+            "since",
+            "at"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "'until' is correct: the sentence requires 'until'.",
-            "'since' is wrong: the sentence requires 'until'.",
-            "'for' is wrong: the sentence requires 'until'.",
-            "'in' is wrong: the sentence requires 'until'."
+            "'Until' is correct because it gives the endpoint of the period when the shop is open.",
+            "'For' normally introduces a duration, such as 'for two hours'.",
+            "'Since' introduces the starting point of a period, not its endpoint.",
+            "'At' identifies a specific time rather than a period ending at that time."
           ]
         },
         {
@@ -2778,12 +2786,12 @@
           "levelId": "b11",
           "rule": "prepositions_time_since_for_until",
           "type": "fill_blank",
-          "prompt": "We waited ___ two hours.",
-          "correctAnswer": "for",
+          "prompt": "Our flight leaves ___ 7:30 a.m.",
+          "correctAnswer": "at",
           "acceptedAnswers": [
-            "for"
+            "at"
           ],
-          "explanation": "Use for with a duration, since with a starting point, and until with an end point."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b11q12",
@@ -2791,15 +2799,16 @@
           "rule": "prepositions_time_since_for_until",
           "type": "word_order",
           "sentenceWords": [
-            "She",
-            "has",
-            "lived",
-            "here",
-            "since",
-            "2018."
+            "We",
+            "will",
+            "meet",
+            "on",
+            "Friday",
+            "morning."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Use for with a duration, since with a starting point, and until with an end point."
+          "explanation": "Use for with a duration, since with a starting point, and until with an end point.",
+          "correctAnswer": "We will meet on Friday morning."
         }
       ]
     },
@@ -2871,19 +2880,19 @@
           "id": "b12q03",
           "levelId": "b12",
           "rule": "first_conditional",
-          "prompt": "If she studies, she ___ the exam.",
+          "prompt": "If she studies for next week's exam, she ___ it.",
           "choices": [
-            "pass",
-            "will pass",
             "passes",
-            "passed"
+            "will pass",
+            "passed",
+            "is passing"
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "'Pass' is wrong: the result clause needs 'will' + base verb.",
-            "'Will pass' is correct: the first conditional uses will in the result clause.",
-            "'Passes' is wrong: the present simple belongs in the if-clause, not the result.",
-            "'Passed' is wrong: the past simple does not fit a future possibility."
+            "'Passes' is present simple and would fit a general or habitual condition, not this specific future possibility.",
+            "'Will pass' is correct: this is a first conditional about a possible result of studying for next week's exam.",
+            "'Passed' is past simple and does not fit the future condition.",
+            "'Is passing' is present continuous and does not express the future result of the condition."
           ],
           "type": "multiple_choice"
         },
@@ -3012,20 +3021,19 @@
           "levelId": "b12",
           "rule": "first_conditional",
           "type": "fix_sentence",
-          "faultySentence": "If we will leave now, we will catch the film.",
           "prompt": "If we leave now, we ___ the film.",
           "choices": [
             "will catch",
             "catch",
             "caught",
-            "catching"
+            "are catching"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "'will catch' is correct: the sentence requires 'will catch'.",
-            "'catch' is wrong: the sentence requires 'will catch'.",
-            "'caught' is wrong: the sentence requires 'will catch'.",
-            "'catching' is wrong: the sentence requires 'will catch'."
+            "'Will catch' is correct: the first conditional uses present simple in the if-clause and 'will + base verb' in the result clause.",
+            "'Catch' would normally express a general result rather than this specific future possibility.",
+            "'Caught' is past simple and does not fit the future condition.",
+            "'Are catching' is not the standard result form for this first conditional."
           ]
         },
         {
@@ -3033,12 +3041,12 @@
           "levelId": "b12",
           "rule": "first_conditional",
           "type": "fill_blank",
-          "prompt": "If it ___ tomorrow, we will cancel the picnic.",
-          "correctAnswer": "rains",
+          "prompt": "If you mix blue and yellow, you ___ green.",
+          "correctAnswer": "get",
           "acceptedAnswers": [
-            "rains"
+            "get"
           ],
-          "explanation": "The first conditional uses present simple in the if-clause and will in the result clause."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b12q12",
@@ -3048,14 +3056,14 @@
           "sentenceWords": [
             "If",
             "you",
-            "study",
-            "hard,",
-            "you",
-            "will",
-            "pass."
+            "heat",
+            "ice,",
+            "it",
+            "melts."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "The first conditional uses present simple in the if-clause and will in the result clause."
+          "explanation": "The first conditional uses present simple in the if-clause and will in the result clause.",
+          "correctAnswer": "If you heat ice, it melts."
         }
       ]
     },
@@ -3268,20 +3276,19 @@
           "levelId": "b13",
           "rule": "countable_uncountable_nouns",
           "type": "fix_sentence",
-          "faultySentence": "He gave me an advice.",
-          "prompt": "He gave me ___ advice.",
+          "prompt": "He gave me ___ advice about the interview.",
           "choices": [
-            "a",
-            "an",
             "some",
-            "many"
+            "an",
+            "many",
+            "a"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "choiceExplanations": [
-            "Advice is uncountable and cannot take a.",
-            "Advice is uncountable and cannot take an.",
-            "Some advice is the correct form.",
-            "Many is not used with uncountable advice."
+            "'Some' is correct because 'advice' is uncountable and can be used with 'some'.",
+            "'An' cannot be used directly with the uncountable noun 'advice'.",
+            "'Many' is used with plural countable nouns, not uncountable 'advice'.",
+            "'A' cannot be used directly with 'advice'; say 'a piece of advice' instead."
           ]
         },
         {
@@ -3289,12 +3296,12 @@
           "levelId": "b13",
           "rule": "quantifiers_some_any",
           "type": "fill_blank",
-          "prompt": "Do you have ___ questions?",
-          "correctAnswer": "any",
+          "prompt": "There isn't ___ furniture in the room.",
+          "correctAnswer": "much",
           "acceptedAnswers": [
-            "any"
+            "much"
           ],
-          "explanation": "Use any in a neutral question with plural countable nouns."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b13q12",
@@ -3302,13 +3309,17 @@
           "rule": "countable_uncountable_nouns",
           "type": "word_order",
           "sentenceWords": [
-            "I",
-            "need",
+            "There",
+            "is",
             "some",
-            "water."
+            "rice",
+            "in",
+            "the",
+            "bowl."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Water is uncountable, so some can introduce it."
+          "explanation": "Water is uncountable, so some can introduce it.",
+          "correctAnswer": "There is some rice in the bowl."
         }
       ]
     },
@@ -3521,20 +3532,19 @@
           "levelId": "b14",
           "rule": "quantifiers_few_little",
           "type": "fix_sentence",
-          "faultySentence": "There is a few milk in the fridge.",
-          "prompt": "There is ___ milk in the fridge.",
+          "prompt": "There is ___ milk left in the fridge, but enough for one cup.",
           "choices": [
-            "a few",
             "a little",
+            "a few",
             "many",
             "few"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "choiceExplanations": [
-            "A few is used with plural countable nouns.",
-            "A little is correct with uncountable milk.",
-            "Many is used with plural countable nouns.",
-            "Few is used with plural countable nouns."
+            "'A little' is correct because 'milk' is uncountable and the sentence says there is a small amount that is still enough.",
+            "'A few' is used with plural countable nouns, not uncountable 'milk'.",
+            "'Many' is used with plural countable nouns, not uncountable 'milk'.",
+            "'Few' is used with plural countable nouns, not uncountable 'milk'."
           ]
         },
         {
@@ -3542,12 +3552,12 @@
           "levelId": "b14",
           "rule": "quantifiers_much_many",
           "type": "fill_blank",
-          "prompt": "How ___ people came to the party?",
-          "correctAnswer": "many",
+          "prompt": "Only ___ students were absent today.",
+          "correctAnswer": "a few",
           "acceptedAnswers": [
-            "many"
+            "a few"
           ],
-          "explanation": "Many modifies plural countable nouns such as people."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b14q12",
@@ -3555,14 +3565,16 @@
           "rule": "quantifiers_few_little",
           "type": "word_order",
           "sentenceWords": [
-            "We",
+            "I",
             "have",
             "a",
-            "few",
-            "minutes."
+            "little",
+            "time",
+            "left."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "A few modifies the plural countable noun minutes."
+          "explanation": "A few modifies the plural countable noun minutes.",
+          "correctAnswer": "I have a little time left."
         }
       ]
     },
@@ -3775,7 +3787,6 @@
           "levelId": "b15",
           "rule": "possessive_determiners_pronouns",
           "type": "fix_sentence",
-          "faultySentence": "This phone is my.",
           "prompt": "This phone is ___.",
           "choices": [
             "my",
@@ -3785,10 +3796,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "My must be followed by a noun.",
-            "Mine stands alone after the verb.",
-            "Me is an object pronoun.",
-            "I is a subject pronoun."
+            "'My' is a possessive determiner and must be followed by a noun.",
+            "'Mine' is the possessive pronoun that can stand alone after 'is'.",
+            "'Me' is an object pronoun and cannot show possession here.",
+            "'I' is a subject pronoun and cannot show possession here."
           ]
         },
         {
@@ -3796,12 +3807,12 @@
           "levelId": "b15",
           "rule": "subject_object_pronouns",
           "type": "fill_blank",
-          "prompt": "Please send the email to ___.",
-          "correctAnswer": "me",
+          "prompt": "I gave the keys to ___.",
+          "correctAnswer": "him",
           "acceptedAnswers": [
-            "me"
+            "him"
           ],
-          "explanation": "Use the object pronoun me after the preposition to."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b15q12",
@@ -3809,13 +3820,14 @@
           "rule": "possessive_determiners_pronouns",
           "type": "word_order",
           "sentenceWords": [
-            "This",
-            "is",
-            "our",
-            "house."
+            "Those",
+            "books",
+            "are",
+            "hers."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Our is a possessive determiner before the noun house."
+          "explanation": "Our is a possessive determiner before the noun house.",
+          "correctAnswer": "Those books are hers."
         }
       ]
     },
@@ -4028,20 +4040,19 @@
           "levelId": "b16",
           "rule": "adverbs_frequency_position",
           "type": "fix_sentence",
-          "faultySentence": "She goes often to the library.",
-          "prompt": "She ___ goes to the library.",
+          "prompt": "She ___ goes to the library on weekends.",
           "choices": [
-            "often",
+            "usually",
             "usual",
-            "frequent",
-            "frequency"
+            "usualness",
+            "use"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "Often normally comes before the main verb.",
-            "Usual is an adjective.",
-            "Frequent is an adjective.",
-            "Frequency is a noun."
+            "'Usually' is the adverb of frequency that naturally modifies 'goes'.",
+            "'Usual' is an adjective, not the required adverb.",
+            "'Usualness' is a noun and cannot modify the verb here.",
+            "'Use' is a verb or noun, not an adverb of frequency."
           ]
         },
         {
@@ -4049,12 +4060,12 @@
           "levelId": "b16",
           "rule": "adverbs_manner_form",
           "type": "fill_blank",
-          "prompt": "He completed the task ___.",
-          "correctAnswer": "quickly",
+          "prompt": "She answered the question ___.",
+          "correctAnswer": "carefully",
           "acceptedAnswers": [
-            "quickly"
+            "carefully"
           ],
-          "explanation": "The -ly adverb quickly describes how he completed the task."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b16q12",
@@ -4062,13 +4073,14 @@
           "rule": "adverbs_frequency_position",
           "type": "word_order",
           "sentenceWords": [
-            "I",
+            "He",
             "usually",
-            "walk",
-            "home."
+            "speaks",
+            "quietly."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "A frequency adverb usually comes before the main verb."
+          "explanation": "A frequency adverb usually comes before the main verb.",
+          "correctAnswer": "He usually speaks quietly."
         }
       ]
     },
@@ -4281,20 +4293,19 @@
           "levelId": "b17",
           "rule": "prepositions_movement",
           "type": "fix_sentence",
-          "faultySentence": "They ran in the park.",
-          "prompt": "They ran ___ the park.",
+          "prompt": "The children ran ___ the park and reached the other side.",
           "choices": [
-            "into",
+            "across",
             "at",
-            "on",
+            "in",
             "to"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "Into shows movement from outside to inside the park.",
-            "At marks a point, not movement into an area.",
-            "On marks a surface.",
-            "To marks a destination but not entering it."
+            "'Across' is correct because the children moved from one side of the park to the other.",
+            "'At' indicates a location, not movement from one side to the other.",
+            "'In' indicates movement within or location inside the park, not crossing it.",
+            "'To' would identify a destination but not the idea of crossing from one side to the other."
           ]
         },
         {
@@ -4302,12 +4313,12 @@
           "levelId": "b17",
           "rule": "prepositions_place",
           "type": "fill_blank",
-          "prompt": "The cat is ___ the box.",
-          "correctAnswer": "in",
+          "prompt": "The cyclist rode ___ the bridge.",
+          "correctAnswer": "across",
           "acceptedAnswers": [
-            "in"
+            "across"
           ],
-          "explanation": "In shows that the cat is inside the box."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b17q12",
@@ -4315,14 +4326,15 @@
           "rule": "prepositions_movement",
           "type": "word_order",
           "sentenceWords": [
-            "He",
+            "She",
             "walked",
-            "through",
+            "into",
             "the",
-            "park."
+            "office."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Through introduces movement across the park."
+          "explanation": "Through introduces movement across the park.",
+          "correctAnswer": "She walked into the office."
         }
       ]
     },
@@ -4535,20 +4547,19 @@
           "levelId": "b18",
           "rule": "infinitive_to_purpose",
           "type": "fix_sentence",
-          "faultySentence": "She went outside getting some air.",
-          "prompt": "She went outside ___ some air.",
+          "prompt": "She went outside ___ some fresh air.",
           "choices": [
-            "get",
-            "getting",
             "to get",
-            "got"
+            "getting",
+            "got",
+            "get"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "choiceExplanations": [
-            "The purpose pattern needs to.",
-            "Getting does not fit the intended purpose pattern.",
-            "To get is the correct purpose infinitive.",
-            "Got is a past form."
+            "'To get' is correct: the infinitive expresses the purpose of going outside.",
+            "'Getting' is a gerund/participle and does not express the purpose in this construction.",
+            "'Got' is past simple and cannot express the purpose here.",
+            "'Get' is the base form and needs an appropriate auxiliary or infinitive marker in this sentence."
           ]
         },
         {
@@ -4556,12 +4567,12 @@
           "levelId": "b18",
           "rule": "gerund_after_preposition",
           "type": "fill_blank",
-          "prompt": "He is good at ___.",
-          "correctAnswer": "cooking",
+          "prompt": "They went to the library ___ some books.",
+          "correctAnswer": "to borrow",
           "acceptedAnswers": [
-            "cooking"
+            "to borrow"
           ],
-          "explanation": "A gerund follows the preposition at."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b18q12",
@@ -4570,13 +4581,15 @@
           "type": "word_order",
           "sentenceWords": [
             "I",
-            "went",
-            "to",
-            "buy",
-            "bread."
+            "enjoy",
+            "reading",
+            "in",
+            "the",
+            "evening."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "To plus the base verb expresses purpose."
+          "explanation": "To plus the base verb expresses purpose.",
+          "correctAnswer": "I enjoy reading in the evening."
         }
       ]
     },
@@ -4789,20 +4802,19 @@
           "levelId": "b19",
           "rule": "imperative_negative",
           "type": "fix_sentence",
-          "faultySentence": "Not open the window.",
-          "prompt": "___ open the window.",
+          "prompt": "___ touch the hot pan.",
           "choices": [
             "Do not",
             "Does not",
-            "No",
-            "Not to"
+            "Not",
+            "No"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "Do not correctly forms a negative imperative.",
-            "Does not is not used for commands.",
-            "No cannot introduce this verb.",
-            "Not to is not the imperative pattern."
+            "'Do not' correctly forms a negative imperative.",
+            "'Does not' is a third-person present-simple form, not an imperative.",
+            "'Not' cannot normally stand alone to form a negative imperative.",
+            "'No' is not used before a base verb to form a standard negative imperative."
           ]
         },
         {
@@ -4810,13 +4822,12 @@
           "levelId": "b19",
           "rule": "imperative_form",
           "type": "fill_blank",
-          "prompt": "___ your hands before dinner.",
-          "correctAnswer": "Wash",
+          "prompt": "___ the instructions carefully before you begin.",
+          "correctAnswer": "Read",
           "acceptedAnswers": [
-            "wash",
-            "Wash"
+            "Read"
           ],
-          "explanation": "Use the base verb to give a positive instruction."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b19q12",
@@ -4824,13 +4835,14 @@
           "rule": "imperative_negative",
           "type": "word_order",
           "sentenceWords": [
-            "Don’t",
-            "touch",
+            "Please",
+            "close",
             "the",
-            "screen."
+            "door."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Don’t plus the base verb forms a negative imperative."
+          "explanation": "Don’t plus the base verb forms a negative imperative.",
+          "correctAnswer": "Please close the door."
         }
       ]
     },
@@ -5043,20 +5055,19 @@
           "levelId": "b20",
           "rule": "question_word_order",
           "type": "fix_sentence",
-          "faultySentence": "You are coming with us?",
           "prompt": "___ you coming with us?",
           "choices": [
             "Are",
             "Do",
             "Does",
-            "Is"
+            "Have"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "Are comes before you in a continuous question.",
-            "Do is not used with coming here.",
-            "Does cannot pair with you coming.",
-            "Is does not agree with you."
+            "'Are' is correct because 'coming' is an -ing form, so the question uses present continuous.",
+            "'Do' is used with a base verb in present-simple questions, not with 'coming'.",
+            "'Does' is also a present-simple auxiliary and cannot precede 'coming'.",
+            "'Have' would require a past participle for a present-perfect question."
           ]
         },
         {
@@ -5064,12 +5075,12 @@
           "levelId": "b20",
           "rule": "short_answers",
           "type": "fill_blank",
-          "prompt": "Does he work here? Yes, he ___.",
-          "correctAnswer": "does",
+          "prompt": "Are they ready? No, they ___.",
+          "correctAnswer": "aren't",
           "acceptedAnswers": [
-            "does"
+            "aren't"
           ],
-          "explanation": "A short answer repeats does with the subject he."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b20q12",
@@ -5077,13 +5088,14 @@
           "rule": "question_word_order",
           "type": "word_order",
           "sentenceWords": [
-            "Do",
+            "Why",
+            "are",
             "you",
-            "need",
-            "help?"
+            "laughing?"
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Do comes before the subject in a present-simple question."
+          "explanation": "Do comes before the subject in a present-simple question.",
+          "correctAnswer": "Why are you laughing?"
         }
       ]
     },
@@ -5296,20 +5308,19 @@
           "levelId": "b21",
           "rule": "past_passive_form",
           "type": "fix_sentence",
-          "faultySentence": "The bridge was build last year.",
           "prompt": "The bridge was ___ last year.",
           "choices": [
-            "build",
             "built",
+            "build",
             "building",
             "builds"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "choiceExplanations": [
-            "Build is the base form.",
-            "Built is the past participle after was.",
-            "Building is an -ing form.",
-            "Builds is a present form."
+            "'Built' is correct: passive voice uses 'was + past participle'.",
+            "'Build' is the base form and cannot follow 'was' in this passive construction.",
+            "'Building' is an -ing form and does not form the simple passive here.",
+            "'Builds' is present-simple and cannot follow 'was'."
           ]
         },
         {
@@ -5317,12 +5328,12 @@
           "levelId": "b21",
           "rule": "present_passive_form",
           "type": "fill_blank",
-          "prompt": "The meals ___ prepared here.",
-          "correctAnswer": "are",
+          "prompt": "The packages ___ delivered this morning.",
+          "correctAnswer": "were",
           "acceptedAnswers": [
-            "are"
+            "were"
           ],
-          "explanation": "Use are with plural meals in the present passive."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b21q12",
@@ -5331,13 +5342,14 @@
           "type": "word_order",
           "sentenceWords": [
             "The",
-            "letter",
-            "was",
-            "sent",
+            "windows",
+            "were",
+            "cleaned",
             "yesterday."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "The past passive uses was or were plus a past participle."
+          "explanation": "The past passive uses was or were plus a past participle.",
+          "correctAnswer": "The windows were cleaned yesterday."
         }
       ]
     },
@@ -5550,7 +5562,6 @@
           "levelId": "b22",
           "rule": "reported_statements_backshift",
           "type": "fix_sentence",
-          "faultySentence": "She said that she is tired.",
           "prompt": "She said that she ___ tired.",
           "choices": [
             "was",
@@ -5560,10 +5571,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“was” corrects the faulty sentence.",
-            "This does not repair the sentence.",
-            "“were” is incorrect here because this sentence requires “was”; it does not provide the required grammatical form or meaning.",
-            "“be” is incorrect here because this sentence requires “was”; it does not provide the required grammatical form or meaning."
+            "'Was' is correct in standard reported speech when the original statement was in the present ('I am tired') and is backshifted into the past.",
+            "'Is' can sometimes be retained when the statement is still true, but it does not represent the expected backshift pattern being tested.",
+            "'Were' does not agree with singular 'she' in this statement.",
+            "'Be' is the base form and cannot follow 'she' in this construction."
           ]
         },
         {
@@ -5571,12 +5582,12 @@
           "levelId": "b22",
           "rule": "reported_statements_backshift",
           "type": "fill_blank",
-          "prompt": "She said that she ___ tired.",
-          "correctAnswer": "was",
+          "prompt": "John said that he ___ busy the next day.",
+          "correctAnswer": "would be",
           "acceptedAnswers": [
-            "was"
+            "would be"
           ],
-          "explanation": "After said, was is the usual backshifted form of am."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b22q12",
@@ -5584,15 +5595,16 @@
           "rule": "reported_statements_backshift",
           "type": "word_order",
           "sentenceWords": [
-            "She",
+            "He",
             "said",
             "that",
-            "she",
+            "he",
             "was",
             "tired."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "After said, was is the usual backshifted form of am."
+          "explanation": "After said, was is the usual backshifted form of am.",
+          "correctAnswer": "He said that he was tired."
         }
       ]
     },
@@ -5805,20 +5817,19 @@
           "levelId": "b23",
           "rule": "defining_relative_who_which",
           "type": "fix_sentence",
-          "faultySentence": "The woman which lives next door is a doctor.",
           "prompt": "The woman ___ lives next door is a doctor.",
           "choices": [
             "who",
             "which",
-            "that",
-            "whose"
+            "where",
+            "when"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“who” corrects the faulty sentence.",
-            "This does not repair the sentence.",
-            "“that” is incorrect here because this sentence requires “who”; it does not provide the required grammatical form or meaning.",
-            "“whose” is incorrect here because this sentence requires “who”; it does not provide the required grammatical form or meaning."
+            "'Who' is correct because it refers to a person and introduces the defining relative clause.",
+            "'Which' normally refers to things rather than people in this context.",
+            "'Where' refers to places, not people.",
+            "'When' refers to time, not people."
           ]
         },
         {
@@ -5826,12 +5837,12 @@
           "levelId": "b23",
           "rule": "defining_relative_who_which",
           "type": "fill_blank",
-          "prompt": "The woman ___ lives next door is a doctor.",
-          "correctAnswer": "who",
+          "prompt": "The book ___ I borrowed was fascinating.",
+          "correctAnswer": "that",
           "acceptedAnswers": [
-            "who"
+            "that"
           ],
-          "explanation": "Use who for a person that is the subject of the relative clause."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b23q12",
@@ -5840,17 +5851,16 @@
           "type": "word_order",
           "sentenceWords": [
             "The",
-            "woman",
-            "who",
-            "lives",
-            "next",
-            "door",
+            "car",
+            "that",
+            "I",
+            "bought",
             "is",
-            "a",
-            "doctor."
+            "new."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Use who for a person that is the subject of the relative clause."
+          "explanation": "Use who for a person that is the subject of the relative clause.",
+          "correctAnswer": "The car that I bought is new."
         }
       ]
     },
@@ -6063,7 +6073,6 @@
           "levelId": "b24",
           "rule": "present_perfect_experience",
           "type": "fix_sentence",
-          "faultySentence": "Have you ever went to Italy?",
           "prompt": "Have you ever ___ to Italy?",
           "choices": [
             "been",
@@ -6073,10 +6082,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“been” corrects the faulty sentence.",
-            "This does not repair the sentence.",
-            "“go” is incorrect here because this sentence requires “been”; it does not provide the required grammatical form or meaning.",
-            "“going” is incorrect here because this sentence requires “been”; it does not provide the required grammatical form or meaning."
+            "'Been' is correct: present-perfect experience uses 'have + past participle'.",
+            "'Went' is past simple and cannot follow 'have'.",
+            "'Go' is the base form and cannot follow 'have' in the present perfect.",
+            "'Going' is an -ing form and does not complete the present-perfect construction."
           ]
         },
         {
@@ -6084,12 +6093,12 @@
           "levelId": "b24",
           "rule": "present_perfect_experience",
           "type": "fill_blank",
-          "prompt": "Have you ever ___ to Italy?",
-          "correctAnswer": "been",
+          "prompt": "She has ___ finished the report.",
+          "correctAnswer": "already",
           "acceptedAnswers": [
-            "been"
+            "already"
           ],
-          "explanation": "Use the past participle been after have in a present-perfect experience question."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b24q12",
@@ -6097,15 +6106,15 @@
           "rule": "present_perfect_experience",
           "type": "word_order",
           "sentenceWords": [
-            "Have",
-            "you",
-            "ever",
-            "been",
-            "to",
-            "Italy?"
+            "I",
+            "have",
+            "never",
+            "seen",
+            "snow."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Use the past participle been after have in a present-perfect experience question."
+          "explanation": "Use the past participle been after have in a present-perfect experience question.",
+          "correctAnswer": "I have never seen snow."
         }
       ]
     },
@@ -6318,20 +6327,19 @@
           "levelId": "b25",
           "rule": "present_perfect_continuous_form",
           "type": "fix_sentence",
-          "faultySentence": "They have been wait for an hour.",
           "prompt": "They have been ___ for an hour.",
           "choices": [
             "waiting",
             "wait",
-            "worked",
-            "waited"
+            "waited",
+            "waits"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“waiting” corrects the faulty sentence.",
-            "This does not repair the sentence.",
-            "“worked” is incorrect here because this sentence requires “waiting”; it does not provide the required grammatical form or meaning.",
-            "“waited” is incorrect here because this sentence requires “waiting”; it does not provide the required grammatical form or meaning."
+            "'Waiting' is correct: present perfect continuous uses 'have/has been + verb-ing'.",
+            "'Wait' is the base form and cannot follow 'have been' here.",
+            "'Waited' is the past participle/past form and does not form the continuous construction.",
+            "'Waits' is present simple and cannot follow 'have been'."
           ]
         },
         {
@@ -6339,12 +6347,12 @@
           "levelId": "b25",
           "rule": "present_perfect_continuous_form",
           "type": "fill_blank",
-          "prompt": "They have been ___ for an hour.",
-          "correctAnswer": "waiting",
+          "prompt": "He has been ___ for two hours.",
+          "correctAnswer": "studying",
           "acceptedAnswers": [
-            "waiting"
+            "studying"
           ],
-          "explanation": "The present perfect continuous uses been followed by the -ing form waiting."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b25q12",
@@ -6355,13 +6363,13 @@
             "They",
             "have",
             "been",
-            "waiting",
-            "for",
-            "an",
-            "hour."
+            "working",
+            "since",
+            "morning."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "The present perfect continuous uses been followed by the -ing form waiting."
+          "explanation": "The present perfect continuous uses been followed by the -ing form waiting.",
+          "correctAnswer": "They have been working since morning."
         }
       ]
     },
@@ -6533,19 +6541,19 @@
           "id": "b26q08",
           "levelId": "b26",
           "rule": "second_conditional_form",
-          "prompt": "They would move if they ___ afford it.",
+          "prompt": "If they had enough money, they ___ to a bigger house.",
           "choices": [
-            "can",
-            "could",
-            "will",
-            "would"
+            "move",
+            "would move",
+            "will move",
+            "are moving"
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“can” does not fit the grammar rule being tested here.",
-            "“could” is correct in this sentence.",
-            "“will” does not fit the grammar rule being tested here.",
-            "“would” does not fit the grammar rule being tested here."
+            "'Move' is present simple and does not form the result clause of this second conditional.",
+            "'Would move' is correct: the second conditional uses 'would + base verb' in the result clause.",
+            "'Will move' belongs to a first-conditional pattern, not this hypothetical situation.",
+            "'Are moving' is present continuous and does not express the hypothetical result."
           ],
           "type": "multiple_choice"
         },
@@ -6574,20 +6582,19 @@
           "levelId": "b26",
           "rule": "second_conditional_form",
           "type": "fix_sentence",
-          "faultySentence": "If I will have time, I would help.",
-          "prompt": "If I ___ time, I would help.",
+          "prompt": "If I ___ more time, I would help.",
           "choices": [
             "had",
-            "will have",
             "have",
+            "will have",
             "would have"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“had” corrects the faulty sentence.",
-            "This does not repair the sentence.",
-            "“have” is incorrect here because this sentence requires “had”; it does not provide the required grammatical form or meaning.",
-            "“would have” is incorrect here because this sentence requires “had”; it does not provide the required grammatical form or meaning."
+            "'Had' is correct: the second conditional uses past simple in the if-clause.",
+            "'Have' is present simple and would normally belong to a different conditional pattern.",
+            "'Will have' is not used in the if-clause of a standard second conditional.",
+            "'Would have' is not used in the if-clause of a standard second conditional."
           ]
         },
         {
@@ -6595,12 +6602,12 @@
           "levelId": "b26",
           "rule": "second_conditional_form",
           "type": "fill_blank",
-          "prompt": "If I ___ time, I would help.",
-          "correctAnswer": "had",
+          "prompt": "If I were you, I ___ ask for more information.",
+          "correctAnswer": "would",
           "acceptedAnswers": [
-            "had"
+            "would"
           ],
-          "explanation": "The if-clause of the second conditional uses the past form had."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b26q12",
@@ -6610,14 +6617,17 @@
           "sentenceWords": [
             "If",
             "I",
-            "had",
-            "time,",
+            "knew",
+            "the",
+            "answer,",
             "I",
             "would",
-            "help."
+            "tell",
+            "you."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "The if-clause of the second conditional uses the past form had."
+          "explanation": "The if-clause of the second conditional uses the past form had.",
+          "correctAnswer": "If I knew the answer, I would tell you."
         }
       ]
     },
@@ -6689,7 +6699,7 @@
           "id": "b27q03",
           "levelId": "b27",
           "rule": "modal_probability_present",
-          "prompt": "He ___ be tired after that long journey.",
+          "prompt": "He has worked all night, so he ___ be tired.",
           "choices": [
             "must",
             "musts",
@@ -6698,10 +6708,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“must” is correct in this sentence.",
-            "“musts” does not fit the grammar rule being tested here.",
-            "“has” does not fit the grammar rule being tested here.",
-            "“does” does not fit the grammar rule being tested here."
+            "'Must' is correct: the speaker makes a strong logical conclusion from the evidence.",
+            "'Musts' is not a grammatical modal form; modals do not take -s.",
+            "'Has' cannot be used by itself to express this deduction.",
+            "'Does' is a present-simple auxiliary and does not express probability here."
           ],
           "type": "multiple_choice"
         },
@@ -6830,20 +6840,19 @@
           "levelId": "b27",
           "rule": "modal_probability_past",
           "type": "fix_sentence",
-          "faultySentence": "They must have went home.",
-          "prompt": "They must have ___ home.",
+          "prompt": "They must have ___ home by now.",
           "choices": [
             "gone",
-            "went",
             "go",
-            "left"
+            "went",
+            "going"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“gone” corrects the faulty sentence.",
-            "This does not repair the sentence.",
-            "“go” is incorrect here because this sentence requires “gone”; it does not provide the required grammatical form or meaning.",
-            "“left” is incorrect here because this sentence requires “gone”; it does not provide the required grammatical form or meaning."
+            "'Gone' is correct: 'must have + past participle' expresses a strong deduction about a past action.",
+            "'Go' is the base form and cannot follow 'must have'.",
+            "'Went' is past simple and cannot follow 'have'.",
+            "'Going' is an -ing form and does not complete this perfect modal construction."
           ]
         },
         {
@@ -6851,12 +6860,12 @@
           "levelId": "b27",
           "rule": "modal_probability_past",
           "type": "fill_blank",
-          "prompt": "They must have ___ home.",
-          "correctAnswer": "gone",
+          "prompt": "She may have ___ the wrong address.",
+          "correctAnswer": "given",
           "acceptedAnswers": [
-            "gone"
+            "given"
           ],
-          "explanation": "After must have, use the past participle gone."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b27q12",
@@ -6864,14 +6873,15 @@
           "rule": "modal_probability_past",
           "type": "word_order",
           "sentenceWords": [
-            "They",
-            "must",
-            "have",
-            "gone",
+            "She",
+            "might",
+            "be",
+            "at",
             "home."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "After must have, use the past participle gone."
+          "explanation": "After must have, use the past participle gone.",
+          "correctAnswer": "She might be at home."
         }
       ]
     },
@@ -7084,20 +7094,19 @@
           "levelId": "b28",
           "rule": "although_but",
           "type": "fix_sentence",
-          "faultySentence": "Although it was cold, but we went out.",
           "prompt": "Although it was cold, ___ went out.",
           "choices": [
             "we",
             "but we",
-            "they",
-            "we did"
+            "because we",
+            "so we"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“we” corrects the faulty sentence.",
-            "This does not repair the sentence.",
-            "“they” is incorrect here because this sentence requires “we”; it does not provide the required grammatical form or meaning.",
-            "“we did” is incorrect here because this sentence requires “we”; it does not provide the required grammatical form or meaning."
+            "'We' is correct: 'although' already introduces the contrast, so the main clause simply needs its subject.",
+            "'But we' creates a double contrast marker with 'although'.",
+            "'Because we' changes the relationship from contrast to cause and is not grammatical after 'Although it was cold,'.",
+            "'So we' changes the relationship to result and does not fit the contrast introduced by 'although'."
           ]
         },
         {
@@ -7105,12 +7114,12 @@
           "levelId": "b28",
           "rule": "although_but",
           "type": "fill_blank",
-          "prompt": "Although it was cold, ___ went out.",
-          "correctAnswer": "we",
+          "prompt": "He was tired; ___, he continued working.",
+          "correctAnswer": "however",
           "acceptedAnswers": [
-            "we"
+            "however"
           ],
-          "explanation": "Although already expresses the contrast, so no extra but is needed."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b28q12",
@@ -7119,15 +7128,16 @@
           "type": "word_order",
           "sentenceWords": [
             "Although",
-            "it",
+            "he",
             "was",
-            "cold,",
-            "we",
-            "went",
-            "out."
+            "tired,",
+            "he",
+            "kept",
+            "working."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "Although already expresses the contrast, so no extra but is needed."
+          "explanation": "Although already expresses the contrast, so no extra but is needed.",
+          "correctAnswer": "Although he was tired, he kept working."
         }
       ]
     },
@@ -7299,19 +7309,19 @@
           "id": "b29q08",
           "levelId": "b29",
           "rule": "phrasal_verb_particle_position",
-          "prompt": "Please fill ___ this form.",
+          "prompt": "Please fill ___ the missing details on this form.",
           "choices": [
             "in",
-            "in out",
-            "out",
-            "over"
+            "off",
+            "over",
+            "up"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“in” is correct in this sentence.",
-            "“in out” does not fit the grammar rule being tested here.",
-            "“out” does not fit the grammar rule being tested here.",
-            "“over” does not fit the grammar rule being tested here."
+            "'In' is correct: 'fill in' means to provide missing information or details.",
+            "'Off' does not form the intended phrasal verb here.",
+            "'Over' does not form the intended phrasal verb here.",
+            "'Up' does not form the intended phrasal verb here."
           ],
           "type": "multiple_choice"
         },
@@ -7340,20 +7350,19 @@
           "levelId": "b29",
           "rule": "phrasal_verb_object_type",
           "type": "fix_sentence",
-          "faultySentence": "Please turn off it.",
-          "prompt": "Please turn ___ off.",
+          "prompt": "Please turn ___ off before you leave.",
           "choices": [
             "it",
             "off it",
-            "the lights",
-            "them"
+            "it to",
+            "to it"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“it” corrects the faulty sentence.",
-            "This does not repair the sentence.",
-            "“the lights” is incorrect here because this sentence requires “it”; it does not provide the required grammatical form or meaning.",
-            "“them” is incorrect here because this sentence requires “it”; it does not provide the required grammatical form or meaning."
+            "'It' is correct: with a separable phrasal verb, an object pronoun goes between the verb and particle: 'turn it off'.",
+            "'Off it' reverses the required order for an object pronoun.",
+            "'It to' does not form the phrasal verb 'turn off'.",
+            "'To it' does not form the phrasal verb 'turn off'."
           ]
         },
         {
@@ -7361,12 +7370,12 @@
           "levelId": "b29",
           "rule": "phrasal_verb_object_type",
           "type": "fill_blank",
-          "prompt": "Please turn ___ off.",
-          "correctAnswer": "it",
+          "prompt": "Please ___ the volume down.",
+          "correctAnswer": "turn",
           "acceptedAnswers": [
-            "it"
+            "turn"
           ],
-          "explanation": "A pronoun object goes between the phrasal verb and its particle."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b29q12",
@@ -7375,12 +7384,16 @@
           "type": "word_order",
           "sentenceWords": [
             "Please",
-            "turn",
+            "pick",
             "it",
-            "off."
+            "up",
+            "from",
+            "the",
+            "floor."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "A pronoun object goes between the phrasal verb and its particle."
+          "explanation": "A pronoun object goes between the phrasal verb and its particle.",
+          "correctAnswer": "Please pick it up from the floor."
         }
       ]
     },
@@ -7587,20 +7600,19 @@
           "levelId": "b30",
           "rule": "basic_grammar_consolidation",
           "type": "fix_sentence",
-          "faultySentence": "She have finished her work.",
-          "prompt": "She ___ finished her work.",
+          "prompt": "She ___ finished her work, so she can leave now.",
           "choices": [
             "has",
             "have",
-            "have been",
-            "had"
+            "did",
+            "is"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“has” corrects the faulty sentence.",
-            "This does not repair the sentence.",
-            "“have been” is incorrect here because this sentence requires “has”; it does not provide the required grammatical form or meaning.",
-            "“had” is incorrect here because this sentence requires “has”; it does not provide the required grammatical form or meaning."
+            "'Has' is correct because 'she' takes 'has' in the present perfect.",
+            "'Have' does not agree with singular 'she'.",
+            "'Did' forms a past-simple construction and cannot be followed by the past participle 'finished' here.",
+            "'Is' would require an -ing form for the present continuous, not 'finished'."
           ]
         },
         {
@@ -7608,12 +7620,12 @@
           "levelId": "b30",
           "rule": "basic_grammar_consolidation",
           "type": "fill_blank",
-          "prompt": "She ___ finished her work.",
-          "correctAnswer": "has",
+          "prompt": "They ___ already finished the project.",
+          "correctAnswer": "have",
           "acceptedAnswers": [
-            "has"
+            "have"
           ],
-          "explanation": "The singular subject she takes has in the present perfect."
+          "explanation": "The supplied answer fits the grammar and meaning of the sentence."
         },
         {
           "id": "b30q12",
@@ -7623,12 +7635,14 @@
           "sentenceWords": [
             "She",
             "has",
+            "already",
             "finished",
             "her",
             "work."
           ],
           "prompt": "Arrange the words to make a correct sentence.",
-          "explanation": "The singular subject she takes has in the present perfect."
+          "explanation": "The singular subject she takes has in the present perfect.",
+          "correctAnswer": "She has already finished her work."
         }
       ]
     }

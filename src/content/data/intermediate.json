@@ -42,10 +42,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“walked” does not fit the tense, structure, or meaning required here.",
-            "“was walking” is correct for the grammar pattern in this sentence.",
-            "“had walked” does not fit the tense, structure, or meaning required here.",
-            "“am walking” does not fit the tense, structure, or meaning required here."
+            "“walked” is not correct here because it does not satisfy the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event.",
+            "“was walking” is correct because it completes the sentence using the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event.",
+            "“had walked” is not correct here because it does not satisfy the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event.",
+            "“am walking” is not correct here because it does not satisfy the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event."
           ],
           "type": "multiple_choice"
         },
@@ -53,7 +53,7 @@
           "id": "i01q02",
           "levelId": "i01",
           "rule": "past_perfect_narrative",
-          "prompt": "She was tired because she ___ badly.",
+          "prompt": "By the time the interview began, she was tired because she ___ badly the night before.",
           "choices": [
             "slept",
             "has slept",
@@ -62,10 +62,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“slept” does not fit the tense, structure, or meaning required here.",
-            "“has slept” does not fit the tense, structure, or meaning required here.",
-            "“had slept” is correct for the grammar pattern in this sentence.",
-            "“was sleeping” does not fit the tense, structure, or meaning required here."
+            "“slept” is not correct here because it does not satisfy the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point.",
+            "“has slept” is not correct here because it does not satisfy the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point.",
+            "“had slept” is correct because it completes the sentence using the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point.",
+            "“was sleeping” is not correct here because it does not satisfy the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point."
           ],
           "type": "multiple_choice"
         },
@@ -82,10 +82,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“cooked” does not fit the tense, structure, or meaning required here.",
-            "“was cooking” is correct for the grammar pattern in this sentence.",
-            "“had cooked” does not fit the tense, structure, or meaning required here.",
-            "“cooks” does not fit the tense, structure, or meaning required here."
+            "“cooked” is not correct here because it does not satisfy the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event.",
+            "“was cooking” is correct because it completes the sentence using the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event.",
+            "“had cooked” is not correct here because it does not satisfy the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event.",
+            "“cooks” is not correct here because it does not satisfy the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event."
           ],
           "type": "multiple_choice"
         },
@@ -102,10 +102,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“started” does not fit the tense, structure, or meaning required here.",
-            "“was starting” does not fit the tense, structure, or meaning required here.",
-            "“had started” is correct for the grammar pattern in this sentence.",
-            "“has started” does not fit the tense, structure, or meaning required here."
+            "“started” is not correct here because it does not satisfy the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point.",
+            "“was starting” is not correct here because it does not satisfy the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point.",
+            "“had started” is correct because it completes the sentence using the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point.",
+            "“has started” is not correct here because it does not satisfy the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point."
           ],
           "type": "multiple_choice"
         },
@@ -122,10 +122,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“opened” is correct for the grammar pattern in this sentence.",
-            "“was opening” does not fit the tense, structure, or meaning required here.",
-            "“had opened” does not fit the tense, structure, or meaning required here.",
-            "“open” does not fit the tense, structure, or meaning required here."
+            "“opened” is correct because it completes the sentence using the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event.",
+            "“was opening” is not correct here because it does not satisfy the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event.",
+            "“had opened” is not correct here because it does not satisfy the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event.",
+            "“open” is not correct here because it does not satisfy the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event."
           ],
           "type": "multiple_choice"
         },
@@ -133,7 +133,7 @@
           "id": "i01q06",
           "levelId": "i01",
           "rule": "past_perfect_narrative",
-          "prompt": "They could not pay because they ___ their wallets.",
+          "prompt": "By the time they reached the counter, they realized they ___ their wallets at home.",
           "choices": [
             "forgot",
             "were forgetting",
@@ -142,10 +142,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“forgot” does not fit the tense, structure, or meaning required here.",
-            "“were forgetting” does not fit the tense, structure, or meaning required here.",
-            "“had forgotten” is correct for the grammar pattern in this sentence.",
-            "“forget” does not fit the tense, structure, or meaning required here."
+            "“forgot” is not correct here because it does not satisfy the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point.",
+            "“were forgetting” is not correct here because it does not satisfy the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point.",
+            "“had forgotten” is correct because it completes the sentence using the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point.",
+            "“forget” is not correct here because it does not satisfy the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point."
           ],
           "type": "multiple_choice"
         },
@@ -162,10 +162,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“played” does not fit the tense, structure, or meaning required here.",
-            "“were playing” is correct for the grammar pattern in this sentence.",
-            "“had played” does not fit the tense, structure, or meaning required here.",
-            "“play” does not fit the tense, structure, or meaning required here."
+            "“played” is not correct here because it does not satisfy the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event.",
+            "“were playing” is correct because it completes the sentence using the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event.",
+            "“had played” is not correct here because it does not satisfy the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event.",
+            "“play” is not correct here because it does not satisfy the required Narrative tense sequence pattern. Use past simple for completed main events, past continuous for an action in progress, and past perfect for an earlier past event."
           ],
           "type": "multiple_choice"
         },
@@ -173,7 +173,7 @@
           "id": "i01q08",
           "levelId": "i01",
           "rule": "past_perfect_narrative",
-          "prompt": "He knew the city because he ___ there before.",
+          "prompt": "He knew the city well because he ___ there for ten years before moving away.",
           "choices": [
             "lived",
             "was living",
@@ -182,10 +182,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“lived” does not fit the tense, structure, or meaning required here.",
-            "“was living” does not fit the tense, structure, or meaning required here.",
-            "“had lived” is correct for the grammar pattern in this sentence.",
-            "“lives” does not fit the tense, structure, or meaning required here."
+            "“lived” is not correct here because it does not satisfy the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point.",
+            "“was living” is not correct here because it does not satisfy the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point.",
+            "“had lived” is correct because it completes the sentence using the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point.",
+            "“lives” is not correct here because it does not satisfy the required Past perfect in narratives pattern. Use had plus a past participle to show that one past event happened before another past reference point."
           ],
           "type": "multiple_choice"
         },
@@ -202,10 +202,10 @@
           ],
           "correctIndex": 3,
           "choiceExplanations": [
-            "“wash” does not fit the tense, structure, or meaning required here.",
-            "“washes” does not fit the tense, structure, or meaning required here.",
-            "“washing” does not fit the tense, structure, or meaning required here.",
-            "“washed” is correct for the grammar pattern in this sentence."
+            "“wash” is not correct here because it does not satisfy the required present_simple_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“washes” is not correct here because it does not satisfy the required present_simple_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“washing” is not correct here because it does not satisfy the required present_simple_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“washed” is correct because it completes the sentence using the required present_simple_form pattern. This choice does not match the grammar pattern required by the sentence."
           ],
           "type": "multiple_choice"
         },
@@ -299,10 +299,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“study” does not fit the tense, structure, or meaning required here.",
-            "“studied” does not fit the tense, structure, or meaning required here.",
-            "“studying” is correct for the grammar pattern in this sentence.",
-            "“studies” does not fit the tense, structure, or meaning required here."
+            "“study” is not correct here because it does not satisfy the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb.",
+            "“studied” is not correct here because it does not satisfy the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb.",
+            "“studying” is correct because it completes the sentence using the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb.",
+            "“studies” is not correct here because it does not satisfy the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb."
           ],
           "type": "multiple_choice"
         },
@@ -319,10 +319,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“walked” does not fit the tense, structure, or meaning required here.",
-            "“had been walking” is correct for the grammar pattern in this sentence.",
-            "“have walked” does not fit the tense, structure, or meaning required here.",
-            "“walk” does not fit the tense, structure, or meaning required here."
+            "“walked” is not correct here because it does not satisfy the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event.",
+            "“had been walking” is correct because it completes the sentence using the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event.",
+            "“have walked” is not correct here because it does not satisfy the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event.",
+            "“walk” is not correct here because it does not satisfy the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event."
           ],
           "type": "multiple_choice"
         },
@@ -339,10 +339,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“has” does not fit the tense, structure, or meaning required here.",
-            "“had” is correct for the grammar pattern in this sentence.",
-            "“was” does not fit the tense, structure, or meaning required here.",
-            "“did” does not fit the tense, structure, or meaning required here."
+            "“has” is not correct here because it does not satisfy the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb.",
+            "“had” is correct because it completes the sentence using the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb.",
+            "“was” is not correct here because it does not satisfy the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb.",
+            "“did” is not correct here because it does not satisfy the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb."
           ],
           "type": "multiple_choice"
         },
@@ -359,10 +359,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“wait” does not fit the tense, structure, or meaning required here.",
-            "“waited” does not fit the tense, structure, or meaning required here.",
-            "“waiting” is correct for the grammar pattern in this sentence.",
-            "“waits” does not fit the tense, structure, or meaning required here."
+            "“wait” is not correct here because it does not satisfy the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event.",
+            "“waited” is not correct here because it does not satisfy the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event.",
+            "“waiting” is correct because it completes the sentence using the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event.",
+            "“waits” is not correct here because it does not satisfy the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event."
           ],
           "type": "multiple_choice"
         },
@@ -379,10 +379,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“run” does not fit the tense, structure, or meaning required here.",
-            "“ran” does not fit the tense, structure, or meaning required here.",
-            "“running” is correct for the grammar pattern in this sentence.",
-            "“runs” does not fit the tense, structure, or meaning required here."
+            "“run” is not correct here because it does not satisfy the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb.",
+            "“ran” is not correct here because it does not satisfy the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb.",
+            "“running” is correct because it completes the sentence using the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb.",
+            "“runs” is not correct here because it does not satisfy the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb."
           ],
           "type": "multiple_choice"
         },
@@ -399,10 +399,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“had been” is correct for the grammar pattern in this sentence.",
-            "“has been” does not fit the tense, structure, or meaning required here.",
-            "“was” does not fit the tense, structure, or meaning required here.",
-            "“is” does not fit the tense, structure, or meaning required here."
+            "“had been” is correct because it completes the sentence using the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event.",
+            "“has been” is not correct here because it does not satisfy the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event.",
+            "“was” is not correct here because it does not satisfy the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event.",
+            "“is” is not correct here because it does not satisfy the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event."
           ],
           "type": "multiple_choice"
         },
@@ -419,10 +419,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“play” does not fit the tense, structure, or meaning required here.",
-            "“played” does not fit the tense, structure, or meaning required here.",
-            "“playing” is correct for the grammar pattern in this sentence.",
-            "“plays” does not fit the tense, structure, or meaning required here."
+            "“play” is not correct here because it does not satisfy the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb.",
+            "“played” is not correct here because it does not satisfy the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb.",
+            "“playing” is correct because it completes the sentence using the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb.",
+            "“plays” is not correct here because it does not satisfy the required Past perfect continuous form pattern. Form the past perfect continuous with had been and the -ing form of the verb."
           ],
           "type": "multiple_choice"
         },
@@ -439,10 +439,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“since” is correct for the grammar pattern in this sentence.",
-            "“for” does not fit the tense, structure, or meaning required here.",
-            "“during” does not fit the tense, structure, or meaning required here.",
-            "“until” does not fit the tense, structure, or meaning required here."
+            "“since” is correct because it completes the sentence using the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event.",
+            "“for” is not correct here because it does not satisfy the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event.",
+            "“during” is not correct here because it does not satisfy the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event.",
+            "“until” is not correct here because it does not satisfy the required Duration before a past point pattern. Use the past perfect continuous for an ongoing activity that happened before another past event."
           ],
           "type": "multiple_choice"
         },
@@ -459,10 +459,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“has” does not fit the tense, structure, or meaning required here.",
-            "“had” is correct for the grammar pattern in this sentence.",
-            "“was” does not fit the tense, structure, or meaning required here.",
-            "“is” does not fit the tense, structure, or meaning required here."
+            "“has” is not correct here because it does not satisfy the required past_perfect_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“had” is correct because it completes the sentence using the required past_perfect_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“was” is not correct here because it does not satisfy the required past_perfect_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“is” is not correct here because it does not satisfy the required past_perfect_form pattern. This choice does not match the grammar pattern required by the sentence."
           ],
           "type": "multiple_choice"
         },
@@ -555,10 +555,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“work” does not fit the tense, structure, or meaning required here.",
-            "“worked” does not fit the tense, structure, or meaning required here.",
-            "“working” is correct for the grammar pattern in this sentence.",
-            "“works” does not fit the tense, structure, or meaning required here."
+            "“work” is not correct here because it does not satisfy the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time.",
+            "“worked” is not correct here because it does not satisfy the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time.",
+            "“working” is correct because it completes the sentence using the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time.",
+            "“works” is not correct here because it does not satisfy the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time."
           ],
           "type": "multiple_choice"
         },
@@ -575,10 +575,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“complete” does not fit the tense, structure, or meaning required here.",
-            "“completed” is correct for the grammar pattern in this sentence.",
-            "“completing” does not fit the tense, structure, or meaning required here.",
-            "“completes” does not fit the tense, structure, or meaning required here."
+            "“complete” is not correct here because it does not satisfy the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline.",
+            "“completed” is correct because it completes the sentence using the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline.",
+            "“completing” is not correct here because it does not satisfy the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline.",
+            "“completes” is not correct here because it does not satisfy the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline."
           ],
           "type": "multiple_choice"
         },
@@ -595,10 +595,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“will” is correct for the grammar pattern in this sentence.",
-            "“have” does not fit the tense, structure, or meaning required here.",
-            "“would” does not fit the tense, structure, or meaning required here.",
-            "“are” does not fit the tense, structure, or meaning required here."
+            "“will” is correct because it completes the sentence using the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time.",
+            "“have” is not correct here because it does not satisfy the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time.",
+            "“would” is not correct here because it does not satisfy the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time.",
+            "“are” is not correct here because it does not satisfy the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time."
           ],
           "type": "multiple_choice"
         },
@@ -615,10 +615,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“develop” does not fit the tense, structure, or meaning required here.",
-            "“developed” is correct for the grammar pattern in this sentence.",
-            "“developing” does not fit the tense, structure, or meaning required here.",
-            "“develops” does not fit the tense, structure, or meaning required here."
+            "“develop” is not correct here because it does not satisfy the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline.",
+            "“developed” is correct because it completes the sentence using the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline.",
+            "“developing” is not correct here because it does not satisfy the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline.",
+            "“develops” is not correct here because it does not satisfy the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline."
           ],
           "type": "multiple_choice"
         },
@@ -635,10 +635,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“cook” does not fit the tense, structure, or meaning required here.",
-            "“cooked” does not fit the tense, structure, or meaning required here.",
-            "“cooking” is correct for the grammar pattern in this sentence.",
-            "“cooks” does not fit the tense, structure, or meaning required here."
+            "“cook” is not correct here because it does not satisfy the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time.",
+            "“cooked” is not correct here because it does not satisfy the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time.",
+            "“cooking” is correct because it completes the sentence using the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time.",
+            "“cooks” is not correct here because it does not satisfy the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time."
           ],
           "type": "multiple_choice"
         },
@@ -646,19 +646,19 @@
           "id": "i03q06",
           "levelId": "i03",
           "rule": "future_perfect_form",
-          "prompt": "We will have left ___ you arrive.",
+          "prompt": "We will have left ___ 8 p.m.",
           "choices": [
-            "when",
-            "by the time",
-            "while",
-            "during"
+            "by",
+            "at",
+            "during",
+            "since"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "choiceExplanations": [
-            "“when” does not fit the tense, structure, or meaning required here.",
-            "“by the time” is correct for the grammar pattern in this sentence.",
-            "“while” does not fit the tense, structure, or meaning required here.",
-            "“during” does not fit the tense, structure, or meaning required here."
+            "“by” is correct because it completes the sentence using the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline.",
+            "“at” is not correct here because it does not satisfy the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline.",
+            "“during” is not correct here because it does not satisfy the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline.",
+            "“since” is not correct here because it does not satisfy the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline."
           ],
           "type": "multiple_choice"
         },
@@ -675,10 +675,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“work” does not fit the tense, structure, or meaning required here.",
-            "“worked” does not fit the tense, structure, or meaning required here.",
-            "“working” is correct for the grammar pattern in this sentence.",
-            "“works” does not fit the tense, structure, or meaning required here."
+            "“work” is not correct here because it does not satisfy the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time.",
+            "“worked” is not correct here because it does not satisfy the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time.",
+            "“working” is correct because it completes the sentence using the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time.",
+            "“works” is not correct here because it does not satisfy the required Future continuous form pattern. Use will be plus the -ing form for an action that will be in progress at a stated future time."
           ],
           "type": "multiple_choice"
         },
@@ -695,10 +695,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“will” is correct for the grammar pattern in this sentence.",
-            "“would” does not fit the tense, structure, or meaning required here.",
-            "“has” does not fit the tense, structure, or meaning required here.",
-            "“is” does not fit the tense, structure, or meaning required here."
+            "“will” is correct because it completes the sentence using the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline.",
+            "“would” is not correct here because it does not satisfy the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline.",
+            "“has” is not correct here because it does not satisfy the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline.",
+            "“is” is not correct here because it does not satisfy the required Future perfect form pattern. Use will have plus a past participle for an action completed before a future deadline."
           ],
           "type": "multiple_choice"
         },
@@ -715,10 +715,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“will” is correct for the grammar pattern in this sentence.",
-            "“is going” does not fit the tense, structure, or meaning required here.",
-            "“was” does not fit the tense, structure, or meaning required here.",
-            "“has” does not fit the tense, structure, or meaning required here."
+            "“will” is correct because it completes the sentence using the required future_will pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“is going” is not correct here because it does not satisfy the required future_will pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“was” is not correct here because it does not satisfy the required future_will pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“has” is not correct here because it does not satisfy the required future_will pattern. This choice does not match the grammar pattern required by the sentence."
           ],
           "type": "multiple_choice"
         },
@@ -810,10 +810,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“will” does not fit the tense, structure, or meaning required here.",
-            "“would” is correct for the grammar pattern in this sentence.",
-            "“is” does not fit the tense, structure, or meaning required here.",
-            "“has” does not fit the tense, structure, or meaning required here."
+            "“will” is not correct here because it does not satisfy the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time.",
+            "“would” is correct because it completes the sentence using the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time.",
+            "“is” is not correct here because it does not satisfy the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time.",
+            "“has” is not correct here because it does not satisfy the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time."
           ],
           "type": "multiple_choice"
         },
@@ -830,10 +830,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“left” does not fit the tense, structure, or meaning required here.",
-            "“leaving” does not fit the tense, structure, or meaning required here.",
-            "“leave” is correct for the grammar pattern in this sentence.",
-            "“leaves” does not fit the tense, structure, or meaning required here."
+            "“left” is not correct here because it does not satisfy the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen.",
+            "“leaving” is not correct here because it does not satisfy the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen.",
+            "“leave” is correct because it completes the sentence using the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen.",
+            "“leaves” is not correct here because it does not satisfy the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen."
           ],
           "type": "multiple_choice"
         },
@@ -850,10 +850,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“will” does not fit the tense, structure, or meaning required here.",
-            "“would” is correct for the grammar pattern in this sentence.",
-            "“are” does not fit the tense, structure, or meaning required here.",
-            "“have” does not fit the tense, structure, or meaning required here."
+            "“will” is not correct here because it does not satisfy the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time.",
+            "“would” is correct because it completes the sentence using the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time.",
+            "“are” is not correct here because it does not satisfy the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time.",
+            "“have” is not correct here because it does not satisfy the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time."
           ],
           "type": "multiple_choice"
         },
@@ -870,10 +870,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“was” does not fit the tense, structure, or meaning required here.",
-            "“were” is correct for the grammar pattern in this sentence.",
-            "“are” does not fit the tense, structure, or meaning required here.",
-            "“be” does not fit the tense, structure, or meaning required here."
+            "“was” is not correct here because it does not satisfy the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen.",
+            "“were” is correct because it completes the sentence using the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen.",
+            "“are” is not correct here because it does not satisfy the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen.",
+            "“be” is not correct here because it does not satisfy the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen."
           ],
           "type": "multiple_choice"
         },
@@ -890,10 +890,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“would” is correct for the grammar pattern in this sentence.",
-            "“will” does not fit the tense, structure, or meaning required here.",
-            "“is” does not fit the tense, structure, or meaning required here.",
-            "“has” does not fit the tense, structure, or meaning required here."
+            "“would” is correct because it completes the sentence using the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time.",
+            "“will” is not correct here because it does not satisfy the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time.",
+            "“is” is not correct here because it does not satisfy the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time.",
+            "“has” is not correct here because it does not satisfy the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time."
           ],
           "type": "multiple_choice"
         },
@@ -910,10 +910,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“had” does not fit the tense, structure, or meaning required here.",
-            "“having” does not fit the tense, structure, or meaning required here.",
-            "“have” is correct for the grammar pattern in this sentence.",
-            "“has” does not fit the tense, structure, or meaning required here."
+            "“had” is not correct here because it does not satisfy the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen.",
+            "“having” is not correct here because it does not satisfy the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen.",
+            "“have” is correct because it completes the sentence using the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen.",
+            "“has” is not correct here because it does not satisfy the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen."
           ],
           "type": "multiple_choice"
         },
@@ -930,10 +930,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“will” does not fit the tense, structure, or meaning required here.",
-            "“would” is correct for the grammar pattern in this sentence.",
-            "“is” does not fit the tense, structure, or meaning required here.",
-            "“has” does not fit the tense, structure, or meaning required here."
+            "“will” is not correct here because it does not satisfy the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time.",
+            "“would” is correct because it completes the sentence using the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time.",
+            "“is” is not correct here because it does not satisfy the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time.",
+            "“has” is not correct here because it does not satisfy the required Would for future in the past pattern. Use would plus the base verb to report a future event viewed from a past time."
           ],
           "type": "multiple_choice"
         },
@@ -950,10 +950,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“fall” does not fit the tense, structure, or meaning required here.",
-            "“fell” is correct for the grammar pattern in this sentence.",
-            "“falls” does not fit the tense, structure, or meaning required here.",
-            "“falling” does not fit the tense, structure, or meaning required here."
+            "“fall” is not correct here because it does not satisfy the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen.",
+            "“fell” is correct because it completes the sentence using the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen.",
+            "“falls” is not correct here because it does not satisfy the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen.",
+            "“falling” is not correct here because it does not satisfy the required Was or were going to pattern. Use was or were going to for a past plan or intention, especially when the plan may not happen."
           ],
           "type": "multiple_choice"
         },
@@ -970,10 +970,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“changed” is correct for the grammar pattern in this sentence.",
-            "“change” does not fit the tense, structure, or meaning required here.",
-            "“changing” does not fit the tense, structure, or meaning required here.",
-            "“changes” does not fit the tense, structure, or meaning required here."
+            "“changed” is correct because it completes the sentence using the required past_simple_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“change” is not correct here because it does not satisfy the required past_simple_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“changing” is not correct here because it does not satisfy the required past_simple_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“changes” is not correct here because it does not satisfy the required past_simple_form pattern. This choice does not match the grammar pattern required by the sentence."
           ],
           "type": "multiple_choice"
         },
@@ -983,12 +983,12 @@
           "rule": "future_in_past_would",
           "type": "fix_sentence",
           "faultySentence": "She said she will come later.",
-          "prompt": "She said she ___ come later.",
+          "prompt": "She said, “I will come later.” → She said she ___ come later.",
           "choices": [
             "would",
             "will",
-            "was going to",
-            "would have"
+            "was",
+            "has"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
@@ -1065,10 +1065,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“have” does not fit the tense, structure, or meaning required here.",
-            "“had” is correct for the grammar pattern in this sentence.",
-            "“would” does not fit the tense, structure, or meaning required here.",
-            "“was” does not fit the tense, structure, or meaning required here."
+            "“have” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“had” is correct because it completes the sentence using the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“would” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“was” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle."
           ],
           "type": "multiple_choice"
         },
@@ -1085,10 +1085,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“studied” does not fit the tense, structure, or meaning required here.",
-            "“had studied” is correct for the grammar pattern in this sentence.",
-            "“would study” does not fit the tense, structure, or meaning required here.",
-            "“has studied” does not fit the tense, structure, or meaning required here."
+            "“studied” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“had studied” is correct because it completes the sentence using the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“would study” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“has studied” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle."
           ],
           "type": "multiple_choice"
         },
@@ -1105,10 +1105,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“will” does not fit the tense, structure, or meaning required here.",
-            "“would” is correct for the grammar pattern in this sentence.",
-            "“can” does not fit the tense, structure, or meaning required here.",
-            "“are” does not fit the tense, structure, or meaning required here."
+            "“will” is not correct here because it does not satisfy the required Unreal past and regret pattern. Use the third conditional for a past situation that did not happen and an imagined past consequence.",
+            "“would” is correct because it completes the sentence using the required Unreal past and regret pattern. Use the third conditional for a past situation that did not happen and an imagined past consequence.",
+            "“can” is not correct here because it does not satisfy the required Unreal past and regret pattern. Use the third conditional for a past situation that did not happen and an imagined past consequence.",
+            "“are” is not correct here because it does not satisfy the required Unreal past and regret pattern. Use the third conditional for a past situation that did not happen and an imagined past consequence."
           ],
           "type": "multiple_choice"
         },
@@ -1125,10 +1125,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“asked” is correct for the grammar pattern in this sentence.",
-            "“ask” does not fit the tense, structure, or meaning required here.",
-            "“asking” does not fit the tense, structure, or meaning required here.",
-            "“asks” does not fit the tense, structure, or meaning required here."
+            "“asked” is correct because it completes the sentence using the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“ask” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“asking” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“asks” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle."
           ],
           "type": "multiple_choice"
         },
@@ -1145,10 +1145,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“will” does not fit the tense, structure, or meaning required here.",
-            "“would” is correct for the grammar pattern in this sentence.",
-            "“did” does not fit the tense, structure, or meaning required here.",
-            "“are” does not fit the tense, structure, or meaning required here."
+            "“will” is not correct here because it does not satisfy the required Unreal past and regret pattern. Use the third conditional for a past situation that did not happen and an imagined past consequence.",
+            "“would” is correct because it completes the sentence using the required Unreal past and regret pattern. Use the third conditional for a past situation that did not happen and an imagined past consequence.",
+            "“did” is not correct here because it does not satisfy the required Unreal past and regret pattern. Use the third conditional for a past situation that did not happen and an imagined past consequence.",
+            "“are” is not correct here because it does not satisfy the required Unreal past and regret pattern. Use the third conditional for a past situation that did not happen and an imagined past consequence."
           ],
           "type": "multiple_choice"
         },
@@ -1165,10 +1165,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“stopped” is correct for the grammar pattern in this sentence.",
-            "“stop” does not fit the tense, structure, or meaning required here.",
-            "“stopping” does not fit the tense, structure, or meaning required here.",
-            "“stops” does not fit the tense, structure, or meaning required here."
+            "“stopped” is correct because it completes the sentence using the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“stop” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“stopping” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“stops” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle."
           ],
           "type": "multiple_choice"
         },
@@ -1185,10 +1185,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“have” does not fit the tense, structure, or meaning required here.",
-            "“had” is correct for the grammar pattern in this sentence.",
-            "“would” does not fit the tense, structure, or meaning required here.",
-            "“am” does not fit the tense, structure, or meaning required here."
+            "“have” is not correct here because it does not satisfy the required Unreal past and regret pattern. Use the third conditional for a past situation that did not happen and an imagined past consequence.",
+            "“had” is correct because it completes the sentence using the required Unreal past and regret pattern. Use the third conditional for a past situation that did not happen and an imagined past consequence.",
+            "“would” is not correct here because it does not satisfy the required Unreal past and regret pattern. Use the third conditional for a past situation that did not happen and an imagined past consequence.",
+            "“am” is not correct here because it does not satisfy the required Unreal past and regret pattern. Use the third conditional for a past situation that did not happen and an imagined past consequence."
           ],
           "type": "multiple_choice"
         },
@@ -1205,10 +1205,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“would” is correct for the grammar pattern in this sentence.",
-            "“will” does not fit the tense, structure, or meaning required here.",
-            "“has” does not fit the tense, structure, or meaning required here.",
-            "“is” does not fit the tense, structure, or meaning required here."
+            "“would” is correct because it completes the sentence using the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“will” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“has” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“is” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle."
           ],
           "type": "multiple_choice"
         },
@@ -1225,10 +1225,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“would” is correct: the result clause of a third conditional uses would have + past participle.",
-            "“will” does not fit a counterfactual past condition.",
-            "“had” does not fit the tense, structure, or meaning required here.",
-            "“were” does not fit the tense, structure, or meaning required here."
+            "“would” is correct because it completes the sentence using the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“will” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“had” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle.",
+            "“were” is not correct here because it does not satisfy the required Third conditional form pattern. Use if plus past perfect, followed by would have plus a past participle."
           ],
           "type": "multiple_choice"
         },
@@ -1322,10 +1322,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“will” does not fit the tense, structure, or meaning required here.",
-            "“would” is correct for the grammar pattern in this sentence.",
-            "“would have” does not fit the tense, structure, or meaning required here.",
-            "“am” does not fit the tense, structure, or meaning required here."
+            "“will” is not correct here because it does not satisfy the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result.",
+            "“would” is correct because it completes the sentence using the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result.",
+            "“would have” is not correct here because it does not satisfy the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result.",
+            "“am” is not correct here because it does not satisfy the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result."
           ],
           "type": "multiple_choice"
         },
@@ -1342,10 +1342,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“would” does not fit the tense, structure, or meaning required here.",
-            "“would have” is correct for the grammar pattern in this sentence.",
-            "“will” does not fit the tense, structure, or meaning required here.",
-            "“has” does not fit the tense, structure, or meaning required here."
+            "“would” is not correct here because it does not satisfy the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result.",
+            "“would have” is correct because it completes the sentence using the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result.",
+            "“will” is not correct here because it does not satisfy the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result.",
+            "“has” is not correct here because it does not satisfy the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result."
           ],
           "type": "multiple_choice"
         },
@@ -1362,10 +1362,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“be” is correct for the grammar pattern in this sentence.",
-            "“been” does not fit the tense, structure, or meaning required here.",
-            "“being” does not fit the tense, structure, or meaning required here.",
-            "“is” does not fit the tense, structure, or meaning required here."
+            "“be” is correct because it completes the sentence using the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result.",
+            "“been” is not correct here because it does not satisfy the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result.",
+            "“being” is not correct here because it does not satisfy the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result.",
+            "“is” is not correct here because it does not satisfy the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result."
           ],
           "type": "multiple_choice"
         },
@@ -1382,10 +1382,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“told” is correct for the grammar pattern in this sentence.",
-            "“tell” does not fit the tense, structure, or meaning required here.",
-            "“telling” does not fit the tense, structure, or meaning required here.",
-            "“tells” does not fit the tense, structure, or meaning required here."
+            "“told” is correct because it completes the sentence using the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result.",
+            "“tell” is not correct here because it does not satisfy the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result.",
+            "“telling” is not correct here because it does not satisfy the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result.",
+            "“tells” is not correct here because it does not satisfy the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result."
           ],
           "type": "multiple_choice"
         },
@@ -1402,10 +1402,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“have” does not fit the tense, structure, or meaning required here.",
-            "“had” is correct for the grammar pattern in this sentence.",
-            "“would” does not fit the tense, structure, or meaning required here.",
-            "“were” does not fit the tense, structure, or meaning required here."
+            "“have” is not correct here because it does not satisfy the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result.",
+            "“had” is correct because it completes the sentence using the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result.",
+            "“would” is not correct here because it does not satisfy the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result.",
+            "“were” is not correct here because it does not satisfy the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result."
           ],
           "type": "multiple_choice"
         },
@@ -1422,10 +1422,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“leave” does not fit the tense, structure, or meaning required here.",
-            "“left” is correct for the grammar pattern in this sentence.",
-            "“leaving” does not fit the tense, structure, or meaning required here.",
-            "“leaves” does not fit the tense, structure, or meaning required here."
+            "“leave” is not correct here because it does not satisfy the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result.",
+            "“left” is correct because it completes the sentence using the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result.",
+            "“leaving” is not correct here because it does not satisfy the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result.",
+            "“leaves” is not correct here because it does not satisfy the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result."
           ],
           "type": "multiple_choice"
         },
@@ -1442,10 +1442,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“will” does not fit the tense, structure, or meaning required here.",
-            "“would” is correct for the grammar pattern in this sentence.",
-            "“would have” does not fit the tense, structure, or meaning required here.",
-            "“has” does not fit the tense, structure, or meaning required here."
+            "“will” is not correct here because it does not satisfy the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result.",
+            "“would” is correct because it completes the sentence using the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result.",
+            "“would have” is not correct here because it does not satisfy the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result.",
+            "“has” is not correct here because it does not satisfy the required Past condition, present result pattern. Use past perfect in the if-clause and would plus a base verb for a present result."
           ],
           "type": "multiple_choice"
         },
@@ -1462,10 +1462,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“tell” does not fit the tense, structure, or meaning required here.",
-            "“told” is correct for the grammar pattern in this sentence.",
-            "“telling” does not fit the tense, structure, or meaning required here.",
-            "“tells” does not fit the tense, structure, or meaning required here."
+            "“tell” is not correct here because it does not satisfy the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result.",
+            "“told” is correct because it completes the sentence using the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result.",
+            "“telling” is not correct here because it does not satisfy the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result.",
+            "“tells” is not correct here because it does not satisfy the required Present condition, past result pattern. Use past simple in the if-clause and would have plus a past participle for an imagined past result."
           ],
           "type": "multiple_choice"
         },
@@ -1583,10 +1583,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“repair” does not fit the tense, structure, or meaning required here.",
-            "“repaired” is correct for the grammar pattern in this sentence.",
-            "“repairing” does not fit the tense, structure, or meaning required here.",
-            "“repairs” does not fit the tense, structure, or meaning required here."
+            "“repair” is not correct here because it does not satisfy the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive.",
+            "“repaired” is correct because it completes the sentence using the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive.",
+            "“repairing” is not correct here because it does not satisfy the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive.",
+            "“repairs” is not correct here because it does not satisfy the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive."
           ],
           "type": "multiple_choice"
         },
@@ -1603,10 +1603,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“sign” does not fit the tense, structure, or meaning required here.",
-            "“signed” is correct for the grammar pattern in this sentence.",
-            "“signing” does not fit the tense, structure, or meaning required here.",
-            "“signs” does not fit the tense, structure, or meaning required here."
+            "“sign” is not correct here because it does not satisfy the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected.",
+            "“signed” is correct because it completes the sentence using the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected.",
+            "“signing” is not correct here because it does not satisfy the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected.",
+            "“signs” is not correct here because it does not satisfy the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected."
           ],
           "type": "multiple_choice"
         },
@@ -1623,10 +1623,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“clean” does not fit the tense, structure, or meaning required here.",
-            "“cleaned” is correct for the grammar pattern in this sentence.",
-            "“cleaning” does not fit the tense, structure, or meaning required here.",
-            "“cleans” does not fit the tense, structure, or meaning required here."
+            "“clean” is not correct here because it does not satisfy the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive.",
+            "“cleaned” is correct because it completes the sentence using the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive.",
+            "“cleaning” is not correct here because it does not satisfy the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive.",
+            "“cleans” is not correct here because it does not satisfy the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive."
           ],
           "type": "multiple_choice"
         },
@@ -1643,10 +1643,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“store” does not fit the tense, structure, or meaning required here.",
-            "“stored” is correct for the grammar pattern in this sentence.",
-            "“storing” does not fit the tense, structure, or meaning required here.",
-            "“stores” does not fit the tense, structure, or meaning required here."
+            "“store” is not correct here because it does not satisfy the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected.",
+            "“stored” is correct because it completes the sentence using the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected.",
+            "“storing” is not correct here because it does not satisfy the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected.",
+            "“stores” is not correct here because it does not satisfy the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected."
           ],
           "type": "multiple_choice"
         },
@@ -1663,10 +1663,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“cut” is correct for the grammar pattern in this sentence.",
-            "“cutting” does not fit the tense, structure, or meaning required here.",
-            "“cuts” does not fit the tense, structure, or meaning required here.",
-            "“cutted” does not fit the tense, structure, or meaning required here."
+            "“cut” is correct because it completes the sentence using the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive.",
+            "“cutting” is not correct here because it does not satisfy the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive.",
+            "“cuts” is not correct here because it does not satisfy the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive.",
+            "“cutted” is not correct here because it does not satisfy the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive."
           ],
           "type": "multiple_choice"
         },
@@ -1683,10 +1683,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“solve” does not fit the tense, structure, or meaning required here.",
-            "“solved” is correct for the grammar pattern in this sentence.",
-            "“solving” does not fit the tense, structure, or meaning required here.",
-            "“solves” does not fit the tense, structure, or meaning required here."
+            "“solve” is not correct here because it does not satisfy the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected.",
+            "“solved” is correct because it completes the sentence using the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected.",
+            "“solving” is not correct here because it does not satisfy the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected.",
+            "“solves” is not correct here because it does not satisfy the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected."
           ],
           "type": "multiple_choice"
         },
@@ -1703,10 +1703,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“send” does not fit the tense, structure, or meaning required here.",
-            "“sent” is correct for the grammar pattern in this sentence.",
-            "“sending” does not fit the tense, structure, or meaning required here.",
-            "“sends” does not fit the tense, structure, or meaning required here."
+            "“send” is not correct here because it does not satisfy the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive.",
+            "“sent” is correct because it completes the sentence using the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive.",
+            "“sending” is not correct here because it does not satisfy the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive.",
+            "“sends” is not correct here because it does not satisfy the required Perfect passive pattern. Use has or have been plus a past participle for a present perfect passive; use had been for a past perfect passive."
           ],
           "type": "multiple_choice"
         },
@@ -1723,10 +1723,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“switch” does not fit the tense, structure, or meaning required here.",
-            "“switched” is correct for the grammar pattern in this sentence.",
-            "“switching” does not fit the tense, structure, or meaning required here.",
-            "“switches” does not fit the tense, structure, or meaning required here."
+            "“switch” is not correct here because it does not satisfy the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected.",
+            "“switched” is correct because it completes the sentence using the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected.",
+            "“switching” is not correct here because it does not satisfy the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected.",
+            "“switches” is not correct here because it does not satisfy the required Modal passive pattern. Use a modal plus be plus a past participle when an action is possible, necessary, or expected."
           ],
           "type": "multiple_choice"
         },
@@ -1743,10 +1743,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“painted” is correct for the grammar pattern in this sentence.",
-            "“paint” does not fit the tense, structure, or meaning required here.",
-            "“painting” does not fit the tense, structure, or meaning required here.",
-            "“paints” does not fit the tense, structure, or meaning required here."
+            "“painted” is correct because it completes the sentence using the required past_simple_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“paint” is not correct here because it does not satisfy the required past_simple_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“painting” is not correct here because it does not satisfy the required past_simple_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“paints” is not correct here because it does not satisfy the required past_simple_form pattern. This choice does not match the grammar pattern required by the sentence."
           ],
           "type": "multiple_choice"
         },
@@ -1838,10 +1838,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“cut” is correct for the grammar pattern in this sentence.",
-            "“cutting” does not fit the tense, structure, or meaning required here.",
-            "“cuts” does not fit the tense, structure, or meaning required here.",
-            "“to cut” does not fit the tense, structure, or meaning required here."
+            "“cut” is correct because it completes the sentence using the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done.",
+            "“cutting” is not correct here because it does not satisfy the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done.",
+            "“cuts” is not correct here because it does not satisfy the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done.",
+            "“to cut” is not correct here because it does not satisfy the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done."
           ],
           "type": "multiple_choice"
         },
@@ -1858,10 +1858,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“repair” does not fit the tense, structure, or meaning required here.",
-            "“repaired” is correct for the grammar pattern in this sentence.",
-            "“repairing” does not fit the tense, structure, or meaning required here.",
-            "“repairs” does not fit the tense, structure, or meaning required here."
+            "“repair” is not correct here because it does not satisfy the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone.",
+            "“repaired” is correct because it completes the sentence using the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone.",
+            "“repairing” is not correct here because it does not satisfy the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone.",
+            "“repairs” is not correct here because it does not satisfy the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone."
           ],
           "type": "multiple_choice"
         },
@@ -1878,10 +1878,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“paint” does not fit the tense, structure, or meaning required here.",
-            "“painted” is correct for the grammar pattern in this sentence.",
-            "“painting” does not fit the tense, structure, or meaning required here.",
-            "“paints” does not fit the tense, structure, or meaning required here."
+            "“paint” is not correct here because it does not satisfy the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done.",
+            "“painted” is correct because it completes the sentence using the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done.",
+            "“painting” is not correct here because it does not satisfy the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done.",
+            "“paints” is not correct here because it does not satisfy the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done."
           ],
           "type": "multiple_choice"
         },
@@ -1898,10 +1898,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“fix” does not fit the tense, structure, or meaning required here.",
-            "“fixed” is correct for the grammar pattern in this sentence.",
-            "“fixing” does not fit the tense, structure, or meaning required here.",
-            "“fixes” does not fit the tense, structure, or meaning required here."
+            "“fix” is not correct here because it does not satisfy the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone.",
+            "“fixed” is correct because it completes the sentence using the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone.",
+            "“fixing” is not correct here because it does not satisfy the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone.",
+            "“fixes” is not correct here because it does not satisfy the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone."
           ],
           "type": "multiple_choice"
         },
@@ -1918,10 +1918,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“clean” does not fit the tense, structure, or meaning required here.",
-            "“cleaned” is correct for the grammar pattern in this sentence.",
-            "“cleaning” does not fit the tense, structure, or meaning required here.",
-            "“cleans” does not fit the tense, structure, or meaning required here."
+            "“clean” is not correct here because it does not satisfy the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done.",
+            "“cleaned” is correct because it completes the sentence using the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done.",
+            "“cleaning” is not correct here because it does not satisfy the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done.",
+            "“cleans” is not correct here because it does not satisfy the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done."
           ],
           "type": "multiple_choice"
         },
@@ -1938,10 +1938,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“renew” does not fit the tense, structure, or meaning required here.",
-            "“renewed” is correct for the grammar pattern in this sentence.",
-            "“renewing” does not fit the tense, structure, or meaning required here.",
-            "“renews” does not fit the tense, structure, or meaning required here."
+            "“renew” is not correct here because it does not satisfy the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone.",
+            "“renewed” is correct because it completes the sentence using the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone.",
+            "“renewing” is not correct here because it does not satisfy the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone.",
+            "“renews” is not correct here because it does not satisfy the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone."
           ],
           "type": "multiple_choice"
         },
@@ -1958,10 +1958,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“alter” does not fit the tense, structure, or meaning required here.",
-            "“altered” is correct for the grammar pattern in this sentence.",
-            "“altering” does not fit the tense, structure, or meaning required here.",
-            "“alters” does not fit the tense, structure, or meaning required here."
+            "“alter” is not correct here because it does not satisfy the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done.",
+            "“altered” is correct because it completes the sentence using the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done.",
+            "“altering” is not correct here because it does not satisfy the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done.",
+            "“alters” is not correct here because it does not satisfy the required Have something done pattern. Use have plus an object plus a past participle when someone arranges for a service to be done."
           ],
           "type": "multiple_choice"
         },
@@ -1978,10 +1978,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“change” does not fit the tense, structure, or meaning required here.",
-            "“changed” is correct for the grammar pattern in this sentence.",
-            "“changing” does not fit the tense, structure, or meaning required here.",
-            "“changes” does not fit the tense, structure, or meaning required here."
+            "“change” is not correct here because it does not satisfy the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone.",
+            "“changed” is correct because it completes the sentence using the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone.",
+            "“changing” is not correct here because it does not satisfy the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone.",
+            "“changes” is not correct here because it does not satisfy the required Get something done pattern. Get something done has the same causative meaning, often with a more informal or effortful tone."
           ],
           "type": "multiple_choice"
         },
@@ -1998,10 +1998,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“have” does not fit the tense, structure, or meaning required here.",
-            "“had” is correct for the grammar pattern in this sentence.",
-            "“having” does not fit the tense, structure, or meaning required here.",
-            "“has” does not fit the tense, structure, or meaning required here."
+            "“have” is not correct here because it does not satisfy the required present_perfect_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“had” is correct because it completes the sentence using the required present_perfect_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“having” is not correct here because it does not satisfy the required present_perfect_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“has” is not correct here because it does not satisfy the required present_perfect_form pattern. This choice does not match the grammar pattern required by the sentence."
           ],
           "type": "multiple_choice"
         },
@@ -2093,10 +2093,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“live” does not fit the tense, structure, or meaning required here.",
-            "“did I live” does not fit the tense, structure, or meaning required here.",
-            "“lived” is correct for the grammar pattern in this sentence.",
-            "“do I live” does not fit the tense, structure, or meaning required here."
+            "“live” is not correct here because it does not satisfy the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions.",
+            "“did I live” is not correct here because it does not satisfy the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions.",
+            "“lived” is correct because it completes the sentence using the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions.",
+            "“do I live” is not correct here because it does not satisfy the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions."
           ],
           "type": "multiple_choice"
         },
@@ -2113,10 +2113,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“am” does not fit the tense, structure, or meaning required here.",
-            "“was” is correct for the grammar pattern in this sentence.",
-            "“be” does not fit the tense, structure, or meaning required here.",
-            "“were I” does not fit the tense, structure, or meaning required here."
+            "“am” is not correct here because it does not satisfy the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions.",
+            "“was” is correct because it completes the sentence using the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions.",
+            "“be” is not correct here because it does not satisfy the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions.",
+            "“were I” is not correct here because it does not satisfy the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions."
           ],
           "type": "multiple_choice"
         },
@@ -2133,10 +2133,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“be” does not fit the tense, structure, or meaning required here.",
-            "“to be” is correct for the grammar pattern in this sentence.",
-            "“being” does not fit the tense, structure, or meaning required here.",
-            "“were” does not fit the tense, structure, or meaning required here."
+            "“be” is not correct here because it does not satisfy the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command.",
+            "“to be” is correct because it completes the sentence using the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command.",
+            "“being” is not correct here because it does not satisfy the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command.",
+            "“were” is not correct here because it does not satisfy the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command."
           ],
           "type": "multiple_choice"
         },
@@ -2153,10 +2153,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“be” does not fit the tense, structure, or meaning required here.",
-            "“to be” is correct for the grammar pattern in this sentence.",
-            "“being” does not fit the tense, structure, or meaning required here.",
-            "“been” does not fit the tense, structure, or meaning required here."
+            "“be” is not correct here because it does not satisfy the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command.",
+            "“to be” is correct because it completes the sentence using the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command.",
+            "“being” is not correct here because it does not satisfy the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command.",
+            "“been” is not correct here because it does not satisfy the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command."
           ],
           "type": "multiple_choice"
         },
@@ -2173,10 +2173,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“opened” is correct for the grammar pattern in this sentence.",
-            "“did open” does not fit the tense, structure, or meaning required here.",
-            "“does open” does not fit the tense, structure, or meaning required here.",
-            "“open” does not fit the tense, structure, or meaning required here."
+            "“opened” is correct because it completes the sentence using the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions.",
+            "“did open” is not correct here because it does not satisfy the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions.",
+            "“does open” is not correct here because it does not satisfy the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions.",
+            "“open” is not correct here because it does not satisfy the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions."
           ],
           "type": "multiple_choice"
         },
@@ -2193,10 +2193,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“stop” does not fit the tense, structure, or meaning required here.",
-            "“to stop” is correct for the grammar pattern in this sentence.",
-            "“stopping” does not fit the tense, structure, or meaning required here.",
-            "“stopped” does not fit the tense, structure, or meaning required here."
+            "“stop” is not correct here because it does not satisfy the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command.",
+            "“to stop” is correct because it completes the sentence using the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command.",
+            "“stopping” is not correct here because it does not satisfy the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command.",
+            "“stopped” is not correct here because it does not satisfy the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command."
           ],
           "type": "multiple_choice"
         },
@@ -2213,10 +2213,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“is” does not fit the tense, structure, or meaning required here.",
-            "“was” is correct for the grammar pattern in this sentence.",
-            "“does” does not fit the tense, structure, or meaning required here.",
-            "“did” does not fit the tense, structure, or meaning required here."
+            "“is” is not correct here because it does not satisfy the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions.",
+            "“was” is correct because it completes the sentence using the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions.",
+            "“does” is not correct here because it does not satisfy the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions.",
+            "“did” is not correct here because it does not satisfy the required Reported questions pattern. Use statement word order in an embedded reported question and keep if or whether for yes/no questions."
           ],
           "type": "multiple_choice"
         },
@@ -2233,10 +2233,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“to” is correct for the grammar pattern in this sentence.",
-            "“for” does not fit the tense, structure, or meaning required here.",
-            "“that” does not fit the tense, structure, or meaning required here.",
-            "“if” does not fit the tense, structure, or meaning required here."
+            "“to” is correct because it completes the sentence using the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command.",
+            "“for” is not correct here because it does not satisfy the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command.",
+            "“that” is not correct here because it does not satisfy the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command.",
+            "“if” is not correct here because it does not satisfy the required Reported commands pattern. Report a command with told or asked plus an object and to plus the base verb; use not to for a negative command."
           ],
           "type": "multiple_choice"
         },
@@ -2253,10 +2253,10 @@
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“works” is correct for the grammar pattern in this sentence.",
-            "“work” does not fit the tense, structure, or meaning required here.",
-            "“working” does not fit the tense, structure, or meaning required here.",
-            "“worked” does not fit the tense, structure, or meaning required here."
+            "“works” is correct because it completes the sentence using the required present_simple_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“work” is not correct here because it does not satisfy the required present_simple_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“working” is not correct here because it does not satisfy the required present_simple_form pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“worked” is not correct here because it does not satisfy the required present_simple_form pattern. This choice does not match the grammar pattern required by the sentence."
           ],
           "type": "multiple_choice"
         },
@@ -2348,10 +2348,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“take” does not fit the tense, structure, or meaning required here.",
-            "“to take” does not fit the tense, structure, or meaning required here.",
-            "“taking” is correct for the grammar pattern in this sentence.",
-            "“took” does not fit the tense, structure, or meaning required here."
+            "“take” is not correct here because it does not satisfy the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive.",
+            "“to take” is not correct here because it does not satisfy the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive.",
+            "“taking” is correct because it completes the sentence using the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive.",
+            "“took” is not correct here because it does not satisfy the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive."
           ],
           "type": "multiple_choice"
         },
@@ -2368,10 +2368,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“help” does not fit the tense, structure, or meaning required here.",
-            "“helping” does not fit the tense, structure, or meaning required here.",
-            "“to help” is correct for the grammar pattern in this sentence.",
-            "“helped” does not fit the tense, structure, or meaning required here."
+            "“help” is not correct here because it does not satisfy the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive.",
+            "“helping” is not correct here because it does not satisfy the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive.",
+            "“to help” is correct because it completes the sentence using the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive.",
+            "“helped” is not correct here because it does not satisfy the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive."
           ],
           "type": "multiple_choice"
         },
@@ -2388,10 +2388,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“wear” does not fit the tense, structure, or meaning required here.",
-            "“to wear” is correct for the grammar pattern in this sentence.",
-            "“wearing” does not fit the tense, structure, or meaning required here.",
-            "“wore” does not fit the tense, structure, or meaning required here."
+            "“wear” is not correct here because it does not satisfy the required Reporting verbs with an object pattern. Advise, persuade, and remind can be followed by an object plus to-infinitive.",
+            "“to wear” is correct because it completes the sentence using the required Reporting verbs with an object pattern. Advise, persuade, and remind can be followed by an object plus to-infinitive.",
+            "“wearing” is not correct here because it does not satisfy the required Reporting verbs with an object pattern. Advise, persuade, and remind can be followed by an object plus to-infinitive.",
+            "“wore” is not correct here because it does not satisfy the required Reporting verbs with an object pattern. Advise, persuade, and remind can be followed by an object plus to-infinitive."
           ],
           "type": "multiple_choice"
         },
@@ -2408,10 +2408,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“help” does not fit the tense, structure, or meaning required here.",
-            "“to help” is correct for the grammar pattern in this sentence.",
-            "“helping” does not fit the tense, structure, or meaning required here.",
-            "“helped” does not fit the tense, structure, or meaning required here."
+            "“help” is not correct here because it does not satisfy the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive.",
+            "“to help” is correct because it completes the sentence using the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive.",
+            "“helping” is not correct here because it does not satisfy the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive.",
+            "“helped” is not correct here because it does not satisfy the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive."
           ],
           "type": "multiple_choice"
         },
@@ -2428,10 +2428,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“bring” does not fit the tense, structure, or meaning required here.",
-            "“to bring” is correct for the grammar pattern in this sentence.",
-            "“bringing” does not fit the tense, structure, or meaning required here.",
-            "“brought” does not fit the tense, structure, or meaning required here."
+            "“bring” is not correct here because it does not satisfy the required Reporting verbs with an object pattern. Advise, persuade, and remind can be followed by an object plus to-infinitive.",
+            "“to bring” is correct because it completes the sentence using the required Reporting verbs with an object pattern. Advise, persuade, and remind can be followed by an object plus to-infinitive.",
+            "“bringing” is not correct here because it does not satisfy the required Reporting verbs with an object pattern. Advise, persuade, and remind can be followed by an object plus to-infinitive.",
+            "“brought” is not correct here because it does not satisfy the required Reporting verbs with an object pattern. Advise, persuade, and remind can be followed by an object plus to-infinitive."
           ],
           "type": "multiple_choice"
         },
@@ -2448,10 +2448,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“leave” does not fit the tense, structure, or meaning required here.",
-            "“to leave” does not fit the tense, structure, or meaning required here.",
-            "“leaving” is correct for the grammar pattern in this sentence.",
-            "“left” does not fit the tense, structure, or meaning required here."
+            "“leave” is not correct here because it does not satisfy the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive.",
+            "“to leave” is not correct here because it does not satisfy the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive.",
+            "“leaving” is correct because it completes the sentence using the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive.",
+            "“left” is not correct here because it does not satisfy the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive."
           ],
           "type": "multiple_choice"
         },
@@ -2468,10 +2468,10 @@
           ],
           "correctIndex": 1,
           "choiceExplanations": [
-            "“try” does not fit the tense, structure, or meaning required here.",
-            "“to try” is correct for the grammar pattern in this sentence.",
-            "“trying” does not fit the tense, structure, or meaning required here.",
-            "“tried” does not fit the tense, structure, or meaning required here."
+            "“try” is not correct here because it does not satisfy the required Reporting verbs with an object pattern. Advise, persuade, and remind can be followed by an object plus to-infinitive.",
+            "“to try” is correct because it completes the sentence using the required Reporting verbs with an object pattern. Advise, persuade, and remind can be followed by an object plus to-infinitive.",
+            "“trying” is not correct here because it does not satisfy the required Reporting verbs with an object pattern. Advise, persuade, and remind can be followed by an object plus to-infinitive.",
+            "“tried” is not correct here because it does not satisfy the required Reporting verbs with an object pattern. Advise, persuade, and remind can be followed by an object plus to-infinitive."
           ],
           "type": "multiple_choice"
         },
@@ -2488,10 +2488,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“answer” does not fit the tense, structure, or meaning required here.",
-            "“answering” does not fit the tense, structure, or meaning required here.",
-            "“to answer” is correct for the grammar pattern in this sentence.",
-            "“answered” does not fit the tense, structure, or meaning required here."
+            "“answer” is not correct here because it does not satisfy the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive.",
+            "“answering” is not correct here because it does not satisfy the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive.",
+            "“to answer” is correct because it completes the sentence using the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive.",
+            "“answered” is not correct here because it does not satisfy the required Reporting verb patterns pattern. Recommend and suggest can introduce a gerund or that-clause, while agree and offer are followed by an infinitive."
           ],
           "type": "multiple_choice"
         },
@@ -2508,10 +2508,10 @@
           ],
           "correctIndex": 2,
           "choiceExplanations": [
-            "“work” does not fit the tense, structure, or meaning required here.",
-            "“to work” does not fit the tense, structure, or meaning required here.",
-            "“working” is correct for the grammar pattern in this sentence.",
-            "“worked” does not fit the tense, structure, or meaning required here."
+            "“work” is not correct here because it does not satisfy the required gerund_after_preposition pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“to work” is not correct here because it does not satisfy the required gerund_after_preposition pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“working” is correct because it completes the sentence using the required gerund_after_preposition pattern. This choice does not match the grammar pattern required by the sentence.",
+            "“worked” is not correct here because it does not satisfy the required gerund_after_preposition pattern. This choice does not match the grammar pattern required by the sentence."
           ],
           "type": "multiple_choice"
         },
@@ -3383,7 +3383,7 @@
           "id": "i14q05",
           "levelId": "i14",
           "rule": "gerund_infinitive_meaning_change",
-          "prompt": "Try ___ the lid more gently.",
+          "prompt": "If you want to test a different method, try ___ the lid with a rubber glove.",
           "choices": [
             "turning",
             "to turn",
@@ -3558,14 +3558,14 @@
           "id": "i15q02",
           "levelId": "i15",
           "rule": "modal_deduction_past",
-          "prompt": "He is not here. He ___ have forgotten.",
+          "prompt": "He left his keys on the table, but they are gone. He ___ have taken them with him.",
           "choices": [
             "must",
             "might",
             "can",
             "should"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "choiceExplanations": [
             "“must” does not fit the modal_deduction_past pattern here.",
             "“might” follows the modal_deduction_past pattern in this context.",
@@ -3598,11 +3598,11 @@
           "id": "i15q04",
           "levelId": "i15",
           "rule": "modal_deduction_past",
-          "prompt": "She looks tired. She ___ have slept badly.",
+          "prompt": "She slept only two hours last night, so she ___ have slept badly.",
           "choices": [
-            "may",
+            "must",
+            "might",
             "can",
-            "will",
             "does"
           ],
           "correctIndex": 0,
@@ -3640,12 +3640,12 @@
           "rule": "modal_deduction_present",
           "type": "fix_sentence",
           "faultySentence": "This must to be the answer.",
-          "prompt": "This ___ be the answer.",
+          "prompt": "The calculation matches exactly, so this ___ be the answer.",
           "choices": [
             "must",
             "must to",
             "might",
-            "has to"
+            "has"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
@@ -3773,7 +3773,7 @@
           "id": "i16q01",
           "levelId": "i16",
           "rule": "past_obligation",
-          "prompt": "We ___ wear uniforms at school.",
+          "prompt": "When I was at school, we ___ wear uniforms every day.",
           "choices": [
             "must",
             "had to",
@@ -3853,7 +3853,7 @@
           "id": "i16q05",
           "levelId": "i16",
           "rule": "past_obligation",
-          "prompt": "I ___ finish the form before applying.",
+          "prompt": "Yesterday, I ___ finish the form before I could submit my application.",
           "choices": [
             "had to",
             "must have",
@@ -4175,13 +4175,26 @@
           "id": "i17q10",
           "levelId": "i17",
           "rule": "abstract_noun_article",
-          "type": "fill_blank",
+          "type": "multiple_choice",
           "prompt": "___ freedom is a basic human value.",
           "correctAnswer": "nothing",
           "acceptedAnswers": [
             "nothing"
           ],
-          "explanation": "Freedom is used as a general abstract idea."
+          "explanation": "Freedom is used as a general abstract idea.",
+          "choices": [
+            "A",
+            "An",
+            "The",
+            "No article"
+          ],
+          "correctIndex": 3,
+          "choiceExplanations": [
+            "“A” would make freedom a countable instance, which is not the intended general meaning.",
+            "“An” cannot be used before “freedom,” and the noun is not being used as a countable instance here.",
+            "“The” would refer to a specific, previously identified kind of freedom rather than freedom as a general idea.",
+            "“No article” is correct because “freedom” refers to an abstract idea in general."
+          ]
         },
         {
           "id": "i17q11",
@@ -4368,7 +4381,7 @@
           "rule": "noun_clause_that",
           "type": "fix_sentence",
           "faultySentence": "He knows she is ready that.",
-          "prompt": "He knows ___ she is ready.",
+          "prompt": "It is obvious ___ she is ready to leave.",
           "choices": [
             "that",
             "if",
@@ -5824,12 +5837,19 @@
           "levelId": "i24",
           "rule": "discourse_marker_addition",
           "type": "fill_blank",
-          "prompt": "___, the proposal would save money.",
+          "prompt": "The proposal would reduce costs. ___, it would save staff time.",
           "correctAnswer": "Furthermore",
           "acceptedAnswers": [
             "Furthermore"
           ],
-          "explanation": "Furthermore introduces an additional reason."
+          "explanation": "Furthermore introduces an additional reason.",
+          "choices": [
+            "Furthermore",
+            "Nevertheless",
+            "However",
+            "Instead"
+          ],
+          "correctIndex": 0
         },
         {
           "id": "i24q11",
@@ -6268,12 +6288,19 @@
           "levelId": "i26",
           "rule": "phrasal_verb_transitivity",
           "type": "fill_blank",
-          "prompt": "Please write ___ the number.",
+          "prompt": "Please write ___ the phone number so I do not forget it.",
           "correctAnswer": "down",
           "acceptedAnswers": [
             "down"
           ],
-          "explanation": "Write down is a phrasal verb meaning record."
+          "explanation": "Write down is a phrasal verb meaning record.",
+          "choices": [
+            "down",
+            "after",
+            "off",
+            "out"
+          ],
+          "correctIndex": 0
         },
         {
           "id": "i26q09",
@@ -6481,12 +6508,12 @@
           "rule": "conversational_ellipsis",
           "type": "fix_sentence",
           "faultySentence": "The sentence uses an incorrect form: Are you coming? Yes, I am coming.",
-          "prompt": "Are you coming? Yes, I am coming.",
+          "prompt": "Choose the natural elliptical reply to “Are you coming?”",
           "choices": [
-            "Are you coming? Yes, I am.",
-            "Are you coming? Yes, I am coming.",
-            "Are you coming? Yes, I do.",
-            "Are you coming? Yes, I come."
+            "Yes, I am.",
+            "Yes, I am coming.",
+            "Yes, I do.",
+            "Yes, I come."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
@@ -6824,12 +6851,12 @@
           "id": "i29q01",
           "levelId": "i29",
           "rule": "text_reference_pronouns",
-          "prompt": "Maria told Ana that ___ had won.",
+          "prompt": "Maria told Ana that Ana had won the scholarship. ___ was delighted.",
           "choices": [
-            "Maria",
-            "they",
-            "it",
-            "which"
+            "She",
+            "It",
+            "They",
+            "Which"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
@@ -6924,14 +6951,14 @@
           "id": "i29q06",
           "levelId": "i29",
           "rule": "text_reference_pronouns",
-          "type": "fix_sentence",
+          "type": "multiple_choice",
           "faultySentence": "The sentence uses an incorrect form: The laptop spoke to the technician because it was worried.",
-          "prompt": "The laptop spoke to the technician because it was worried.",
+          "prompt": "The technician repaired the laptop because it was damaged. What does “it” refer to?",
           "choices": [
-            "The technician spoke to the laptop because it was damaged.",
-            "The laptop spoke to the technician because it was worried.",
-            "The technician spoke to the laptop because it was worried.",
-            "The technician spoke to the laptop because she was damaged."
+            "the laptop",
+            "the technician",
+            "the repair",
+            "the reason"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
@@ -6947,12 +6974,12 @@
           "rule": "lexical_cohesion",
           "type": "fix_sentence",
           "faultySentence": "The sentence uses an incorrect form: The project was successful. The project helped the team.",
-          "prompt": "The project was successful. The project helped the team.",
+          "prompt": "Which option improves cohesion by avoiding repetition while explicitly referring to the project’s success?",
           "choices": [
             "The project was successful. This achievement helped the team.",
-            "The project was successful. The project helped the team.",
-            "The project was successful. It helped the team.",
-            "The project was successful. This project helped the team."
+            "The project was successful. The weather helped the team.",
+            "The project was successful. They helped the team.",
+            "The project was successful. Which helped the team."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
