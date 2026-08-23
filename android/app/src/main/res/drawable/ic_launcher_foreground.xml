@@ -1,24 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Open book + checkmark badge, drawn in a 108dp adaptive-icon safe zone. -->
+<!-- Open book + checkmark badge in the 108dp adaptive-icon safe zone, matching assets/icon-master.png. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+    <!-- page thickness block -->
+    <path
+        android:fillColor="#1E3A8A"
+        android:pathData="M27.89830508474576,62.89830508474577 H80.10169491525424 A1.8983050847457628,1.8983050847457628 0 0 1 82.0,64.79661016949153 V66.6949152542373 A1.8983050847457628,1.8983050847457628 0 0 1 80.10169491525424,68.59322033898306 H27.89830508474576 A1.8983050847457628,1.8983050847457628 0 0 1 26.0,66.6949152542373 V64.79661016949153 A1.8983050847457628,1.8983050847457628 0 0 1 27.89830508474576,62.89830508474577 Z"/>
+    <!-- left page -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M35.0,50.4 L54.0,47.3 L54.0,72.6 L38.0,74.5 Z"/>
+        android:pathData="M28.8,34.4 L54.0,29.2 L54.0,65.7 L32.6,67.4 Z"/>
+    <!-- right page -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M73.0,50.4 L54.0,47.3 L54.0,72.6 L70.0,74.5 Z"/>
+        android:pathData="M79.2,34.4 L54.0,29.2 L54.0,65.7 L75.4,67.4 Z"/>
+    <!-- text lines -->
+    <path android:strokeColor="#A5B4FC" android:strokeWidth="1.5"
+          android:strokeLineCap="round" android:fillColor="#00000000"
+          android:pathData="M33.6,40.2 L48.1,40.2"/>
+    <path android:strokeColor="#A5B4FC" android:strokeWidth="1.5"
+          android:strokeLineCap="round" android:fillColor="#00000000"
+          android:pathData="M33.6,45.6 L46.4,45.6"/>
+    <path android:strokeColor="#A5B4FC" android:strokeWidth="1.5"
+          android:strokeLineCap="round" android:fillColor="#00000000"
+          android:pathData="M33.6,51.1 L48.5,51.1"/>
+    <path android:strokeColor="#A5B4FC" android:strokeWidth="1.5"
+          android:strokeLineCap="round" android:fillColor="#00000000"
+          android:pathData="M33.6,56.6 L46.9,56.6"/>
+    <path android:strokeColor="#A5B4FC" android:strokeWidth="1.5"
+          android:strokeLineCap="round" android:fillColor="#00000000"
+          android:pathData="M59.2,40.2 L74.4,40.2"/>
+    <path android:strokeColor="#A5B4FC" android:strokeWidth="1.5"
+          android:strokeLineCap="round" android:fillColor="#00000000"
+          android:pathData="M61.1,45.6 L74.4,45.6"/>
+    <path android:strokeColor="#A5B4FC" android:strokeWidth="1.5"
+          android:strokeLineCap="round" android:fillColor="#00000000"
+          android:pathData="M59.2,51.1 L72.0,51.1"/>
+    <path android:strokeColor="#22C55E" android:strokeWidth="1.5"
+          android:strokeLineCap="round" android:fillColor="#00000000"
+          android:pathData="M59.2,56.6 L74.4,56.6"/>
+    <!-- badge rim -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M40.23728813559322,65.03389830508475 A13.76271186440678,13.76271186440678 0 1,0 67.76271186440678,65.03389830508475 A13.76271186440678,13.76271186440678 0 1,0 40.23728813559322,65.03389830508475 Z"/>
+    <!-- badge body -->
     <path
         android:fillColor="#16A34A"
-        android:pathData="M54,64.2 A9.7,9.7 0 1,1 54,83.6 A9.7,9.7 0 1,1 54,64.2 Z"/>
+        android:pathData="M42.3728813559322,65.03389830508475 A11.627118644067798,11.627118644067798 0 1,0 65.62711864406779,65.03389830508475 A11.627118644067798,11.627118644067798 0 1,0 42.3728813559322,65.03389830508475 Z"/>
+    <!-- checkmark -->
     <path
         android:strokeColor="#FFFFFF"
-        android:strokeWidth="3.5"
+        android:strokeWidth="4.5"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
         android:fillColor="#00000000"
-        android:pathData="M49.4,72.8 L52.8,76.4 L59.1,69.2"/>
+        android:pathData="M49.0,62.7 L53.1,67.2 L59.9,59.6"/>
 </vector>
