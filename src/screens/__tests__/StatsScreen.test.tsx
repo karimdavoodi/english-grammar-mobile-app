@@ -6,7 +6,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
 import { selectStats } from '../../state/events';
-import { wrapInSafeArea } from '../../test-utils';
+import { renderScreen, wrapInSafeArea } from '../../test-utils';
 import { StatsScreen } from '../StatsScreen';
 
 it('renders fixture stats and links to Review', async () => {
@@ -29,4 +29,11 @@ it('renders fixture stats and links to Review', async () => {
   });
   await ReactTestRenderer.act(() => tree.root.findByProps({ testID: 'stats-review' }).props.onPress());
   expect(onOpenReview).toHaveBeenCalledTimes(1);
+});
+
+it('renders no bottom Back button (Task 3) — back is the system gesture', async () => {
+  const tree = await renderScreen(
+    <StatsScreen stats={selectStats([])} onOpenReview={jest.fn()} />,
+  );
+  expect(tree.root.findAllByProps({ testID: 'stats-back' })).toHaveLength(0);
 });

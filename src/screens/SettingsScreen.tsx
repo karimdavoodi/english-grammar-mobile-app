@@ -4,9 +4,14 @@
  * Per docs/use-cases "Settings — Theme" and "Settings — Reset Progress":
  *   - the theme preference is offered as Device / Light / Dark, with the current
  *     choice marked; picking one calls `onChangeTheme`;
- *   - "Review mistakes" and "Review / Practice" open their respective study screens;
+ *   - Growth (notifications) lets the player choose a daily reminder;
  *   - "Reset game" requires confirmation (a dialog appears before anything is
  *     erased) and only then calls `onReset` — progress is wiped, settings survive.
+ *
+ * The three study shortcuts ("Review mistakes", "Review / Practice", "Stats")
+ * moved to the Home screen (Task 4); Settings now holds only Appearance, Growth,
+ * and Reset. Back navigation is the system back gesture — there is no bottom
+ * Back button.
  *
  * Presentational: no navigation, storage, or reducer imports — it takes state +
  * callbacks as props, so it tests with fixture data like the other presentational
@@ -40,12 +45,6 @@ export interface SettingsScreenProps {
   onChangeTheme: (preference: ThemePreference) => void;
   /** Called when the player confirms the reset in the confirmation dialog. */
   onReset: () => void;
-  /** Called when the player taps "Review mistakes" (navigates to Review). */
-  onOpenReview: () => void;
-  onOpenStats?: () => void;
-  onOpenMixedReview?: () => void;
-  /** Called when the player taps Back. */
-  onBack?: () => void;
 }
 
 export function SettingsScreen({
@@ -56,10 +55,6 @@ export function SettingsScreen({
   dailyStreak = 0,
   bestStreak = 0,
   onReset,
-  onOpenReview,
-  onOpenStats,
-  onOpenMixedReview,
-  onBack,
 }: SettingsScreenProps) {
   const styles = useThemedStyles(makeStyles);
 
@@ -159,56 +154,6 @@ export function SettingsScreen({
           </View>
         </View>
 
-        <Text style={styles.sectionLabel} accessibilityRole="header" testID="settings-support-label">
-          Support
-        </Text>
-        <Pressable
-          testID="settings-review"
-          accessibilityRole="button"
-          accessibilityLabel="Review mistakes"
-          onPress={onOpenReview}
-          style={({ pressed }) => [styles.option, pressed && styles.optionPressed]}
-        >
-          <View style={styles.optionText}>
-            <Text style={styles.optionLabel} testID="settings-review-label">
-              Review mistakes
-            </Text>
-            <Text style={styles.optionHint} testID="settings-review-hint">
-              Study every question you have missed, grouped by rule
-            </Text>
-          </View>
-        </Pressable>
-
-        {onOpenMixedReview ? <Pressable
-          testID="settings-mixed-review"
-          accessibilityRole="button"
-          accessibilityLabel="Review and practice"
-          onPress={onOpenMixedReview}
-          style={({ pressed }) => [styles.option, pressed && styles.optionPressed]}
-        >
-          <View style={styles.optionText}>
-            <Text style={styles.optionLabel} testID="settings-mixed-review-label">
-              Review / Practice
-            </Text>
-            <Text style={styles.optionHint}>
-              Practice weaknesses and passed levels in one short session
-            </Text>
-          </View>
-        </Pressable> : null}
-
-        {onOpenStats ? <Pressable
-          testID="settings-stats"
-          accessibilityRole="button"
-          accessibilityLabel="View stats"
-          onPress={onOpenStats}
-          style={({ pressed }) => [styles.option, pressed && styles.optionPressed]}
-        >
-          <View style={styles.optionText}>
-            <Text style={styles.optionLabel}>Stats</Text>
-            <Text style={styles.optionHint}>See your accuracy, practice days, and time played</Text>
-          </View>
-        </Pressable> : null}
-
         <Pressable
           testID="settings-reset"
           accessibilityRole="button"
@@ -225,18 +170,6 @@ export function SettingsScreen({
           appearance setting is kept.
         </Text>
       </ScrollView>
-
-      {onBack ? (
-        <Pressable
-          testID="settings-back"
-          accessibilityRole="button"
-          accessibilityLabel="Back"
-          onPress={onBack}
-          style={({ pressed }) => [styles.back, pressed && styles.backPressed]}
-        >
-          <Text style={styles.backLabel}>Back</Text>
-        </Pressable>
-      ) : null}
     </ScreenShell>
   );
 }
@@ -355,21 +288,5 @@ const makeStyles = (colors: ThemeColors) =>
       lineHeight: 18,
       color: colors.textMuted,
       marginTop: tokens.spacing.sm,
-    },
-    back: {
-      margin: tokens.spacing.lg,
-      alignSelf: 'stretch',
-      backgroundColor: colors.primary,
-      borderRadius: tokens.radii.md,
-      paddingVertical: tokens.spacing.md,
-      alignItems: 'center',
-    },
-    backPressed: {
-      backgroundColor: colors.primaryPressed,
-    },
-    backLabel: {
-      color: colors.textOnAccent,
-      fontWeight: '600',
-      fontSize: tokens.typography.bodyLarge,
     },
   });

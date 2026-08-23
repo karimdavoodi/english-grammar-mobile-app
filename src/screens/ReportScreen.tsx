@@ -9,10 +9,9 @@ export interface ReportScreenProps {
   reports: ContentReport[];
   onUpdate: (id: string, note: string) => Promise<void>;
   onExport: () => Promise<void>;
-  onBack: () => void;
 }
 
-export function ReportScreen({ reports, onUpdate, onExport, onBack }: ReportScreenProps) {
+export function ReportScreen({ reports, onUpdate, onExport }: ReportScreenProps) {
   const styles = useThemedStyles(makeStyles);
   const [notes, setNotes] = useState<Record<string, string>>({});
   useEffect(() => {
@@ -59,9 +58,6 @@ export function ReportScreen({ reports, onUpdate, onExport, onBack }: ReportScre
           <Text style={styles.exportLabel}>Send reports</Text>
         </Pressable>
       ) : null}
-      <Pressable testID="report-back" accessibilityRole="button" onPress={onBack} style={styles.back}>
-        <Text style={styles.backLabel}>Back</Text>
-      </Pressable>
     </ScreenShell>
   );
 }
@@ -78,6 +74,4 @@ const makeStyles = (colors: ThemeColors) => StyleSheet.create({
   input: { minHeight: 64, borderWidth: 1, borderColor: colors.borderStrong, borderRadius: 6, padding: 8, color: colors.textPrimary, textAlignVertical: 'top' },
   export: { marginHorizontal: 20, padding: 13, alignItems: 'center', borderRadius: 8, backgroundColor: colors.primary },
   exportLabel: { color: colors.textOnAccent, fontWeight: '700' },
-  back: { margin: 20, alignItems: 'center', padding: 10 },
-  backLabel: { color: colors.textSecondary },
 });

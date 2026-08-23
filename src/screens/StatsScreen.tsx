@@ -8,10 +8,9 @@ import type { StatsSummary } from '../state/events';
 export interface StatsScreenProps {
   stats: StatsSummary;
   onOpenReview: () => void;
-  onBack?: () => void;
 }
 
-export function StatsScreen({ stats, onOpenReview, onBack }: StatsScreenProps) {
+export function StatsScreen({ stats, onOpenReview }: StatsScreenProps) {
   const styles = useThemedStyles(makeStyles);
   const minutes = Math.floor(stats.timePlayedSeconds / 60);
   return (
@@ -37,11 +36,6 @@ export function StatsScreen({ stats, onOpenReview, onBack }: StatsScreenProps) {
             <Text style={styles.buttonLabel}>Review mistakes</Text>
           </Pressable>
         </ScrollView>
-        {onBack ? (
-          <Pressable testID="stats-back" accessibilityRole="button" onPress={onBack} style={styles.back}>
-            <Text style={styles.buttonLabel}>Back</Text>
-          </Pressable>
-        ) : null}
       </View>
     </ScreenShell>
   );
@@ -56,6 +50,5 @@ const makeStyles = (colors: ThemeColors) => StyleSheet.create({
   section: { color: colors.textMuted, fontWeight: '700', marginTop: 20, marginBottom: 8, textTransform: 'uppercase' },
   row: { color: colors.textPrimary, paddingVertical: 6 },
   button: { backgroundColor: colors.primary, borderRadius: 8, padding: 14, alignItems: 'center', marginTop: 20 },
-  back: { backgroundColor: colors.primary, borderRadius: 8, padding: 14, alignItems: 'center', marginTop: 8 },
   buttonLabel: { color: colors.textOnAccent, fontWeight: '700' },
 });

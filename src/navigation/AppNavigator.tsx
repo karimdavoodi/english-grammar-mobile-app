@@ -157,14 +157,13 @@ function LevelMapRoute({
   );
 }
 
-function ReportRoute({ navigation }: NativeStackScreenProps<RootStackParamList, 'Report'>) {
+function ReportRoute() {
   const { reports, updateReport, exportReports: sendReports } = useApp();
   return (
     <ReportScreen
       reports={reports}
       onUpdate={updateReport}
       onExport={sendReports}
-      onBack={() => navigation.goBack()}
     />
   );
 }
@@ -183,7 +182,6 @@ function ReviewRoute({
       tracks={tracks}
       wrongAnswers={progress.wrongAnswers}
       weaknessQueue={progress.weaknessQueue}
-      onBack={() => navigation.goBack()}
       onReport={(questionId: string) => {
         createReport(questionId).then(() => navigation.navigate('Report', { questionId })).catch(() => {});
       }}
@@ -219,10 +217,6 @@ function SettingsRoute({
       dailyStreak={progress?.dailyStreak ?? 0}
       bestStreak={progress?.bestStreak ?? 0}
       onReset={handleReset}
-      onOpenReview={() => navigation.navigate('Review')}
-      onOpenStats={() => navigation.navigate('Stats')}
-      onOpenMixedReview={() => navigation.navigate('MixedReview')}
-      onBack={() => navigation.goBack()}
     />
   );
 }
@@ -233,7 +227,7 @@ function StatsRoute({ navigation }: NativeStackScreenProps<RootStackParamList, '
   useEffect(() => {
     loadEvents(store).then(events => setStats(selectStats(events))).catch(() => {});
   }, [store]);
-  return <StatsScreen stats={stats} onOpenReview={() => navigation.navigate('Review')} onBack={() => navigation.goBack()} />;
+  return <StatsScreen stats={stats} onOpenReview={() => navigation.navigate('Review')} />;
 }
 
 function MixedReviewRoute({

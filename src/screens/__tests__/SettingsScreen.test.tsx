@@ -1,6 +1,9 @@
 /**
  * Tests for the Task 12 SettingsScreen: the theme choice (Device / Light / Dark
- * with the current one marked), the Review link, and the confirmed reset flow.
+ * with the current one marked), Growth (notifications), and the confirmed reset
+ * flow. The three study shortcuts and the bottom Back button were removed in
+ * Task 3 (they live on Home / the system back gesture), so this suite asserts
+ * their absence.
  *
  * Presentational and fixture-data driven — no navigation, storage, or reducers.
  * The reset confirmation is exercised through the native Alert mock, mirroring
@@ -42,7 +45,6 @@ describe('SettingsScreen — theme choice', () => {
         themePreference="dark"
         onChangeTheme={jest.fn()}
         onReset={jest.fn()}
-        onOpenReview={jest.fn()}
       />,
     );
 
@@ -71,7 +73,6 @@ describe('SettingsScreen — theme choice', () => {
         themePreference="device"
         onChangeTheme={onChangeTheme}
         onReset={jest.fn()}
-        onOpenReview={jest.fn()}
       />,
     );
 
@@ -87,23 +88,6 @@ describe('SettingsScreen — theme choice', () => {
   });
 });
 
-describe('SettingsScreen — Review link', () => {
-  it('calls onOpenReview when Review mistakes is tapped', async () => {
-    const onOpenReview = jest.fn();
-    const tree = await render(
-      <SettingsScreen
-        themePreference="device"
-        onChangeTheme={jest.fn()}
-        onReset={jest.fn()}
-        onOpenReview={onOpenReview}
-      />,
-    );
-
-    await press(tree, 'settings-review');
-    expect(onOpenReview).toHaveBeenCalledTimes(1);
-  });
-});
-
 describe('SettingsScreen — reset', () => {
   it('shows a confirmation dialog and calls onReset only after confirming', async () => {
     const alertSpy = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
@@ -113,7 +97,6 @@ describe('SettingsScreen — reset', () => {
         themePreference="device"
         onChangeTheme={jest.fn()}
         onReset={onReset}
-        onOpenReview={jest.fn()}
       />,
     );
 
@@ -147,45 +130,41 @@ describe('SettingsScreen — reset', () => {
   });
 });
 
-describe('SettingsScreen — back affordance and accessibility', () => {
-  it('calls onBack when the back button is pressed', async () => {
-    const onBack = jest.fn();
+describe('SettingsScreen — study shortcuts removed (Task 3)', () => {
+  it('renders no "Review mistakes" / "Review / Practice" / "Stats" entries', async () => {
     const tree = await render(
       <SettingsScreen
         themePreference="device"
         onChangeTheme={jest.fn()}
         onReset={jest.fn()}
-        onOpenReview={jest.fn()}
-        onBack={onBack}
       />,
     );
 
-    const button = tree.root.findByProps({ testID: 'settings-back' });
-    expect(button.props.accessibilityRole).toBe('button');
-    expect(button.props.accessibilityLabel).toBe('Back');
-    await press(tree, 'settings-back');
-    expect(onBack).toHaveBeenCalledTimes(1);
+    expect(tree.root.findAllByProps({ testID: 'settings-review' })).toHaveLength(0);
+    expect(tree.root.findAllByProps({ testID: 'settings-mixed-review' })).toHaveLength(0);
+    expect(tree.root.findAllByProps({ testID: 'settings-stats' })).toHaveLength(0);
+    expect(tree.root.findAllByProps({ testID: 'settings-support-label' })).toHaveLength(0);
   });
 
-  it('omits the back button when no onBack is provided', async () => {
+  it('renders no bottom Back button', async () => {
     const tree = await render(
       <SettingsScreen
         themePreference="device"
         onChangeTheme={jest.fn()}
         onReset={jest.fn()}
-        onOpenReview={jest.fn()}
       />,
     );
     expect(tree.root.findAllByProps({ testID: 'settings-back' })).toHaveLength(0);
   });
+});
 
+describe('SettingsScreen — accessibility', () => {
   it('exposes header roles, button roles, and descriptive labels', async () => {
     const tree = await render(
       <SettingsScreen
         themePreference="device"
         onChangeTheme={jest.fn()}
         onReset={jest.fn()}
-        onOpenReview={jest.fn()}
       />,
     );
 
@@ -203,9 +182,6 @@ describe('SettingsScreen — back affordance and accessibility', () => {
     ).toBe('Dark theme');
     expect(tree.root.findByProps({ testID: 'settings-reset' }).props.accessibilityLabel).toBe(
       'Reset game',
-    );
-    expect(tree.root.findByProps({ testID: 'settings-review' }).props.accessibilityLabel).toBe(
-      'Review mistakes',
     );
   });
 });

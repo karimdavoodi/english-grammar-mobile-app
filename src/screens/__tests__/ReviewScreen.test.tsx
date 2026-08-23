@@ -201,25 +201,10 @@ describe('ReviewScreen — grouping', () => {
   });
 });
 
-describe('ReviewScreen — back affordance', () => {
-  it('calls onBack when the back button is pressed', async () => {
-    const onBack = jest.fn();
+describe('ReviewScreen — back affordance (Task 3)', () => {
+  it('renders no bottom Back button — back is the system gesture', async () => {
     const tree = await render(
-      <ReviewScreen tracks={TRACKS} wrongAnswers={WRONG_ANSWERS} weaknessQueue={{}} onBack={onBack} />,
-    );
-
-    const button = tree.root.findByProps({ testID: 'review-back' });
-    expect(button.props.accessibilityRole).toBe('button');
-    expect(button.props.accessibilityLabel).toBe('Back');
-    await ReactTestRenderer.act(() => {
-      button.props.onPress();
-    });
-    expect(onBack).toHaveBeenCalledTimes(1);
-  });
-
-  it('omits the back button when no onBack is provided', async () => {
-    const tree = await render(
-      <ReviewScreen tracks={TRACKS} wrongAnswers={{}} weaknessQueue={{}} />,
+      <ReviewScreen tracks={TRACKS} wrongAnswers={WRONG_ANSWERS} weaknessQueue={{}} />,
     );
     expect(tree.root.findAllByProps({ testID: 'review-back' })).toHaveLength(0);
   });

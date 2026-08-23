@@ -14,7 +14,13 @@ it is implemented, verified (tests / tsc / lint), and committed.
       reveals explanations only for the correct + chosen choices (others dimmed,
       no explanation); post-answer `LessonCard` no longer re-shown; pre-question
       re-teach lesson unchanged.
-- [ ] Task 3 — Settings and secondary-screen cleanup (Issues 2, 9)
+- [x] Task 3 — Settings and secondary-screen cleanup (Issues 2, 9)
+      Settings now holds only Appearance, Growth, and Reset — the three study
+      shortcuts ('Review mistakes', 'Review / Practice', 'Stats') removed (they
+      move to Home in Task 4). Bottom Back button removed from Settings, Review,
+      Stats, and Report; `onBack` dropped from their props and the navigator
+      wiring (back is the system gesture). Tests assert the absence of the old
+      entries/buttons.
 - [ ] Task 4 — Home screen (main screen) (Issues 2, 7, 8, 9)
 - [ ] Task 5 — Topics screen (Issue 4)
 - [ ] Task 6 — Navigator restructure and boot flow (Issues 4, 8)

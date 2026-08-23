@@ -14,14 +14,14 @@
  * Presentational: no navigation, storage, or reducer imports — it takes content
  * + state as props and resolves the grouping through the pure `reviewGroups`
  * selector, so it tests with fixture data like the Task 7A/8 presentational
- * screens. The back affordance is an `onBack` callback (the navigator provides
- * `goBack`).
+ * screens. Back navigation is the system back gesture — there is no bottom Back
+ * button.
  *
  * Task 12: all colors come from the theme palette.
  */
 
 import React, { useMemo } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { Track } from '../content/types';
 import { reviewGroups } from '../state/selectors';
 import type { WeaknessEntry, WrongAnswerEntry } from '../state/types';
@@ -38,8 +38,6 @@ export interface ReviewScreenProps {
   wrongAnswers: Record<string, WrongAnswerEntry>;
   /** The active Weakness Queue keyed by rule tag — flags rules still being studied. */
   weaknessQueue: Record<string, WeaknessEntry>;
-  /** Called when the player taps Back (the navigator routes it). */
-  onBack?: () => void;
   onReport?: (questionId: string) => void;
 }
 
@@ -47,7 +45,6 @@ export function ReviewScreen({
   tracks,
   wrongAnswers,
   weaknessQueue,
-  onBack,
   onReport,
 }: ReviewScreenProps) {
   const styles = useThemedStyles(makeStyles);
@@ -171,18 +168,6 @@ export function ReviewScreen({
           ))
         )}
       </ScrollView>
-
-      {onBack ? (
-        <Pressable
-          testID="review-back"
-          accessibilityRole="button"
-          accessibilityLabel="Back"
-          onPress={onBack}
-          style={({ pressed }) => [styles.back, pressed && styles.backPressed]}
-        >
-          <Text style={styles.backLabel}>Back</Text>
-        </Pressable>
-      ) : null}
     </ScreenShell>
   );
 }
@@ -316,21 +301,5 @@ const makeStyles = (colors: ThemeColors) =>
       fontSize: tokens.typography.small,
       lineHeight: 19,
       color: colors.successPressed,
-    },
-    back: {
-      margin: tokens.spacing.lg,
-      alignSelf: 'stretch',
-      backgroundColor: colors.primary,
-      borderRadius: tokens.radii.md,
-      paddingVertical: tokens.spacing.md,
-      alignItems: 'center',
-    },
-    backPressed: {
-      backgroundColor: colors.primaryPressed,
-    },
-    backLabel: {
-      color: colors.textOnAccent,
-      fontWeight: '600',
-      fontSize: 15,
     },
   });
