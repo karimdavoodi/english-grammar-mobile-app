@@ -138,16 +138,16 @@
           "prompt": "Correct the aspect.",
           "choices": [
             "She has worked here since 2020.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "She works here since 2020.",
+            "She has worked here from 2020.",
+            "She is working here since 2020."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“She has worked here since 2020.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“She works here since 2020.” repeats the original sentence, so it leaves the grammatical error unchanged; use “She has worked here since 2020.” instead.",
+            "“She has worked here from 2020.” is incorrect here because this sentence requires “She has worked here since 2020.”; it does not provide the required grammatical form or meaning.",
+            "“She is working here since 2020.” is incorrect here because this sentence requires “She has worked here since 2020.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -159,16 +159,16 @@
           "prompt": "Correct the stative verb.",
           "choices": [
             "I know the answer now.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "I am knowing the answer now.",
+            "I have known the answer now.",
+            "I know the answer at the moment now."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“I know the answer now.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“I am knowing the answer now.” repeats the original sentence, so it leaves the grammatical error unchanged; use “I know the answer now.” instead.",
+            "“I have known the answer now.” is incorrect here because this sentence requires “I know the answer now.”; it does not provide the required grammatical form or meaning.",
+            "“I know the answer at the moment now.” is incorrect here because this sentence requires “I know the answer now.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -374,16 +374,16 @@
           "prompt": "Correct the earlier past action.",
           "choices": [
             "He discovered that the train had already left.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "He discovered that the train already left.",
+            "He discovered that the train has already left.",
+            "He discovered that the train had already leave."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“He discovered that the train had already left.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“He discovered that the train already left.” repeats the original sentence, so it leaves the grammatical error unchanged; use “He discovered that the train had already left.” instead.",
+            "“He discovered that the train has already left.” is incorrect here because this sentence requires “He discovered that the train had already left.”; it does not provide the required grammatical form or meaning.",
+            "“He discovered that the train had already leave.” is incorrect here because this sentence requires “He discovered that the train had already left.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -395,16 +395,16 @@
           "prompt": "Use a consistent historical present.",
           "choices": [
             "The biography describes how the leader resigns and then escapes.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The biography describes how the leader resigned and then escaped.",
+            "The biography described how the leader resigns and then escapes.",
+            "The biography describes how the leader resigned and then escapes."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The biography describes how the leader resigns and then escapes.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The biography describes how the leader resigned and then escaped.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The biography describes how the leader resigns and then escapes.” instead.",
+            "“The biography described how the leader resigns and then escapes.” is incorrect here because this sentence requires “The biography describes how the leader resigns and then escapes.”; it does not provide the required grammatical form or meaning.",
+            "“The biography describes how the leader resigned and then escapes.” is incorrect here because this sentence requires “The biography describes how the leader resigns and then escapes.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -613,16 +613,16 @@
           "prompt": "Use an evidence-based prediction.",
           "choices": [
             "Look at the ice; it is going to fall through.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Look at the ice; it will fall through.",
+            "Look at the ice; it falling through.",
+            "Look at the ice; it is going fall through."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Look at the ice; it is going to fall through.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Look at the ice; it will fall through.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Look at the ice; it is going to fall through.” instead.",
+            "“Look at the ice; it falling through.” is incorrect here because this sentence requires “Look at the ice; it is going to fall through.”; it does not provide the required grammatical form or meaning.",
+            "“Look at the ice; it is going fall through.” is incorrect here because this sentence requires “Look at the ice; it is going to fall through.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -634,16 +634,16 @@
           "prompt": "Correct the arrangement.",
           "choices": [
             "They are meeting the client at noon.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "They will meeting the client at noon.",
+            "They are meet the client at noon.",
+            "They meeting the client at noon."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“They are meeting the client at noon.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“They will meeting the client at noon.” repeats the original sentence, so it leaves the grammatical error unchanged; use “They are meeting the client at noon.” instead.",
+            "“They are meet the client at noon.” is incorrect here because this sentence requires “They are meeting the client at noon.”; it does not provide the required grammatical form or meaning.",
+            "“They meeting the client at noon.” is incorrect here because this sentence requires “They are meeting the client at noon.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -850,16 +850,16 @@
           "prompt": "Correct the inverted conditional.",
           "choices": [
             "Had I known the deadline, I would have acted.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Had I knew the deadline, I would have acted.",
+            "Had I know the deadline, I would have acted.",
+            "Had I known the deadline, I will have acted."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Had I known the deadline, I would have acted.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Had I knew the deadline, I would have acted.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Had I known the deadline, I would have acted.” instead.",
+            "“Had I know the deadline, I would have acted.” is incorrect here because this sentence requires “Had I known the deadline, I would have acted.”; it does not provide the required grammatical form or meaning.",
+            "“Had I known the deadline, I will have acted.” is incorrect here because this sentence requires “Had I known the deadline, I would have acted.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -871,16 +871,16 @@
           "prompt": "Correct the implied condition.",
           "choices": [
             "With more staff, we could finish sooner.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "With more staff, we will could finish sooner.",
+            "With more staff, we can finish sooner yesterday.",
+            "With more staff, we could to finish sooner."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“With more staff, we could finish sooner.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“With more staff, we will could finish sooner.” repeats the original sentence, so it leaves the grammatical error unchanged; use “With more staff, we could finish sooner.” instead.",
+            "“With more staff, we can finish sooner yesterday.” is incorrect here because this sentence requires “With more staff, we could finish sooner.”; it does not provide the required grammatical form or meaning.",
+            "“With more staff, we could to finish sooner.” is incorrect here because this sentence requires “With more staff, we could finish sooner.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -1089,16 +1089,16 @@
           "prompt": "Correct the present result.",
           "choices": [
             "If I had studied medicine, I would work in a hospital now.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "If I had studied medicine, I would have work in a hospital now.",
+            "If I studied medicine, I would work in a hospital now.",
+            "If I had studied medicine, I will work in a hospital now."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“If I had studied medicine, I would work in a hospital now.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“If I had studied medicine, I would have work in a hospital now.” repeats the original sentence, so it leaves the grammatical error unchanged; use “If I had studied medicine, I would work in a hospital now.” instead.",
+            "“If I studied medicine, I would work in a hospital now.” is incorrect here because this sentence requires “If I had studied medicine, I would work in a hospital now.”; it does not provide the required grammatical form or meaning.",
+            "“If I had studied medicine, I will work in a hospital now.” is incorrect here because this sentence requires “If I had studied medicine, I would work in a hospital now.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -1110,16 +1110,16 @@
           "prompt": "Correct the past result.",
           "choices": [
             "If he were more patient, he would not have lost his temper yesterday.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "If he were more patient, he would not lose his temper yesterday.",
+            "If he was more patient, he would not have lost his temper yesterday.",
+            "If he were more patient, he will not have lost his temper yesterday."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“If he were more patient, he would not have lost his temper yesterday.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“If he were more patient, he would not lose his temper yesterday.” repeats the original sentence, so it leaves the grammatical error unchanged; use “If he were more patient, he would not have lost his temper yesterday.” instead.",
+            "“If he was more patient, he would not have lost his temper yesterday.” is incorrect here because this sentence requires “If he were more patient, he would not have lost his temper yesterday.”; it does not provide the required grammatical form or meaning.",
+            "“If he were more patient, he will not have lost his temper yesterday.” is incorrect here because this sentence requires “If he were more patient, he would not have lost his temper yesterday.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -1331,16 +1331,16 @@
           "prompt": "Use a formal mandative form.",
           "choices": [
             "The panel demanded that the report be revised.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The panel demanded that the report is revised.",
+            "The panel demanded that the report was revised.",
+            "The panel demanded that the report to be revised."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The panel demanded that the report be revised.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The panel demanded that the report is revised.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The panel demanded that the report be revised.” instead.",
+            "“The panel demanded that the report was revised.” is incorrect here because this sentence requires “The panel demanded that the report be revised.”; it does not provide the required grammatical form or meaning.",
+            "“The panel demanded that the report to be revised.” is incorrect here because this sentence requires “The panel demanded that the report be revised.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -1352,16 +1352,16 @@
           "prompt": "Correct the formulaic expression.",
           "choices": [
             "Long live the king.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Long lives the king.",
+            "Long living the king.",
+            "Long to live the king."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Long live the king.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Long lives the king.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Long live the king.” instead.",
+            "“Long living the king.” is incorrect here because this sentence requires “Long live the king.”; it does not provide the required grammatical form or meaning.",
+            "“Long to live the king.” is incorrect here because this sentence requires “Long live the king.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -1567,16 +1567,16 @@
           "prompt": "Correct the get-passive.",
           "choices": [
             "He got fired for missing the deadline.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "He got fire for missing the deadline.",
+            "He got firing for missing the deadline.",
+            "He got to fire for missing the deadline."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“He got fired for missing the deadline.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“He got fire for missing the deadline.” repeats the original sentence, so it leaves the grammatical error unchanged; use “He got fired for missing the deadline.” instead.",
+            "“He got firing for missing the deadline.” is incorrect here because this sentence requires “He got fired for missing the deadline.”; it does not provide the required grammatical form or meaning.",
+            "“He got to fire for missing the deadline.” is incorrect here because this sentence requires “He got fired for missing the deadline.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -1588,16 +1588,16 @@
           "prompt": "Correct the reporting structure.",
           "choices": [
             "She is believed to have left the country.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "She is believed to left the country.",
+            "She is believed left the country.",
+            "She is believed to have leave the country."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“She is believed to have left the country.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“She is believed to left the country.” repeats the original sentence, so it leaves the grammatical error unchanged; use “She is believed to have left the country.” instead.",
+            "“She is believed left the country.” is incorrect here because this sentence requires “She is believed to have left the country.”; it does not provide the required grammatical form or meaning.",
+            "“She is believed to have leave the country.” is incorrect here because this sentence requires “She is believed to have left the country.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -1804,16 +1804,16 @@
           "prompt": "Choose a grammatical passive.",
           "choices": [
             "The procedure was explained to the assistant.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The assistant was explained the procedure.",
+            "The procedure was explained the assistant.",
+            "The assistant was explained to the procedure."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The procedure was explained to the assistant.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The assistant was explained the procedure.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The procedure was explained to the assistant.” instead.",
+            "“The procedure was explained the assistant.” is incorrect here because this sentence requires “The procedure was explained to the assistant.”; it does not provide the required grammatical form or meaning.",
+            "“The assistant was explained to the procedure.” is incorrect here because this sentence requires “The procedure was explained to the assistant.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -1825,16 +1825,16 @@
           "prompt": "Keep the preposition in the passive.",
           "choices": [
             "This is the problem which we are dealing with.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "This is the problem which we are dealing.",
+            "This is the problem which we are dealing to.",
+            "This is the problem with which we are deal."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“This is the problem which we are dealing with.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“This is the problem which we are dealing.” repeats the original sentence, so it leaves the grammatical error unchanged; use “This is the problem which we are dealing with.” instead.",
+            "“This is the problem which we are dealing to.” is incorrect here because this sentence requires “This is the problem which we are dealing with.”; it does not provide the required grammatical form or meaning.",
+            "“This is the problem with which we are deal.” is incorrect here because this sentence requires “This is the problem which we are dealing with.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2041,16 +2041,16 @@
           "prompt": "Use an appropriate current fact.",
           "choices": [
             "The scientist said that water boils at 100°C and it still does.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The scientist said that water boiled at 100°C and it still does.",
+            "The scientist said that water has boiled at 100°C and it still does.",
+            "The scientist said that water boil at 100°C and it still does."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The scientist said that water boils at 100°C and it still does.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The scientist said that water boiled at 100°C and it still does.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The scientist said that water boils at 100°C and it still does.” instead.",
+            "“The scientist said that water has boiled at 100°C and it still does.” is incorrect here because this sentence requires “The scientist said that water boils at 100°C and it still does.”; it does not provide the required grammatical form or meaning.",
+            "“The scientist said that water boil at 100°C and it still does.” is incorrect here because this sentence requires “The scientist said that water boils at 100°C and it still does.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2062,16 +2062,16 @@
           "prompt": "Correct the reported modal.",
           "choices": [
             "She said she might return later.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "She said she might to return later.",
+            "She said she might returned later.",
+            "She said she may to return later."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“She said she might return later.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“She said she might to return later.” repeats the original sentence, so it leaves the grammatical error unchanged; use “She said she might return later.” instead.",
+            "“She said she might returned later.” is incorrect here because this sentence requires “She said she might return later.”; it does not provide the required grammatical form or meaning.",
+            "“She said she may to return later.” is incorrect here because this sentence requires “She said she might return later.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2279,16 +2279,16 @@
           "prompt": "Correct the quotative clause.",
           "choices": [
             "“I am ready,” said the candidate.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "“I am ready,” said did the candidate.",
+            "“I am ready,” did said the candidate.",
+            "“I am ready,” said the candidate did."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "““I am ready,” said the candidate.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "““I am ready,” said did the candidate.” repeats the original sentence, so it leaves the grammatical error unchanged; use ““I am ready,” said the candidate.” instead.",
+            "““I am ready,” did said the candidate.” is incorrect here because this sentence requires ““I am ready,” said the candidate.”; it does not provide the required grammatical form or meaning.",
+            "““I am ready,” said the candidate did.” is incorrect here because this sentence requires ““I am ready,” said the candidate.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2300,16 +2300,16 @@
           "prompt": "Complete the source phrase.",
           "choices": [
             "According to the report, the figures are stable.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "According the report, the figures are stable.",
+            "According from the report, the figures are stable.",
+            "According to report, the figures are stable."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“According to the report, the figures are stable.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“According the report, the figures are stable.” repeats the original sentence, so it leaves the grammatical error unchanged; use “According to the report, the figures are stable.” instead.",
+            "“According from the report, the figures are stable.” is incorrect here because this sentence requires “According to the report, the figures are stable.”; it does not provide the required grammatical form or meaning.",
+            "“According to report, the figures are stable.” is incorrect here because this sentence requires “According to the report, the figures are stable.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2496,16 +2496,16 @@
           "prompt": "Make the attachment clear if the analyst was waiting.",
           "choices": [
             "The analyst who was waiting in the lobby spoke to the manager.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The analyst spoke to the manager who was waiting in the lobby.",
+            "The analyst who waited in the lobby spoke to the manager.",
+            "The analyst who waiting in the lobby spoke to the manager."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The analyst who was waiting in the lobby spoke to the manager.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The analyst spoke to the manager who was waiting in the lobby.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The analyst who was waiting in the lobby spoke to the manager.” instead.",
+            "“The analyst who waited in the lobby spoke to the manager.” is incorrect here because this sentence requires “The analyst who was waiting in the lobby spoke to the manager.”; it does not provide the required grammatical form or meaning.",
+            "“The analyst who waiting in the lobby spoke to the manager.” is incorrect here because this sentence requires “The analyst who was waiting in the lobby spoke to the manager.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2517,16 +2517,16 @@
           "prompt": "Remove the repeated object.",
           "choices": [
             "The plan which we approved starts tomorrow.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The plan which we approved it starts tomorrow.",
+            "The plan which approved starts tomorrow.",
+            "The plan which we approved starts tomorrow it."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The plan which we approved starts tomorrow.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The plan which we approved it starts tomorrow.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The plan which we approved starts tomorrow.” instead.",
+            "“The plan which approved starts tomorrow.” is incorrect here because this sentence requires “The plan which we approved starts tomorrow.”; it does not provide the required grammatical form or meaning.",
+            "“The plan which we approved starts tomorrow it.” is incorrect here because this sentence requires “The plan which we approved starts tomorrow.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2538,16 +2538,16 @@
           "prompt": "Correct the non-defining relative clause.",
           "choices": [
             "The laboratory, which opened last year, is expanding.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The laboratory, that opened last year, is expanding.",
+            "The laboratory, who opened last year, is expanding.",
+            "The laboratory, which open last year, is expanding."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The laboratory, which opened last year, is expanding.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The laboratory, that opened last year, is expanding.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The laboratory, which opened last year, is expanding.” instead.",
+            "“The laboratory, who opened last year, is expanding.” is incorrect here because this sentence requires “The laboratory, which opened last year, is expanding.”; it does not provide the required grammatical form or meaning.",
+            "“The laboratory, which open last year, is expanding.” is incorrect here because this sentence requires “The laboratory, which opened last year, is expanding.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2736,16 +2736,16 @@
           "prompt": "Use one nominal relative marker.",
           "choices": [
             "What she explained was helpful.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "What that she explained was helpful.",
+            "That what she explained was helpful.",
+            "What she explained were helpful."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“What she explained was helpful.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“What that she explained was helpful.” repeats the original sentence, so it leaves the grammatical error unchanged; use “What she explained was helpful.” instead.",
+            "“That what she explained was helpful.” is incorrect here because this sentence requires “What she explained was helpful.”; it does not provide the required grammatical form or meaning.",
+            "“What she explained were helpful.” is incorrect here because this sentence requires “What she explained was helpful.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2757,16 +2757,16 @@
           "prompt": "Correct the nominal relative clause.",
           "choices": [
             "Whoever applies may request an interview.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Whoever he will apply may request an interview.",
+            "Whoever apply may request an interview.",
+            "Whoever applies may requests an interview."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Whoever applies may request an interview.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Whoever he will apply may request an interview.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Whoever applies may request an interview.” instead.",
+            "“Whoever apply may request an interview.” is incorrect here because this sentence requires “Whoever applies may request an interview.”; it does not provide the required grammatical form or meaning.",
+            "“Whoever applies may requests an interview.” is incorrect here because this sentence requires “Whoever applies may request an interview.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2778,16 +2778,16 @@
           "prompt": "Replace the incorrect nominal relative.",
           "choices": [
             "I cannot accept what you have suggested.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "I cannot accept which you have suggested.",
+            "I cannot accept that you have suggested.",
+            "I cannot accept what have you suggested."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“I cannot accept what you have suggested.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“I cannot accept which you have suggested.” repeats the original sentence, so it leaves the grammatical error unchanged; use “I cannot accept what you have suggested.” instead.",
+            "“I cannot accept that you have suggested.” is incorrect here because this sentence requires “I cannot accept what you have suggested.”; it does not provide the required grammatical form or meaning.",
+            "“I cannot accept what have you suggested.” is incorrect here because this sentence requires “I cannot accept what you have suggested.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2974,16 +2974,16 @@
           "prompt": "Use the appropriate complement pattern.",
           "choices": [
             "The adviser recommended that we revise the proposal.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The adviser recommended us to revise the proposal.",
+            "The adviser recommended us revising the proposal.",
+            "The adviser recommended that we revises the proposal."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The adviser recommended that we revise the proposal.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The adviser recommended us to revise the proposal.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The adviser recommended that we revise the proposal.” instead.",
+            "“The adviser recommended us revising the proposal.” is incorrect here because this sentence requires “The adviser recommended that we revise the proposal.”; it does not provide the required grammatical form or meaning.",
+            "“The adviser recommended that we revises the proposal.” is incorrect here because this sentence requires “The adviser recommended that we revise the proposal.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2995,16 +2995,16 @@
           "prompt": "Correct the raising construction.",
           "choices": [
             "The figures appear to contradict the forecast.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The figures appear that they contradict the forecast.",
+            "The figures appear contradict the forecast.",
+            "The figures appears to contradict the forecast."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The figures appear to contradict the forecast.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The figures appear that they contradict the forecast.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The figures appear to contradict the forecast.” instead.",
+            "“The figures appear contradict the forecast.” is incorrect here because this sentence requires “The figures appear to contradict the forecast.”; it does not provide the required grammatical form or meaning.",
+            "“The figures appears to contradict the forecast.” is incorrect here because this sentence requires “The figures appear to contradict the forecast.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3016,16 +3016,16 @@
           "prompt": "Correct the complement after avoid.",
           "choices": [
             "He avoided answering the question.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "He avoided to answer the question.",
+            "He avoided answer the question.",
+            "He avoided answered the question."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“He avoided answering the question.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“He avoided to answer the question.” repeats the original sentence, so it leaves the grammatical error unchanged; use “He avoided answering the question.” instead.",
+            "“He avoided answer the question.” is incorrect here because this sentence requires “He avoided answering the question.”; it does not provide the required grammatical form or meaning.",
+            "“He avoided answered the question.” is incorrect here because this sentence requires “He avoided answering the question.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3212,16 +3212,16 @@
           "prompt": "Correct the object-control construction.",
           "choices": [
             "The coach encouraged the players to practise daily.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The coach encouraged to the players practise daily.",
+            "The coach encouraged the players practise daily.",
+            "The coach encouraged the players to practising daily."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The coach encouraged the players to practise daily.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The coach encouraged to the players practise daily.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The coach encouraged the players to practise daily.” instead.",
+            "“The coach encouraged the players practise daily.” is incorrect here because this sentence requires “The coach encouraged the players to practise daily.”; it does not provide the required grammatical form or meaning.",
+            "“The coach encouraged the players to practising daily.” is incorrect here because this sentence requires “The coach encouraged the players to practise daily.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3233,16 +3233,16 @@
           "prompt": "Add the explicit infinitive subject marker.",
           "choices": [
             "It was difficult for the interns to understand the procedure.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "It was difficult the interns to understand the procedure.",
+            "It was difficult to the interns understand the procedure.",
+            "It was difficult for the interns understand the procedure."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“It was difficult for the interns to understand the procedure.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“It was difficult the interns to understand the procedure.” repeats the original sentence, so it leaves the grammatical error unchanged; use “It was difficult for the interns to understand the procedure.” instead.",
+            "“It was difficult to the interns understand the procedure.” is incorrect here because this sentence requires “It was difficult for the interns to understand the procedure.”; it does not provide the required grammatical form or meaning.",
+            "“It was difficult for the interns understand the procedure.” is incorrect here because this sentence requires “It was difficult for the interns to understand the procedure.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3253,17 +3253,17 @@
           "faultySentence": "The child promised her mother to behave.",
           "prompt": "Make the controlled subject clear.",
           "choices": [
-            "The child promised to behave for her mother.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The child promised her mother that she would behave.",
+            "The child promised her mother to behave.",
+            "The child promised her mother that she will behave.",
+            "The child promised to her mother that she would behave."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“The child promised to behave for her mother.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The child promised her mother that she would behave.” makes the subject of the promise explicit.",
+            "“The child promised her mother to behave.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The child promised her mother that she would behave.” instead.",
+            "“The child promised her mother that she will behave.” is incorrect here because this sentence requires “The child promised her mother that she would behave.”; it does not provide the required grammatical form or meaning.",
+            "“The child promised to her mother that she would behave.” is incorrect here because this sentence requires “The child promised her mother that she would behave.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3452,16 +3452,16 @@
           "prompt": "Correct the epistemic modal.",
           "choices": [
             "The explanation must be wrong.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The explanation must to be wrong.",
+            "The explanation must be wrongly.",
+            "The explanation must is wrong."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The explanation must be wrong.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The explanation must to be wrong.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The explanation must be wrong.” instead.",
+            "“The explanation must be wrongly.” is incorrect here because this sentence requires “The explanation must be wrong.”; it does not provide the required grammatical form or meaning.",
+            "“The explanation must is wrong.” is incorrect here because this sentence requires “The explanation must be wrong.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3473,16 +3473,16 @@
           "prompt": "Use an appropriate evidential pattern.",
           "choices": [
             "The results suggest that the treatment works.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The results suggest us that the treatment works.",
+            "The results suggest that the treatment work.",
+            "The results suggests that the treatment works."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The results suggest that the treatment works.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The results suggest us that the treatment works.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The results suggest that the treatment works.” instead.",
+            "“The results suggest that the treatment work.” is incorrect here because this sentence requires “The results suggest that the treatment works.”; it does not provide the required grammatical form or meaning.",
+            "“The results suggests that the treatment works.” is incorrect here because this sentence requires “The results suggest that the treatment works.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3494,16 +3494,16 @@
           "prompt": "Correct the modal perfect.",
           "choices": [
             "She may have misunderstood the instruction.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "She may has misunderstood the instruction.",
+            "She may have misunderstand the instruction.",
+            "She may to have misunderstood the instruction."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“She may have misunderstood the instruction.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“She may has misunderstood the instruction.” repeats the original sentence, so it leaves the grammatical error unchanged; use “She may have misunderstood the instruction.” instead.",
+            "“She may have misunderstand the instruction.” is incorrect here because this sentence requires “She may have misunderstood the instruction.”; it does not provide the required grammatical form or meaning.",
+            "“She may to have misunderstood the instruction.” is incorrect here because this sentence requires “She may have misunderstood the instruction.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3691,16 +3691,16 @@
           "prompt": "Use a polite modal correctly.",
           "choices": [
             "Could you send the figures when convenient?",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Can you to send the figures when convenient?",
+            "Could you sent the figures when convenient?",
+            "Could you sending the figures when convenient?"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Could you send the figures when convenient?” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Can you to send the figures when convenient?” repeats the original sentence, so it leaves the grammatical error unchanged; use “Could you send the figures when convenient?” instead.",
+            "“Could you sent the figures when convenient?” is incorrect here because this sentence requires “Could you send the figures when convenient?”; it does not provide the required grammatical form or meaning.",
+            "“Could you sending the figures when convenient?” is incorrect here because this sentence requires “Could you send the figures when convenient?”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3712,16 +3712,16 @@
           "prompt": "Complete the indirect request.",
           "choices": [
             "I wonder if you could check this.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "I wonder that you could check this.",
+            "I wonder if could you check this.",
+            "I wonder whether you can checked this."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“I wonder if you could check this.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“I wonder that you could check this.” repeats the original sentence, so it leaves the grammatical error unchanged; use “I wonder if you could check this.” instead.",
+            "“I wonder if could you check this.” is incorrect here because this sentence requires “I wonder if you could check this.”; it does not provide the required grammatical form or meaning.",
+            "“I wonder whether you can checked this.” is incorrect here because this sentence requires “I wonder if you could check this.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3733,16 +3733,16 @@
           "prompt": "Place the hedge naturally.",
           "choices": [
             "You might want to reconsider the wording.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "You must perhaps reconsider the wording.",
+            "You might perhaps reconsider the wording.",
+            "You might want reconsider the wording."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“You might want to reconsider the wording.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“You must perhaps reconsider the wording.” repeats the original sentence, so it leaves the grammatical error unchanged; use “You might want to reconsider the wording.” instead.",
+            "“You might perhaps reconsider the wording.” is incorrect here because this sentence requires “You might want to reconsider the wording.”; it does not provide the required grammatical form or meaning.",
+            "“You might want reconsider the wording.” is incorrect here because this sentence requires “You might want to reconsider the wording.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3932,16 +3932,16 @@
           "prompt": "Correct the generic plural.",
           "choices": [
             "Elephants live in family groups.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "A elephants live in family groups.",
+            "The elephants lives in family groups.",
+            "Elephants lives in family groups."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Elephants live in family groups.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“A elephants live in family groups.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Elephants live in family groups.” instead.",
+            "“The elephants lives in family groups.” is incorrect here because this sentence requires “Elephants live in family groups.”; it does not provide the required grammatical form or meaning.",
+            "“Elephants lives in family groups.” is incorrect here because this sentence requires “Elephants live in family groups.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3953,16 +3953,16 @@
           "prompt": "Use the institutional expression.",
           "choices": [
             "She is in bed because she is sleeping.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "She is in the bed because she is sleeping.",
+            "She is at bed because she is sleeping.",
+            "She is in bed because she sleeping."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“She is in bed because she is sleeping.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“She is in the bed because she is sleeping.” repeats the original sentence, so it leaves the grammatical error unchanged; use “She is in bed because she is sleeping.” instead.",
+            "“She is at bed because she is sleeping.” is incorrect here because this sentence requires “She is in bed because she is sleeping.”; it does not provide the required grammatical form or meaning.",
+            "“She is in bed because she sleeping.” is incorrect here because this sentence requires “She is in bed because she is sleeping.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3974,16 +3974,16 @@
           "prompt": "Remove the unnecessary generic article.",
           "choices": [
             "Science helps us understand nature in general.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The science helps us understand nature in general.",
+            "Science help us understand nature in general.",
+            "Science helps us to understanding nature in general."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Science helps us understand nature in general.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The science helps us understand nature in general.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Science helps us understand nature in general.” instead.",
+            "“Science help us understand nature in general.” is incorrect here because this sentence requires “Science helps us understand nature in general.”; it does not provide the required grammatical form or meaning.",
+            "“Science helps us to understanding nature in general.” is incorrect here because this sentence requires “Science helps us understand nature in general.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4172,16 +4172,16 @@
           "prompt": "Correct the distributive phrase.",
           "choices": [
             "Each of the answers was plausible.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Every of the answers was plausible.",
+            "Each of the answers were plausible.",
+            "Each answer were plausible."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Each of the answers was plausible.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Every of the answers was plausible.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Each of the answers was plausible.” instead.",
+            "“Each of the answers were plausible.” is incorrect here because this sentence requires “Each of the answers was plausible.”; it does not provide the required grammatical form or meaning.",
+            "“Each answer were plausible.” is incorrect here because this sentence requires “Each of the answers was plausible.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4193,16 +4193,16 @@
           "prompt": "Avoid the doubled determiner.",
           "choices": [
             "Both reports were incomplete.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Both the two reports were incomplete.",
+            "Both reports was incomplete.",
+            "Both of reports were incomplete."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Both reports were incomplete.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Both the two reports were incomplete.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Both reports were incomplete.” instead.",
+            "“Both reports was incomplete.” is incorrect here because this sentence requires “Both reports were incomplete.”; it does not provide the required grammatical form or meaning.",
+            "“Both of reports were incomplete.” is incorrect here because this sentence requires “Both reports were incomplete.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4214,16 +4214,16 @@
           "prompt": "Correct the determiner and noun number.",
           "choices": [
             "Each student received a certificate.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Each students received a certificate.",
+            "Each student receive a certificate.",
+            "Each of student received a certificate."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Each student received a certificate.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Each students received a certificate.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Each student received a certificate.” instead.",
+            "“Each student receive a certificate.” is incorrect here because this sentence requires “Each student received a certificate.”; it does not provide the required grammatical form or meaning.",
+            "“Each of student received a certificate.” is incorrect here because this sentence requires “Each student received a certificate.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4410,16 +4410,16 @@
           "prompt": "Remove the repeated object after fronting.",
           "choices": [
             "This conclusion I do not agree with.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "This conclusion I do not agree with it.",
+            "This conclusion I do not agree it with.",
+            "This conclusion I does not agree with."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“This conclusion I do not agree with.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“This conclusion I do not agree with it.” repeats the original sentence, so it leaves the grammatical error unchanged; use “This conclusion I do not agree with.” instead.",
+            "“This conclusion I do not agree it with.” is incorrect here because this sentence requires “This conclusion I do not agree with.”; it does not provide the required grammatical form or meaning.",
+            "“This conclusion I does not agree with.” is incorrect here because this sentence requires “This conclusion I do not agree with.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4431,16 +4431,16 @@
           "prompt": "Place only before its focus.",
           "choices": [
             "Only the manager, not the assistant, can approve it.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Only the manager can approve not the assistant.",
+            "Only manager, not the assistant, can approve it.",
+            "Only the manager, not the assistant, can approves it."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Only the manager, not the assistant, can approve it.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Only the manager can approve not the assistant.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Only the manager, not the assistant, can approve it.” instead.",
+            "“Only manager, not the assistant, can approve it.” is incorrect here because this sentence requires “Only the manager, not the assistant, can approve it.”; it does not provide the required grammatical form or meaning.",
+            "“Only the manager, not the assistant, can approves it.” is incorrect here because this sentence requires “Only the manager, not the assistant, can approve it.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4448,20 +4448,20 @@
           "levelId": "a19",
           "rule": "focus_fronting",
           "type": "fix_sentence",
-          "faultySentence": "The results were surprising, these I had not expected.",
+          "faultySentence": "The results were surprising; these I had not expected.",
           "prompt": "Use a clear focused structure.",
           "choices": [
-            "The results, I had not expected.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The results were not what I had expected.",
+            "The results were surprising; these I had not expected.",
+            "The results were not what I had expect.",
+            "The results was not what I had expected."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“The results, I had not expected.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The results were not what I had expected.” gives the contrast a clear, natural focus.",
+            "“The results were surprising; these I had not expected.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The results were not what I had expected.” instead.",
+            "“The results were not what I had expect.” is incorrect here because this sentence requires “The results were not what I had expected.”; it does not provide the required grammatical form or meaning.",
+            "“The results was not what I had expected.” is incorrect here because this sentence requires “The results were not what I had expected.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4647,16 +4647,16 @@
           "prompt": "Make the pseudo-cleft agree.",
           "choices": [
             "What we need is a reliable method.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "What we need are a reliable method.",
+            "What we need is reliable method.",
+            "What we need were a reliable method."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“What we need is a reliable method.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“What we need are a reliable method.” repeats the original sentence, so it leaves the grammatical error unchanged; use “What we need is a reliable method.” instead.",
+            "“What we need is reliable method.” is incorrect here because this sentence requires “What we need is a reliable method.”; it does not provide the required grammatical form or meaning.",
+            "“What we need were a reliable method.” is incorrect here because this sentence requires “What we need is a reliable method.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4668,16 +4668,16 @@
           "prompt": "Correct the identifying clause.",
           "choices": [
             "A reliable method is what we need.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "A reliable method is what do we need.",
+            "A reliable method are what we need.",
+            "A reliable method is what we needs."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“A reliable method is what we need.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“A reliable method is what do we need.” repeats the original sentence, so it leaves the grammatical error unchanged; use “A reliable method is what we need.” instead.",
+            "“A reliable method are what we need.” is incorrect here because this sentence requires “A reliable method is what we need.”; it does not provide the required grammatical form or meaning.",
+            "“A reliable method is what we needs.” is incorrect here because this sentence requires “A reliable method is what we need.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4689,16 +4689,16 @@
           "prompt": "Remove the extra subject.",
           "choices": [
             "What mattered most was the evidence.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "What mattered most it was the evidence.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“What mattered most was the evidence.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“What mattered most it was the evidence.” repeats the original sentence, so it leaves the grammatical error unchanged; use “What mattered most was the evidence.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “What mattered most was the evidence.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “What mattered most was the evidence.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4887,16 +4887,16 @@
           "prompt": "Invert the subject and auxiliary.",
           "choices": [
             "Never have I encountered such a complex case.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Never I have encountered such a complex case.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Never have I encountered such a complex case.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Never I have encountered such a complex case.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Never have I encountered such a complex case.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “Never have I encountered such a complex case.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “Never have I encountered such a complex case.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4908,16 +4908,16 @@
           "prompt": "Remove the unnecessary subject.",
           "choices": [
             "Behind the building stood a warehouse.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Behind the building it stood a warehouse.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Behind the building stood a warehouse.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Behind the building it stood a warehouse.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Behind the building stood a warehouse.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “Behind the building stood a warehouse.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “Behind the building stood a warehouse.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4929,16 +4929,16 @@
           "prompt": "Use the formal inverted pattern.",
           "choices": [
             "Rarely does the committee reject a proposal.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Rarely the committee does reject a proposal.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Rarely does the committee reject a proposal.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Rarely the committee does reject a proposal.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Rarely does the committee reject a proposal.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “Rarely does the committee reject a proposal.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “Rarely does the committee reject a proposal.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5125,16 +5125,16 @@
           "prompt": "Use an extraposed subject.",
           "choices": [
             "It was unfortunate that the deadline was missed.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "That the deadline was missed it was unfortunate.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“It was unfortunate that the deadline was missed.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“That the deadline was missed it was unfortunate.” repeats the original sentence, so it leaves the grammatical error unchanged; use “It was unfortunate that the deadline was missed.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “It was unfortunate that the deadline was missed.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “It was unfortunate that the deadline was missed.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5146,16 +5146,16 @@
           "prompt": "Choose one complement pattern.",
           "choices": [
             "It is essential to back up the files.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "It is essential that to back up the files.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“It is essential to back up the files.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“It is essential that to back up the files.” repeats the original sentence, so it leaves the grammatical error unchanged; use “It is essential to back up the files.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “It is essential to back up the files.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “It is essential to back up the files.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5167,16 +5167,16 @@
           "prompt": "Correct the extraposed clause.",
           "choices": [
             "It surprised the team that the test failed.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "It surprised the team that did the test fail.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“It surprised the team that the test failed.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“It surprised the team that did the test fail.” repeats the original sentence, so it leaves the grammatical error unchanged; use “It surprised the team that the test failed.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “It surprised the team that the test failed.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “It surprised the team that the test failed.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5364,16 +5364,16 @@
           "prompt": "Make the series parallel.",
           "choices": [
             "The course teaches analysis, report writing, and presentation.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The course teaches analysis, writing reports, and presentation.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The course teaches analysis, report writing, and presentation.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The course teaches analysis, writing reports, and presentation.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The course teaches analysis, report writing, and presentation.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “The course teaches analysis, report writing, and presentation.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “The course teaches analysis, report writing, and presentation.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5381,20 +5381,20 @@
           "levelId": "a23",
           "rule": "coordination_scope",
           "type": "fix_sentence",
-          "faultySentence": "The manager asked us to revise the plan and the budget was checked.",
+          "faultySentence": "The manager asked us to revise the plan and checking the budget.",
           "prompt": "Coordinate the clauses clearly.",
           "choices": [
-            "The manager asked us to revise the plan, and the budget was checked.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The manager asked us to revise the plan and check the budget.",
+            "The manager asked us to revise the plan and checking the budget.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“The manager asked us to revise the plan, and the budget was checked.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The manager asked us to revise the plan and check the budget.” uses parallel infinitive complements.",
+            "“The manager asked us to revise the plan and checking the budget.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The manager asked us to revise the plan and check the budget.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “The manager asked us to revise the plan and check the budget.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “The manager asked us to revise the plan and check the budget.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5406,16 +5406,16 @@
           "prompt": "Match the coordinated verb forms.",
           "choices": [
             "They aim to improve quality and reduce costs.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "They aim to improve quality and reducing costs.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“They aim to improve quality and reduce costs.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“They aim to improve quality and reducing costs.” repeats the original sentence, so it leaves the grammatical error unchanged; use “They aim to improve quality and reduce costs.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “They aim to improve quality and reduce costs.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “They aim to improve quality and reduce costs.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5604,16 +5604,16 @@
           "prompt": "Use gapping to avoid repetition.",
           "choices": [
             "The first group chose the room, and the second the time.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The first group chose the room, and the second group chose the time.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The first group chose the room, and the second the time.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The first group chose the room, and the second group chose the time.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The first group chose the room, and the second the time.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “The first group chose the room, and the second the time.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “The first group chose the room, and the second the time.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5625,16 +5625,16 @@
           "prompt": "Use the ordinary comparative ellipsis.",
           "choices": [
             "The new version is more efficient than the old one.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The new version is more efficient than is the old one.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The new version is more efficient than the old one.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The new version is more efficient than is the old one.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The new version is more efficient than the old one.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “The new version is more efficient than the old one.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “The new version is more efficient than the old one.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5646,16 +5646,16 @@
           "prompt": "Make the second clause elliptical.",
           "choices": [
             "I prepared the slides, and Priya the handout.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "I prepared the slides, and Priya prepared the handout.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“I prepared the slides, and Priya the handout.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“I prepared the slides, and Priya prepared the handout.” repeats the original sentence, so it leaves the grammatical error unchanged; use “I prepared the slides, and Priya the handout.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “I prepared the slides, and Priya the handout.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “I prepared the slides, and Priya the handout.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5847,16 +5847,16 @@
           "prompt": "Choose a concessive preposition.",
           "choices": [
             "Despite the risks, they continued.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Although of the risks, they continued.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Despite the risks, they continued.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Although of the risks, they continued.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Despite the risks, they continued.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “Despite the risks, they continued.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “Despite the risks, they continued.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5868,16 +5868,16 @@
           "prompt": "Correct the hypothetical condition.",
           "choices": [
             "Even if it rains, the match will start.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Even if it will rain, the match will start.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Even if it rains, the match will start.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Even if it will rain, the match will start.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Even if it rains, the match will start.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “Even if it rains, the match will start.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “Even if it rains, the match will start.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5889,16 +5889,16 @@
           "prompt": "Use a clause linker or a noun phrase.",
           "choices": [
             "Although the road was closed, we arrived.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Despite the road was closed, we arrived.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Although the road was closed, we arrived.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Despite the road was closed, we arrived.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Although the road was closed, we arrived.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “Although the road was closed, we arrived.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “Although the road was closed, we arrived.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6089,16 +6089,16 @@
           "prompt": "Replace the misplaced linker.",
           "choices": [
             "Although the evidence was limited, the claim was useful.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Despite, the evidence was limited, the claim was useful.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Although the evidence was limited, the claim was useful.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Despite, the evidence was limited, the claim was useful.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Although the evidence was limited, the claim was useful.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “Although the evidence was limited, the claim was useful.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “Although the evidence was limited, the claim was useful.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6110,16 +6110,16 @@
           "prompt": "Punctuate the sentence link.",
           "choices": [
             "The result was inconsistent; consequently, we repeated the test.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The result was inconsistent, consequently we repeated the test.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The result was inconsistent; consequently, we repeated the test.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The result was inconsistent, consequently we repeated the test.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The result was inconsistent; consequently, we repeated the test.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “The result was inconsistent; consequently, we repeated the test.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “The result was inconsistent; consequently, we repeated the test.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6131,16 +6131,16 @@
           "prompt": "Use an appropriate formal connector.",
           "choices": [
             "In addition to the cost, the method is impractical.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Furthermore of the cost, the method is impractical.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“In addition to the cost, the method is impractical.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Furthermore of the cost, the method is impractical.” repeats the original sentence, so it leaves the grammatical error unchanged; use “In addition to the cost, the method is impractical.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “In addition to the cost, the method is impractical.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “In addition to the cost, the method is impractical.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6330,16 +6330,16 @@
           "prompt": "Correct agreement in the stance phrase.",
           "choices": [
             "There is strong evidence that the method works.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "There are strong evidence that the method works.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“There is strong evidence that the method works.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“There are strong evidence that the method works.” repeats the original sentence, so it leaves the grammatical error unchanged; use “There is strong evidence that the method works.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “There is strong evidence that the method works.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “There is strong evidence that the method works.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6351,16 +6351,16 @@
           "prompt": "Reduce the conflicting certainty markers.",
           "choices": [
             "The data appear to support the claim.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The data definitely appear to perhaps support the claim.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The data appear to support the claim.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The data definitely appear to perhaps support the claim.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The data appear to support the claim.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “The data appear to support the claim.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “The data appear to support the claim.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6372,16 +6372,16 @@
           "prompt": "Complete the complement correctly.",
           "choices": [
             "There is evidence that the device is safe.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "There is evidence for the device is safe.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“There is evidence that the device is safe.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“There is evidence for the device is safe.” repeats the original sentence, so it leaves the grammatical error unchanged; use “There is evidence that the device is safe.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “There is evidence that the device is safe.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “There is evidence that the device is safe.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6571,16 +6571,16 @@
           "prompt": "Use the licensed complement pattern.",
           "choices": [
             "She explained the procedure to us.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "She explained us the procedure.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“She explained the procedure to us.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“She explained us the procedure.” repeats the original sentence, so it leaves the grammatical error unchanged; use “She explained the procedure to us.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “She explained the procedure to us.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “She explained the procedure to us.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6592,16 +6592,16 @@
           "prompt": "Replace the incorrect light verb.",
           "choices": [
             "The team made a decision yesterday.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The team did a decision yesterday.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The team made a decision yesterday.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The team did a decision yesterday.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The team made a decision yesterday.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “The team made a decision yesterday.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “The team made a decision yesterday.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6612,17 +6612,17 @@
           "faultySentence": "They suggested us to postpone the launch.",
           "prompt": "Use an appropriate suggestion complement.",
           "choices": [
-            "They suggested postponing the launch to us.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "They suggested that we postpone the launch.",
+            "They suggested us to postpone the launch.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“They suggested postponing the launch to us.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“They suggested that we postpone the launch.” uses a standard suggestion complement.",
+            "“They suggested us to postpone the launch.” repeats the original sentence, so it leaves the grammatical error unchanged; use “They suggested that we postpone the launch.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “They suggested that we postpone the launch.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “They suggested that we postpone the launch.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6809,16 +6809,16 @@
           "prompt": "Edit the double negative and agreement.",
           "choices": [
             "The report does not contain any references.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The report do not contain no references.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The report does not contain any references.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The report do not contain no references.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The report does not contain any references.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “The report does not contain any references.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “The report does not contain any references.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6830,16 +6830,16 @@
           "prompt": "Replace the informal overstatement.",
           "choices": [
             "The results may support the theory.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The results kinda prove the theory.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The results may support the theory.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The results kinda prove the theory.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The results may support the theory.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “The results may support the theory.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “The results may support the theory.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6851,16 +6851,16 @@
           "prompt": "Use the standard count-noun form.",
           "choices": [
             "We have fewer errors in the revised version.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "We have less errors in the revised version.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“We have fewer errors in the revised version.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“We have less errors in the revised version.” repeats the original sentence, so it leaves the grammatical error unchanged; use “We have fewer errors in the revised version.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “We have fewer errors in the revised version.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “We have fewer errors in the revised version.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -7064,16 +7064,16 @@
           "prompt": "Edit the sentence for grammar and stance.",
           "choices": [
             "Despite the limitations, the findings appear to be useful.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Although of the limitations, the findings appear prove useful.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Despite the limitations, the findings appear to be useful.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Although of the limitations, the findings appear prove useful.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Despite the limitations, the findings appear to be useful.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “Despite the limitations, the findings appear to be useful.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “Despite the limitations, the findings appear to be useful.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -7085,16 +7085,16 @@
           "prompt": "Place the inverted auxiliary correctly.",
           "choices": [
             "Only after the audit did the committee change its policy.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Only after the audit the committee did change its policy.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Only after the audit did the committee change its policy.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Only after the audit the committee did change its policy.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Only after the audit did the committee change its policy.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “Only after the audit did the committee change its policy.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “Only after the audit did the committee change its policy.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -7106,16 +7106,16 @@
           "prompt": "Use the standard valency pattern.",
           "choices": [
             "The report explains the result to us clearly.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The report explains us the result clearly.",
+            "No correction is needed.",
+            "The original sentence is correct."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The report explains the result to us clearly.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The report explains us the result clearly.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The report explains the result to us clearly.” instead.",
+            "“No correction is needed.” is incorrect here because this sentence requires “The report explains the result to us clearly.”; it does not provide the required grammatical form or meaning.",
+            "“The original sentence is correct.” is incorrect here because this sentence requires “The report explains the result to us clearly.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {

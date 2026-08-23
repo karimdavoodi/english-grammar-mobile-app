@@ -214,7 +214,7 @@
           "levelId": "b01",
           "rule": "present_simple_form",
           "type": "fix_sentence",
-          "faultySentence": "The train leaves at six every day.",
+          "faultySentence": "The train leave at six every day.",
           "prompt": "The train ___ at six every day.",
           "choices": [
             "leaves",
@@ -466,7 +466,7 @@
           "levelId": "b02",
           "rule": "present_simple_vs_continuous",
           "type": "fix_sentence",
-          "faultySentence": "She walks to work every day.",
+          "faultySentence": "She walk to work every day.",
           "prompt": "She ___ to work every day, but today she is cycling.",
           "choices": [
             "walks",
@@ -721,7 +721,7 @@
           "levelId": "b03",
           "rule": "past_simple_usage",
           "type": "fix_sentence",
-          "faultySentence": "When did you move here?",
+          "faultySentence": "When did you moved here?",
           "prompt": "When ___ you move here?",
           "choices": [
             "did",
@@ -975,7 +975,7 @@
           "levelId": "b04",
           "rule": "past_simple_vs_continuous",
           "type": "fix_sentence",
-          "faultySentence": "They were playing chess when I came in.",
+          "faultySentence": "They was playing chess when I came in.",
           "prompt": "They ___ chess when I came in.",
           "choices": [
             "were playing",
@@ -1230,7 +1230,7 @@
           "levelId": "b05",
           "rule": "present_perfect_vs_past_simple",
           "type": "fix_sentence",
-          "faultySentence": "He has broken his leg.",
+          "faultySentence": "He have broken his leg.",
           "prompt": "He ___ his leg, so he cannot play today.",
           "choices": [
             "has broken",
@@ -1485,7 +1485,7 @@
           "levelId": "b06",
           "rule": "will_vs_going_to",
           "type": "fix_sentence",
-          "faultySentence": "We are going to buy a new house.",
+          "faultySentence": "We are going buy a new house.",
           "prompt": "It is decided: we ___ a new house.",
           "choices": [
             "are going to buy",
@@ -1740,7 +1740,7 @@
           "levelId": "b07",
           "rule": "modal_obligation_advice",
           "type": "fix_sentence",
-          "faultySentence": "If you have a headache, you should take a rest.",
+          "faultySentence": "If you have a headache, you should to take a rest.",
           "prompt": "If you have a headache, you ___ take a rest.",
           "choices": [
             "should",
@@ -1994,7 +1994,7 @@
           "levelId": "b08",
           "rule": "articles_the_zero",
           "type": "fix_sentence",
-          "faultySentence": "The water in this glass is cold.",
+          "faultySentence": "Water in this glass is cold.",
           "prompt": "___ water in this glass is cold.",
           "choices": [
             "The",
@@ -2248,7 +2248,7 @@
           "levelId": "b09",
           "rule": "superlatives",
           "type": "fix_sentence",
-          "faultySentence": "Of the three roads, this one is the longest.",
+          "faultySentence": "Of the three roads, this one is the longer.",
           "prompt": "Of the three roads, this one is the ___.",
           "choices": [
             "longest",
@@ -2502,7 +2502,7 @@
           "levelId": "b10",
           "rule": "past_perfect_vs_past_simple",
           "type": "fix_sentence",
-          "faultySentence": "The waiter had taken our order before the kitchen closed.",
+          "faultySentence": "The waiter had took our order before the kitchen closed.",
           "prompt": "The waiter ___ our order before the kitchen closed.",
           "choices": [
             "had taken",
@@ -2757,7 +2757,7 @@
           "levelId": "b11",
           "rule": "prepositions_time_since_for_until",
           "type": "fix_sentence",
-          "faultySentence": "The shop is open until nine o’clock.",
+          "faultySentence": "The shop is open for nine o’clock.",
           "prompt": "The shop is open ___ nine o’clock.",
           "choices": [
             "until",
@@ -3012,7 +3012,7 @@
           "levelId": "b12",
           "rule": "first_conditional",
           "type": "fix_sentence",
-          "faultySentence": "If we leave now, we will catch the film.",
+          "faultySentence": "If we will leave now, we will catch the film.",
           "prompt": "If we leave now, we ___ the film.",
           "choices": [
             "will catch",
@@ -5554,16 +5554,16 @@
           "prompt": "She said that she ___ tired.",
           "choices": [
             "was",
-            "is not correct",
-            "another form",
-            "a different form"
+            "is",
+            "were",
+            "be"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“was” corrects the faulty sentence.",
             "This does not repair the sentence.",
-            "This form does not fit the sentence.",
-            "This form does not express the intended meaning."
+            "“were” is incorrect here because this sentence requires “was”; it does not provide the required grammatical form or meaning.",
+            "“be” is incorrect here because this sentence requires “was”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5809,16 +5809,16 @@
           "prompt": "The woman ___ lives next door is a doctor.",
           "choices": [
             "who",
-            "is not correct",
-            "another form",
-            "a different form"
+            "which",
+            "that",
+            "whose"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“who” corrects the faulty sentence.",
             "This does not repair the sentence.",
-            "This form does not fit the sentence.",
-            "This form does not express the intended meaning."
+            "“that” is incorrect here because this sentence requires “who”; it does not provide the required grammatical form or meaning.",
+            "“whose” is incorrect here because this sentence requires “who”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6067,16 +6067,16 @@
           "prompt": "Have you ever ___ to Italy?",
           "choices": [
             "been",
-            "is not correct",
-            "another form",
-            "a different form"
+            "went",
+            "go",
+            "going"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“been” corrects the faulty sentence.",
             "This does not repair the sentence.",
-            "This form does not fit the sentence.",
-            "This form does not express the intended meaning."
+            "“go” is incorrect here because this sentence requires “been”; it does not provide the required grammatical form or meaning.",
+            "“going” is incorrect here because this sentence requires “been”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6322,16 +6322,16 @@
           "prompt": "They have been ___ for an hour.",
           "choices": [
             "waiting",
-            "is not correct",
-            "another form",
-            "a different form"
+            "wait",
+            "worked",
+            "waited"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“waiting” corrects the faulty sentence.",
             "This does not repair the sentence.",
-            "This form does not fit the sentence.",
-            "This form does not express the intended meaning."
+            "“worked” is incorrect here because this sentence requires “waiting”; it does not provide the required grammatical form or meaning.",
+            "“waited” is incorrect here because this sentence requires “waiting”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6578,16 +6578,16 @@
           "prompt": "If I ___ time, I would help.",
           "choices": [
             "had",
-            "is not correct",
-            "another form",
-            "a different form"
+            "will have",
+            "have",
+            "would have"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“had” corrects the faulty sentence.",
             "This does not repair the sentence.",
-            "This form does not fit the sentence.",
-            "This form does not express the intended meaning."
+            "“have” is incorrect here because this sentence requires “had”; it does not provide the required grammatical form or meaning.",
+            "“would have” is incorrect here because this sentence requires “had”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6834,16 +6834,16 @@
           "prompt": "They must have ___ home.",
           "choices": [
             "gone",
-            "is not correct",
-            "another form",
-            "a different form"
+            "went",
+            "go",
+            "left"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“gone” corrects the faulty sentence.",
             "This does not repair the sentence.",
-            "This form does not fit the sentence.",
-            "This form does not express the intended meaning."
+            "“go” is incorrect here because this sentence requires “gone”; it does not provide the required grammatical form or meaning.",
+            "“left” is incorrect here because this sentence requires “gone”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -7088,16 +7088,16 @@
           "prompt": "Although it was cold, ___ went out.",
           "choices": [
             "we",
-            "is not correct",
-            "another form",
-            "a different form"
+            "but we",
+            "they",
+            "we did"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“we” corrects the faulty sentence.",
             "This does not repair the sentence.",
-            "This form does not fit the sentence.",
-            "This form does not express the intended meaning."
+            "“they” is incorrect here because this sentence requires “we”; it does not provide the required grammatical form or meaning.",
+            "“we did” is incorrect here because this sentence requires “we”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -7239,19 +7239,19 @@
           "id": "b29q05",
           "levelId": "b29",
           "rule": "phrasal_verb_particle_position",
-          "prompt": "He took ___ his shoes at the door.",
+          "prompt": "He ___ his shoes at the door.",
           "choices": [
-            "off",
-            "off his shoes",
-            "his shoes off",
-            "both B and C"
+            "took off",
+            "took",
+            "taking off",
+            "has taken off"
           ],
-          "correctIndex": 3,
+          "correctIndex": 0,
           "choiceExplanations": [
-            "“off” does not fit the grammar rule being tested here.",
-            "“off his shoes” does not fit the grammar rule being tested here.",
-            "“his shoes off” does not fit the grammar rule being tested here.",
-            "“both B and C” is correct in this sentence."
+            "“Took off” is correct: the separable phrasal verb is followed by its object.",
+            "“Took” is incomplete because the particle “off” is required.",
+            "“Taking off” does not fit the past-simple sentence.",
+            "“Has taken off” does not fit the completed past-time context."
           ],
           "type": "multiple_choice"
         },
@@ -7344,16 +7344,16 @@
           "prompt": "Please turn ___ off.",
           "choices": [
             "it",
-            "is not correct",
-            "another form",
-            "a different form"
+            "off it",
+            "the lights",
+            "them"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“it” corrects the faulty sentence.",
             "This does not repair the sentence.",
-            "This form does not fit the sentence.",
-            "This form does not express the intended meaning."
+            "“the lights” is incorrect here because this sentence requires “it”; it does not provide the required grammatical form or meaning.",
+            "“them” is incorrect here because this sentence requires “it”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -7591,16 +7591,16 @@
           "prompt": "She ___ finished her work.",
           "choices": [
             "has",
-            "is not correct",
-            "another form",
-            "a different form"
+            "have",
+            "have been",
+            "had"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“has” corrects the faulty sentence.",
             "This does not repair the sentence.",
-            "This form does not fit the sentence.",
-            "This form does not express the intended meaning."
+            "“have been” is incorrect here because this sentence requires “has”; it does not provide the required grammatical form or meaning.",
+            "“had” is incorrect here because this sentence requires “has”; it does not provide the required grammatical form or meaning."
           ]
         },
         {

@@ -218,16 +218,16 @@
           "prompt": "I was ___ home when I saw him.",
           "choices": [
             "walking",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "walk",
+            "walked",
+            "to walk"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“walking” corrects the sentence and follows the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the grammatical error unresolved.",
-            "This form changes the required meaning or tense."
+            "“walk” is incorrect here because this sentence requires “walking”; it does not provide the required grammatical form or meaning.",
+            "“walked” is incorrect here because this sentence requires “walking”; it does not provide the required grammatical form or meaning.",
+            "“to walk” is incorrect here because this sentence requires “walking”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -475,16 +475,16 @@
           "prompt": "They had been ___ for an hour.",
           "choices": [
             "waiting",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "wait",
+            "waited",
+            "to wait"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“waiting” corrects the sentence and follows the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the grammatical error unresolved.",
-            "This form changes the required meaning or tense."
+            "“wait” is incorrect here because this sentence requires “waiting”; it does not provide the required grammatical form or meaning.",
+            "“waited” is incorrect here because this sentence requires “waiting”; it does not provide the required grammatical form or meaning.",
+            "“to wait” is incorrect here because this sentence requires “waiting”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -731,16 +731,16 @@
           "prompt": "At nine, we will be ___.",
           "choices": [
             "studying",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "study",
+            "studied",
+            "to study"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“studying” corrects the sentence and follows the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the grammatical error unresolved.",
-            "This form changes the required meaning or tense."
+            "“study” is incorrect here because this sentence requires “studying”; it does not provide the required grammatical form or meaning.",
+            "“studied” is incorrect here because this sentence requires “studying”; it does not provide the required grammatical form or meaning.",
+            "“to study” is incorrect here because this sentence requires “studying”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -986,16 +986,16 @@
           "prompt": "She said she ___ come later.",
           "choices": [
             "would",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "will",
+            "was going to",
+            "would have"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“would” corrects the sentence and follows the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the grammatical error unresolved.",
-            "This form changes the required meaning or tense."
+            "“will” is incorrect here because this sentence requires “would”; it does not provide the required grammatical form or meaning.",
+            "“was going to” is incorrect here because this sentence requires “would”; it does not provide the required grammatical form or meaning.",
+            "“would have” is incorrect here because this sentence requires “would”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -1215,18 +1215,18 @@
         {
           "id": "i05q09",
           "levelId": "i05",
-          "rule": "first_conditional",
-          "prompt": "If it rains tomorrow, we ___ stay inside.",
+          "rule": "third_conditional_form",
+          "prompt": "If it had rained, we ___ have stayed inside.",
           "choices": [
             "would",
             "will",
             "had",
             "were"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "choiceExplanations": [
-            "“would” does not fit the tense, structure, or meaning required here.",
-            "“will” is correct for the grammar pattern in this sentence.",
+            "“would” is correct: the result clause of a third conditional uses would have + past participle.",
+            "“will” does not fit a counterfactual past condition.",
             "“had” does not fit the tense, structure, or meaning required here.",
             "“were” does not fit the tense, structure, or meaning required here."
           ],
@@ -1241,16 +1241,16 @@
           "prompt": "If I ___ known, I would have helped.",
           "choices": [
             "had",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "would have",
+            "have",
+            "was"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“had” corrects the sentence and follows the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the grammatical error unresolved.",
-            "This form changes the required meaning or tense."
+            "“would have” is incorrect here because this sentence requires “had”; it does not provide the required grammatical form or meaning.",
+            "“have” is incorrect here because this sentence requires “had”; it does not provide the required grammatical form or meaning.",
+            "“was” is incorrect here because this sentence requires “had”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -1472,20 +1472,20 @@
         {
           "id": "i06q09",
           "levelId": "i06",
-          "rule": "first_conditional",
-          "prompt": "If you hurry, you ___ catch the bus.",
+          "rule": "mixed_conditional_past_present",
+          "prompt": "If you had left earlier, you ___ be here now.",
           "choices": [
-            "will",
+            "would",
             "would have",
-            "had",
-            "were"
+            "will",
+            "had"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
-            "“will” is correct for the grammar pattern in this sentence.",
-            "“would have” does not fit the tense, structure, or meaning required here.",
-            "“had” does not fit the tense, structure, or meaning required here.",
-            "“were” does not fit the tense, structure, or meaning required here."
+            "“would” is correct: a past condition can have a present result in a mixed conditional.",
+            "“would have” would describe a past result, not a present one.",
+            "“will” does not fit a counterfactual past condition.",
+            "“had” cannot form the result clause."
           ],
           "type": "multiple_choice"
         },
@@ -1498,16 +1498,16 @@
           "prompt": "If I had studied harder, I would ___ a better job now.",
           "choices": [
             "have",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "had",
+            "would have",
+            "will have"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“have” corrects the sentence and follows the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the grammatical error unresolved.",
-            "This form changes the required meaning or tense."
+            "“had” is incorrect here because this sentence requires “have”; it does not provide the required grammatical form or meaning.",
+            "“would have” is incorrect here because this sentence requires “have”; it does not provide the required grammatical form or meaning.",
+            "“will have” is incorrect here because this sentence requires “have”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -1755,20 +1755,20 @@
           "levelId": "i07",
           "rule": "modal_passive",
           "type": "fix_sentence",
-          "faultySentence": "The report must be complete today.",
+          "faultySentence": "The report must be completing today.",
           "prompt": "The report must be ___ today.",
           "choices": [
             "completed",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "complete",
+            "completing",
+            "be completed"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“completed” corrects the sentence and follows the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the grammatical error unresolved.",
-            "This form changes the required meaning or tense."
+            "“complete” is incorrect here because this sentence requires “completed”; it does not provide the required grammatical form or meaning.",
+            "“completing” is incorrect here because this sentence requires “completed”; it does not provide the required grammatical form or meaning.",
+            "“be completed” is incorrect here because this sentence requires “completed”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2014,16 +2014,16 @@
           "prompt": "I had my car ___ yesterday.",
           "choices": [
             "repaired",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "repair",
+            "repairing",
+            "to repair"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“repaired” corrects the sentence and follows the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the grammatical error unresolved.",
-            "This form changes the required meaning or tense."
+            "“repair” is incorrect here because this sentence requires “repaired”; it does not provide the required grammatical form or meaning.",
+            "“repairing” is incorrect here because this sentence requires “repaired”; it does not provide the required grammatical form or meaning.",
+            "“to repair” is incorrect here because this sentence requires “repaired”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2269,16 +2269,16 @@
           "prompt": "He asked me where I ___.",
           "choices": [
             "lived",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "live",
+            "did live",
+            "was living"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“lived” corrects the sentence and follows the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the grammatical error unresolved.",
-            "This form changes the required meaning or tense."
+            "“live” is incorrect here because this sentence requires “lived”; it does not provide the required grammatical form or meaning.",
+            "“did live” is incorrect here because this sentence requires “lived”; it does not provide the required grammatical form or meaning.",
+            "“was living” is incorrect here because this sentence requires “lived”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2524,16 +2524,16 @@
           "prompt": "She advised me ___ an umbrella.",
           "choices": [
             "to take",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "take",
+            "taking",
+            "that she take"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“to take” corrects the sentence and follows the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the grammatical error unresolved.",
-            "This form changes the required meaning or tense."
+            "“take” is incorrect here because this sentence requires “to take”; it does not provide the required grammatical form or meaning.",
+            "“taking” is incorrect here because this sentence requires “to take”; it does not provide the required grammatical form or meaning.",
+            "“that she take” is incorrect here because this sentence requires “to take”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2700,16 +2700,16 @@
           "prompt": "My brother, ___ lives in York, is visiting.",
           "choices": [
             "who",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "which",
+            "that",
+            "whom"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“who” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“which” is incorrect here because this sentence requires “who”; it does not provide the required grammatical form or meaning.",
+            "“that” is incorrect here because this sentence requires “who”; it does not provide the required grammatical form or meaning.",
+            "“whom” is incorrect here because this sentence requires “who”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2721,16 +2721,16 @@
           "prompt": "He forgot the key, ___ caused a problem.",
           "choices": [
             "which",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "that",
+            "who",
+            "where"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“which” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“that” is incorrect here because this sentence requires “which”; it does not provide the required grammatical form or meaning.",
+            "“who” is incorrect here because this sentence requires “which”; it does not provide the required grammatical form or meaning.",
+            "“where” is incorrect here because this sentence requires “which”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2937,16 +2937,16 @@
           "prompt": "The man ___ by the door is my uncle.",
           "choices": [
             "standing",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "stood",
+            "stand",
+            "to stand"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“standing” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“stood” is incorrect here because this sentence requires “standing”; it does not provide the required grammatical form or meaning.",
+            "“stand” is incorrect here because this sentence requires “standing”; it does not provide the required grammatical form or meaning.",
+            "“to stand” is incorrect here because this sentence requires “standing”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -2958,16 +2958,16 @@
           "prompt": "The report ___ by Ana was clear.",
           "choices": [
             "written",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "writing",
+            "wrote",
+            "to write"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“written” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“writing” is incorrect here because this sentence requires “written”; it does not provide the required grammatical form or meaning.",
+            "“wrote” is incorrect here because this sentence requires “written”; it does not provide the required grammatical form or meaning.",
+            "“to write” is incorrect here because this sentence requires “written”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3174,16 +3174,16 @@
           "prompt": "I enjoy ___ .",
           "choices": [
             "swimming",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "to swim",
+            "swim",
+            "swam"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“swimming” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“to swim” is incorrect here because this sentence requires “swimming”; it does not provide the required grammatical form or meaning.",
+            "“swim” is incorrect here because this sentence requires “swimming”; it does not provide the required grammatical form or meaning.",
+            "“swam” is incorrect here because this sentence requires “swimming”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3195,16 +3195,16 @@
           "prompt": "She decided ___ early.",
           "choices": [
             "to leave",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "leaving",
+            "leave",
+            "to leaving"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“to leave” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“leaving” is incorrect here because this sentence requires “to leave”; it does not provide the required grammatical form or meaning.",
+            "“leave” is incorrect here because this sentence requires “to leave”; it does not provide the required grammatical form or meaning.",
+            "“to leaving” is incorrect here because this sentence requires “to leave”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3408,16 +3408,16 @@
           "prompt": "He stopped ___ last year.",
           "choices": [
             "smoking",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "to smoke",
+            "smoke",
+            "to smoking"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“smoking” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“to smoke” is incorrect here because this sentence requires “smoking”; it does not provide the required grammatical form or meaning.",
+            "“smoke” is incorrect here because this sentence requires “smoking”; it does not provide the required grammatical form or meaning.",
+            "“to smoking” is incorrect here because this sentence requires “smoking”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3429,16 +3429,16 @@
           "prompt": "Remember ___ the door tonight.",
           "choices": [
             "to lock",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "locking",
+            "lock",
+            "to locking"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“to lock” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“locking” is incorrect here because this sentence requires “to lock”; it does not provide the required grammatical form or meaning.",
+            "“lock” is incorrect here because this sentence requires “to lock”; it does not provide the required grammatical form or meaning.",
+            "“to locking” is incorrect here because this sentence requires “to lock”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3643,16 +3643,16 @@
           "prompt": "This ___ be the answer.",
           "choices": [
             "must",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "must to",
+            "might",
+            "has to"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“must” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“must to” is incorrect here because this sentence requires “must”; it does not provide the required grammatical form or meaning.",
+            "“might” is incorrect here because this sentence requires “must”; it does not provide the required grammatical form or meaning.",
+            "“has to” is incorrect here because this sentence requires “must”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3664,16 +3664,16 @@
           "prompt": "They might ___ the train.",
           "choices": [
             "have missed",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "missed",
+            "miss",
+            "have miss"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“have missed” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“missed” is incorrect here because this sentence requires “have missed”; it does not provide the required grammatical form or meaning.",
+            "“miss” is incorrect here because this sentence requires “have missed”; it does not provide the required grammatical form or meaning.",
+            "“have miss” is incorrect here because this sentence requires “have missed”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3878,16 +3878,16 @@
           "prompt": "I ___ leave yesterday.",
           "choices": [
             "had to",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "must",
+            "have to",
+            "had"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“had to” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“must” is incorrect here because this sentence requires “had to”; it does not provide the required grammatical form or meaning.",
+            "“have to” is incorrect here because this sentence requires “had to”; it does not provide the required grammatical form or meaning.",
+            "“had” is incorrect here because this sentence requires “had to”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -3899,16 +3899,16 @@
           "prompt": "We ___ buy tickets; entry was free.",
           "choices": [
             "did not have to",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "must not",
+            "had not to",
+            "do not have to"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“did not have to” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“must not” is incorrect here because this sentence requires “did not have to”; it does not provide the required grammatical form or meaning.",
+            "“had not to” is incorrect here because this sentence requires “did not have to”; it does not provide the required grammatical form or meaning.",
+            "“do not have to” is incorrect here because this sentence requires “did not have to”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4114,16 +4114,16 @@
           "prompt": "___ honesty is important in friendship.",
           "choices": [
             "nothing",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The",
+            "A",
+            "An"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“nothing” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The” is incorrect here because this sentence requires “nothing”; it does not provide the required grammatical form or meaning.",
+            "“A” is incorrect here because this sentence requires “nothing”; it does not provide the required grammatical form or meaning.",
+            "“An” is incorrect here because this sentence requires “nothing”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4135,16 +4135,16 @@
           "prompt": "They visited ___ France last summer.",
           "choices": [
             "nothing",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "the",
+            "a",
+            "an"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“nothing” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“the” is incorrect here because this sentence requires “nothing”; it does not provide the required grammatical form or meaning.",
+            "“a” is incorrect here because this sentence requires “nothing”; it does not provide the required grammatical form or meaning.",
+            "“an” is incorrect here because this sentence requires “nothing”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4350,16 +4350,16 @@
           "prompt": "I wonder where ___ .",
           "choices": [
             "she works",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "does she work",
+            "she work",
+            "did she work"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“she works” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“does she work” is incorrect here because this sentence requires “she works”; it does not provide the required grammatical form or meaning.",
+            "“she work” is incorrect here because this sentence requires “she works”; it does not provide the required grammatical form or meaning.",
+            "“did she work” is incorrect here because this sentence requires “she works”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4371,16 +4371,16 @@
           "prompt": "He knows ___ she is ready.",
           "choices": [
             "that",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "if",
+            "whether",
+            "what"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“that” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“if” is incorrect here because this sentence requires “that”; it does not provide the required grammatical form or meaning.",
+            "“whether” is incorrect here because this sentence requires “that”; it does not provide the required grammatical form or meaning.",
+            "“what” is incorrect here because this sentence requires “that”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4586,16 +4586,16 @@
           "prompt": "When I ___, I will call.",
           "choices": [
             "arrive",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "will arrive",
+            "arrived",
+            "would arrive"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“arrive” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“will arrive” is incorrect here because this sentence requires “arrive”; it does not provide the required grammatical form or meaning.",
+            "“arrived” is incorrect here because this sentence requires “arrive”; it does not provide the required grammatical form or meaning.",
+            "“would arrive” is incorrect here because this sentence requires “arrive”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4607,16 +4607,16 @@
           "prompt": "He left early ___ catch the train.",
           "choices": [
             "to",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "for",
+            "because",
+            "so"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“to” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“for” is incorrect here because this sentence requires “to”; it does not provide the required grammatical form or meaning.",
+            "“because” is incorrect here because this sentence requires “to”; it does not provide the required grammatical form or meaning.",
+            "“so” is incorrect here because this sentence requires “to”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4824,16 +4824,16 @@
           "prompt": "___ by the noise, the child cried.",
           "choices": [
             "Frightened",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Frightening",
+            "Frighten",
+            "To frighten"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Frightened” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Frightening” is incorrect here because this sentence requires “Frightened”; it does not provide the required grammatical form or meaning.",
+            "“Frighten” is incorrect here because this sentence requires “Frightened”; it does not provide the required grammatical form or meaning.",
+            "“To frighten” is incorrect here because this sentence requires “Frightened”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -4845,16 +4845,16 @@
           "prompt": "Having ___ dinner, we watched a film.",
           "choices": [
             "finished",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "finish",
+            "finishing",
+            "to finish"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“finished” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“finish” is incorrect here because this sentence requires “finished”; it does not provide the required grammatical form or meaning.",
+            "“finishing” is incorrect here because this sentence requires “finished”; it does not provide the required grammatical form or meaning.",
+            "“to finish” is incorrect here because this sentence requires “finished”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5059,16 +5059,16 @@
           "prompt": "Never ___ I seen this before.",
           "choices": [
             "have",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "has",
+            "had",
+            "did"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“have” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“has” is incorrect here because this sentence requires “have”; it does not provide the required grammatical form or meaning.",
+            "“had” is incorrect here because this sentence requires “have”; it does not provide the required grammatical form or meaning.",
+            "“did” is incorrect here because this sentence requires “have”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5080,16 +5080,16 @@
           "prompt": "Only then ___ he realise the truth.",
           "choices": [
             "did",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "does",
+            "has",
+            "was"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“did” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“does” is incorrect here because this sentence requires “did”; it does not provide the required grammatical form or meaning.",
+            "“has” is incorrect here because this sentence requires “did”; it does not provide the required grammatical form or meaning.",
+            "“was” is incorrect here because this sentence requires “did”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5294,16 +5294,16 @@
           "prompt": "I understand your concern.",
           "choices": [
             "I do understand your concern.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "I am understanding your concern.",
+            "I did understand your concern.",
+            "I understand your concerns."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“I do understand your concern.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“I am understanding your concern.” is incorrect here because this sentence requires “I do understand your concern.”; it does not provide the required grammatical form or meaning.",
+            "“I did understand your concern.” is incorrect here because this sentence requires “I do understand your concern.”; it does not provide the required grammatical form or meaning.",
+            "“I understand your concerns.” is incorrect here because this sentence requires “I do understand your concern.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5315,16 +5315,16 @@
           "prompt": "It was Leo which repaired the bike.",
           "choices": [
             "It was Leo who repaired the bike.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "It was Leo which repaired the bike.",
+            "It was Leo whom repaired the bike.",
+            "It was Leo who repair the bike."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“It was Leo who repaired the bike.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“It was Leo which repaired the bike.” repeats the original sentence, so it leaves the grammatical error unchanged; use “It was Leo who repaired the bike.” instead.",
+            "“It was Leo whom repaired the bike.” is incorrect here because this sentence requires “It was Leo who repaired the bike.”; it does not provide the required grammatical form or meaning.",
+            "“It was Leo who repair the bike.” is incorrect here because this sentence requires “It was Leo who repaired the bike.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5529,16 +5529,16 @@
           "prompt": "I like jazz, and so I do.",
           "choices": [
             "I like jazz, and so does he.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "I like jazz, and so do I.",
+            "I like jazz, and so he do.",
+            "I like jazz, and neither does he."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“I like jazz, and so does he.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“I like jazz, and so do I.” is incorrect here because this sentence requires “I like jazz, and so does he.”; it does not provide the required grammatical form or meaning.",
+            "“I like jazz, and so he do.” is incorrect here because this sentence requires “I like jazz, and so does he.”; it does not provide the required grammatical form or meaning.",
+            "“I like jazz, and neither does he.” is incorrect here because this sentence requires “I like jazz, and so does he.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5550,16 +5550,16 @@
           "prompt": "She works harder than does I.",
           "choices": [
             "She works harder than I do.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "She works harder than I does.",
+            "She works harder that I do.",
+            "She works harder than does I."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“She works harder than I do.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“She works harder than I does.” is incorrect here because this sentence requires “She works harder than I do.”; it does not provide the required grammatical form or meaning.",
+            "“She works harder that I do.” is incorrect here because this sentence requires “She works harder than I do.”; it does not provide the required grammatical form or meaning.",
+            "“She works harder than does I.” repeats the original sentence, so it leaves the grammatical error unchanged; use “She works harder than I do.” instead."
           ]
         },
         {
@@ -5762,16 +5762,16 @@
           "prompt": "The room is bright. However, it has large windows.",
           "choices": [
             "The room is bright. Moreover, it has large windows.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The room is bright. Therefore, it has large windows.",
+            "The room is bright. However, it has small windows.",
+            "The room is bright. Although, it has large windows."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The room is bright. Moreover, it has large windows.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The room is bright. Therefore, it has large windows.” is incorrect here because this sentence requires “The room is bright. Moreover, it has large windows.”; it does not provide the required grammatical form or meaning.",
+            "“The room is bright. However, it has small windows.” is incorrect here because this sentence requires “The room is bright. Moreover, it has large windows.”; it does not provide the required grammatical form or meaning.",
+            "“The room is bright. Although, it has large windows.” is incorrect here because this sentence requires “The room is bright. Moreover, it has large windows.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5783,16 +5783,16 @@
           "prompt": "The task was difficult. Furthermore, we completed it.",
           "choices": [
             "The task was difficult. Nevertheless, we completed it.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The task was difficult. Therefore, we completed it.",
+            "The task was difficult. Moreover, we completed it.",
+            "The task was difficult. Although, we completed it."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The task was difficult. Nevertheless, we completed it.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The task was difficult. Therefore, we completed it.” is incorrect here because this sentence requires “The task was difficult. Nevertheless, we completed it.”; it does not provide the required grammatical form or meaning.",
+            "“The task was difficult. Moreover, we completed it.” is incorrect here because this sentence requires “The task was difficult. Nevertheless, we completed it.”; it does not provide the required grammatical form or meaning.",
+            "“The task was difficult. Although, we completed it.” is incorrect here because this sentence requires “The task was difficult. Nevertheless, we completed it.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -5996,16 +5996,16 @@
           "prompt": "She is capable to managing the team.",
           "choices": [
             "She is capable of managing the team.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "She is capable to manage the team.",
+            "She is capable for managing the team.",
+            "She is capable of manage the team."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“She is capable of managing the team.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“She is capable to manage the team.” is incorrect here because this sentence requires “She is capable of managing the team.”; it does not provide the required grammatical form or meaning.",
+            "“She is capable for managing the team.” is incorrect here because this sentence requires “She is capable of managing the team.”; it does not provide the required grammatical form or meaning.",
+            "“She is capable of manage the team.” is incorrect here because this sentence requires “She is capable of managing the team.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6017,16 +6017,16 @@
           "prompt": "We apologised the delay.",
           "choices": [
             "We apologised for the delay.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "We apologised the delay.",
+            "We apologised to the delay.",
+            "We apologised about the delay."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“We apologised for the delay.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“We apologised the delay.” repeats the original sentence, so it leaves the grammatical error unchanged; use “We apologised for the delay.” instead.",
+            "“We apologised to the delay.” is incorrect here because this sentence requires “We apologised for the delay.”; it does not provide the required grammatical form or meaning.",
+            "“We apologised about the delay.” is incorrect here because this sentence requires “We apologised for the delay.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6230,16 +6230,16 @@
           "prompt": "Please turn off it.",
           "choices": [
             "Please turn it off.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Please turn off it.",
+            "Please turn it.",
+            "Please turn off the it."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Please turn it off.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Please turn off it.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Please turn it off.” instead.",
+            "“Please turn it.” is incorrect here because this sentence requires “Please turn it off.”; it does not provide the required grammatical form or meaning.",
+            "“Please turn off the it.” is incorrect here because this sentence requires “Please turn it off.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6251,16 +6251,16 @@
           "prompt": "We are looking the children after.",
           "choices": [
             "We are looking after the children.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "We are looking the children after.",
+            "We are looking after the children at.",
+            "We are looking for the children after."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“We are looking after the children.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“We are looking the children after.” repeats the original sentence, so it leaves the grammatical error unchanged; use “We are looking after the children.” instead.",
+            "“We are looking after the children at.” is incorrect here because this sentence requires “We are looking after the children.”; it does not provide the required grammatical form or meaning.",
+            "“We are looking for the children after.” is incorrect here because this sentence requires “We are looking after the children.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6463,16 +6463,16 @@
           "prompt": "Send us the file ASAP.",
           "choices": [
             "Please send us the file at your earliest convenience.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Send us the file ASAP.",
+            "Please send the file ASAP.",
+            "We need the file right away."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Please send us the file at your earliest convenience.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Send us the file ASAP.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Please send us the file at your earliest convenience.” instead.",
+            "“Please send the file ASAP.” is incorrect here because this sentence requires “Please send us the file at your earliest convenience.”; it does not provide the required grammatical form or meaning.",
+            "“We need the file right away.” is incorrect here because this sentence requires “Please send us the file at your earliest convenience.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6484,16 +6484,16 @@
           "prompt": "Are you coming? Yes, I am coming.",
           "choices": [
             "Are you coming? Yes, I am.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Are you coming? Yes, I am coming.",
+            "Are you coming? Yes, I do.",
+            "Are you coming? Yes, I come."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Are you coming? Yes, I am.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Are you coming? Yes, I am coming.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Are you coming? Yes, I am.” instead.",
+            "“Are you coming? Yes, I do.” is incorrect here because this sentence requires “Are you coming? Yes, I am.”; it does not provide the required grammatical form or meaning.",
+            "“Are you coming? Yes, I come.” is incorrect here because this sentence requires “Are you coming? Yes, I am.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6695,16 +6695,16 @@
           "prompt": "This is certainly the best solution.",
           "choices": [
             "This is probably the best solution.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "This is certainly the best solution.",
+            "This is possibly certainly the best solution.",
+            "This is the best solution, perhaps."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“This is probably the best solution.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“This is certainly the best solution.” repeats the original sentence, so it leaves the grammatical error unchanged; use “This is probably the best solution.” instead.",
+            "“This is possibly certainly the best solution.” is incorrect here because this sentence requires “This is probably the best solution.”; it does not provide the required grammatical form or meaning.",
+            "“This is the best solution, perhaps.” is incorrect here because this sentence requires “This is probably the best solution.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6716,16 +6716,16 @@
           "prompt": "Send me the report.",
           "choices": [
             "Could you send me the report?",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Send me the report.",
+            "You send me the report.",
+            "Would you send me the report."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Could you send me the report?” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Send me the report.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Could you send me the report?” instead.",
+            "“You send me the report.” is incorrect here because this sentence requires “Could you send me the report?”; it does not provide the required grammatical form or meaning.",
+            "“Would you send me the report.” is incorrect here because this sentence requires “Could you send me the report?”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6929,16 +6929,16 @@
           "prompt": "The laptop spoke to the technician because it was worried.",
           "choices": [
             "The technician spoke to the laptop because it was damaged.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The laptop spoke to the technician because it was worried.",
+            "The technician spoke to the laptop because it was worried.",
+            "The technician spoke to the laptop because she was damaged."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The technician spoke to the laptop because it was damaged.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The laptop spoke to the technician because it was worried.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The technician spoke to the laptop because it was damaged.” instead.",
+            "“The technician spoke to the laptop because it was worried.” is incorrect here because this sentence requires “The technician spoke to the laptop because it was damaged.”; it does not provide the required grammatical form or meaning.",
+            "“The technician spoke to the laptop because she was damaged.” is incorrect here because this sentence requires “The technician spoke to the laptop because it was damaged.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -6950,16 +6950,16 @@
           "prompt": "The project was successful. The project helped the team.",
           "choices": [
             "The project was successful. This achievement helped the team.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "The project was successful. The project helped the team.",
+            "The project was successful. It helped the team.",
+            "The project was successful. This project helped the team."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“The project was successful. This achievement helped the team.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“The project was successful. The project helped the team.” repeats the original sentence, so it leaves the grammatical error unchanged; use “The project was successful. This achievement helped the team.” instead.",
+            "“The project was successful. It helped the team.” is incorrect here because this sentence requires “The project was successful. This achievement helped the team.”; it does not provide the required grammatical form or meaning.",
+            "“The project was successful. This project helped the team.” is incorrect here because this sentence requires “The project was successful. This achievement helped the team.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -7163,16 +7163,16 @@
           "prompt": "Never I have seen such a result.",
           "choices": [
             "Never have I seen such a result.",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Never I have seen such a result.",
+            "Never did I saw such a result.",
+            "Never have seen I such a result."
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Never have I seen such a result.” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Never I have seen such a result.” repeats the original sentence, so it leaves the grammatical error unchanged; use “Never have I seen such a result.” instead.",
+            "“Never did I saw such a result.” is incorrect here because this sentence requires “Never have I seen such a result.”; it does not provide the required grammatical form or meaning.",
+            "“Never have seen I such a result.” is incorrect here because this sentence requires “Never have I seen such a result.”; it does not provide the required grammatical form or meaning."
           ]
         },
         {
@@ -7184,16 +7184,16 @@
           "prompt": "Could you to send the formal report?",
           "choices": [
             "Could you send the formal report?",
-            "another form",
-            "an incorrect form",
-            "a different form"
+            "Could you to send the formal report?",
+            "Could you sent the formal report?",
+            "Could you sending the formal report?"
           ],
           "correctIndex": 0,
           "choiceExplanations": [
             "“Could you send the formal report?” corrects the sentence using the target rule.",
-            "This form does not fit the target structure.",
-            "This form leaves the error unresolved.",
-            "This form changes the intended meaning."
+            "“Could you to send the formal report?” repeats the original sentence, so it leaves the grammatical error unchanged; use “Could you send the formal report?” instead.",
+            "“Could you sent the formal report?” is incorrect here because this sentence requires “Could you send the formal report?”; it does not provide the required grammatical form or meaning.",
+            "“Could you sending the formal report?” is incorrect here because this sentence requires “Could you send the formal report?”; it does not provide the required grammatical form or meaning."
           ]
         },
         {

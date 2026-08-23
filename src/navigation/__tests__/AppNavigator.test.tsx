@@ -430,3 +430,35 @@ describe('AppNavigator — Android exit-confirm is Home-scoped', () => {
     await ReactTestRenderer.act(() => tree.unmount());
   });
 });
+
+describe('AppNavigator — web back button', () => {
+  afterEach(() => {
+    // restoreAllMocks also restores replaced properties; pin iOS so 'web' can
+    // never leak into a sibling describe.
+    jest.restoreAllMocks();
+    jest.replaceProperty(Platform, 'OS', 'ios');
+  });
+
+  it('shows the floating back arrow on pushed screens and pops back to Home', async () => {
+    jest.replaceProperty(Platform, 'OS', 'web');
+    const store = createStore();
+    const tree = await renderApp(store);
+
+    // Home is the root — no back arrow.
+    expect(countHostByTestID(tree, 'home-screen')).toBe(1);
+    expect(countHostByTestID(tree, 'web-back-button')).toBe(0);
+
+    // Push Topics → a back exists → the arrow appears.
+    await press(tree, 'home-track-basic');
+    expect(countHostByTestID(tree, 'topics-screen')).toBe(1);
+    expect(countHostByTestID(tree, 'web-back-button')).toBe(1);
+
+    // Tap the arrow → pops back to Home → the arrow disappears.
+    await press(tree, 'web-back-button');
+    expect(countHostByTestID(tree, 'topics-screen')).toBe(0);
+    expect(countHostByTestID(tree, 'home-screen')).toBe(1);
+    expect(countHostByTestID(tree, 'web-back-button')).toBe(0);
+
+    await ReactTestRenderer.act(() => tree.unmount());
+  });
+});

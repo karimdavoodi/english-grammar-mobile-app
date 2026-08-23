@@ -17,16 +17,21 @@
  *   - back navigation everywhere is the system gesture (no bottom Back buttons,
  *     no native header). The Android hardware-back exit-confirm lives on the
  *     Home route behind `useFocusEffect`, so it is active only while Home is
- *     focused (docs/ui-plan-1.md Task 1).
+ *     focused (docs/ui-plan-1.md Task 1). On web, where no system gesture
+ *     exists, a floating back arrow (WebBackButton) is shown instead.
  *
  * Content and state come from the AppContext (`useApp`): the navigator stays
  * thin, resolving content ids to Level/Track objects and handing presentational
  * screens their props.
  */
 
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { Alert, BackHandler, Platform, StyleSheet, Text } from 'react-native';
-import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Alert, BackHandler, Platform, StyleSheet, Text, View } from 'react-native';
+import {
+  NavigationContainer,
+  useFocusEffect,
+  useNavigationContainerRef,
+} from '@react-navigation/native';
 import {
   createNativeStackNavigator,
   type NativeStackScreenProps,
@@ -47,6 +52,7 @@ import { ReportScreen } from '../screens/ReportScreen';
 import { MixedReviewScreen } from '../screens/MixedReviewScreen';
 import { StatsScreen } from '../screens/StatsScreen';
 import { GraduationScreen } from '../screens/GraduationScreen';
+import { WebBackButton } from './WebBackButton';
 import { loadEvents, selectStats } from '../state/events';
 import {
   completeLevel,
@@ -381,29 +387,73 @@ function GraduationRoute({
 }
 
 export function AppNavigator() {
+  const navigationRef = useNavigationContainerRef<RootStackParamList>();
+  const styles = useThemedStyles(makeStyles);
+  // Browser preview: the back arrow is only shown while a pushed screen sits
+  // above Home. Tracked via the container so it follows every state change
+  // (push/pop/replace/reset) without touching each screen.
+  const [canGoBack, setCanGoBack] = useState(false);
+  const showWebBackBar = Platform.OS === 'web' && canGoBack;
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="Home" component={HomeRoute} />
-        <Stack.Screen name="Topics" component={TopicsRoute} />
-        <Stack.Screen name="LevelPlay" component={LevelPlayRoute} />
-        <Stack.Screen name="Result" component={ResultRoute} />
-        <Stack.Screen name="Graduation" component={GraduationRoute} />
-        <Stack.Screen name="Review" component={ReviewRoute} />
-        <Stack.Screen name="Settings" component={SettingsRoute} />
-        <Stack.Screen name="MixedReview" component={MixedReviewRoute} />
-        <Stack.Screen name="Report" component={ReportRoute} />
-        <Stack.Screen name="Stats" component={StatsRoute} />
-      </Stack.Navigator>
+    <NavigationContainer
+      ref={navigationRef}
+      onReady={() => setCanGoBack(navigationRef.canGoBack())}
+      onStateChange={() => setCanGoBack(navigationRef.canGoBack())}
+    >
+      <View style={styles.stackContainer}>
+        {/* Dedicated top bar on pushed web screens so the back arrow NEVER
+            overlaps the screen's own header — content sits below the bar. */}
+        {showWebBackBar ? (
+          <View style={styles.webBackBar} testID="web-back-bar">
+            <WebBackButton canGoBack onGoBack={() => navigationRef.goBack()} />
+          </View>
+        ) : null}
+        <View style={styles.stackBody}>
+          <Stack.Navigator
+            initialRouteName="Home"
+            screenOptions={{ headerShown: false }}
+          >
+            <Stack.Screen name="Home" component={HomeRoute} />
+            <Stack.Screen name="Topics" component={TopicsRoute} />
+            <Stack.Screen name="LevelPlay" component={LevelPlayRoute} />
+            <Stack.Screen name="Result" component={ResultRoute} />
+            <Stack.Screen name="Graduation" component={GraduationRoute} />
+            <Stack.Screen name="Review" component={ReviewRoute} />
+            <Stack.Screen name="Settings" component={SettingsRoute} />
+            <Stack.Screen name="MixedReview" component={MixedReviewRoute} />
+            <Stack.Screen name="Report" component={ReportRoute} />
+            <Stack.Screen name="Stats" component={StatsRoute} />
+          </Stack.Navigator>
+        </View>
+      </View>
     </NavigationContainer>
   );
 }
 
+/** Reserved height for the web back bar, so the arrow never covers a header. */
+const WEB_BACK_BAR_HEIGHT = 48;
+
 const makeStyles = (colors: ThemeColors) =>
   StyleSheet.create({
+    stackContainer: {
+      flex: 1,
+      // Theme background for the reserved bar/gutter areas so dark themes
+      // don't show the bare HTML page underneath.
+      backgroundColor: colors.background,
+    },
+    stackBody: {
+      flex: 1,
+    },
+    webBackBar: {
+      height: WEB_BACK_BAR_HEIGHT,
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingLeft: 12,
+      backgroundColor: colors.background,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: colors.border,
+    },
     missingContent: {
       alignItems: 'center',
       justifyContent: 'center',

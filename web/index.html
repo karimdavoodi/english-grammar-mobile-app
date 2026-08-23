@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1f2d3d" />
+    <title>English Grammar Game</title>
+    <style>
+      /* react-native-web needs a full-height, non-scrolling root for
+         SafeAreaView / absolute fills to behave like a phone screen. */
+      html,
+      body,
+      #root {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        overflow: hidden;
+      }
+      /* Phone-frame feel for desktop preview: the app sizes itself from the
+         SafeAreaProvider, so give it a comfortable centered stage. */
+      #root {
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- The web entry (index.web.js) mounts the registered app into this element. -->
+    <div id="root"></div>
+    <!-- Served by the Metro dev server through web/server.js (same origin so
+         asset URLs resolve). Metro picks index.web.js for platform=web. -->
+    <script src="/index.bundle?platform=web&dev=true"></script>
+  </body>
+</html>
