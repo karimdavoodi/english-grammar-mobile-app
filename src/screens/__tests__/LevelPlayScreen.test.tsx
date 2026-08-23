@@ -236,9 +236,11 @@ describe('LevelPlayScreen — wrong answers', () => {
 
     await press(tree, 'choice-button-1'); // q1 correctIndex 0 → wrong
 
-    // No lesson card after an answer; the correct choice is highlighted, the
-    // chosen wrong choice is marked, and the other two are dimmed.
-    expect(countHostByTestID(tree, 'lesson-card')).toBe(0);
+    // A wrong answer teaches the lesson inline on the feedback screen (no
+    // separate action button — Next dismisses it); the correct choice is
+    // highlighted, the chosen wrong choice is marked, and the other two dimmed.
+    expect(countHostByTestID(tree, 'lesson-card')).toBe(1);
+    expect(countHostByTestID(tree, 'lesson-continue')).toBe(0);
     expect(countHostByTestID(tree, 'next-question')).toBe(1);
     expect(tree.root.findByProps({ testID: 'choice-button-0' }).props.accessibilityLabel).toContain(
       'correct',
@@ -275,10 +277,13 @@ describe('LevelPlayScreen — wrong answers', () => {
     const { tree } = await renderScreen({ initialProgress: makeProgress(), store });
 
     await press(tree, 'choice-button-1'); // q1 wrong
-    await press(tree, 'next-question'); // dismiss wrong-answer feedback (no lesson card)
+    expect(countHostByTestID(tree, 'lesson-card')).toBe(1); // taught inline
+    await press(tree, 'next-question'); // dismiss wrong-answer feedback + inline lesson
 
-    // Same-rule unasked variant, served as remediation (never Review)
+    // Same-rule unasked variant, served as remediation (never Review), with no
+    // intermediate lesson — Next always serves the next question directly.
     expect(textOf(tree, 'question-prompt')).toBe('Prompt b10q02');
+    expect(countHostByTestID(tree, 'lesson-card')).toBe(0);
     await press(tree, 'choice-button-1'); // q2 correctIndex 1 → correct
 
     const persisted = await loadProgress(store);
@@ -364,12 +369,13 @@ describe('LevelPlayScreen — level end', () => {
     const passConfig = { passStreak: 3, passVolume: 8, mercyCap: 3 };
     const { tree } = await renderScreen({ initialProgress: makeProgress(), onLevelEnd, passConfig });
 
-    // 3 wrong answers in a row → mercy cap. Re-teach shows the lesson first from q3 on.
+    // 3 wrong answers in a row → mercy cap. Each wrong answer teaches the lesson
+    // inline on its feedback screen (no separate Continue to press); Next always
+    // serves the next question directly.
     await press(tree, 'choice-button-1'); // q1 wrong
-    await press(tree, 'next-question'); // dismiss wrong-answer feedback
+    await press(tree, 'next-question'); // dismiss wrong-answer feedback + inline lesson
     await press(tree, 'choice-button-0'); // q2 wrong
-    await press(tree, 'next-question'); // dismiss wrong-answer feedback
-    await press(tree, 'lesson-continue'); // re-teach lesson before q3
+    await press(tree, 'next-question'); // dismiss wrong-answer feedback + inline lesson
     await press(tree, 'choice-button-3'); // q3 wrong → mercy
     await press(tree, 'next-question'); // dismiss final feedback
 
@@ -387,15 +393,13 @@ describe('LevelPlayScreen — level end', () => {
       level: TWELVE_LEVEL,
     });
 
-    // Answer every question wrong. A re-teach lesson shows before a question whose
-    // rule has been missed twice in-session — dismiss it before each answer.
+    // Answer every question wrong. The lesson is taught inline on each wrong-answer
+    // feedback screen (no Continue to press mid-level); Next always serves the
+    // next question directly.
     for (let answered = 0; answered < 12; answered++) {
-      if (countHostByTestID(tree, 'lesson-card') > 0) {
-        await press(tree, 'lesson-continue');
-      }
       const question = servedQuestion(tree, TWELVE_QUESTIONS);
       await press(tree, `choice-button-${wrongIndexOf(question)}`);
-      await press(tree, 'next-question'); // dismiss wrong-answer feedback
+      await press(tree, 'next-question'); // dismiss wrong-answer feedback + inline lesson
     }
 
     expect(onLevelEnd).toHaveBeenCalledTimes(1);

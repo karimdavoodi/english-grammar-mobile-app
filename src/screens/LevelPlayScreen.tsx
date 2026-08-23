@@ -13,12 +13,12 @@
  * an injectable AsyncStorage-compatible store (a memory store in tests).
  *
  * Lifecycle:
- *   serve → [re-teach lesson] → question → answer → feedback
- *   feedback reveals the correct + chosen answers with their explanations and
- *   offers "Next question"; a wrong answer never re-shows the lesson card (the
- *   two per-choice explanations carry the teaching). Dismissing the final
- *   answer's feedback calls `onLevelEnd`; the caller (Task 8 result flow) is
- *   responsible for routing to the result screen.
+ *   serve → [re-teach lesson on entry] → question → answer → feedback
+ *   feedback reveals the correct + chosen answers with their explanations, shows
+ *   the lesson inline whenever the answer was wrong, and offers "Next question"
+ *   (which always serves the next question directly — never an intermediate
+ *   lesson). Dismissing the final answer's feedback calls `onLevelEnd`; the
+ *   caller (Task 8 result flow) is responsible for routing to the result screen.
  */
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -265,10 +265,13 @@ export function LevelPlayScreen({
       setPlay({ ...play, phase: 'ended', feedback: null });
       return;
     }
+    // The lesson after a wrong answer is taught inline on the feedback screen;
+    // "Next question" always serves the next question directly, even past the
+    // re-teach threshold (the entry re-teach in `resolveInitial` is unchanged).
     setPlay({
       ...play,
       serve: nextServe,
-      phase: nextServe.showLesson ? 'lesson' : 'question',
+      phase: 'question',
       feedback: null,
     });
   }, [onLevelEnd, play, level, random, store]);
@@ -314,6 +317,16 @@ export function LevelPlayScreen({
                 ? () => onReport?.(serve.question.id)
                 : undefined
             }
+          />
+        ) : null}
+
+        {phase === 'feedback' && feedback && !feedback.outcome.isCorrect && serve ? (
+          <LessonCard
+            topic={level.topic}
+            rule={rule}
+            review={review}
+            actionLabel={null}
+            onContinue={handleContinueFromLesson}
           />
         ) : null}
 

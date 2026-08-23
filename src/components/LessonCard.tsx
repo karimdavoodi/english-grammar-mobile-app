@@ -8,7 +8,9 @@
  * so the two contexts are not confused (docs/schema §1).
  *
  * The card is dismissed with the action button — the question appears only after
- * the player continues.
+ * the player continues. When used inline on a feedback screen (no action label,
+ * `actionLabel={null}`), the card renders without a button and the host dismisses
+ * it (e.g. with the feedback screen's "Next question").
  *
  * Task 12: all colors come from the theme palette (the amber warning family).
  */
@@ -29,8 +31,8 @@ export interface LessonCardProps {
   rule: TopicRule | null;
   /** True when the rule is a Review of an earlier topic — labels the context. */
   review?: boolean;
-  /** Label for the dismiss/continue action (default 'Continue'). */
-  actionLabel?: string;
+  /** Label for the dismiss/continue action (default 'Continue'); null renders no button. */
+  actionLabel?: string | null;
   /** Dismiss the card and reveal the question. */
   onContinue: () => void;
 }
@@ -70,15 +72,17 @@ export function LessonCard({
         </View>
       ))}
 
-      <Pressable
-        testID="lesson-continue"
-        accessibilityRole="button"
-        accessibilityLabel={actionLabel}
-        onPress={onContinue}
-        style={({ pressed }) => [styles.continue, pressed && styles.continuePressed]}
-      >
-        <Text style={styles.continueLabel}>{actionLabel}</Text>
-      </Pressable>
+      {actionLabel !== null ? (
+        <Pressable
+          testID="lesson-continue"
+          accessibilityRole="button"
+          accessibilityLabel={actionLabel}
+          onPress={onContinue}
+          style={({ pressed }) => [styles.continue, pressed && styles.continuePressed]}
+        >
+          <Text style={styles.continueLabel}>{actionLabel}</Text>
+        </Pressable>
+      ) : null}
     </View>
   );
 }

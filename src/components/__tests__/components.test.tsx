@@ -354,6 +354,13 @@ describe('LessonCard', () => {
     });
     expect(onContinue).toHaveBeenCalledTimes(1);
   });
+
+  it('renders without a continue button when the action label is null', async () => {
+    const tree = await render(
+      <LessonCard topic={TOPIC} rule={MATCHED_RULE} actionLabel={null} onContinue={jest.fn()} />,
+    );
+    expect(tree.root.findAllByProps({ testID: 'lesson-continue' })).toHaveLength(0);
+  });
 });
 
 describe('ProgressHeader', () => {

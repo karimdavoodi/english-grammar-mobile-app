@@ -18,7 +18,7 @@ after it is implemented, verified (tests / tsc / lint), and committed.
       fallback to the tag), the `correct/total` fraction, an accuracy bar, and the
       percentage. Sort rows by resolved title (then tag). Keep the "Review mistakes"
       button. Update `StatsScreen.test.tsx`.
-- [ ] Task 3 — Teach-on-failure lesson in the feedback screen (not after "Next")
+- [x] Task 3 — Teach-on-failure lesson in the feedback screen (not after "Next")
       In `LevelPlayScreen`, render the `LessonCard` inline in the `feedback` phase
       whenever the last answer was wrong, and make the "Next question" dismiss serve
       the next question directly (drop the `nextServe.showLesson ? 'lesson' :
