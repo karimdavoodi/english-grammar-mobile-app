@@ -12,19 +12,17 @@
  *     buttons — the study shortcuts that moved off Settings (Task 3);
  *   - three track cards → `onSelectTrack(trackId)` (the Topics route, Task 5);
  *   - no bottom Back button — back is the system gesture;
- *   - Android hardware back on this screen asks "exit the app?" (Issue 7).
+ *   - the Android exit-confirm lives in the Home route (`HomeRoute`,
+ *     AppNavigator.tsx) behind `useFocusEffect`, scoped to Home being focused
+ *     (docs/ui-plan-1.md Task 1) — this screen stays purely presentational.
  *
- * Presentational: no navigation, storage, or reducer imports — it takes content
- * + progress + callbacks as props, so it tests with fixture data like the other
- * presentational screens. The exit-confirm dialog is the only native side
- * effect, and it is Android-only.
+ * Presentational: no navigation, storage, reducer, or native-effect imports —
+ * it takes content + progress + callbacks as props, so it tests with fixture
+ * data like the other presentational screens.
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import {
-  Alert,
-  BackHandler,
-  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -77,28 +75,6 @@ export function HomeScreen({
     () => [...tracks].sort((a, b) => a.order - b.order),
     [tracks],
   );
-
-  // Android hardware back on the root screen asks before exiting (Issue 7).
-  // The native-stack navigator's back handler for any screen pushed on top is
-  // registered later and therefore runs first, so this handler only fires when
-  // Home is the top screen.
-  useEffect(() => {
-    if (Platform.OS !== 'android') {
-      return;
-    }
-    const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
-      Alert.alert(
-        'Exit app?',
-        'Do you want to leave the game?',
-        [
-          { text: 'No', style: 'cancel' },
-          { text: 'Yes', style: 'destructive', onPress: () => BackHandler.exitApp() },
-        ],
-      );
-      return true;
-    });
-    return () => subscription.remove();
-  }, []);
 
   const progressSummary = progress
     ? summaries.map(s => `${s.trackName}: ${s.completedLevels}/${s.totalLevels}`).join(' · ')

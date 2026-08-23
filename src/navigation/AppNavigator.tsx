@@ -16,7 +16,8 @@
  *     StartPoint screen);
  *   - back navigation everywhere is the system gesture (no bottom Back buttons,
  *     no native header). The Android hardware-back exit-confirm lives on the
- *     Home screen itself.
+ *     Home route behind `useFocusEffect`, so it is active only while Home is
+ *     focused (docs/ui-plan-1.md Task 1).
  *
  * Content and state come from the AppContext (`useApp`): the navigator stays
  * thin, resolving content ids to Level/Track objects and handing presentational
@@ -24,8 +25,8 @@
  */
 
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { StyleSheet, Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { Alert, BackHandler, Platform, StyleSheet, Text } from 'react-native';
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import {
   createNativeStackNavigator,
   type NativeStackScreenProps,
@@ -72,6 +73,30 @@ function HomeRoute({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'Home'>) {
   const { tracks, progress } = useApp();
+
+  // Android hardware back on the root screen asks before exiting (Issue 7 /
+  // docs/ui-plan-1.md Task 1). Focus-scoped so the listener exists ONLY while
+  // Home is focused: on a pushed screen the cleanup removes it and native-stack
+  // pops normally; only back on Home shows the confirm dialog.
+  useFocusEffect(
+    useCallback(() => {
+      if (Platform.OS !== 'android') {
+        return;
+      }
+      const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
+        Alert.alert(
+          'Exit app?',
+          'Do you want to leave the game?',
+          [
+            { text: 'No', style: 'cancel' },
+            { text: 'Yes', style: 'destructive', onPress: () => BackHandler.exitApp() },
+          ],
+        );
+        return true;
+      });
+      return () => subscription.remove();
+    }, []),
+  );
 
   const handleResume = useCallback(() => {
     if (!progress) {

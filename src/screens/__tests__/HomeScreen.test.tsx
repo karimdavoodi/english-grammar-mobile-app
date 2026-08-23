@@ -6,23 +6,17 @@
  * Coverage maps to the Task 4 acceptance criteria: the progress summary
  * ("Basic: 1/3 · …" / "Pick a level to begin"), Resume visibility (only with
  * progress), per-action callbacks (Settings / Resume / Wrong answers / Mixed
- * Review / Stats / track select), no bottom Back button, and the Android
- * hardware-back exit-confirm dialog.
+ * Review / Stats / track select), no bottom Back button, and accessibility.
+ * The Android exit-confirm moved to the Home route (docs/ui-plan-1.md Task 1),
+ * so it is covered in AppNavigator.test.tsx, not here.
  */
 
 import React from 'react';
-import { Alert, BackHandler, Platform } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
 import type { Level, Question, TopicRule, Track } from '../../content/types';
 import type { Progress } from '../../state/types';
 import { renderScreen } from '../../test-utils';
 import { HomeScreen } from '../HomeScreen';
-
-/** Shape of the native hardware-back event (RN does not re-export the type). */
-interface HardwareBackPressEvent {
-  readonly type: string;
-  readonly timeStamp: number;
-}
 
 const RULE_PRESENT = 'present_simple_form';
 const RULE_PAST = 'past_simple_form';
@@ -299,73 +293,6 @@ describe('HomeScreen — no bottom Back button', () => {
       <HomeScreen tracks={TRACKS} progress={makeProgress()} onSelectTrack={jest.fn()} />,
     );
     expect(hostNodes(tree, 'home-back')).toHaveLength(0);
-  });
-});
-
-describe('HomeScreen — Android exit confirm', () => {
-  let handler:
-    | ((event: HardwareBackPressEvent) => boolean | null | undefined)
-    | undefined;
-  let alertSpy: jest.SpyInstance;
-  let exitAppSpy: jest.SpyInstance;
-
-  beforeEach(() => {
-    alertSpy = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
-    exitAppSpy = jest.spyOn(BackHandler, 'exitApp').mockImplementation(() => {});
-    jest.spyOn(BackHandler, 'addEventListener').mockImplementation(
-      (
-        _event: string,
-        listener: (event: HardwareBackPressEvent) => boolean | null | undefined,
-      ) => {
-        handler = listener;
-        return { remove: jest.fn() };
-      },
-    );
-  });
-
-  afterEach(() => {
-    handler = undefined;
-  });
-
-  it('shows the exit-confirm dialog on hardware back and exits only on Yes', async () => {
-    jest.replaceProperty(Platform, 'OS', 'android');
-    await render(
-      <HomeScreen tracks={TRACKS} progress={makeProgress()} onSelectTrack={jest.fn()} />,
-    );
-
-    expect(handler).toBeDefined();
-    let consumed = false;
-    await ReactTestRenderer.act(() => {
-      const event: HardwareBackPressEvent = { type: 'hardwareBackPress', timeStamp: 0 };
-      consumed = handler!(event) ?? false;
-    });
-    expect(consumed).toBe(true);
-    expect(alertSpy).toHaveBeenCalledTimes(1);
-    expect(alertSpy.mock.calls[0][0]).toBe('Exit app?');
-
-    const buttons = alertSpy.mock.calls[0][2] as Array<{
-      text: string;
-      style?: string;
-      onPress?: () => void;
-    }>;
-    const noButton = buttons.find(b => b.text === 'No');
-    expect(noButton).toBeDefined();
-    expect(noButton?.style).toBe('cancel');
-    expect(noButton?.onPress).toBeUndefined(); // cancel just closes the dialog
-
-    await ReactTestRenderer.act(() => {
-      buttons.find(b => b.text === 'Yes')!.onPress!();
-    });
-    expect(exitAppSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('registers no back handler on iOS', async () => {
-    jest.replaceProperty(Platform, 'OS', 'ios');
-    await render(
-      <HomeScreen tracks={TRACKS} progress={makeProgress()} onSelectTrack={jest.fn()} />,
-    );
-    expect(handler).toBeUndefined();
-    expect(alertSpy).not.toHaveBeenCalled();
   });
 });
 

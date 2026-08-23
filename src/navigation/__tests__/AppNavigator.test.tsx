@@ -27,7 +27,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
 }));
 
 import React from 'react';
-import { Alert } from 'react-native';
+import { Alert, BackHandler, Platform } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
 import { AppProvider } from '../../app/AppProvider';
 import { findLevelById, tracks } from '../../content';
@@ -267,5 +267,126 @@ describe('AppNavigator — reset', () => {
     } finally {
       alertSpy.mockRestore();
     }
+  });
+});
+
+describe('AppNavigator — Android exit-confirm is Home-scoped', () => {
+  /** Shape of the native hardware-back event (RN does not re-export the type). */
+  interface HardwareBackPressEvent {
+    readonly type: string;
+    readonly timeStamp: number;
+  }
+  interface BackSubscription {
+    listener: (event: HardwareBackPressEvent) => boolean | undefined;
+    remove: () => void;
+  }
+  let listeners: BackSubscription[];
+  let exitAppSpy: jest.SpyInstance;
+  let alertSpy: jest.SpyInstance;
+
+  /** Dispatch a hardware-back press like RN: newest listener first, stop on true. */
+  function emitBackPress(): boolean {
+    let consumed = false;
+    for (let i = listeners.length - 1; i >= 0; i -= 1) {
+      if (listeners[i].listener({ type: 'hardwareBackPress', timeStamp: 0 }) === true) {
+        consumed = true;
+        break;
+      }
+    }
+    return consumed;
+  }
+
+  beforeEach(() => {
+    jest.replaceProperty(Platform, 'OS', 'android');
+    listeners = [];
+    jest.spyOn(BackHandler, 'addEventListener').mockImplementation(
+      (_event: string, listener: (event: HardwareBackPressEvent) => boolean | undefined) => {
+        const entry: BackSubscription = {
+          listener,
+          remove: () => {
+            const index = listeners.indexOf(entry);
+            if (index >= 0) {
+              listeners.splice(index, 1);
+            }
+          },
+        };
+        listeners.push(entry);
+        return { remove: entry.remove };
+      },
+    );
+    exitAppSpy = jest.spyOn(BackHandler, 'exitApp').mockImplementation(() => {});
+    alertSpy = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+    // restoreAllMocks also restores replaced properties, but pin iOS so
+    // 'android' can never leak into a sibling describe.
+    jest.replaceProperty(Platform, 'OS', 'ios');
+  });
+
+  it('shows the exit-confirm on Home and removes it once a screen is pushed', async () => {
+    const store = createStore();
+    const tree = await renderApp(store);
+
+    // Home is focused on boot → at least the exit-confirm listener is active
+    // (the container's own back handler registers one too, so count > 0).
+    expect(listeners.length).toBeGreaterThan(0);
+
+    // Hardware back on Home → consumed, exit-confirm dialog.
+    let consumed = false;
+    await ReactTestRenderer.act(() => {
+      consumed = emitBackPress();
+    });
+    expect(consumed).toBe(true);
+    expect(alertSpy).toHaveBeenCalledTimes(1);
+    expect(alertSpy.mock.calls[0][0]).toBe('Exit app?');
+    expect(alertSpy.mock.calls[0][1]).toBe('Do you want to leave the game?');
+
+    // "No" just closes the dialog; "Yes" exits the app.
+    const buttons = alertSpy.mock.calls[0][2] as Array<{
+      text: string;
+      style?: string;
+      onPress?: () => void;
+    }>;
+    expect(buttons.find(b => b.text === 'No')?.style).toBe('cancel');
+    await ReactTestRenderer.act(() => {
+      buttons.find(b => b.text === 'Yes')!.onPress!();
+    });
+    expect(exitAppSpy).toHaveBeenCalledTimes(1);
+
+    // Push Topics → Home blurs → the Home exit listener is removed.
+    const beforePush = listeners.length;
+    await press(tree, 'home-track-basic');
+    expect(countHostByTestID(tree, 'topics-screen')).toBe(1);
+    expect(listeners.length).toBeLessThan(beforePush);
+
+    // Hardware back on Topics → the container's handler pops the stack and no
+    // exit dialog appears (the Home listener is no longer active).
+    await ReactTestRenderer.act(() => {
+      consumed = emitBackPress();
+    });
+    expect(consumed).toBe(true);
+    expect(alertSpy).toHaveBeenCalledTimes(1); // no second dialog
+
+    await ReactTestRenderer.act(() => tree.unmount());
+  });
+
+  it('registers no exit-confirm handler on iOS', async () => {
+    jest.replaceProperty(Platform, 'OS', 'ios');
+    const store = createStore();
+    const tree = await renderApp(store);
+
+    let consumed = false;
+    await ReactTestRenderer.act(() => {
+      consumed = emitBackPress();
+    });
+    // No exit dialog on iOS — the only listener is the container's own back
+    // handler, which has nothing to pop at the root (returns false).
+    expect(consumed).toBe(false);
+    expect(alertSpy).not.toHaveBeenCalled();
+    expect(exitAppSpy).not.toHaveBeenCalled();
+
+    await ReactTestRenderer.act(() => tree.unmount());
   });
 });
