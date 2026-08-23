@@ -6,8 +6,7 @@
  * their absence.
  *
  * Presentational and fixture-data driven — no navigation, storage, or reducers.
- * The reset confirmation is exercised through the native Alert mock, mirroring
- * the LevelPlayScreen abandon-dialog tests.
+ * The reset confirmation is exercised through the native Alert mock.
  */
 
 import React from 'react';

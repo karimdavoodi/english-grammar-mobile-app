@@ -29,9 +29,10 @@ export interface AppContextValue {
   /**
    * Reset the game (Task 12): clears persisted progress, then re-runs the
    * first-launch boot decision — with a single eligible track it auto-starts a
-   * fresh progress at level 1, with several it leaves progress null so the
-   * StartPoint choice shows. Settings survive. Resolves to the new progress
-   * (or null for the start choice) so the caller can route to it.
+   * fresh progress at level 1, with several it leaves progress null so the Home
+   * screen shows its empty "Pick a level to begin" state. Settings survive.
+   * Resolves to the new progress (or null for the empty Home state) so the
+   * caller can route to it.
    */
   resetGame: () => Promise<Progress | null>;
   createReport: (questionId: string) => Promise<void>;

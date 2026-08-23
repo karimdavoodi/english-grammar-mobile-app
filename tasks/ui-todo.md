@@ -60,4 +60,17 @@ it is implemented, verified (tests / tsc / lint), and committed.
       `AppNavigator.test.tsx` rewritten for the Home-first flow (new player picks
       a track + topic and passes through Result; returning player lands on Home
       and resumes; reset lands on Home). Full suite green.
-- [ ] Task 7 — Regression sweep and remaining test coverage
+- [x] Task 7 — Regression sweep and remaining test coverage
+      Full regression verified: `npm test` 29 suites / 316 tests green (incl.
+      journey + Home-first AppNavigator), `npx tsc --noEmit` clean, `npm run
+      lint` clean. New coverage confirmed in place: HomeScreen (progress text,
+      Resume visibility, per-action callbacks, Android "Exit app?" BackHandler
+      confirm), TopicsScreen (status badges, locked-disabled, no-progress
+      state), feedback only-correct-and-chosen behavior (dimmed choices get no
+      explanation). Old expectations confirmed removed: no bottom Back buttons,
+      no abandon dialog / Quit level / `onExit`, no flat LevelMap, no Settings
+      study shortcuts, no StartPoint flow. `docs/use-cases/english-grammar-game.md`
+      updated for the Home/Topics structure (First Launch rewritten as Home-first
+      boot; Level Map → Home and Topics; Review / Mixed Review / reset /
+      graduation point at Home). Stale StartPoint / abandon-dialog comments
+      cleaned from `AppProvider`, `AppContext`, `reducers`, `SettingsScreen`.

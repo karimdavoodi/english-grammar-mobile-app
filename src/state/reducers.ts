@@ -396,7 +396,8 @@ export function createInitialProgress(
  * The boot decision on launch: a saved progress resumes as-is (returning
  * players are never re-asked); with no saved progress, a single eligible
  * starting track auto-starts at its level 1, and multiple eligible tracks leave
- * progress null so the StartPoint choice screen shows.
+ * progress null so the Home screen shows its empty "Pick a level to begin"
+ * state (the StartPoint choice screen no longer exists).
  */
 export function resolveBootProgress(
   tracks: readonly Track[],

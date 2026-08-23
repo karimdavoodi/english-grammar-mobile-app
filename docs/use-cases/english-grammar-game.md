@@ -27,7 +27,7 @@ level.
 - Given I have not practiced today
 - When I start any level
 - Then my current daily streak increases or starts at 1
-- And the level map shows my current and best streak
+- And the Home screen shows my current and best streak
 
 **Scenario: Same-day practice does not double-count**
 - Given I have already practiced today
@@ -55,43 +55,44 @@ level.
 
 ---
 
-## Feature: First Launch — Choosing a Starting Point
+## Feature: Home Screen and First Launch
 
-**As a** new player
-**I want** to choose where I begin
-**So that** skilled learners don't waste time marching through easy levels
+**As a** player
+**I want** a Home screen that shows my progress and the three tracks
+**So that** I can pick where to practice and resume what I started
 
-**Scenario: A beginner starts at the very beginning**
+**Scenario: A beginner picks a topic to start**
 - Given I am launching the app for the first time
-- When I choose "Beginner"
-- Then I start at Basic level 1
-- And the full level map is visible
-- And levels after level 1 are locked
+- When I tap a topic in the Basic track
+- Then I start at that level
+- And the Topics screen shows later levels as locked
+- And the Home screen shows no passed topics yet
 
-**Scenario: An experienced learner skips earlier tracks when available**
+**Scenario: An experienced learner skips earlier tracks**
 - Given I am launching the app for the first time
-- When I choose "Advanced"
-- Then I start at Advanced level 1
+- When I tap a topic in the Advanced track
+- Then I start at that level
 - And all earlier levels are unlocked and accessible (I can go back to practice)
 - And only levels after my starting point are locked
 
 **Scenario: Choosing higher never locks earlier content**
-- Given I chose "Some English" at first launch
-- When I open the level map
-- Then the Basic track levels are also accessible
+- Given I started in the Intermediate track
+- When I open the Topics screen for the Basic track
+- Then the Basic topics are all accessible
 - And I can return to my current Intermediate level at any time
 
-**Scenario: Returning players are not asked again**
+**Scenario: Returning players land on Home with a Resume button**
 - Given I have already chosen a starting point
 - When I relaunch the app
-- Then I am taken straight to my current level
-- And the start-higher screen is not shown
+- Then I land on the Home screen with my progress summary
+- And a Resume button is shown when a session is in progress
+- And no starting-point choice screen is shown
 
 **Scenario: Only one track is bundled**
 - Given the bundled content contains only Basic
 - When I launch the app for the first time
-- Then I start at Basic level 1
-- And no unavailable track is offered as a starting choice
+- Then the Home screen lists only the Basic track
+- And no unavailable track is offered
 
 ---
 
@@ -234,7 +235,7 @@ level.
 
 **Scenario: The review screen lists every missed question**
 - Given I have answered questions incorrectly during play
-- When I open the Review screen from Settings
+- When I open the Review screen from Home
 - Then every question I have missed is listed, grouped by rule
 - And each entry shows the question, my last wrong choice, and the correct answer
 - And each entry shows how many times I missed it
@@ -260,7 +261,7 @@ The Review screen uses the most recent wrong choice for each question and retain
 - When I choose "Reset game" in Settings
 - And confirm the reset
 - Then all progress is erased
-- And I am returned to the starting-point choice
+- And I am returned to the Home screen
 
 **Scenario: Reset requires confirmation**
 - Given I am on the Settings screen
@@ -292,21 +293,28 @@ The Review screen uses the most recent wrong choice for each question and retain
 
 ---
 
-## Feature: Level Map
+## Feature: Home and Topics
 
 **As a** player
-**I want** to see my progress across the tracks
+**I want** to see my progress across the tracks and each track's topics
 **So that** I know where I am and what comes next
 
-**Scenario: Progress is shown on the map**
-- Given I am on the level map
-- Then my current level is highlighted
-- And passed levels show a pass indicator
-- And future levels are shown as locked
+**Scenario: Home shows progress per track**
+- Given I have progress in the Basic track
+- When I open the Home screen
+- Then the progress summary shows passed topics per track ("Basic: 3/30 · …")
+- And the three track cards are listed (Basic / Intermediate / Advanced)
+
+**Scenario: Topics shows a track's levels with statuses**
+- Given I am on the Home screen
+- When I tap a track card
+- Then the Topics screen lists that track's levels in level-number order
+- And each level shows a status badge: passed / current / locked / needs review
+- And locked levels are not tappable
 
 **Scenario: Replaying a passed level**
 - Given I have passed level "Past Perfect"
-- When I tap it on the map
+- When I tap it on the Topics screen
 - Then I can replay it for review
 - And replaying does not re-lock the level
 
@@ -339,7 +347,7 @@ The Review screen uses the most recent wrong choice for each question and retain
 - And my current level is unchanged
 
 **Scenario: Mixed Review is available from the app hubs**
-- Given I am on the level map or Settings
+- Given I am on the Home screen
 - When I tap "Review / Practice"
 - Then a Mixed Review session opens
 - And leaving the session clears only its active session
@@ -381,7 +389,7 @@ The Review screen uses the most recent wrong choice for each question and retain
 - Given I have passed every bundled level
 - When the final result is shown
 - Then graduation reports the completed corpus and practice summary
-- And it offers Mastery Review and the level map
+- And it offers Mastery Review and the Home screen
 
 **Scenario: Mastery Review cycles without progression limits**
 - Given I open Mastery Review from graduation

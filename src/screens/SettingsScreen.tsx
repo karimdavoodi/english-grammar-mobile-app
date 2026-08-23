@@ -15,8 +15,7 @@
  *
  * Presentational: no navigation, storage, or reducer imports — it takes state +
  * callbacks as props, so it tests with fixture data like the other presentational
- * screens. The reset confirmation uses the same native Alert pattern as the
- * LevelPlayScreen abandon dialog.
+ * screens. The reset confirmation uses a native Alert.
  */
 
 import React from 'react';

@@ -5,10 +5,10 @@
  *   - loads settings + saved progress from AsyncStorage;
  *   - with no saved progress, a single eligible starting track auto-starts at
  *     its level 1 (Basic-only in v1 — the choice screen is never shown); with
- *     more than one eligible track, progress stays null and the StartPoint
- *     choice screen shows;
- *   - a saved progress resumes straight at the current level (returning players
- *     are never re-asked);
+ *     more than one eligible track, progress stays null and the Home screen
+ *     shows the empty "Pick a level to begin" state;
+ *   - a saved progress resumes at Home (returning players are never re-asked;
+ *     the Home Resume button opens the active session);
  *   - exposes `chooseStartingPoint` / `applyProgress` so screens can persist
  *     progress transitions.
  *
@@ -17,8 +17,9 @@
  *     through ThemeProvider, with a themed StatusBar;
  *   - `applySettings` replaces + persists settings (survive a reset);
  *   - `resetGame` clears `egg:progress`, re-runs the first-launch boot decision
- *     (auto-start for Basic-only v1, StartPoint choice for multi-track), and
- *     resolves to the new progress so the caller can route to it.
+ *     (auto-start for Basic-only v1, null for multi-track → Home's empty
+ *     "Pick a level to begin" state), and resolves to the new progress so the
+ *     caller can route to it.
  *
  * Task 13 completes the composition root:
  *   - load-time validation is the content loader's import-time
@@ -156,7 +157,8 @@ export function AppProvider({
     await resetProgress(store);
     // Re-run the first-launch boot decision against no saved progress: Basic-only
     // v1 auto-starts a fresh progress at level 1 (and persists it so a relaunch
-    // finds it); multiple eligible tracks leave progress null → StartPoint choice.
+    // finds it); multiple eligible tracks leave progress null → Home's empty
+    // "Pick a level to begin" state.
     const next = resolveBootProgress(tracks, null);
     if (next !== null) {
       setProgress(next);

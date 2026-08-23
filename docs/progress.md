@@ -1,5 +1,30 @@
 # Progress
 
+## UI Redesign Task 7: Regression sweep and remaining test coverage — DONE
+
+Final sweep per `docs/ui-plan.md` Task 7, closing the main-screen redesign and
+question-screen fixes (Tasks 1–6: safe-area foundation, level-play question-screen
+rework, Settings cleanup, Home screen, Topics screen, Home-first navigator).
+
+- **Regression:** `npm test` fully green — 29 suites / 316 tests (incl. `journey`
+  and the Home-first `AppNavigator` suite); `npx tsc --noEmit` clean; `npm run lint` clean.
+- **New coverage confirmed in place:** HomeScreen (progress text "Basic: 1/3 · …" /
+  "Pick a level to begin", Resume visibility only with progress, per-action
+  callbacks, Android-only "Exit app?" `BackHandler` confirm), TopicsScreen (status
+  badges passed/current/locked/needs-review, locked topics disabled, first-time
+  no-progress state, unknown track defensive message), feedback reveals
+  explanations only for the correct + chosen choices (dimmed choices get no
+  explanation text).
+- **Old expectations confirmed removed:** no bottom Back buttons (`onBack` gone
+  from every screen), no abandon dialog / Quit level / `onExit` wiring, no flat
+  LevelMap, no Settings study shortcuts, no StartPoint flow (deleted with its
+  screen and tests).
+- **Docs updated:** `docs/use-cases/english-grammar-game.md` — "First Launch"
+  rewritten as Home-first boot (pick a topic to start; returning players land on
+  Home with Resume; no start-choice screen), "Level Map" replaced by "Home and
+  Topics" (per-track progress summary, per-level status badges), and the Review /
+  Mixed Review / reset / graduation scenarios now point at the Home screen.
+
 ## Task 14: Full Gherkin verification and Android smoke/regression pass — DONE
 
 Completed the final verification pass per `docs/mvp-plan.md` Task 14: every Gherkin scenario in `docs/use-cases/english-grammar-game.md` now has an automated test equivalent, and the Android build + runtime smoke pass ran on an API 37 emulator.
