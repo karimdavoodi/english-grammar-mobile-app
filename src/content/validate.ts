@@ -117,6 +117,10 @@ export function validateContent(
         );
       }
 
+      if (level.interleave !== undefined && typeof level.interleave !== 'boolean') {
+        push(`level '${level.id}' interleave must be a boolean when provided`);
+      }
+
       for (const rule of level.topic.rules) {
         const owner = ruleRegistry.get(rule.rule);
         if (owner !== undefined) {

@@ -32,7 +32,7 @@ Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases
 ## Phase 3 — Mixed review & interleaving
 
 - [x] Task 11: Mixed-bank assembly + mixed session serving (version 2 → 3; resumable bank snapshot)
-- [ ] Task 12: Interleaved levels (earlier-level questions mixed in)
+- [x] Task 12: Interleaved levels (earlier-level questions mixed in)
 - [ ] Task 13: Mixed Review route/screen + map entry + use-cases
 
 ### Checkpoint: Mixed and interleaved play

@@ -1,5 +1,5 @@
 import type { Track } from '../../content/types';
-import { mixedBank } from '../mixed';
+import { interleavedBank, mixedBank } from '../mixed';
 import type { Progress } from '../../state/types';
 
 const q = (id: string, levelId: string, rule: string) => ({
@@ -31,5 +31,18 @@ describe('mixedBank', () => {
     const bank = mixedBank(tracks, { ...progress, wrongAnswers: { q1: { questionId: 'q1', count: 1, lastChosenIndex: 1, lastMissedAt: '2026-08-22' } } }, { size: 2, random: () => 0 });
     expect(bank).toHaveLength(2);
     expect(new Set(bank.map(question => question.id)).size).toBe(2);
+  });
+});
+
+describe('interleavedBank', () => {
+  it('keeps own questions first and prioritizes queued then recurring earlier rules', () => {
+    const level = { ...tracks[0].levels[1], interleave: true };
+    const bank = interleavedBank(level, tracks, progress, { sampleSize: 3, random: () => 0 });
+    expect(bank.map(question => question.id)).toEqual(['q3', 'q4', 'q1', 'q2']);
+  });
+
+  it('returns only the owning bank when interleaving is disabled', () => {
+    const bank = interleavedBank(tracks[0].levels[1], tracks, progress, { sampleSize: 3, random: () => 0 });
+    expect(bank.map(question => question.id)).toEqual(['q3', 'q4']);
   });
 });

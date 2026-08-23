@@ -18,7 +18,7 @@
 import {
   pickNextQuestion,
   type LevelSession,
-  type Question,
+  type QuestionLike,
 } from './levelMachine';
 
 /** Why a question is being served. Pre-answer snapshot — never recomputed after the answer. */
@@ -35,9 +35,9 @@ export interface ServeOptions {
   random?: () => number;
 }
 
-export interface ServeResult {
+export interface ServeResult<T extends QuestionLike = QuestionLike> {
   /** The question to serve next. */
-  question: Question;
+  question: T;
   /**
    * Why it is served:
    *  - 'remediation' — a same-level re-test of the rule just missed (lastWrongRule);
@@ -54,7 +54,7 @@ export interface ServeResult {
 
 /** Classify why a picked question is being served (see `ServingMode`). */
 export function classifyMode(
-  question: Question,
+  question: QuestionLike,
   lastWrongRule: string | null,
   queuedRules: ReadonlySet<string>,
 ): ServingMode {
@@ -87,12 +87,12 @@ export function shouldReTeach(session: LevelSession, rule: string): boolean {
  * Returns null when there is nothing left to serve — the session is no longer
  * in_progress, or the bank is exhausted.
  */
-export function serveNextQuestion(
+export function serveNextQuestion<T extends QuestionLike>(
   session: LevelSession,
-  bank: Question[],
+  bank: T[],
   queuedRules: ReadonlySet<string>,
   options: ServeOptions = {},
-): ServeResult | null {
+): ServeResult<T> | null {
   if (session.status !== 'in_progress') {
     return null;
   }

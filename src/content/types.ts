@@ -36,6 +36,8 @@ export interface Level {
   title: string;
   /** The single grammar topic this level teaches. */
   topic: Topic;
+  /** When enabled, add a small sample of questions from earlier levels. */
+  interleave?: boolean;
   /** The bank (≥ mercy cap; recommended target ~12). */
   // Loaded MVP levels remain choice-based; QuestionInput allows future typed
   // source questions before the machine/UI upgrades consume them.

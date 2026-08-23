@@ -22,7 +22,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
-import { findRule } from '../content';
+import { findRule, tracks } from '../content';
 import type { Level } from '../content/types';
 import { LessonCard } from '../components/LessonCard';
 import { ProgressHeader } from '../components/ProgressHeader';
@@ -33,8 +33,10 @@ import {
   type AnswerOutcome,
   type LevelSession,
   type PassConfig,
+  type QuestionLike,
 } from '../game/levelMachine';
 import { serveNextQuestion, type ServeResult } from '../game/serving';
+import { interleavedBank } from '../game/mixed';
 import {
   abandonSession,
   applyAnswer,
@@ -108,7 +110,10 @@ function resolveInitial(
     createdSession = true;
   }
   const session = hydrateSession(progress.activeSession!);
-  const serve = serveNextQuestion(session, level.questions, queuedRuleSet(progress), { random });
+  const bank: QuestionLike[] = level.interleave
+    ? interleavedBank(level, tracks, progress, { random })
+    : level.questions;
+  const serve = serveNextQuestion(session, bank, queuedRuleSet(progress), { random });
   const phase: Phase = serve ? (serve.showLesson ? 'lesson' : 'question') : 'ended';
   return { state: { progress, session, serve, phase, feedback: null }, createdSession };
 }
@@ -214,9 +219,12 @@ export function LevelPlayScreen({
       onLevelEnd?.({ session: play.session, outcome, progress: play.progress });
       return;
     }
+    const bank: QuestionLike[] = level.interleave
+      ? interleavedBank(level, tracks, play.progress, { random })
+      : level.questions;
     const nextServe = serveNextQuestion(
       play.session,
-      level.questions,
+      bank,
       queuedRuleSet(play.progress),
       { random },
     );

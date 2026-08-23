@@ -1,10 +1,16 @@
 /** Pure construction of the deterministic bank used by Mixed Review. */
 
-import type { QuestionUnion, Track } from '../content/types';
+import type { Level, QuestionUnion, Track } from '../content/types';
 import type { Progress } from '../state/types';
 
 export interface MixedBankOptions {
   size: number;
+  random?: () => number;
+}
+
+export interface InterleavedBankOptions {
+  /** Number of earlier-level questions to add after the owning bank. */
+  sampleSize?: number;
   random?: () => number;
 }
 
@@ -25,6 +31,41 @@ function shuffled<T>(items: readonly T[], random: () => number): T[] {
     [result[index], result[swap]] = [result[swap], result[index]];
   }
   return result;
+}
+
+/** Add prioritized retrieval-practice questions after an owning level bank. */
+export function interleavedBank(
+  level: Level,
+  tracks: readonly Track[],
+  progress: Progress,
+  options: InterleavedBankOptions = {},
+): QuestionUnion[] {
+  const random = options.random ?? Math.random;
+  const sampleSize = Math.max(0, Math.floor(options.sampleSize ?? 4));
+  const ownQuestions = level.questions as QuestionUnion[];
+  if (!level.interleave || sampleSize === 0) return [...ownQuestions];
+
+  const track = tracks.find(candidate => candidate.id === level.trackId);
+  const earlierQuestions = track
+    ? track.levels
+        .filter(candidate => candidate.number < level.number)
+        .flatMap(candidate => candidate.questions as QuestionUnion[])
+    : [];
+  const ownRules = new Set(ownQuestions.map(question => question.rule));
+  const queued = new Set(Object.keys(progress.weaknessQueue));
+  const selected = new Set(ownQuestions.map(question => question.id));
+  const additions: QuestionUnion[] = [];
+  const add = (question: QuestionUnion) => {
+    if (additions.length < sampleSize && !selected.has(question.id)) {
+      selected.add(question.id);
+      additions.push(question);
+    }
+  };
+
+  for (const question of shuffled(earlierQuestions.filter(q => queued.has(q.rule)), random)) add(question);
+  for (const question of shuffled(earlierQuestions.filter(q => ownRules.has(q.rule)), random)) add(question);
+  for (const question of shuffled(earlierQuestions, random)) add(question);
+  return [...ownQuestions, ...additions];
 }
 
 /**

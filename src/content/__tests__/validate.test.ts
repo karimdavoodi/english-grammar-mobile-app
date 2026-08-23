@@ -249,6 +249,18 @@ describe('validateContent — TopicRule registry', () => {
 });
 
 describe('validateContent — track structure', () => {
+  it('rejects a non-boolean interleave flag', () => {
+    const track = makeTrack();
+    (track.levels[0] as unknown as { interleave: unknown }).interleave = 'yes';
+    expect(() => validateContent([track], { mercyCap: MERCY_CAP })).toThrow(ContentValidationError);
+  });
+
+  it('accepts an explicitly enabled interleave flag', () => {
+    const track = makeTrack();
+    track.levels[0].interleave = true;
+    expect(() => validateContent([track], { mercyCap: MERCY_CAP })).not.toThrow();
+  });
+
   it('rejects a gap or repeat in level.number sequence', () => {
     const track = makeTrack();
     track.levels.push(makeLevel('basic', 3, ['rule_c'])); // 1, 3 — skips 2
