@@ -40,6 +40,7 @@ import {
   queuedRuleSet,
   recordPlay,
   REVIEW_CLEAR_STREAK,
+  startMasterySession,
   startLevelSession,
 } from '../reducers';
 
@@ -61,6 +62,14 @@ function makeQuestion(overrides: Partial<Question> & { id: string }): Question {
 const qA1 = makeQuestion({ id: 'b10q01' });
 const qA2 = makeQuestion({ id: 'b10q02' });
 const qB1 = makeQuestion({ id: 'b10q03', rule: RULE_B, correctIndex: 2 });
+
+const MASTERY_TRACKS: Track[] = [{
+  id: 'basic', order: 1, name: 'Basic', label: 'Beginner', eligibleStartingPoint: true,
+  levels: [{
+    id: 'b10', trackId: 'basic', number: 10, title: 'Fixture',
+    topic: { title: 'Fixture', summary: '', rules: [] }, questions: [qA1, qA2],
+  }],
+}];
 
 describe('recordPlay', () => {
   it('starts a streak and records the best streak', () => {
@@ -143,6 +152,30 @@ describe('startLevelSession', () => {
     const next = startLevelSession(progress, 'b10');
     expect(next.activeSession?.levelId).toBe('b10');
     expect(next.activeSession?.askedIds).toEqual([]);
+  });
+});
+
+describe('Mastery Review', () => {
+  it('cycles the bank without passing or mercy-ending the session', () => {
+    const started = startMasterySession(makeProgress(), MASTERY_TRACKS, { random: () => 0.999 });
+    const first = applyAnswer({
+      progress: started,
+      question: qA1,
+      chosenIndex: qA1.correctIndex,
+      mode: 'normal',
+    });
+    const second = applyAnswer({
+      progress: first.progress,
+      question: qA2,
+      chosenIndex: qA2.correctIndex,
+      mode: 'normal',
+    });
+
+    expect(started.activeSession).toMatchObject({ kind: 'mastery', bankQuestionIds: ['b10q01', 'b10q02'] });
+    expect(first.outcome.passed).toBe(false);
+    expect(second.outcome.endedByMercy).toBe(false);
+    expect(second.progress.activeSession).toMatchObject({ kind: 'mastery', askedIds: [] });
+    expect(second.session.askedIds).toEqual([]);
   });
 });
 

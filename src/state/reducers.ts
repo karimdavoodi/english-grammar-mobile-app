@@ -17,7 +17,7 @@
  */
 
 import type { Track } from '../content/types';
-import { mixedBank } from '../game/mixed';
+import { masteryBank, mixedBank } from '../game/mixed';
 import {
   answerQuestion,
   createSession,
@@ -82,7 +82,7 @@ export function queuedRuleSet(progress: Progress): Set<string> {
  */
 export function startLevelSession(progress: Progress, levelId: string, date?: string): Progress {
   const played = date === undefined ? progress : recordPlay(progress, date);
-  if (progress.activeSession && progress.activeSession.kind !== 'mixed' && progress.activeSession.levelId === levelId) {
+  if (progress.activeSession && progress.activeSession.kind !== 'mixed' && progress.activeSession.kind !== 'mastery' && progress.activeSession.levelId === levelId) {
     return played;
   }
   return { ...played, activeSession: persistSession(createSession(levelId)) };
@@ -102,6 +102,25 @@ export function startMixedSession(
     activeSession: {
       ...persistSession(createSession('mixed')),
       kind: 'mixed',
+      bankQuestionIds,
+    },
+  };
+}
+
+/** Start or resume a whole-corpus, non-terminating Mastery Review session. */
+export function startMasterySession(
+  progress: Progress,
+  tracks: readonly Track[],
+  options: { random?: () => number } = {},
+): Progress {
+  if (progress.activeSession?.kind === 'mastery') return progress;
+  const bankQuestionIds = masteryBank(tracks, progress, options).map(question => question.id);
+  if (bankQuestionIds.length === 0) return { ...progress, activeSession: null };
+  return {
+    ...progress,
+    activeSession: {
+      ...persistSession(createSession('mastery')),
+      kind: 'mastery',
       bankQuestionIds,
     },
   };
@@ -162,13 +181,19 @@ export function applyAnswer(input: ApplyAnswerInput): ApplyAnswerResult {
   }
 
   const session = hydrateSession(progress.activeSession);
-  const mixed = session.kind === 'mixed';
+  const mixed = session.kind === 'mixed' || session.kind === 'mastery';
+  const mastery = session.kind === 'mastery';
   const { session: nextSession, outcome } = answerQuestion(
     session,
     question,
     response,
     mixed
-      ? { ...(input.config ?? DEFAULT_PASS_CONFIG), passStreak: Number.POSITIVE_INFINITY }
+      ? {
+          ...(input.config ?? DEFAULT_PASS_CONFIG),
+          passStreak: Number.POSITIVE_INFINITY,
+          passVolume: Number.POSITIVE_INFINITY,
+          mercyCap: Number.POSITIVE_INFINITY,
+        }
       : input.config ?? DEFAULT_PASS_CONFIG,
   );
   const now = input.now ?? new Date().toISOString();
@@ -224,11 +249,12 @@ export function applyAnswer(input: ApplyAnswerInput): ApplyAnswerResult {
     };
   }
 
-  const mixedBankExhausted = mixed && nextSession.askedIds.length >= (session.bankQuestionIds?.length ?? 0);
+  const mixedBankExhausted = mixed && !mastery && nextSession.askedIds.length >= (session.bankQuestionIds?.length ?? 0);
+  const masteryCycle = mastery && nextSession.askedIds.length >= (session.bankQuestionIds?.length ?? 0);
   const ended = nextSession.status !== 'in_progress' || mixedBankExhausted;
   const endedSession = mixedBankExhausted && nextSession.status === 'in_progress'
     ? { ...nextSession, status: 'mercy_ended' as const }
-    : nextSession;
+    : masteryCycle ? { ...nextSession, askedIds: [] } : nextSession;
   const nextProgress: Progress = {
     ...progress,
     weaknessQueue,
@@ -236,7 +262,7 @@ export function applyAnswer(input: ApplyAnswerInput): ApplyAnswerResult {
     activeSession: ended ? null : persistSession(endedSession),
   };
 
-  return { progress: nextProgress, session: ended ? endedSession : nextSession, outcome };
+  return { progress: nextProgress, session: ended ? endedSession : masteryCycle ? endedSession : nextSession, outcome };
 }
 
 /**

@@ -278,9 +278,12 @@ export function LevelPlayScreen({
   }, [onLevelEnd, play, level, random, store]);
 
   const handleAbandon = useCallback(() => {
+    const mastery = play.session.kind === 'mastery';
     Alert.alert(
-      'Quit this level?',
-      'Your in-progress answers on this level will be cleared. Completed levels and your Weakness Queue are kept.',
+      mastery ? 'Exit Mastery Review?' : 'Quit this level?',
+      mastery
+        ? 'Your answers remain in your Weakness Queue and history.'
+        : 'Your in-progress answers on this level will be cleared. Completed levels and your Weakness Queue are kept.',
       [
         { text: 'Keep playing', style: 'cancel' },
         {
@@ -371,7 +374,7 @@ export function LevelPlayScreen({
         onPress={handleAbandon}
         style={({ pressed }) => [styles.quit, pressed && styles.quitPressed]}
       >
-        <Text style={styles.quitLabel}>Quit level</Text>
+        <Text style={styles.quitLabel}>{session.kind === 'mastery' ? 'Exit Mastery Review' : 'Quit level'}</Text>
       </Pressable>
     </View>
   );

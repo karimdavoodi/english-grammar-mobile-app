@@ -64,7 +64,7 @@ export interface LevelSession {
   lastWrongRule: string | null;
   status: SessionStatus;
   /** Mixed Review metadata; absent for legacy level sessions. */
-  kind?: 'level' | 'mixed';
+  kind?: 'level' | 'mixed' | 'mastery';
   bankQuestionIds?: string[];
 }
 

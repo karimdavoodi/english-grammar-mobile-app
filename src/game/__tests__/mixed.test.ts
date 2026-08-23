@@ -1,5 +1,5 @@
 import type { Track } from '../../content/types';
-import { interleavedBank, mixedBank } from '../mixed';
+import { interleavedBank, masteryBank, mixedBank } from '../mixed';
 import type { Progress } from '../../state/types';
 
 const q = (id: string, levelId: string, rule: string) => ({
@@ -31,6 +31,13 @@ describe('mixedBank', () => {
     const bank = mixedBank(tracks, { ...progress, wrongAnswers: { q1: { questionId: 'q1', count: 1, lastChosenIndex: 1, lastMissedAt: '2026-08-22' } } }, { size: 2, random: () => 0 });
     expect(bank).toHaveLength(2);
     expect(new Set(bank.map(question => question.id)).size).toBe(2);
+  });
+});
+
+describe('masteryBank', () => {
+  it('includes the whole corpus after queued and recent-wrong priorities', () => {
+    const bank = masteryBank(tracks, progress, { random: () => 0 });
+    expect(bank.map(question => question.id)).toEqual(['q1', 'q3', 'q2', 'q4']);
   });
 });
 

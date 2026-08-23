@@ -8,6 +8,10 @@ export interface MixedBankOptions {
   random?: () => number;
 }
 
+export interface MasteryBankOptions {
+  random?: () => number;
+}
+
 export interface InterleavedBankOptions {
   /** Number of earlier-level questions to add after the owning bank. */
   sampleSize?: number;
@@ -111,5 +115,31 @@ export function mixedBank(
     poolIndex += 1;
     add(pool.shift());
   }
+  return result;
+}
+
+/** Assemble a whole-corpus bank for the non-terminating Mastery Review. */
+export function masteryBank(
+  tracks: readonly Track[],
+  progress: Progress,
+  options: MasteryBankOptions = {},
+): QuestionUnion[] {
+  const random = options.random ?? Math.random;
+  const all = questionsInOrder(tracks);
+  const byId = new Map(all.map(question => [question.id, question]));
+  const selected = new Set<string>();
+  const result: QuestionUnion[] = [];
+  const add = (question: QuestionUnion | undefined) => {
+    if (question && !selected.has(question.id)) {
+      selected.add(question.id);
+      result.push(question);
+    }
+  };
+
+  for (const question of shuffled(all.filter(q => Object.hasOwn(progress.weaknessQueue, q.rule)), random)) add(question);
+  for (const entry of Object.values(progress.wrongAnswers).sort((a, b) => b.lastMissedAt.localeCompare(a.lastMissedAt))) {
+    add(byId.get(entry.questionId));
+  }
+  for (const question of shuffled(all, random)) add(question);
   return result;
 }

@@ -52,7 +52,7 @@ import {
   flattenedLevelIds,
   nextLevelId,
   startingLevelId,
-  startMixedSession,
+  startMasterySession,
 } from '../state/reducers';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -246,11 +246,11 @@ function MixedReviewRoute({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'MixedReview'>) {
   const { tracks, progress, applyProgress } = useApp();
-  const mixedProgress = progress?.activeSession?.kind === 'mixed' ? progress : null;
+  const mixedProgress = progress?.activeSession?.kind === 'mastery' ? progress : null;
 
   useEffect(() => {
     if (progress && !mixedProgress) {
-      const next = startMixedSession(progress, tracks, { size: 12 });
+      const next = startMasterySession(progress, tracks);
       applyProgress(next).catch(() => {});
     }
   }, [applyProgress, mixedProgress, progress, tracks]);

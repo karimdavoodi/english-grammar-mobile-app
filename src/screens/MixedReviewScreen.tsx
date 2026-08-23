@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import type { Level, Question, Track } from '../content/types';
-import { mixedBank } from '../game/mixed';
+import { masteryBank } from '../game/mixed';
 import type { Progress } from '../state/types';
 import { LevelPlayScreen, type LevelEndResult } from './LevelPlayScreen';
 
@@ -24,20 +24,20 @@ export function MixedReviewScreen({
   const level = useMemo<Level | null>(() => {
     const allQuestions = tracks.flatMap(track => track.levels).flatMap(item => item.questions);
     const session = progress.activeSession;
-    const questions = session?.kind === 'mixed'
+    const questions = session?.kind === 'mastery'
       ? (session.bankQuestionIds ?? [])
           .map(id => allQuestions.find(question => question.id === id))
           .filter((question): question is (typeof allQuestions)[number] => Boolean(question))
-      : mixedBank(tracks, progress, { size: 12 });
+      : masteryBank(tracks, progress);
     const firstLevel = tracks[0]?.levels[0];
     if (!firstLevel || questions.length === 0) return null;
     return {
       ...firstLevel,
-      // startMixedSession persists this same id so LevelPlay resumes rather
-      // than replacing the mixed session with a level session.
-      id: 'mixed',
-      title: 'Mixed Review',
-      topic: { ...firstLevel.topic, title: 'Mixed Review', summary: 'Practice across your weaknesses and passed levels.' },
+      // startMasterySession persists this same id so LevelPlay resumes rather
+      // than replacing the mastery session with a level session.
+      id: 'mastery',
+      title: 'Mastery Review',
+      topic: { ...firstLevel.topic, title: 'Mastery Review', summary: 'Practice across every level. This session continues until you exit.' },
       questions: questions as Question[],
       interleave: false,
     };

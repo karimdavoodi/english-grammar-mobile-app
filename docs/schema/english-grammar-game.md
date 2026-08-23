@@ -257,6 +257,14 @@ interface MixedSession extends LevelSession {
   bankQuestionIds: string[]; // de-duplicated, selected-at-start question ids
 }
 
+// Mastery Review uses the same persisted bank snapshot but cycles askedIds
+// back to an empty list when the bank is exhausted. It has no pass or mercy
+// outcome and ends only when the player explicitly exits.
+interface MasterySession extends LevelSession {
+  kind: 'mastery';
+  bankQuestionIds: string[]; // the whole corpus, prioritized then shuffled
+}
+
 // ── Root ──────────────────────────────────────────────────────────
 interface AppState {
   settings: Settings;

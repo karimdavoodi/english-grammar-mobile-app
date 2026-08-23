@@ -58,7 +58,7 @@ export interface PersistedLevelSession {
   /** Rule of the last wrong answer (null if none or last was correct). */
   lastWrongRule: string | null;
   /** Mixed Review metadata; omitted from legacy level-session snapshots. */
-  kind?: 'level' | 'mixed';
+  kind?: 'level' | 'mixed' | 'mastery';
   bankQuestionIds?: string[];
 }
 
@@ -130,8 +130,8 @@ export function persistSession(session: LevelSession): PersistedLevelSession {
     missCounts: session.missCounts,
     lastWrongRule: session.lastWrongRule,
   };
-  if (session.kind === 'mixed') {
-    persisted.kind = 'mixed';
+  if (session.kind === 'mixed' || session.kind === 'mastery') {
+    persisted.kind = session.kind;
     persisted.bankQuestionIds = [...new Set(session.bankQuestionIds ?? [])];
   }
   return persisted;
