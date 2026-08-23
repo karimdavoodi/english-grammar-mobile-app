@@ -219,8 +219,14 @@ interface WrongAnswerEntry {
   questionId: string;
   count: number;          // times this question was missed
   lastChosenIndex: number;
+  lastResponse?: AnswerResponse; // typed response; absent on pre-v2 saved answers
   lastMissedAt: string;   // ISO timestamp
 }
+
+type AnswerResponse =
+  | { type: 'index'; index: number }
+  | { type: 'text'; text: string }
+  | { type: 'sequence'; indexes: number[] };
 
 // Persisted snapshot of an in-progress session. The machine-only `status`
 // (in_progress | passed | mercy_ended) is not stored — `activeSession` is
@@ -246,6 +252,9 @@ interface AppState {
 
 - Single AsyncStorage key per concern: `egg:settings`, `egg:progress` — small, atomic, cheap.
 - `progress.version` lets future versions migrate saved games when the shape changes.
+- Progress version 2 adds the optional `WrongAnswerEntry.lastResponse` field. Version 1
+  records retain `lastChosenIndex` and migrate without losing history; when `lastResponse`
+  is absent, Review treats the record as a legacy index response.
 - Content lookups always go **by id** into the bundled content — state never duplicates question text, only references ids. Adding levels in a release is safe because old saved IDs still resolve. Unknown historical question IDs may be omitted from Review, but an unknown current level must be repaired to the first valid level at or after the saved frontier; if none exists, show completion.
 - Reset = clear `egg:progress` (and re-enter the starting-point choice). Settings survive a reset.
 - **Unlock is derived, never stored:** flatten tracks by ascending `track.order`, then levels by ascending `level.number`. A level is unlocked when it occurs at or before the saved frontier, or its ID is in `completedLevelIds`. Passed levels show a pass mark; mercy-ended and skipped-earlier levels are unlocked but not passed. Mercy-end is not a separate persisted state. Levels whose rules appear in `weaknessQueue` may show a "needs review" indicator.

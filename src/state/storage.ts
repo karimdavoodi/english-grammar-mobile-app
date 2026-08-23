@@ -17,7 +17,7 @@ export const SETTINGS_KEY = 'egg:settings';
 export const PROGRESS_KEY = 'egg:progress';
 
 /** Current Progress schema version — bump and register a migration when the shape changes. */
-export const CURRENT_PROGRESS_VERSION = 1;
+export const CURRENT_PROGRESS_VERSION = 2;
 
 /** Minimal AsyncStorage-compatible surface the storage layer depends on. */
 export interface StorageLike {
@@ -36,6 +36,9 @@ export const DEFAULT_STORE: StorageLike = AsyncStorage;
 const MIGRATIONS: Record<number, (progress: Progress) => Progress> = {
   // 0 → 1: initial shape. Nothing changed structurally; stamp the version.
   0: progress => ({ ...progress, version: 1 }),
+  // 1 → 2: typed answers are optional, so existing choice-based history is
+  // already valid and only needs the new schema stamp.
+  1: progress => ({ ...progress, version: 2 }),
 };
 
 /**

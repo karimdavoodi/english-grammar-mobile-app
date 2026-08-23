@@ -19,7 +19,14 @@
  * Pure by construction: every function returns new data, never mutates inputs.
  */
 
-import type { Level, Question, TopicRule, Track } from '../content/types';
+import {
+  normalizeQuestion,
+  type Level,
+  type QuestionUnion,
+  type TopicRule,
+  type Track,
+} from '../content/types';
+import type { AnswerResponse } from '../game/levelMachine';
 import type { Progress, WeaknessEntry, WrongAnswerEntry } from './types';
 
 /**
@@ -161,7 +168,7 @@ export function weaknessEntries(progress: Progress): WeaknessEntry[] {
 
 /** One missed question in a review group, with the study details resolved. */
 export interface ReviewMissedQuestion {
-  question: Question;
+  question: QuestionUnion;
   /** Cumulative times this question was missed (monotonic). */
   count: number;
   /** The most recent wrong choice for this question. */
@@ -176,6 +183,59 @@ export interface ReviewMissedQuestion {
   correctExplanation: string;
   /** Why the chosen wrong answer is wrong ([lastChosenIndex] explanation). */
   wrongExplanation: string;
+}
+
+function responseForEntry(entry: WrongAnswerEntry): AnswerResponse {
+  return entry.lastResponse ?? { type: 'index', index: entry.lastChosenIndex };
+}
+
+function answerText(question: QuestionUnion, response: AnswerResponse): string {
+  if (response.type === 'index') {
+    return 'choices' in question ? question.choices[response.index] ?? '' : '';
+  }
+  if (response.type === 'text') {
+    return response.text;
+  }
+  return question.type === 'word_order'
+    ? response.indexes.map(index => question.sentenceWords[index] ?? '').join(' ').trim()
+    : '';
+}
+
+function correctAnswerText(question: QuestionUnion): string {
+  switch (question.type) {
+    case 'multiple_choice':
+    case 'fix_sentence':
+      return question.choices[question.correctIndex] ?? '';
+    case 'fill_blank':
+      return question.correctAnswer;
+    case 'word_order':
+      return question.sentenceWords.join(' ');
+  }
+}
+
+function correctExplanation(question: QuestionUnion): string {
+  switch (question.type) {
+    case 'multiple_choice':
+    case 'fix_sentence':
+      return question.choiceExplanations[question.correctIndex] ?? '';
+    case 'fill_blank':
+    case 'word_order':
+      return question.explanation;
+  }
+}
+
+function wrongExplanation(question: QuestionUnion, response: AnswerResponse): string {
+  if (response.type === 'index' && 'choiceExplanations' in question) {
+    return question.choiceExplanations[response.index] ?? '';
+  }
+  if (response.type === 'text' && question.type === 'fill_blank') {
+    const normalized = response.text.trim().toLocaleLowerCase();
+    return (
+      question.commonMistakes?.find(mistake => mistake.mistake.trim().toLocaleLowerCase() === normalized)
+        ?.feedback ?? ''
+    );
+  }
+  return '';
 }
 
 /** A rule group on the Review screen. */
@@ -222,15 +282,17 @@ export function reviewGroups(
         if (!entry) {
           continue; // not missed (or unknown historical id — omitted)
         }
+        const normalizedQuestion = normalizeQuestion(question);
+        const response = responseForEntry(entry);
         const missed: ReviewMissedQuestion = {
-          question,
+          question: normalizedQuestion,
           count: entry.count,
           lastChosenIndex: entry.lastChosenIndex,
           lastMissedAt: entry.lastMissedAt,
-          correctAnswer: question.choices[question.correctIndex] ?? '',
-          chosenAnswer: question.choices[entry.lastChosenIndex] ?? '',
-          correctExplanation: question.choiceExplanations[question.correctIndex] ?? '',
-          wrongExplanation: question.choiceExplanations[entry.lastChosenIndex] ?? '',
+          correctAnswer: correctAnswerText(normalizedQuestion),
+          chosenAnswer: answerText(normalizedQuestion, response),
+          correctExplanation: correctExplanation(normalizedQuestion),
+          wrongExplanation: wrongExplanation(normalizedQuestion, response),
         };
         const group = byRule.get(question.rule) ?? [];
         group.push(missed);

@@ -6,7 +6,15 @@
  * Pure functions over content + progress fixtures — no storage or navigation.
  */
 
-import type { Level, Question, TopicRule, Track } from '../../content/types';
+import type {
+  FillBlankQuestion,
+  FixSentenceQuestion,
+  Level,
+  Question,
+  TopicRule,
+  Track,
+  WordOrderQuestion,
+} from '../../content/types';
 import type { Progress, WeaknessEntry, WrongAnswerEntry } from '../types';
 import {
   firstValidLevelId,
@@ -424,5 +432,109 @@ describe('reviewGroups', () => {
     const groups = reviewGroups(TRACKS, wrongAnswersWithCorrectChosen);
     expect(groups[0].missedQuestions[0].chosenAnswer).toBe('alpha');
     expect(groups[0].missedQuestions[0].correctAnswer).toBe('alpha');
+  });
+});
+
+describe('reviewGroups — typed responses', () => {
+  const fill: FillBlankQuestion = {
+    type: 'fill_blank',
+    id: 'typed-fill',
+    levelId: 'typed',
+    rule: 'typed_fill_rule',
+    prompt: 'She ___ here.',
+    correctAnswer: 'works',
+    acceptedAnswers: ['works'],
+    explanation: 'Use the present simple for a routine.',
+    commonMistakes: [{ mistake: 'work', feedback: 'Add -s for she.' }],
+  };
+  const order: WordOrderQuestion = {
+    type: 'word_order',
+    id: 'typed-order',
+    levelId: 'typed',
+    rule: 'typed_order_rule',
+    sentenceWords: ['They', 'have', 'arrived'],
+    explanation: 'Put the subject before the verb.',
+  };
+  const fix: FixSentenceQuestion = {
+    type: 'fix_sentence',
+    id: 'typed-fix',
+    levelId: 'typed',
+    rule: 'typed_fix_rule',
+    prompt: 'Choose the correction.',
+    faultySentence: 'She work here.',
+    choices: ['She works here.', 'She working here.', 'She worked here.', 'She work here.'],
+    correctIndex: 0,
+    choiceExplanations: ['Correct.', 'Wrong.', 'Wrong tense.', 'Missing -s.'],
+  };
+  const typedTrack = {
+    id: 'typed-track',
+    order: 1,
+    name: 'Typed',
+    label: 'Typed',
+    eligibleStartingPoint: true,
+    levels: [
+      {
+        id: 'typed',
+        trackId: 'typed-track',
+        number: 1,
+        title: 'Typed questions',
+        topic: {
+          title: 'Typed questions',
+          summary: 'Typed summary',
+          rules: [
+            { rule: fill.rule, title: fill.rule, explanation: 'Fill rule', example: 'She works.' },
+            { rule: order.rule, title: order.rule, explanation: 'Order rule', example: 'They have arrived.' },
+            { rule: fix.rule, title: fix.rule, explanation: 'Fix rule', example: 'She works here.' },
+          ],
+        },
+        questions: [fill, order, fix] as unknown as Question[],
+      },
+    ],
+  } as unknown as Track;
+
+  it('resolves fill-blank, word-order, and fix-sentence responses', () => {
+    const groups = reviewGroups([typedTrack], {
+      [fill.id]: {
+        questionId: fill.id,
+        count: 1,
+        lastChosenIndex: -1,
+        lastResponse: { type: 'text', text: 'work' },
+        lastMissedAt: '2026-08-22T10:00:00.000Z',
+      },
+      [order.id]: {
+        questionId: order.id,
+        count: 1,
+        lastChosenIndex: -1,
+        lastResponse: { type: 'sequence', indexes: [0, 2, 1] },
+        lastMissedAt: '2026-08-22T11:00:00.000Z',
+      },
+      [fix.id]: {
+        questionId: fix.id,
+        count: 1,
+        lastChosenIndex: 1,
+        lastResponse: { type: 'index', index: 1 },
+        lastMissedAt: '2026-08-22T12:00:00.000Z',
+      },
+    });
+
+    const missed = Object.fromEntries(
+      groups.flatMap(group => group.missedQuestions.map(question => [question.question.id, question])),
+    );
+    expect(missed[fill.id]).toMatchObject({
+      chosenAnswer: 'work',
+      correctAnswer: 'works',
+      wrongExplanation: 'Add -s for she.',
+      correctExplanation: fill.explanation,
+    });
+    expect(missed[order.id]).toMatchObject({
+      chosenAnswer: 'They arrived have',
+      correctAnswer: 'They have arrived',
+      correctExplanation: order.explanation,
+    });
+    expect(missed[fix.id]).toMatchObject({
+      chosenAnswer: 'She working here.',
+      correctAnswer: 'She works here.',
+      wrongExplanation: 'Wrong.',
+    });
   });
 });

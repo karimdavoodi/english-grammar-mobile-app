@@ -20,7 +20,7 @@ Checklist companion to `docs/app-plan.md`. Phase gates are listed between phases
 
 - [x] Task 6: Content schema — `Question.type` tagged union + validator extension
 - [x] Task 7: Machine scoring generalization (`scoreAnswer`, `AnswerResponse`)
-- [ ] Task 8: State + migration for typed responses (version 1 → 2)
+- [x] Task 8: State + migration for typed responses (version 1 → 2)
 - [ ] Task 9: Type-specific components + `QuestionCard` dispatch
 - [ ] Task 10: Author/convert typed questions into the 12 Basic levels
 

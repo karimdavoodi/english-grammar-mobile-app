@@ -261,6 +261,27 @@ describe('progress persistence', () => {
     expect(loaded?.currentLevelId).toBe('b01'); // data survives the migration
   });
 
+  it('migrates version 1 typed-response state to version 2 without changing history', () => {
+    const legacy = {
+      version: 1,
+      startingPoint: { trackId: 'basic', levelNumber: 1 },
+      completedLevelIds: [],
+      currentLevelId: 'b01',
+      activeSession: null,
+      weaknessQueue: {},
+      wrongAnswers: {
+        b01q01: {
+          questionId: 'b01q01',
+          count: 2,
+          lastChosenIndex: 3,
+          lastMissedAt: '2026-08-22T10:00:00.000Z',
+        },
+      },
+    };
+
+    expect(migrateProgress(legacy)).toEqual({ ...legacy, version: 2 });
+  });
+
   it('throws on state newer than the supported version', async () => {
     const store = createMemoryStore({
       [PROGRESS_KEY]: JSON.stringify({ version: CURRENT_PROGRESS_VERSION + 1 }),

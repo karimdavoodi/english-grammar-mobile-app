@@ -24,7 +24,8 @@ import {
   type AnswerOutcome,
   type LevelSession,
   type PassConfig,
-  type Question,
+  type QuestionLike,
+  type AnswerResponse,
 } from '../game/levelMachine';
 import type { ServingMode } from '../game/serving';
 import { CURRENT_PROGRESS_VERSION } from './storage';
@@ -62,9 +63,11 @@ export interface ApplyAnswerInput {
   /** The progress slice containing the in-progress session. */
   progress: Progress;
   /** The question that was served and is now being answered. */
-  question: Question;
-  /** The chosen 0-based choice index. */
-  chosenIndex: number;
+  question: QuestionLike;
+  /** The chosen 0-based choice index (legacy multiple-choice callers). */
+  chosenIndex?: number;
+  /** A typed response for production question types. */
+  response?: AnswerResponse;
   /**
    * The immutable pre-answer serve snapshot from serving.ts — `remediation`
    * re-tests are never Review answers even when their rule is queued.
@@ -100,16 +103,20 @@ export interface ApplyAnswerResult {
  * Throws when there is no active session to answer against.
  */
 export function applyAnswer(input: ApplyAnswerInput): ApplyAnswerResult {
-  const { progress, question, chosenIndex, mode } = input;
+  const { progress, question, mode } = input;
   if (!progress.activeSession) {
     throw new Error('Cannot apply an answer without an active session.');
+  }
+  const response = input.response ?? input.chosenIndex;
+  if (response === undefined) {
+    throw new Error('Cannot apply an answer without a response.');
   }
 
   const session = hydrateSession(progress.activeSession);
   const { session: nextSession, outcome } = answerQuestion(
     session,
     question,
-    chosenIndex,
+    response,
     input.config ?? DEFAULT_PASS_CONFIG,
   );
   const now = input.now ?? new Date().toISOString();
@@ -153,7 +160,13 @@ export function applyAnswer(input: ApplyAnswerInput): ApplyAnswerResult {
       [question.id]: {
         questionId: question.id,
         count: (entry?.count ?? 0) + 1,
-        lastChosenIndex: chosenIndex,
+        lastChosenIndex:
+          typeof response === 'number'
+            ? response
+            : response.type === 'index'
+              ? response.index
+              : entry?.lastChosenIndex ?? -1,
+        ...(typeof response === 'number' ? {} : { lastResponse: response }),
         lastMissedAt: now,
       },
     };

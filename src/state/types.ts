@@ -6,7 +6,7 @@
  * duplicates question text, only references ids.
  */
 
-import type { LevelSession } from '../game/levelMachine';
+import type { AnswerResponse, LevelSession } from '../game/levelMachine';
 import type { TrackId } from '../content/types';
 
 /** Theme preference honored by the ThemeProvider (Task 12). */
@@ -67,6 +67,8 @@ export interface WrongAnswerEntry {
   /** Times this question was missed. */
   count: number;
   lastChosenIndex: number;
+  /** The submitted typed/ordered response; absent on pre-v2 saved answers. */
+  lastResponse?: AnswerResponse;
   /** ISO timestamp. */
   lastMissedAt: string;
 }

@@ -27,6 +27,7 @@ jest.mock('@react-native-async-storage/async-storage', () => {
 });
 
 import type { Level, Question, Track } from '../../content/types';
+import type { FillBlankQuestion } from '../../content/types';
 import { DEFAULT_PASS_CONFIG } from '../../game/levelMachine';
 import { CURRENT_PROGRESS_VERSION } from '../storage';
 import type { Progress } from '../types';
@@ -231,6 +232,36 @@ describe('applyAnswer — wrong answers', () => {
       missCount: 3,
       reviewStreak: 0,
       lastMissedAt: expect.any(String),
+    });
+  });
+
+  it('records a typed response alongside the legacy index field', () => {
+    const question: FillBlankQuestion = {
+      type: 'fill_blank',
+      id: 'b10typed01',
+      levelId: 'b10',
+      rule: RULE_A,
+      prompt: 'She ___ already left.',
+      correctAnswer: 'had',
+      acceptedAnswers: ['had'],
+      explanation: 'Use had for the past perfect.',
+    };
+
+    const { progress: next, outcome } = applyAnswer({
+      progress: progressWithSession(),
+      question,
+      response: { type: 'text', text: 'has' },
+      mode: 'normal',
+      now: '2026-08-22T10:00:00.000Z',
+    });
+
+    expect(outcome.isCorrect).toBe(false);
+    expect(next.wrongAnswers[question.id]).toEqual({
+      questionId: question.id,
+      count: 1,
+      lastChosenIndex: -1,
+      lastResponse: { type: 'text', text: 'has' },
+      lastMissedAt: '2026-08-22T10:00:00.000Z',
     });
   });
 });
