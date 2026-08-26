@@ -214,6 +214,7 @@
           "levelId": "b01",
           "rule": "present_simple_form",
           "type": "fix_sentence",
+          "faultySentence": "The train leave at six every day.",
           "prompt": "The train ___ at six every day.",
           "choices": [
             "leaves",
@@ -469,6 +470,7 @@
           "levelId": "b02",
           "rule": "present_simple_vs_continuous",
           "type": "fix_sentence",
+          "faultySentence": "She is walking to work every day, but today she is cycling.",
           "prompt": "She ___ to work every day, but today she is cycling.",
           "choices": [
             "walks",
@@ -724,6 +726,7 @@
           "levelId": "b03",
           "rule": "past_simple_usage",
           "type": "fix_sentence",
+          "faultySentence": "When do you move here?",
           "prompt": "When ___ you move here?",
           "choices": [
             "did",
@@ -979,6 +982,7 @@
           "levelId": "b04",
           "rule": "past_simple_vs_continuous",
           "type": "fix_sentence",
+          "faultySentence": "They played chess when I came in.",
           "prompt": "They ___ chess when I came in.",
           "choices": [
             "were playing",
@@ -1236,6 +1240,7 @@
           "levelId": "b05",
           "rule": "present_perfect_vs_past_simple",
           "type": "fix_sentence",
+          "faultySentence": "He broke his leg, so he cannot play today.",
           "prompt": "He ___ his leg, so he cannot play today.",
           "choices": [
             "has broken",
@@ -1491,6 +1496,7 @@
           "levelId": "b06",
           "rule": "will_vs_going_to",
           "type": "fix_sentence",
+          "faultySentence": "We have already made the plan: we will move next month.",
           "prompt": "We have already made the plan: we ___ move next month.",
           "choices": [
             "are going to",
@@ -1746,6 +1752,7 @@
           "levelId": "b07",
           "rule": "modal_obligation_advice",
           "type": "fix_sentence",
+          "faultySentence": "You should to take an umbrella; it is going to rain.",
           "prompt": "You ___ take an umbrella; it is going to rain.",
           "choices": [
             "should",
@@ -2000,6 +2007,7 @@
           "levelId": "b08",
           "rule": "articles_the_zero",
           "type": "fix_sentence",
+          "faultySentence": "A water in this glass is cold.",
           "prompt": "___ water in this glass is cold.",
           "choices": [
             "The",
@@ -2254,6 +2262,7 @@
           "levelId": "b09",
           "rule": "superlatives",
           "type": "fix_sentence",
+          "faultySentence": "Of the three roads, this one is the long.",
           "prompt": "Of the three roads, this one is the ___.",
           "choices": [
             "long",
@@ -2510,6 +2519,7 @@
           "levelId": "b10",
           "rule": "past_perfect_vs_past_simple",
           "type": "fix_sentence",
+          "faultySentence": "The waiter took our order before the kitchen closed.",
           "prompt": "The waiter ___ our order before the kitchen closed.",
           "choices": [
             "took",
@@ -2766,6 +2776,7 @@
           "levelId": "b11",
           "rule": "prepositions_time_since_for_until",
           "type": "fix_sentence",
+          "faultySentence": "The shop is open for nine o’clock.",
           "prompt": "The shop is open ___ nine o’clock.",
           "choices": [
             "until",
@@ -3021,6 +3032,7 @@
           "levelId": "b12",
           "rule": "first_conditional",
           "type": "fix_sentence",
+          "faultySentence": "If we leave now, we catch the film.",
           "prompt": "If we leave now, we ___ the film.",
           "choices": [
             "will catch",
@@ -3276,6 +3288,7 @@
           "levelId": "b13",
           "rule": "countable_uncountable_nouns",
           "type": "fix_sentence",
+          "faultySentence": "He gave me an advice about the interview.",
           "prompt": "He gave me ___ advice about the interview.",
           "choices": [
             "some",
@@ -3532,6 +3545,7 @@
           "levelId": "b14",
           "rule": "quantifiers_few_little",
           "type": "fix_sentence",
+          "faultySentence": "There is a few milk left in the fridge, but enough for one cup.",
           "prompt": "There is ___ milk left in the fridge, but enough for one cup.",
           "choices": [
             "a little",
@@ -3787,6 +3801,7 @@
           "levelId": "b15",
           "rule": "possessive_determiners_pronouns",
           "type": "fix_sentence",
+          "faultySentence": "This phone is my.",
           "prompt": "This phone is ___.",
           "choices": [
             "my",
@@ -4040,6 +4055,7 @@
           "levelId": "b16",
           "rule": "adverbs_frequency_position",
           "type": "fix_sentence",
+          "faultySentence": "She usual goes to the library on weekends.",
           "prompt": "She ___ goes to the library on weekends.",
           "choices": [
             "usually",
@@ -4293,6 +4309,7 @@
           "levelId": "b17",
           "rule": "prepositions_movement",
           "type": "fix_sentence",
+          "faultySentence": "The children ran at the park and reached the other side.",
           "prompt": "The children ran ___ the park and reached the other side.",
           "choices": [
             "across",
@@ -4547,6 +4564,7 @@
           "levelId": "b18",
           "rule": "infinitive_to_purpose",
           "type": "fix_sentence",
+          "faultySentence": "She went outside getting some fresh air.",
           "prompt": "She went outside ___ some fresh air.",
           "choices": [
             "to get",
@@ -4802,6 +4820,7 @@
           "levelId": "b19",
           "rule": "imperative_negative",
           "type": "fix_sentence",
+          "faultySentence": "Does not touch the hot pan.",
           "prompt": "___ touch the hot pan.",
           "choices": [
             "Do not",
@@ -5055,6 +5074,7 @@
           "levelId": "b20",
           "rule": "question_word_order",
           "type": "fix_sentence",
+          "faultySentence": "Do you coming with us?",
           "prompt": "___ you coming with us?",
           "choices": [
             "Are",
@@ -5308,6 +5328,7 @@
           "levelId": "b21",
           "rule": "past_passive_form",
           "type": "fix_sentence",
+          "faultySentence": "The bridge was build last year.",
           "prompt": "The bridge was ___ last year.",
           "choices": [
             "built",
@@ -5562,6 +5583,7 @@
           "levelId": "b22",
           "rule": "reported_statements_backshift",
           "type": "fix_sentence",
+          "faultySentence": "She said that she is tired.",
           "prompt": "She said that she ___ tired.",
           "choices": [
             "was",
@@ -5817,6 +5839,7 @@
           "levelId": "b23",
           "rule": "defining_relative_who_which",
           "type": "fix_sentence",
+          "faultySentence": "The woman which lives next door is a doctor.",
           "prompt": "The woman ___ lives next door is a doctor.",
           "choices": [
             "who",
@@ -6073,6 +6096,7 @@
           "levelId": "b24",
           "rule": "present_perfect_experience",
           "type": "fix_sentence",
+          "faultySentence": "Have you ever went to Italy?",
           "prompt": "Have you ever ___ to Italy?",
           "choices": [
             "been",
@@ -6327,6 +6351,7 @@
           "levelId": "b25",
           "rule": "present_perfect_continuous_form",
           "type": "fix_sentence",
+          "faultySentence": "They have been wait for an hour.",
           "prompt": "They have been ___ for an hour.",
           "choices": [
             "waiting",
@@ -6582,6 +6607,7 @@
           "levelId": "b26",
           "rule": "second_conditional_form",
           "type": "fix_sentence",
+          "faultySentence": "If I have more time, I would help.",
           "prompt": "If I ___ more time, I would help.",
           "choices": [
             "had",
@@ -6840,6 +6866,7 @@
           "levelId": "b27",
           "rule": "modal_probability_past",
           "type": "fix_sentence",
+          "faultySentence": "They must have go home by now.",
           "prompt": "They must have ___ home by now.",
           "choices": [
             "gone",
@@ -7094,6 +7121,7 @@
           "levelId": "b28",
           "rule": "although_but",
           "type": "fix_sentence",
+          "faultySentence": "Although it was cold, but we went out.",
           "prompt": "Although it was cold, ___ went out.",
           "choices": [
             "we",
@@ -7350,6 +7378,7 @@
           "levelId": "b29",
           "rule": "phrasal_verb_object_type",
           "type": "fix_sentence",
+          "faultySentence": "Please turn off it off before you leave.",
           "prompt": "Please turn ___ off before you leave.",
           "choices": [
             "it",
@@ -7600,6 +7629,7 @@
           "levelId": "b30",
           "rule": "basic_grammar_consolidation",
           "type": "fix_sentence",
+          "faultySentence": "She have finished her work, so she can leave now.",
           "prompt": "She ___ finished her work, so she can leave now.",
           "choices": [
             "has",

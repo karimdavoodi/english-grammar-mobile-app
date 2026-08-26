@@ -23,7 +23,7 @@ export const tokens = {
     body: 14,
     bodyLarge: 16,
     title: 20,
-    heading: 26,
+    heading: 22,
   },
   radii: {
     sm: 6,

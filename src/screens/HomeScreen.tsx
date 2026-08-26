@@ -84,7 +84,12 @@ export function HomeScreen({
     <ScreenShell testID="home-screen">
       <View style={styles.header}>
         <View style={styles.headerRow}>
-          <Text style={styles.heading} accessibilityRole="header" testID="home-heading">
+          <Text
+            style={styles.heading}
+            accessibilityRole="header"
+            testID="home-heading"
+            numberOfLines={1}
+          >
             English Grammar Review
           </Text>
           {onOpenSettings ? (
@@ -206,12 +211,16 @@ const makeStyles = (colors: ThemeColors) =>
       fontSize: tokens.typography.heading,
       fontWeight: '700',
       color: colors.primaryOnContainer,
+      // Long titles must never push the Settings button past the header's
+      // right padding on narrow screens — let the text shrink instead.
+      flexShrink: 1,
     },
     settings: {
       backgroundColor: colors.primary,
       borderRadius: tokens.radii.md,
       paddingVertical: tokens.spacing.xs + 2,
       paddingHorizontal: tokens.spacing.md,
+      marginLeft: tokens.spacing.sm,
     },
     settingsPressed: {
       backgroundColor: colors.primaryPressed,
